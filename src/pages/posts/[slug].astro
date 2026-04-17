@@ -69,6 +69,14 @@ const seo = getSeoMeta(post, {
 // Note: post.id is the slug, post.data.id is the database ULID
 const tags = await getEntryTerms("posts", post.data.id, "tag");
 
+// Detect document type for badge
+const categories = await getEntryTerms("posts", post.data.id, "category");
+const isProtocol = categories.some(c => c.slug === 'protocols');
+const isStandard = categories.some(c => c.slug === 'standards');
+const isDoctrine = categories.some(c => c.slug === 'the-doctrine');
+const isRecord = categories.some(c => c.slug === 'the-method');
+const docBadge = isProtocol ? 'Protocol' : isStandard ? 'Standard' : isDoctrine ? 'Doctrine' : isRecord ? 'Record' : null;
+
 // Bylines are already hydrated by getEmDashEntry
 const bylines = post.data.bylines ?? [];
 
@@ -113,14 +121,49 @@ const publishDate =
 	content={{ collection: "posts", id: post.data.id, slug }}
 >
 	<article class="article">
-		{/* Hero: Full-width featured image */}
-		{
-			post.data.featured_image && (
-				<div class="article-hero" {...post.edit.featured_image}>
-					<Image image={post.data.featured_image} />
-				</div>
-			)
-		}
+		{/* Hero: Full-width featured image or geometric illustration */}
+		<div class="article-hero">
+			{
+				post.data.featured_image ? (
+					<div {...post.edit.featured_image}>
+						<Image image={post.data.featured_image} />
+					</div>
+				) : (
+					<svg class="article-hero-illustration" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+						{/* Geometric grid pattern with varying opacity */}
+						<defs>
+							<pattern id="dots" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+								<circle cx="40" cy="40" r="2" fill="currentColor" opacity="0.3" />
+							</pattern>
+						</defs>
+						{/* Background grid */}
+						<rect width="800" height="400" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.1" x="0" y="0" patternUnits="userSpaceOnUse" />
+						{/* Grid lines */}
+						{[...Array(10)].map((_, i) => (
+							<>
+								<line x1={i * 80} y1="0" x2={i * 80} y2="400" stroke="currentColor" stroke-width="0.5" opacity="0.08" />
+								<line x1="0" y1={i * 40} x2="800" y2={i * 40} stroke="currentColor" stroke-width="0.5" opacity="0.08" />
+							</>
+						))}
+						{/* Connecting nodes and lines */}
+						<circle cx="100" cy="80" r="4" fill="currentColor" opacity="0.6" />
+						<circle cx="300" cy="120" r="3" fill="currentColor" opacity="0.4" />
+						<circle cx="500" cy="100" r="4" fill="currentColor" opacity="0.5" />
+						<circle cx="700" cy="150" r="3" fill="currentColor" opacity="0.3" />
+						<circle cx="150" cy="250" r="3" fill="currentColor" opacity="0.4" />
+						<circle cx="400" cy="280" r="4" fill="currentColor" opacity="0.6" />
+						<circle cx="650" cy="260" r="3" fill="currentColor" opacity="0.5" />
+						{/* Connecting lines */}
+						<line x1="100" y1="80" x2="300" y2="120" stroke="currentColor" stroke-width="1" opacity="0.2" />
+						<line x1="300" y1="120" x2="500" y2="100" stroke="currentColor" stroke-width="1" opacity="0.15" />
+						<line x1="500" y1="100" x2="700" y2="150" stroke="currentColor" stroke-width="1" opacity="0.2" />
+						<line x1="100" y1="80" x2="150" y2="250" stroke="currentColor" stroke-width="1" opacity="0.15" />
+						<line x1="400" y1="280" x2="500" y2="100" stroke="currentColor" stroke-width="1" opacity="0.2" />
+						<line x1="650" y1="260" x2="700" y2="150" stroke="currentColor" stroke-width="1" opacity="0.15" />
+					</svg>
+				)
+			}
+		</div>
 
 		{/* Three-column layout */}
 		<div class="article-grid">
@@ -189,6 +232,11 @@ const publishDate =
 			{/* Main content */}
 			<div class="article-main">
 				<header class="article-header">
+					{docBadge && (
+						<div class="article-doc-badge">
+							{docBadge}
+						</div>
+					)}
 					<div class="article-meta">
 						{
 							bylines.length > 0 && (
@@ -202,7 +250,7 @@ const publishDate =
 										))}
 									</span>
 									<span class="meta-dot" />
-								</>
+								<>
 							)
 						}
 						{
@@ -223,7 +271,7 @@ const publishDate =
 					}
 				</header>
 
-				<div class="article-content">
+				<div class={`article-content ${post.data.excerpt ? 'has-excerpt' : ''}`}>
 					<PortableText value={post.data.content} />
 				</div>
 
@@ -960,6 +1008,33 @@ const publishDate =
 		.more-grid {
 			grid-template-columns: repeat(2, 1fr);
 		}
+	}
+
+	/* Hero illustration styling */
+	.article-hero-illustration {
+		width: 100%;
+		height: 100%;
+		display: block;
+	}
+
+	/* Document type badge */
+	.article-doc-badge {
+		display: inline-block;
+		font-family: var(--font-mono, "Courier New", monospace);
+		font-size: var(--font-size-2xs, 10px);
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: var(--tracking-widest, 1.5px);
+		padding: var(--spacing-1, 2px) var(--spacing-3, 8px);
+		background: var(--color-accent);
+		color: var(--color-on-accent);
+		border-radius: 2px;
+		margin-bottom: var(--spacing-6);
+	}
+
+	/* Hide first paragraph when excerpt exists */
+	.article-content.has-excerpt :global(p:first-child) {
+		display: none;
 	}
 
 	@media (max-width: 600px) {

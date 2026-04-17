@@ -51,24 +51,63 @@ function formatDate(date: Date | null | undefined) {
 
 		{/* ── HERO ── */}
 		<section class="hero">
-			<div class="hero-inner">
-				<p class="hero-eyebrow">Paritsea</p>
-				<h1 class="hero-statement">
-					Structural coherence<br />is a prerequisite<br />for legitimate action.
-				</h1>
-				<p class="hero-sub">
-					A working framework for seeing clearly inside complex systems —<br class="br-lg" />
-					where tension is visible, cost is named, and method is precise.
-				</p>
-				<div class="hero-actions">
-					{doctrinePost && (
-						<a href={`/posts/${doctrinePost.id}`} class="btn-primary">
-							Read the Doctrine
+			<div class="hero-container">
+				<div class="hero-inner">
+					<p class="hero-eyebrow">Paritsea</p>
+					<h1 class="hero-statement">
+						Structural coherence<br />is a prerequisite<br />for legitimate action.
+					</h1>
+					<p class="hero-sub">
+						A working framework for seeing clearly inside complex systems —<br class="br-lg" />
+						where tension is visible, cost is named, and method is precise.
+					</p>
+					<div class="hero-actions">
+						{doctrinePost && (
+							<a href={`/posts/${doctrinePost.id}`} class="btn-primary">
+								Read the Doctrine
+							</a>
+						)}
+						<a href="/posts" class="btn-ghost">
+							All records →
 						</a>
-					)}
-					<a href="/posts" class="btn-ghost">
-						All records →
-					</a>
+					</div>
+				</div>
+				<div class="hero-illustration-wrapper">
+					<svg class="hero-illustration" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+						{/* Large geometric structure illustration */}
+						{/* Outer framework */}
+						<rect x="50" y="50" width="500" height="300" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.2" />
+						<rect x="75" y="75" width="450" height="250" fill="none" stroke="currentColor" stroke-width="1" opacity="0.15" />
+
+						{/* Vertical divisions */}
+						<line x1="200" y1="50" x2="200" y2="350" stroke="currentColor" stroke-width="0.5" opacity="0.1" />
+						<line x1="300" y1="50" x2="300" y2="350" stroke="currentColor" stroke-width="0.5" opacity="0.1" />
+						<line x1="400" y1="50" x2="400" y2="350" stroke="currentColor" stroke-width="0.5" opacity="0.1" />
+
+						{/* Horizontal divisions */}
+						<line x1="50" y1="150" x2="550" y2="150" stroke="currentColor" stroke-width="0.5" opacity="0.1" />
+						<line x1="50" y1="250" x2="550" y2="250" stroke="currentColor" stroke-width="0.5" opacity="0.1" />
+
+						{/* Key nodes */}
+						<circle cx="100" cy="100" r="5" fill="currentColor" opacity="0.7" />
+						<circle cx="300" cy="80" r="4" fill="currentColor" opacity="0.5" />
+						<circle cx="500" cy="120" r="4" fill="currentColor" opacity="0.4" />
+						<circle cx="150" cy="200" r="3" fill="currentColor" opacity="0.3" />
+						<circle cx="300" cy="200" r="5" fill="currentColor" opacity="0.6" />
+						<circle cx="450" cy="200" r="3" fill="currentColor" opacity="0.4" />
+						<circle cx="100" cy="300" r="4" fill="currentColor" opacity="0.5" />
+						<circle cx="300" cy="320" r="5" fill="currentColor" opacity="0.7" />
+						<circle cx="500" cy="300" r="4" fill="currentColor" opacity="0.5" />
+
+						{/* Connecting paths */}
+						<path d="M 100 100 Q 200 150 300 200" stroke="currentColor" stroke-width="1" fill="none" opacity="0.2" />
+						<path d="M 300 200 Q 400 180 500 120" stroke="currentColor" stroke-width="1" fill="none" opacity="0.15" />
+						<path d="M 100 100 L 100 300" stroke="currentColor" stroke-width="1" fill="none" opacity="0.1" />
+						<path d="M 300 80 L 300 320" stroke="currentColor" stroke-width="1" fill="none" opacity="0.12" />
+						<path d="M 500 120 L 500 300" stroke="currentColor" stroke-width="1" fill="none" opacity="0.1" />
+						<path d="M 100 300 Q 200 280 300 320" stroke="currentColor" stroke-width="1" fill="none" opacity="0.15" />
+						<path d="M 300 320 Q 400 290 500 300" stroke="currentColor" stroke-width="1" fill="none" opacity="0.12" />
+					</svg>
 				</div>
 			</div>
 			<div class="hero-rule" aria-hidden="true">
@@ -228,8 +267,31 @@ function formatDate(date: Date | null | undefined) {
 		margin-bottom: var(--spacing-20);
 	}
 
+	.hero-container {
+		display: flex;
+		gap: var(--spacing-16);
+		align-items: flex-start;
+	}
+
 	.hero-inner {
 		max-width: 760px;
+		flex: 1;
+	}
+
+	.hero-illustration-wrapper {
+		flex: 0 0 280px;
+		opacity: 0.7;
+		transition: opacity var(--transition-fast);
+	}
+
+	.hero:hover .hero-illustration-wrapper {
+		opacity: 0.95;
+	}
+
+	.hero-illustration {
+		width: 100%;
+		height: auto;
+		display: block;
 	}
 
 	.hero-eyebrow {
@@ -334,12 +396,14 @@ function formatDate(date: Date | null | undefined) {
 		background: var(--color-bg);
 		text-decoration: none;
 		color: inherit;
-		transition: background var(--transition-fast);
+		transition: background var(--transition-fast), border-left-color var(--transition-fast);
 		position: relative;
+		border-left: 3px solid transparent;
 	}
 
 	.pillar:hover {
 		background: var(--color-bg-subtle);
+		border-left-color: var(--color-accent);
 	}
 
 	.pillar--doctrine {
@@ -410,15 +474,21 @@ function formatDate(date: Date | null | undefined) {
 		grid-template-columns: 2.5rem 1fr auto;
 		gap: var(--spacing-6);
 		align-items: start;
-		padding: var(--spacing-6) 0;
+		padding: var(--spacing-6) 0 var(--spacing-6) var(--spacing-4);
+		padding-left: var(--spacing-4);
 		border-bottom: 1px solid var(--color-border-subtle);
+		border-left: 3px solid transparent;
 		text-decoration: none;
 		color: inherit;
-		transition: background var(--transition-fast);
+		transition: border-left-color var(--transition-fast), opacity var(--transition-fast);
 	}
 
 	.record-item:first-child {
 		border-top: none;
+	}
+
+	.record-item:hover {
+		border-left-color: var(--color-accent);
 	}
 
 	.record-item:hover .record-title {
@@ -527,6 +597,16 @@ function formatDate(date: Date | null | undefined) {
 
 		.hero {
 			padding: var(--spacing-14) 0 var(--spacing-16);
+		}
+
+		.hero-container {
+			flex-direction: column;
+			gap: var(--spacing-10);
+		}
+
+		.hero-illustration-wrapper {
+			flex: 1;
+			max-width: 100%;
 		}
 
 		.hero-rule {
