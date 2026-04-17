@@ -1,109 +1,117 @@
 /*
-  theme.css — Paritsea custom theme
-  Style: Constitutional · Minimal · Warm Cream
-  Matches paritsea.co visual identity
+  theme.css — Paritsea
+  Style: Constitutional · Precise · Warm Ink on Cream
 */
 
 :root {
-	/* --- Colors: Warm Cream / Constitutional --- */
-	--color-bg: #eae7e1;
-	--color-bg-subtle: #e3e0d9;
-	--color-text: #2a1f18;
-	--color-text-secondary: #5a4a40;
-	--color-muted: #9b8c83;
-	--color-border: #d4cfc8;
-	--color-border-subtle: #dddad4;
-	--color-surface: #e3e0d9;
-	--color-accent: #2a1f18;
-	--color-accent-hover: #3d2e25;
-	--color-on-accent: #eae7e1;
-	--color-accent-ring: color-mix(in srgb, var(--color-accent) 12%, transparent);
-	--color-highlight: #c8c2b8;
+	/* --- Colors: Warm Cream / Ink --- */
+	--color-bg: #f0ece5;
+	--color-bg-subtle: #e8e4dc;
+	--color-text: #1c1410;
+	--color-text-secondary: #4a3c34;
+	--color-muted: #8c7d74;
+	--color-border: #cdc8c0;
+	--color-border-subtle: #dbd7d0;
+	--color-surface: #e8e4dc;
+	--color-accent: #1c1410;
+	--color-accent-hover: #2e2218;
+	--color-on-accent: #f0ece5;
+	--color-accent-ring: color-mix(in srgb, var(--color-accent) 10%, transparent);
+	--color-highlight: #c4bdb4;
+	--color-rule: #b8b2aa;
 
-	/* --- Type scale --- */
-	--font-size-xs: 0.6875rem;    /* 11px */
-	--font-size-sm: 0.8125rem;    /* 13px */
-	--font-size-base: 0.9375rem;  /* 15px */
-	--font-size-lg: 1.0625rem;    /* 17px */
-	--font-size-xl: 1.25rem;      /* 20px */
-	--font-size-2xl: 1.5rem;      /* 24px */
-	--font-size-3xl: 2rem;        /* 32px */
-	--font-size-4xl: 2.5rem;      /* 40px */
-	--font-size-5xl: 3.25rem;     /* 52px */
+	/* --- Type scale (compact, precise) --- */
+	--font-size-2xs: 0.625rem;   /* 10px */
+	--font-size-xs: 0.6875rem;   /* 11px */
+	--font-size-sm: 0.8125rem;   /* 13px */
+	--font-size-base: 0.9375rem; /* 15px */
+	--font-size-lg: 1.0625rem;   /* 17px */
+	--font-size-xl: 1.25rem;     /* 20px */
+	--font-size-2xl: 1.5rem;     /* 24px */
+	--font-size-3xl: 2rem;       /* 32px */
+	--font-size-4xl: 2.625rem;   /* 42px */
+	--font-size-5xl: 3.5rem;     /* 56px */
 
 	/* --- Line heights --- */
+	--leading-none: 1;
 	--leading-tight: 1.1;
 	--leading-snug: 1.25;
-	--leading-normal: 1.55;
-	--leading-relaxed: 1.75;
+	--leading-normal: 1.5;
+	--leading-relaxed: 1.72;
+	--leading-loose: 2;
 
 	/* --- Letter spacing --- */
+	--tracking-tightest: -0.04em;
 	--tracking-tight: -0.02em;
 	--tracking-snug: -0.01em;
 	--tracking-normal: 0em;
-	--tracking-wide: 0.06em;
-	--tracking-wider: 0.1em;
+	--tracking-wide: 0.05em;
+	--tracking-wider: 0.09em;
+	--tracking-widest: 0.14em;
 
 	/* --- Layout --- */
-	--content-width: 600px;
-	--wide-width: 1100px;
-	--nav-height: 52px;
-	--gutter-width: 200px;
-	--meta-col-width: 160px;
-	--search-input-width: 150px;
+	--content-width: 620px;
+	--wide-width: 1120px;
+	--nav-height: 50px;
+	--gutter-width: 180px;
+	--meta-col-width: 150px;
+	--search-input-width: 140px;
 
 	/* --- Borders & radius --- */
 	--radius: 0px;
+	--radius-sm: 1px;
 	--radius-lg: 2px;
 	--radius-full: 9999px;
 
 	/* --- Shadows --- */
-	--shadow-dropdown: 0 2px 16px rgba(42, 31, 24, 0.12);
+	--shadow-dropdown: 0 4px 24px rgba(28, 20, 16, 0.10), 0 1px 4px rgba(28, 20, 16, 0.06);
 	--shadow-btn-active: none;
 
 	/* --- Transitions --- */
-	--transition-fast: 120ms ease;
-	--transition-base: 180ms ease;
+	--transition-fast: 100ms ease;
+	--transition-base: 160ms ease;
 
 	/* --- Avatars --- */
 	--avatar-size-xs: 16px;
 	--avatar-size-sm: 18px;
 	--avatar-size-md: 22px;
-	--avatar-size-lg: 30px;
+	--avatar-size-lg: 28px;
 
 	/* --- Tag --- */
 	--tag-padding-y: 2px;
 }
 
-/* Dark mode — keep warm dark tones */
+/* Dark mode */
 @media (prefers-color-scheme: dark) {
 	:root:not(.light) {
-		--color-bg: #14100d;
-		--color-bg-subtle: #1a1410;
-		--color-text: #e8e3dc;
-		--color-text-secondary: #a89880;
-		--color-muted: #7a6a5c;
-		--color-border: #2e2520;
-		--color-border-subtle: #221e19;
-		--color-surface: #1e1914;
-		--color-accent: #e8e3dc;
-		--color-accent-hover: #d4cfc8;
-		--color-on-accent: #14100d;
-		--color-highlight: #2e2520;
+		--color-bg: #100e0b;
+		--color-bg-subtle: #171310;
+		--color-text: #ece7df;
+		--color-text-secondary: #a8998e;
+		--color-muted: #6e6058;
+		--color-border: #2a2320;
+		--color-border-subtle: #1e1a17;
+		--color-surface: #1a1612;
+		--color-accent: #ece7df;
+		--color-accent-hover: #d8d0c8;
+		--color-on-accent: #100e0b;
+		--color-highlight: #2a2320;
+		--color-rule: #2e2824;
 	}
 }
 
 :root.dark {
-	--color-bg: #14100d;
-	--color-bg-subtle: #1a1410;
-	--color-text: #e8e3dc;
-	--color-text-secondary: #a89880;
-	--color-muted: #7a6a5c;
-	--color-border: #2e2520;
-	--color-border-subtle: #221e19;
-	--color-surface: #1e1914;
-	--color-accent: #e8e3dc;
-	--color-accent-hover: #d4cfc8;
-	--color-on-accent: #14100d;
-	--color-highlight: #2e2520;
+	--color-bg: #100e0b;
+	--color-bg-subtle: #171310;
+	--color-text: #ece7df;
+	--color-text-secondary: #a8998e;
+	--color-muted: #6e6058;
+	--color-border: #2a2320;
+	--color-border-subtle: #1e1a17;
+	--color-surface: #1a1612;
+	--color-accent: #ece7df;
+	--color-accent-hover: #d8d0c8;
+	--color-on-accent: #100e0b;
+	--color-highlight: #2a2320;
+	--color-rule: #2e2824;
 }

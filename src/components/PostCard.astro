@@ -37,7 +37,7 @@ const primaryTag = tags && tags.length > 0 ? tags[0] : null;
 
 <article class="post-card">
 	{featuredImage && (
-		<a href={href} class="card-image-link">
+		<a href={href} class="card-image-link" tabindex="-1" aria-hidden="true">
 			<div class="card-image">
 				<Image image={featuredImage} />
 			</div>
@@ -45,7 +45,7 @@ const primaryTag = tags && tags.length > 0 ? tags[0] : null;
 	)}
 	<div class="card-body">
 		{primaryTag && (
-			<a href={`/tag/${primaryTag.slug}`} class="card-category">
+			<a href={`/tag/${primaryTag.slug}`} class="card-tag">
 				{primaryTag.label}
 			</a>
 		)}
@@ -55,7 +55,7 @@ const primaryTag = tags && tags.length > 0 ? tags[0] : null;
 		{excerpt && <p class="card-excerpt">{excerpt}</p>}
 		<div class="card-meta">
 			{formattedDate && <time class="card-date">{formattedDate}</time>}
-			{formattedDate && readingTime && <span class="meta-sep">·</span>}
+			{formattedDate && readingTime && <span class="card-sep">·</span>}
 			{readingTime && <span class="card-reading-time">{readingTime} min</span>}
 		</div>
 	</div>
@@ -85,12 +85,12 @@ const primaryTag = tags && tags.length > 0 ? tags[0] : null;
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		transition: transform 0.5s ease;
-		filter: grayscale(5%);
+		transition: transform 0.55s ease;
+		filter: grayscale(6%);
 	}
 
 	.card-image-link:hover .card-image img {
-		transform: scale(1.04);
+		transform: scale(1.05);
 	}
 
 	/* ─── Body ─── */
@@ -100,42 +100,45 @@ const primaryTag = tags && tags.length > 0 ? tags[0] : null;
 		gap: var(--spacing-2);
 	}
 
-	/* ─── Category label ─── */
-	.card-category {
+	/* ─── Tag label ─── */
+	.card-tag {
 		display: inline-block;
-		font-size: var(--font-size-xs);
 		font-family: var(--font-sans, system-ui, sans-serif);
+		font-size: var(--font-size-xs);
+		font-weight: 500;
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
 		color: var(--color-muted);
 		text-decoration: none;
-		letter-spacing: 0.01em;
-		font-style: italic;
 		transition: color var(--transition-fast);
 		margin-bottom: var(--spacing-1);
 	}
 
-	.card-category:hover {
+	.card-tag:hover {
 		color: var(--color-text-secondary);
+		opacity: 1;
 	}
 
 	/* ─── Title ─── */
 	.card-title-link {
 		text-decoration: none;
 		color: inherit;
+		display: block;
 	}
 
 	.card-title {
 		font-family: Georgia, 'Times New Roman', serif;
 		font-size: var(--font-size-xl);
 		font-weight: 700;
-		line-height: var(--leading-snug);
+		line-height: 1.2;
 		letter-spacing: var(--tracking-snug);
 		color: var(--color-text);
-		transition: opacity var(--transition-fast);
 		margin: 0;
+		transition: opacity var(--transition-fast);
 	}
 
 	.card-title-link:hover .card-title {
-		opacity: 0.65;
+		opacity: 0.58;
 	}
 
 	/* ─── Excerpt ─── */
@@ -155,13 +158,13 @@ const primaryTag = tags && tags.length > 0 ? tags[0] : null;
 		display: flex;
 		align-items: center;
 		gap: var(--spacing-2);
+		font-family: var(--font-sans, system-ui, sans-serif);
 		font-size: var(--font-size-xs);
 		color: var(--color-muted);
-		font-family: var(--font-sans, system-ui, sans-serif);
 		margin-top: var(--spacing-1);
 	}
 
-	.meta-sep {
+	.card-sep {
 		color: var(--color-border);
 	}
 
