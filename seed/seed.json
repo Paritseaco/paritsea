@@ -111,7 +111,7 @@
 			"name": "primary",
 			"label": "Primary Navigation",
 			"items": [
-				{ "type": "custom", "label": "The Doctrine", "url": "/posts/doctrine" },
+				{ "type": "custom", "label": "The Doctrine", "url": "/the-doctrine" },
 				{ "type": "custom", "label": "Protocols", "url": "/category/protocols" },
 				{ "type": "custom", "label": "Standards", "url": "/category/standards" },
 				{ "type": "custom", "label": "The Method", "url": "/category/the-method" }
