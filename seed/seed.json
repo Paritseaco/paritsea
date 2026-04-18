@@ -146,7 +146,63 @@
 	],
 
 	"content": {
-		"pages": [],
+		"pages": [
+			{
+				"id": "licensing",
+				"slug": "licensing",
+				"status": "published",
+				"data": {
+					"title": "Licensing & Use",
+					"content": [
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "marks": ["strong"], "text": "Constitutional Position" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Paritsea is an independent doctrine of structural coherence and legitimacy authored by Parit Ritchai." }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "The Paritsea Doctrine and all derived Protocols and Standards are made publicly accessible in order to preserve structural clarity and prevent distortion through opacity or exclusivity." }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Licensing exists to protect doctrinal integrity, not to restrict legitimate reference." }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "Open Licence (Non-Commercial Use)" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "The Paritsea Doctrine and its derived Protocols and Standards are released under the Creative Commons Attribution–NonCommercial 4.0 International Licence (CC BY-NC 4.0)." }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Full legal terms are available at: creativecommons.org/licenses/by-nc/4.0/" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Non-commercial use is permitted with proper attribution." }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "This licence applies to: The Paritsea Doctrine — All published Standards — All published Protocols — Public explanatory texts — Official diagrams and structural models" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "Attribution Requirements" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Attribution must clearly include: The name \"Paritsea\" — Author: Parit Ritchai — Reference to the original source — A link to the official Paritsea website" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Attribution must not imply endorsement, partnership, certification, or institutional affiliation unless explicitly authorised." }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "Commercial Implementation" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Commercial implementation of any Paritsea Protocol or Standard requires a separate commercial licence agreement." }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Commercial implementation includes, but is not limited to: Platform enforcement — Revenue-generating services — Certification systems — Institutional integration — Proprietary deployment within commercial entities" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Enquiries: hello@paritsea.co" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "Dual Licensing Framework" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Paritsea may grant: Standard commercial licences — Dual licences (open + commercial usage rights) — Exclusive commercial licences within defined domains" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Dual licensing does not alter doctrinal content. The Paritsea Doctrine remains constitutionally immutable regardless of licensing structure." }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "Doctrinal Integrity Clause" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "marks": ["strong"], "text": "The Paritsea Doctrine is immutable." }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Derived Protocols and Standards may evolve, provided they do not contradict the Doctrine. No commercial agreement may alter or reinterpret the Doctrine. Licensing grants permission of use. It does not grant authority to redefine doctrine." }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "Prohibited Representations" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "The following are prohibited without explicit written agreement: Claiming certification by Paritsea — Presenting compliance as endorsement — Modifying Protocol or Standard criteria while retaining the Paritsea name — Using Paritsea branding to imply regulatory authority" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Paritsea is a reference framework, not a regulator." }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "Version Sovereignty" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "marks": ["strong"], "text": "Protocols and Standards are versioned." }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "marks": ["strong"], "text": "Each commercial licence is contract-specific and version-specific." }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Adoption of newer versions is not automatic. Previously licensed versions may continue operating under their granted terms. Paritsea retains authorship and doctrinal authority over all versions. Licensees retain implementation autonomy within the bounds of their licensed version. No commercial agreement may redefine or reinterpret the Doctrine." }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "Summary" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Paritsea is open for reference under CC BY-NC 4.0. Non-commercial use is permitted with attribution. Commercial implementation requires agreement. The Doctrine remains immutable. Protocols and Standards are version-governed. Licensing grants permission to implement — not authority to redefine." }] }
+					]
+				}
+			},
+			{
+				"id": "contact",
+				"slug": "contact",
+				"status": "published",
+				"data": {
+					"title": "Contact",
+					"content": [
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "marks": ["strong"], "text": "Paritsea" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "hello@paritsea.co" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "All correspondence is reviewed. Response is discretionary." }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Paritsea is an independent doctrinal reference authored by Parit Ritchai." }] }
+					]
+				}
+			}
+		],
 		"posts": [
 			{
 				"id": "doctrine",
