@@ -16,16 +16,232 @@ const { entries: posts } = await getEmDashCollection("posts", {
 	orderBy: { published_at: "desc" },
 });
 
-// Fetch tags for display on each post card
+// Fetch tags and bylines for each post
 const filteredPosts = await Promise.all(
 	posts.map(async (post) => {
 		const tags = await getEntryTerms("posts", post.data.id, "tag");
-		return { post, tags };
+		const bylines = post.data.bylines ?? [];
+		return { post, tags, bylines };
 	})
 );
+
+const formatDate = (date: Date) =>
+	date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+
+// Derive per-post metadata for protocol/standard cards
+const isProtocols = slug === "protocols";
+const isStandards = slug === "standards";
+const isMethod = slug === "the-method";
+const isBespoke = isProtocols || isStandards || isMethod;
 ---
 
-<Base title={`${term.label} posts`} description={`All posts in ${term.label}`}>
+{isBespoke ? (
+<Base
+	title={isProtocols ? "Protocols — Paritsea" : isStandards ? "Standards — Paritsea" : "The Method — Paritsea"}
+	description={
+		isProtocols
+			? "Paritsea Protocols establish structural requirements and transparency obligations for organised systems."
+			: isStandards
+			? "Paritsea Standards define measurable structural benchmarks derived from the Doctrine."
+			: "The Method documents structural analysis prior to formal protocol articulation — analytical observations, not opinion."
+	}
+>
+	{isProtocols && (
+		<div class="index-page protocols-page">
+			<header class="index-header">
+				<div class="index-header-inner">
+					<p class="index-eyebrow">Structural Framework</p>
+					<h1 class="index-title">Protocols</h1>
+					<p class="index-description">
+						Protocols establish structural requirements, obligations, and transparency conditions for organised systems. Each protocol is derived from the Paritsea Doctrine and addresses a specific domain of structural incoherence.
+					</p>
+					<p class="index-meta-note">
+						{filteredPosts.length} {filteredPosts.length === 1 ? "protocol" : "protocols"} published &ensp;·&ensp; More forthcoming
+					</p>
+				</div>
+			</header>
+
+			<section class="document-registry">
+				{filteredPosts.length === 0 ? (
+					<p class="registry-empty">No protocols published yet.</p>
+				) : (
+					<div class="document-list">
+						{filteredPosts.map(({ post, tags }, i) => (
+							<a href={`/posts/${post.id}`} class="document-card">
+								<div class="document-card-index">{String(i + 1).padStart(2, "0")}</div>
+								<div class="document-card-body">
+									<div class="document-card-tags">
+										{tags.map((t) => (
+											<span class="document-tag">{t.label}</span>
+										))}
+									</div>
+									<h2 class="document-card-title">{post.data.title}</h2>
+									{post.data.excerpt && (
+										<p class="document-card-excerpt">{post.data.excerpt}</p>
+									)}
+									<div class="document-card-footer">
+										{post.data.publishedAt && (
+											<time class="document-date">{formatDate(post.data.publishedAt)}</time>
+										)}
+										<span class="document-read">Read protocol →</span>
+									</div>
+								</div>
+							</a>
+						))}
+					</div>
+				)}
+			</section>
+
+			<aside class="index-aside">
+				<div class="aside-block">
+					<h3 class="aside-heading">About Protocols</h3>
+					<p class="aside-text">
+						Each protocol is a formal structural instrument. Protocols are not guidelines, best practices, or style recommendations. They establish structural requirements that must be met for a system to be considered coherent under the Paritsea framework.
+					</p>
+				</div>
+				<div class="aside-block">
+					<h3 class="aside-heading">Derived From</h3>
+					<p class="aside-text">
+						All protocols derive authority from <a href="/posts/doctrine" class="aside-link">The Paritsea Doctrine</a>. No protocol may contradict the foundational doctrine.
+					</p>
+				</div>
+			</aside>
+		</div>
+	)}
+
+	{isStandards && (
+		<div class="index-page standards-page">
+			<header class="index-header">
+				<div class="index-header-inner">
+					<p class="index-eyebrow">Structural Framework</p>
+					<h1 class="index-title">Standards</h1>
+					<p class="index-description">
+						Standards define measurable structural benchmarks derived from the Doctrine. Where Protocols establish obligations, Standards define the specific conditions under which those obligations are considered met.
+					</p>
+					<p class="index-meta-note">
+						{filteredPosts.length} {filteredPosts.length === 1 ? "standard" : "standards"} published &ensp;·&ensp; More forthcoming
+					</p>
+				</div>
+			</header>
+
+			<section class="document-registry">
+				{filteredPosts.length === 0 ? (
+					<p class="registry-empty">No standards published yet.</p>
+				) : (
+					<div class="document-list">
+						{filteredPosts.map(({ post, tags }, i) => (
+							<a href={`/posts/${post.id}`} class="document-card">
+								<div class="document-card-index">{String(i + 1).padStart(2, "0")}</div>
+								<div class="document-card-body">
+									<div class="document-card-tags">
+										{tags.map((t) => (
+											<span class="document-tag">{t.label}</span>
+										))}
+									</div>
+									<h2 class="document-card-title">{post.data.title}</h2>
+									{post.data.excerpt && (
+										<p class="document-card-excerpt">{post.data.excerpt}</p>
+									)}
+									<div class="document-card-footer">
+										{post.data.publishedAt && (
+											<time class="document-date">{formatDate(post.data.publishedAt)}</time>
+										)}
+										<span class="document-read">Read standard →</span>
+									</div>
+								</div>
+							</a>
+						))}
+					</div>
+				)}
+			</section>
+
+			<aside class="index-aside">
+				<div class="aside-block">
+					<h3 class="aside-heading">About Standards</h3>
+					<p class="aside-text">
+						Standards translate structural obligations into verifiable conditions. A standard specifies what "structurally coherent" looks like in a given domain — making abstract requirements concrete and assessable.
+					</p>
+				</div>
+				<div class="aside-block">
+					<h3 class="aside-heading">Relationship to Protocols</h3>
+					<p class="aside-text">
+						Standards operate beneath Protocols. A Protocol establishes the obligation; a Standard defines the threshold. Multiple standards may exist for a single protocol domain.
+					</p>
+				</div>
+			</aside>
+		</div>
+	)}
+
+	{isMethod && (
+		<div class="index-page method-page">
+			<header class="index-header method-header">
+				<div class="index-header-inner">
+					<p class="index-eyebrow">Structural Analysis</p>
+					<h1 class="index-title">The Method</h1>
+					<p class="index-description">
+						The Method documents structural analysis prior to formal protocol articulation. These entries record how structural incoherence is identified and examined — before formalisation into protocols or standards.
+					</p>
+					<p class="index-description-secondary">
+						These are analytical observations. Not opinion pieces. Not commentary. Each entry isolates a specific structural failure, names it without distortion, and holds it still long enough to understand what it actually is.
+					</p>
+					<p class="index-meta-note">
+						{filteredPosts.length} {filteredPosts.length === 1 ? "entry" : "entries"} in the record
+					</p>
+				</div>
+			</header>
+
+			<section class="method-registry">
+				{filteredPosts.length === 0 ? (
+					<p class="registry-empty">No entries yet.</p>
+				) : (
+					<div class="method-list">
+						{filteredPosts.map(({ post, tags }, i) => (
+							<a href={`/posts/${post.id}`} class="method-entry">
+								<div class="method-entry-number">
+									<span class="entry-num">{String(filteredPosts.length - i).padStart(2, "0")}</span>
+								</div>
+								<div class="method-entry-body">
+									<div class="method-entry-tags">
+										{tags.map((t) => (
+											<span class="entry-tag">{t.label}</span>
+										))}
+									</div>
+									<h2 class="method-entry-title">{post.data.title}</h2>
+									{post.data.excerpt && (
+										<p class="method-entry-excerpt">{post.data.excerpt}</p>
+									)}
+									<div class="method-entry-footer">
+										{post.data.publishedAt && (
+											<time class="entry-date">{formatDate(post.data.publishedAt)}</time>
+										)}
+										<span class="entry-read">{getReadingTime(post.data.content)} min read</span>
+									</div>
+								</div>
+							</a>
+						))}
+					</div>
+				)}
+			</section>
+
+			<aside class="method-aside">
+				<div class="aside-block">
+					<h3 class="aside-heading">What This Is Not</h3>
+					<p class="aside-text">
+						These entries are not opinion columns. They are not commentary. They are not takes on industry news. Each entry is an analytical observation — a structural examination of something that failed to cohere.
+					</p>
+				</div>
+				<div class="aside-block">
+					<h3 class="aside-heading">What Happens to These</h3>
+					<p class="aside-text">
+						Patterns that persist across multiple entries may be formalised into protocols or standards. The Method is the analytical precursor — where structural problems are named before they are governed.
+					</p>
+				</div>
+			</aside>
+		</div>
+	)}
+</Base>
+) : (
+<Base title={`${term.label} — Paritsea`} description={`All posts in ${term.label}`}>
 	<section class="archive-section">
 		<header class="archive-header">
 			<span class="archive-label">Category</span>
@@ -57,8 +273,324 @@ const filteredPosts = await Promise.all(
 		}
 	</section>
 </Base>
+)}
 
 <style>
+	/* ── Shared index page layout ─────────────────────────────── */
+	.index-page {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: var(--spacing-16) var(--spacing-8) var(--spacing-20);
+		display: grid;
+		grid-template-columns: 1fr 280px;
+		grid-template-rows: auto 1fr;
+		gap: 0 var(--spacing-16);
+		align-items: start;
+	}
+
+	.index-header {
+		grid-column: 1 / -1;
+		padding-bottom: var(--spacing-12);
+		border-bottom: 1px solid var(--color-border);
+		margin-bottom: var(--spacing-12);
+	}
+
+	.index-header-inner {
+		max-width: 700px;
+	}
+
+	.index-eyebrow {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		font-weight: 500;
+		letter-spacing: var(--tracking-widest);
+		text-transform: uppercase;
+		color: var(--color-accent);
+		margin-bottom: var(--spacing-3);
+	}
+
+	.index-title {
+		font-family: var(--font-serif);
+		font-size: clamp(2.5rem, 5vw, 4rem);
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		line-height: 1.1;
+		margin-bottom: var(--spacing-6);
+		color: var(--color-text);
+	}
+
+	.index-description {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-lg);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin-bottom: var(--spacing-4);
+	}
+
+	.index-description-secondary {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-base);
+		line-height: var(--leading-relaxed);
+		color: var(--color-muted);
+		margin-bottom: var(--spacing-4);
+		font-style: italic;
+	}
+
+	.index-meta-note {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		color: var(--color-muted);
+		margin-top: var(--spacing-6);
+	}
+
+	/* ── Document registry (Protocols & Standards) ───────────── */
+	.document-registry {
+		grid-column: 1;
+	}
+
+	.document-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+	}
+
+	.document-card {
+		display: grid;
+		grid-template-columns: 48px 1fr;
+		gap: var(--spacing-6);
+		padding: var(--spacing-8) 0;
+		border-bottom: 1px solid var(--color-border-subtle);
+		text-decoration: none;
+		color: inherit;
+		transition: background var(--transition-fast);
+	}
+
+	.document-card:first-child {
+		padding-top: 0;
+	}
+
+	.document-card:hover .document-card-title {
+		color: var(--color-accent);
+	}
+
+	.document-card-index {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		font-weight: 500;
+		color: var(--color-muted);
+		letter-spacing: var(--tracking-wider);
+		padding-top: 4px;
+	}
+
+	.document-card-body {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-2);
+	}
+
+	.document-card-tags {
+		display: flex;
+		gap: var(--spacing-2);
+		flex-wrap: wrap;
+		margin-bottom: var(--spacing-1);
+	}
+
+	.document-tag {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		font-weight: 500;
+		letter-spacing: var(--tracking-wider);
+		text-transform: uppercase;
+		color: var(--color-accent);
+		border: 1px solid currentColor;
+		padding: 2px var(--spacing-2);
+		border-radius: 2px;
+		opacity: 0.85;
+	}
+
+	.document-card-title {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-2xl);
+		font-weight: 600;
+		line-height: 1.25;
+		letter-spacing: -0.01em;
+		color: var(--color-text);
+		transition: color var(--transition-fast);
+		margin: 0;
+	}
+
+	.document-card-excerpt {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-base);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin: 0;
+	}
+
+	.document-card-footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-top: var(--spacing-3);
+	}
+
+	.document-date {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		color: var(--color-muted);
+	}
+
+	.document-read {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		font-weight: 500;
+		color: var(--color-accent);
+		opacity: 0;
+		transition: opacity var(--transition-fast);
+	}
+
+	.document-card:hover .document-read {
+		opacity: 1;
+	}
+
+	/* ── Aside (right column) ─────────────────────────────────── */
+	.index-aside,
+	.method-aside {
+		grid-column: 2;
+		position: sticky;
+		top: calc(64px + var(--spacing-8));
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-8);
+	}
+
+	.aside-block {
+		padding: var(--spacing-6);
+		border-left: 3px solid var(--color-border);
+	}
+
+	.aside-heading {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		font-weight: 600;
+		letter-spacing: var(--tracking-wider);
+		text-transform: uppercase;
+		color: var(--color-text-secondary);
+		margin-bottom: var(--spacing-3);
+	}
+
+	.aside-text {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		line-height: var(--leading-relaxed);
+		color: var(--color-muted);
+	}
+
+	.aside-link {
+		color: var(--color-accent);
+		text-decoration: none;
+	}
+
+	.aside-link:hover {
+		text-decoration: underline;
+	}
+
+	/* ── The Method ───────────────────────────────────────────── */
+	.method-registry {
+		grid-column: 1;
+	}
+
+	.method-list {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.method-entry {
+		display: grid;
+		grid-template-columns: 48px 1fr;
+		gap: var(--spacing-6);
+		padding: var(--spacing-7) 0;
+		border-bottom: 1px solid var(--color-border-subtle);
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.method-entry:first-child {
+		padding-top: 0;
+	}
+
+	.method-entry:hover .method-entry-title {
+		color: var(--color-accent);
+	}
+
+	.method-entry-number {
+		display: flex;
+		align-items: flex-start;
+		padding-top: 3px;
+	}
+
+	.entry-num {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		font-weight: 500;
+		color: var(--color-muted);
+		letter-spacing: var(--tracking-wider);
+	}
+
+	.method-entry-body {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-2);
+	}
+
+	.method-entry-tags {
+		display: flex;
+		gap: var(--spacing-2);
+		flex-wrap: wrap;
+	}
+
+	.entry-tag {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		letter-spacing: var(--tracking-wider);
+		text-transform: uppercase;
+		color: var(--color-muted);
+		font-weight: 500;
+	}
+
+	.method-entry-title {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-xl);
+		font-weight: 600;
+		line-height: 1.3;
+		color: var(--color-text);
+		margin: 0;
+		transition: color var(--transition-fast);
+	}
+
+	.method-entry-excerpt {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-base);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin: 0;
+	}
+
+	.method-entry-footer {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-4);
+		margin-top: var(--spacing-2);
+	}
+
+	.entry-date,
+	.entry-read {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		color: var(--color-muted);
+	}
+
+	/* ── Generic category fallback ────────────────────────────── */
 	.archive-section {
 		max-width: var(--wide-width);
 		margin: 0 auto;
@@ -103,13 +635,59 @@ const filteredPosts = await Promise.all(
 		color: var(--color-muted);
 	}
 
-	@media (max-width: 900px) {
+	.registry-empty {
+		color: var(--color-muted);
+		padding: var(--spacing-8) 0;
+	}
+
+	/* ── Responsive ───────────────────────────────────────────── */
+	@media (max-width: 1024px) {
+		.index-page {
+			grid-template-columns: 1fr;
+			padding: var(--spacing-12) var(--spacing-6) var(--spacing-16);
+		}
+
+		.index-header {
+			grid-column: 1;
+		}
+
+		.index-aside,
+		.method-aside {
+			grid-column: 1;
+			position: static;
+			flex-direction: row;
+			flex-wrap: wrap;
+		}
+
+		.aside-block {
+			flex: 1 1 280px;
+		}
+	}
+
+	@media (max-width: 600px) {
+		.index-page {
+			padding: var(--spacing-8) var(--spacing-4) var(--spacing-12);
+		}
+
+		.index-title {
+			font-size: 2.25rem;
+		}
+
+		.document-card {
+			grid-template-columns: 36px 1fr;
+			gap: var(--spacing-4);
+		}
+
+		.document-card-title {
+			font-size: var(--font-size-xl);
+		}
+
 		.posts-grid {
 			grid-template-columns: repeat(2, 1fr);
 		}
 	}
 
-	@media (max-width: 600px) {
+	@media (max-width: 480px) {
 		.posts-grid {
 			grid-template-columns: 1fr;
 		}
