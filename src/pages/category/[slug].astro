@@ -16,14 +16,12 @@ const { entries: posts } = await getEmDashCollection("posts", {
 	orderBy: { published_at: "desc" },
 });
 
-// Fetch categories and bylines for each post
+// Fetch tags (used as sub-labels) and bylines for each post
 const filteredPosts = await Promise.all(
 	posts.map(async (post) => {
-		const cats = await getEntryTerms("posts", post.data.id, "category");
-		// Exclude the current category to avoid redundancy; show others as sub-labels
-		const otherCats = cats.filter(c => c.slug !== slug);
+		const tags = await getEntryTerms("posts", post.data.id, "tag");
 		const bylines = post.data.bylines ?? [];
-		return { post, cats: otherCats, bylines };
+		return { post, cats: tags, bylines };
 	})
 );
 
