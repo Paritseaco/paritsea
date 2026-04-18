@@ -16,12 +16,14 @@ const { entries: posts } = await getEmDashCollection("posts", {
 	orderBy: { published_at: "desc" },
 });
 
-// Fetch tags and bylines for each post
+// Fetch categories and bylines for each post
 const filteredPosts = await Promise.all(
 	posts.map(async (post) => {
-		const tags = await getEntryTerms("posts", post.data.id, "tag");
+		const cats = await getEntryTerms("posts", post.data.id, "category");
+		// Exclude the current category to avoid redundancy; show others as sub-labels
+		const otherCats = cats.filter(c => c.slug !== slug);
 		const bylines = post.data.bylines ?? [];
-		return { post, tags, bylines };
+		return { post, cats: otherCats, bylines };
 	})
 );
 
@@ -66,15 +68,17 @@ const isBespoke = isProtocols || isStandards || isMethod;
 					<p class="registry-empty">No protocols published yet.</p>
 				) : (
 					<div class="document-list">
-						{filteredPosts.map(({ post, tags }, i) => (
-							<a href={`/posts/${post.id}`} class="document-card">
+						{filteredPosts.map(({ post, cats }, i) => (
+							<a href={`/protocols/${post.id}`} class="document-card">
 								<div class="document-card-index">{String(i + 1).padStart(2, "0")}</div>
 								<div class="document-card-body">
-									<div class="document-card-tags">
-										{tags.map((t) => (
-											<span class="document-tag">{t.label}</span>
-										))}
-									</div>
+									{cats.length > 0 && (
+										<div class="document-card-tags">
+											{cats.map((c) => (
+												<span class="document-tag">{c.label}</span>
+											))}
+										</div>
+									)}
 									<h2 class="document-card-title">{post.data.title}</h2>
 									{post.data.excerpt && (
 										<p class="document-card-excerpt">{post.data.excerpt}</p>
@@ -135,15 +139,17 @@ const isBespoke = isProtocols || isStandards || isMethod;
 					<p class="registry-empty">No standards published yet.</p>
 				) : (
 					<div class="document-list">
-						{filteredPosts.map(({ post, tags }, i) => (
-							<a href={`/posts/${post.id}`} class="document-card">
+						{filteredPosts.map(({ post, cats }, i) => (
+							<a href={`/standards/${post.id}`} class="document-card">
 								<div class="document-card-index">{String(i + 1).padStart(2, "0")}</div>
 								<div class="document-card-body">
-									<div class="document-card-tags">
-										{tags.map((t) => (
-											<span class="document-tag">{t.label}</span>
-										))}
-									</div>
+									{cats.length > 0 && (
+										<div class="document-card-tags">
+											{cats.map((c) => (
+												<span class="document-tag">{c.label}</span>
+											))}
+										</div>
+									)}
 									<h2 class="document-card-title">{post.data.title}</h2>
 									{post.data.excerpt && (
 										<p class="document-card-excerpt">{post.data.excerpt}</p>
@@ -207,17 +213,19 @@ const isBespoke = isProtocols || isStandards || isMethod;
 					<p class="registry-empty">No entries yet.</p>
 				) : (
 					<div class="method-list">
-						{filteredPosts.map(({ post, tags }, i) => (
-							<a href={`/posts/${post.id}`} class="method-entry">
+						{filteredPosts.map(({ post, cats }, i) => (
+							<a href={`/the-method/${post.id}`} class="method-entry">
 								<div class="method-entry-number">
 									<span class="entry-num">{String(filteredPosts.length - i).padStart(2, "0")}</span>
 								</div>
 								<div class="method-entry-body">
-									<div class="method-entry-tags">
-										{tags.map((t) => (
-											<span class="entry-tag">{t.label}</span>
-										))}
-									</div>
+									{cats.length > 0 && (
+										<div class="method-entry-tags">
+											{cats.map((c) => (
+												<span class="entry-tag">{c.label}</span>
+											))}
+										</div>
+									)}
 									<h2 class="method-entry-title">{post.data.title}</h2>
 									{post.data.excerpt && (
 										<p class="method-entry-excerpt">{post.data.excerpt}</p>
@@ -269,7 +277,7 @@ const isBespoke = isProtocols || isStandards || isMethod;
 				<p class="no-posts">No posts in this category yet.</p>
 			) : (
 				<div class="posts-grid">
-					{filteredPosts.map(({ post, tags }) => (
+					{filteredPosts.map(({ post, cats }) => (
 						<PostCard
 							title={post.data.title}
 							excerpt={post.data.excerpt}
@@ -277,7 +285,7 @@ const isBespoke = isProtocols || isStandards || isMethod;
 							href={`/posts/${post.id}`}
 							date={post.data.publishedAt ?? undefined}
 							readingTime={getReadingTime(post.data.content)}
-							tags={tags.map((t) => ({ slug: t.slug, label: t.label }))}
+							tags={cats.map((c) => ({ slug: c.slug, label: c.label }))}
 						/>
 					))}
 				</div>
