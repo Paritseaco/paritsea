@@ -112,9 +112,9 @@
 			"label": "Primary Navigation",
 			"items": [
 				{ "type": "custom", "label": "The Doctrine", "url": "/posts/doctrine" },
-				{ "type": "custom", "label": "Protocols", "url": "/posts/stp" },
-				{ "type": "custom", "label": "Standards", "url": "/posts/asls-01" },
-				{ "type": "custom", "label": "The Method", "url": "/posts" }
+				{ "type": "custom", "label": "Protocols", "url": "/category/protocols" },
+				{ "type": "custom", "label": "Standards", "url": "/category/standards" },
+				{ "type": "custom", "label": "The Method", "url": "/category/the-method" }
 			]
 		}
 	],
