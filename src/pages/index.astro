@@ -25,13 +25,25 @@ const records = posts
 	})
 	.slice(0, 4);
 
-// Fetch tags for records
+// Fetch tags for records, and resolve category-aware URL
+const catUrlMap: Record<string, string> = {
+	"protocols": "protocols",
+	"standards": "standards",
+	"the-method": "the-method",
+	"the-doctrine": "the-doctrine",
+};
+
 const recordsWithTags = await Promise.all(
 	records.map(async (post) => {
 		const tags = await getEntryTerms("posts", post.data.id, "tag");
+		const cats = await getEntryTerms("posts", post.data.id, "category");
+		const catSlug = cats[0]?.slug ?? "";
+		const catUrl = catUrlMap[catSlug] ?? "the-method";
+		const href = catSlug === "the-doctrine" ? "/the-doctrine" : `/${catUrl}/${post.id}`;
 		return {
 			post,
 			tags: tags.map((t) => ({ slug: t.slug, label: t.label })),
+			href,
 		};
 	})
 );
@@ -63,11 +75,11 @@ function formatDate(date: Date | null | undefined) {
 					</p>
 					<div class="hero-actions">
 						{doctrinePost && (
-							<a href={`/posts/${doctrinePost.id}`} class="btn-primary">
+							<a href="/the-doctrine" class="btn-primary">
 								Read the Doctrine
 							</a>
 						)}
-						<a href="/posts" class="btn-ghost">
+						<a href="/category/the-method" class="btn-ghost">
 							All records →
 						</a>
 					</div>
@@ -123,7 +135,7 @@ function formatDate(date: Date | null | undefined) {
 			<div class="pillars-grid">
 
 				{doctrinePost && (
-					<a href={`/posts/${doctrinePost.id}`} class="pillar pillar--doctrine">
+					<a href="/the-doctrine" class="pillar pillar--doctrine">
 						<div class="pillar-index">01</div>
 						<div class="pillar-body">
 							<h2 class="pillar-title">The Doctrine</h2>
@@ -136,7 +148,7 @@ function formatDate(date: Date | null | undefined) {
 				)}
 
 				{stpPost && (
-					<a href={`/posts/${stpPost.id}`} class="pillar">
+					<a href="/protocols/stp" class="pillar">
 						<div class="pillar-index">02</div>
 						<div class="pillar-body">
 							<h2 class="pillar-title">STP Protocol</h2>
@@ -149,7 +161,7 @@ function formatDate(date: Date | null | undefined) {
 				)}
 
 				{aslsPost && (
-					<a href={`/posts/${aslsPost.id}`} class="pillar">
+					<a href="/standards/asls-01" class="pillar">
 						<div class="pillar-index">03</div>
 						<div class="pillar-body">
 							<h2 class="pillar-title">ASLS-01 Standard</h2>
@@ -161,7 +173,7 @@ function formatDate(date: Date | null | undefined) {
 					</a>
 				)}
 
-				<a href="/posts" class="pillar pillar--method">
+				<a href="/category/the-method" class="pillar pillar--method">
 					<div class="pillar-index">04</div>
 					<div class="pillar-body">
 						<h2 class="pillar-title">The Method</h2>
@@ -180,11 +192,11 @@ function formatDate(date: Date | null | undefined) {
 			<section class="records">
 				<header class="section-header">
 					<span class="section-eyebrow">Recent Records</span>
-					<a href="/posts" class="section-more">View all →</a>
+					<a href="/category/the-method" class="section-more">View all →</a>
 				</header>
 				<div class="records-list">
-					{recordsWithTags.map(({ post, tags }, i) => (
-						<a href={`/posts/${post.id}`} class="record-item">
+					{recordsWithTags.map(({ post, tags, href }, i) => (
+						<a href={href} class="record-item">
 							<span class="record-num">
 								{String(i + 1).padStart(2, "0")}
 							</span>
