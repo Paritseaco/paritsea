@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Tool reveals structure</title>
+  <desc id="desc">A tool-like frame revealing hidden architectural lines beneath it.</desc>
+  <rect width="1200" height="720" fill="#eee9df"/>
+  <rect x="250" y="170" width="700" height="380" fill="none" stroke="#2a221d" stroke-opacity=".22" stroke-width="2"/>
+  <path d="M350 260h500M350 360h500M350 460h500" stroke="#2a221d" stroke-opacity=".16"/>
+  <path d="M440 170v380M600 170v380M760 170v380" stroke="#2a221d" stroke-opacity=".12"/>
+  <path d="M310 520 890 200" stroke="#2a221d" stroke-width="22" stroke-linecap="round" opacity=".18"/>
+  <path d="M310 520 890 200" stroke="#2a221d" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="600" cy="360" r="14" fill="#2a221d"/>
+</svg>

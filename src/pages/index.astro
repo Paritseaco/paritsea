@@ -1,0 +1,786 @@
+---
+import { getEmDashCollection, getEntryTerms, getSiteSettings } from "emdash";
+import Base from "../layouts/Base.astro";
+import {
+	isFrameworkPageSlug,
+	resolveFrameworkPage,
+	resolvePostPath,
+} from "../utils/public-paths";
+import { resolveBlogSiteIdentity } from "../utils/site-identity";
+import {
+	formatDateForLocale,
+	getAstroLocale,
+	localizeEntry,
+	localizeTermLabel,
+	localizedPath,
+	ui,
+} from "../utils/i18n";
+
+const locale = getAstroLocale(Astro);
+const navLabels = ui[locale].navLabels;
+
+const { entries: posts, cacheHint } = await getEmDashCollection("posts");
+const { siteTitle, siteTagline } = resolveBlogSiteIdentity(await getSiteSettings());
+
+Astro.cache.set(cacheHint);
+
+// Specific landmark posts
+const doctrinePost = posts.find((p) => p.id === "doctrine");
+const stpPost = posts.find((p) => p.id === "stp");
+const aslsPost = posts.find((p) => p.id === "asls-01");
+const localizedDoctrinePost = doctrinePost ? localizeEntry(doctrinePost, "posts", locale) : null;
+const localizedStpPost = stpPost ? localizeEntry(stpPost, "posts", locale) : null;
+const localizedAslsPost = aslsPost ? localizeEntry(aslsPost, "posts", locale) : null;
+
+// The Method = recent analytical entries (exclude the 3 landmark posts)
+const landmarkIds = new Set(["doctrine", "stp", "asls-01"]);
+const methodEntries = (
+	await Promise.all(
+		posts
+			.filter((p) => !landmarkIds.has(p.id))
+			.map(async (post) => {
+				const legacyTerms = await getEntryTerms("posts", post.data.id, "category");
+				const legacyFrameworkPage =
+					legacyTerms.find((term) => isFrameworkPageSlug(term.slug))?.slug ?? null;
+				return {
+					post,
+					legacyTerms,
+					frameworkPage: resolveFrameworkPage(post.data.framework_page, legacyFrameworkPage),
+				};
+			}),
+	)
+)
+	.filter((entry) => entry.frameworkPage === "the-method")
+	.toSorted((a, b) => {
+		const dateA = a.post.data.publishedAt?.getTime() ?? 0;
+		const dateB = b.post.data.publishedAt?.getTime() ?? 0;
+		return dateB - dateA;
+	})
+	.slice(0, 4);
+
+const methodEntriesWithTags = await Promise.all(
+	methodEntries.map(async ({ post, legacyTerms, frameworkPage }) => {
+		const categories = legacyTerms.filter((term) => !isFrameworkPageSlug(term.slug)).length > 0
+			? legacyTerms.filter((term) => !isFrameworkPageSlug(term.slug))
+			: await getEntryTerms("posts", post.data.id, "category");
+		const href =
+			resolvePostPath(post.id, frameworkPage, null) ??
+			`/the-method/${post.id}`;
+		return {
+			post: localizeEntry(post, "posts", locale),
+			categories: categories.map((category) => ({
+				slug: category.slug,
+				label: localizeTermLabel(category.label, locale),
+			})),
+			href: localizedPath(href, locale),
+		};
+	})
+);
+
+function formatDate(date: Date | null | undefined) {
+	return formatDateForLocale(date, locale);
+}
+
+const home = locale === "th"
+	? {
+			eyebrow: "กรอบอ้างอิงสาธารณะ",
+			statement: "ความสอดคล้องเชิงโครงสร้าง\nคือเงื่อนไขตั้งต้น\nของการกระทำที่ชอบธรรม",
+			definition:
+				"Paritsea คือกรอบอ้างอิงสาธารณะสำหรับตั้งชื่อแรงตึงเชิงโครงสร้าง นิยามความชอบธรรม และแปลงหลักคำสอนให้เป็นการตัดสินใจที่ใช้ได้จริงข้ามโดเมน",
+			sub:
+				"ออกแบบมาให้ถูกอ้างอิง ดัดแปลง และนำไปใช้ในองค์กร ผลิตภัณฑ์ และการตัดสินใจส่วนบุคคลในบริบทที่ความชัดเจนเชิงโครงสร้างสำคัญ",
+			readDoctrine: "อ่านหลักคำสอน",
+			viewImplementations: "ดูการนำไปใช้ →",
+			referenceNote:
+				"หลักคำสอน โปรโตคอล มาตรฐาน วิธีวิเคราะห์ และการนำไปใช้จริง ถูกจัดวางไว้ในสถาปัตยกรรมอ้างอิงเดียว",
+			referenceArchitecture: "สถาปัตยกรรมอ้างอิง",
+			methodDesc:
+				"entry วิเคราะห์ที่ชี้แรงตึงเชิงโครงสร้าง ก่อนมันแข็งตัวเป็นวิธีปฏิบัติที่ถูกทำให้เป็นปกติ",
+			implementationsDesc:
+				"ระบบประยุกต์ที่บังคับใช้ตรรกะ Paritsea ในสภาพแวดล้อมการทำงานจริง AgenSea คือ implementation แรกที่บันทึกไว้ภายใต้ ASLS-01",
+			registry: "ทะเบียนวิเคราะห์",
+			openMethod: "เปิด The Method →",
+			quote: "\"ปัญหาไม่ใช่ว่าสิ่งต่างๆ พัง\nปัญหาคือมันทำงานได้ และยังมีบางอย่างผิดอยู่\"",
+			attr: "— Parit Ritchai, หลักคำสอน",
+		}
+	: {
+			eyebrow: "Public Reference Framework",
+			statement: "Structural coherence\nis a prerequisite\nfor legitimate action.",
+			definition:
+				"Paritsea is a public reference framework for naming structural tension, defining legitimacy, and translating doctrine into applied judgment across domains.",
+			sub:
+				"Designed to be cited, adapted, and implemented in organisations, products, and personal decision-making where structural clarity matters.",
+			readDoctrine: "Read the Doctrine",
+			viewImplementations: "View Implementations →",
+			referenceNote:
+				"Doctrine, protocols, standards, analytical method, and applied implementations in one public architecture.",
+			referenceArchitecture: "Reference Architecture",
+			methodDesc:
+				"Analytical entries that identify structural tension before it hardens into normalized practice.",
+			implementationsDesc:
+				"Applied systems that enforce Paritsea logic in real operating environments. AgenSea is the first documented ASLS-01 implementation.",
+			registry: "Analytical Registry",
+			openMethod: "Open The Method →",
+			quote: "\"The problem is not that things are broken.\nThe problem is that they work — and something is still wrong.\"",
+			attr: "— Parit Ritchai, The Doctrine",
+		};
+---
+
+<Base title={siteTitle} description={siteTagline} locale={locale}>
+	<div class="landing">
+
+		{/* ── HERO ── */}
+		<section class="hero">
+			<div class="hero-container">
+				<div class="hero-inner">
+					<p class="hero-eyebrow">{home.eyebrow}</p>
+					<h1 class="hero-statement">
+						{home.statement.split("\n").map((line, index) => (
+							<>{index > 0 && <br />}{line}</>
+						))}
+					</h1>
+					<p class="hero-definition">
+						{home.definition}
+					</p>
+					<p class="hero-sub">
+						{home.sub}
+					</p>
+					<div class="hero-actions">
+						{doctrinePost && (
+							<a href={localizedPath("/the-doctrine", locale)} class="btn-primary">
+								{home.readDoctrine}
+							</a>
+						)}
+						<a href={localizedPath("/implementations", locale)} class="btn-ghost">
+							{home.viewImplementations}
+						</a>
+					</div>
+					<p class="hero-reference-note">
+						{home.referenceNote}
+					</p>
+				</div>
+				<div class="hero-illustration-wrapper">
+					<svg class="hero-illustration" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+						{/* Large geometric structure illustration */}
+						{/* Outer framework */}
+						<rect x="50" y="50" width="500" height="300" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.2" />
+						<rect x="75" y="75" width="450" height="250" fill="none" stroke="currentColor" stroke-width="1" opacity="0.15" />
+
+						{/* Vertical divisions */}
+						<line x1="200" y1="50" x2="200" y2="350" stroke="currentColor" stroke-width="0.5" opacity="0.1" />
+						<line x1="300" y1="50" x2="300" y2="350" stroke="currentColor" stroke-width="0.5" opacity="0.1" />
+						<line x1="400" y1="50" x2="400" y2="350" stroke="currentColor" stroke-width="0.5" opacity="0.1" />
+
+						{/* Horizontal divisions */}
+						<line x1="50" y1="150" x2="550" y2="150" stroke="currentColor" stroke-width="0.5" opacity="0.1" />
+						<line x1="50" y1="250" x2="550" y2="250" stroke="currentColor" stroke-width="0.5" opacity="0.1" />
+
+						{/* Key nodes */}
+						<circle cx="100" cy="100" r="5" fill="currentColor" opacity="0.7" />
+						<circle cx="300" cy="80" r="4" fill="currentColor" opacity="0.5" />
+						<circle cx="500" cy="120" r="4" fill="currentColor" opacity="0.4" />
+						<circle cx="150" cy="200" r="3" fill="currentColor" opacity="0.3" />
+						<circle cx="300" cy="200" r="5" fill="currentColor" opacity="0.6" />
+						<circle cx="450" cy="200" r="3" fill="currentColor" opacity="0.4" />
+						<circle cx="100" cy="300" r="4" fill="currentColor" opacity="0.5" />
+						<circle cx="300" cy="320" r="5" fill="currentColor" opacity="0.7" />
+						<circle cx="500" cy="300" r="4" fill="currentColor" opacity="0.5" />
+
+						{/* Connecting paths */}
+						<path d="M 100 100 Q 200 150 300 200" stroke="currentColor" stroke-width="1" fill="none" opacity="0.2" />
+						<path d="M 300 200 Q 400 180 500 120" stroke="currentColor" stroke-width="1" fill="none" opacity="0.15" />
+						<path d="M 100 100 L 100 300" stroke="currentColor" stroke-width="1" fill="none" opacity="0.1" />
+						<path d="M 300 80 L 300 320" stroke="currentColor" stroke-width="1" fill="none" opacity="0.12" />
+						<path d="M 500 120 L 500 300" stroke="currentColor" stroke-width="1" fill="none" opacity="0.1" />
+						<path d="M 100 300 Q 200 280 300 320" stroke="currentColor" stroke-width="1" fill="none" opacity="0.15" />
+						<path d="M 300 320 Q 400 290 500 300" stroke="currentColor" stroke-width="1" fill="none" opacity="0.12" />
+					</svg>
+				</div>
+			</div>
+			<div class="hero-rule" aria-hidden="true">
+				<span class="rule-label">{home.referenceArchitecture}</span>
+			</div>
+		</section>
+
+		{/* ── SYSTEM PILLARS ── */}
+		<section class="pillars">
+			<header class="section-header">
+				<span class="section-eyebrow">{home.referenceArchitecture}</span>
+			</header>
+			<div class="pillars-grid">
+
+				{localizedDoctrinePost && (
+					<a href={localizedPath("/the-doctrine", locale)} class="pillar pillar--doctrine">
+						<div class="pillar-index">01</div>
+						<div class="pillar-body">
+							<h2 class="pillar-title">{navLabels["The Doctrine"]}</h2>
+							<p class="pillar-desc">
+								{localizedDoctrinePost.data.excerpt ?? "The foundational position from which the rest of the framework derives."}
+							</p>
+						</div>
+						<span class="pillar-arrow">→</span>
+					</a>
+				)}
+
+				{localizedStpPost && (
+					<a href={localizedPath("/protocols/stp", locale)} class="pillar">
+						<div class="pillar-index">02</div>
+						<div class="pillar-body">
+							<h2 class="pillar-title">STP Protocol</h2>
+							<p class="pillar-desc">
+								{localizedStpPost.data.excerpt ?? "A protocol for structural transition, accountability, and procedural visibility."}
+							</p>
+						</div>
+						<span class="pillar-arrow">→</span>
+					</a>
+				)}
+
+				{localizedAslsPost && (
+					<a href={localizedPath("/standards/asls-01", locale)} class="pillar">
+						<div class="pillar-index">03</div>
+						<div class="pillar-body">
+							<h2 class="pillar-title">ASLS-01 Standard</h2>
+							<p class="pillar-desc">
+								{localizedAslsPost.data.excerpt ?? "A verifiable standard for assessing structural legitimacy in agency and service-based systems."}
+							</p>
+						</div>
+						<span class="pillar-arrow">→</span>
+					</a>
+				)}
+
+				<a href={localizedPath("/the-method", locale)} class="pillar pillar--method">
+					<div class="pillar-index">04</div>
+					<div class="pillar-body">
+						<h2 class="pillar-title">{navLabels["The Method"]}</h2>
+						<p class="pillar-desc">
+							{home.methodDesc}
+						</p>
+					</div>
+					<span class="pillar-arrow">→</span>
+				</a>
+
+				<a href={localizedPath("/implementations", locale)} class="pillar">
+					<div class="pillar-index">05</div>
+					<div class="pillar-body">
+						<h2 class="pillar-title">{navLabels.Implementations}</h2>
+						<p class="pillar-desc">
+							{home.implementationsDesc}
+						</p>
+					</div>
+					<span class="pillar-arrow">→</span>
+				</a>
+
+			</div>
+		</section>
+
+		{/* ── LATEST ENTRIES ── */}
+		{methodEntriesWithTags.length > 0 && (
+			<section class="records">
+				<header class="section-header">
+					<span class="section-eyebrow">{home.registry}</span>
+					<a href={localizedPath("/the-method", locale)} class="section-more">{home.openMethod}</a>
+				</header>
+				<div class="records-list">
+					{methodEntriesWithTags.map(({ post, categories, href }, i) => (
+						<a href={href} class="record-item">
+							<span class="record-num">
+								{String(i + 1).padStart(2, "0")}
+							</span>
+							<div class="record-body">
+								<h3 class="record-title">{post.data.title}</h3>
+								{post.data.excerpt && (
+									<p class="record-excerpt">{post.data.excerpt}</p>
+								)}
+							</div>
+							<div class="record-meta">
+								{categories.length > 0 && (
+									<span class="record-tag">{categories[0].label}</span>
+								)}
+								{formatDate(post.data.publishedAt) && (
+									<time class="record-date">{formatDate(post.data.publishedAt)}</time>
+								)}
+							</div>
+						</a>
+					))}
+				</div>
+			</section>
+		)}
+
+		{/* ── CLOSING STATEMENT ── */}
+		<section class="closing">
+			<blockquote class="closing-quote">
+				{home.quote.split("\n").map((line, index) => (
+					<>{index > 0 && <br />}{line}</>
+				))}
+			</blockquote>
+			<p class="closing-attr">{home.attr}</p>
+		</section>
+
+	</div>
+</Base>
+
+<style>
+	/* ─── Wrapper ─── */
+	.landing {
+		max-width: var(--wide-width);
+		margin: 0 auto;
+		padding: 0 var(--spacing-8) var(--spacing-24);
+	}
+
+	/* ─── Section common ─── */
+	.section-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		padding-bottom: var(--spacing-4);
+		border-bottom: 1px solid var(--color-border-subtle);
+		margin-bottom: var(--spacing-10);
+	}
+
+	.section-eyebrow {
+		font-family: var(--font-sans, system-ui, sans-serif);
+		font-size: var(--font-size-xs);
+		font-weight: 500;
+		letter-spacing: var(--tracking-widest);
+		text-transform: uppercase;
+		color: var(--color-muted);
+	}
+
+	.section-more {
+		font-family: var(--font-sans, system-ui, sans-serif);
+		font-size: var(--font-size-xs);
+		color: var(--color-text-secondary);
+		text-decoration: none;
+		letter-spacing: 0.01em;
+		transition: color var(--transition-fast);
+	}
+
+	.section-more:hover {
+		color: var(--color-text);
+	}
+
+	/* ─── HERO ─── */
+	.hero {
+		padding: var(--spacing-20) 0 var(--spacing-24);
+		border-bottom: 1px solid var(--color-border-subtle);
+		margin-bottom: var(--spacing-20);
+	}
+
+	.hero-container {
+		display: flex;
+		gap: var(--spacing-16);
+		align-items: flex-start;
+	}
+
+	.hero-inner {
+		max-width: 760px;
+		flex: 1;
+	}
+
+	.hero-illustration-wrapper {
+		flex: 0 0 280px;
+		opacity: 0.7;
+		transition: opacity var(--transition-fast);
+	}
+
+	.hero:hover .hero-illustration-wrapper {
+		opacity: 0.95;
+	}
+
+	.hero-illustration {
+		width: 100%;
+		height: auto;
+		display: block;
+	}
+
+	.hero-eyebrow {
+		font-family: var(--font-sans, system-ui, sans-serif);
+		font-size: var(--font-size-xs);
+		font-weight: 500;
+		letter-spacing: var(--tracking-widest);
+		text-transform: uppercase;
+		color: var(--color-muted);
+		margin: 0 0 var(--spacing-6);
+	}
+
+	.hero-statement {
+		font-family: Georgia, 'Times New Roman', serif;
+		font-size: clamp(2rem, 4.5vw, 3.5rem);
+		font-weight: 700;
+		line-height: 1.06;
+		letter-spacing: var(--tracking-tight);
+		color: var(--color-text);
+		margin: 0 0 var(--spacing-7);
+	}
+
+	.hero-definition {
+		font-size: var(--font-size-lg);
+		line-height: 1.6;
+		color: var(--color-text-secondary);
+		max-width: 620px;
+		margin: 0 0 var(--spacing-5);
+	}
+
+	.hero-sub {
+		font-size: var(--font-size-base);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		max-width: 560px;
+		margin: 0 0 var(--spacing-8);
+	}
+
+	.br-lg { display: block; }
+
+	.hero-actions {
+		display: flex;
+		gap: var(--spacing-5);
+		align-items: center;
+	}
+
+	.hero-reference-note {
+		font-family: var(--font-sans, system-ui, sans-serif);
+		font-size: var(--font-size-sm);
+		line-height: 1.7;
+		color: var(--color-muted);
+		max-width: 660px;
+		margin: var(--spacing-6) 0 0;
+	}
+
+	.btn-primary {
+		display: inline-block;
+		padding: var(--spacing-3) var(--spacing-7);
+		background: var(--color-text);
+		color: var(--color-bg);
+		text-decoration: none;
+		font-family: var(--font-sans, system-ui, sans-serif);
+		font-size: var(--font-size-sm);
+		font-weight: 500;
+		letter-spacing: 0.02em;
+		transition: opacity var(--transition-fast);
+	}
+
+	.btn-primary:hover {
+		opacity: 0.78;
+	}
+
+	.btn-ghost {
+		font-family: var(--font-sans, system-ui, sans-serif);
+		font-size: var(--font-size-sm);
+		color: var(--color-muted);
+		text-decoration: none;
+		letter-spacing: 0.01em;
+		transition: color var(--transition-fast);
+	}
+
+	.btn-ghost:hover {
+		color: var(--color-text);
+	}
+
+	.hero-rule {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-4);
+		margin-top: var(--spacing-14);
+	}
+
+	.rule-label {
+		font-family: var(--font-sans, system-ui, sans-serif);
+		font-size: var(--font-size-xs);
+		letter-spacing: var(--tracking-widest);
+		text-transform: uppercase;
+		color: var(--color-border);
+	}
+
+	/* ─── PILLARS ─── */
+	.pillars {
+		margin-bottom: var(--spacing-20);
+	}
+
+	.pillars-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+		gap: 1px;
+		background: var(--color-border-subtle);
+		border: 1px solid var(--color-border-subtle);
+	}
+
+	.pillar {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-5);
+		padding: var(--spacing-8) var(--spacing-6) var(--spacing-7);
+		background: var(--color-bg);
+		text-decoration: none;
+		color: inherit;
+		transition: background var(--transition-fast), border-left-color var(--transition-fast);
+		position: relative;
+		border-left: 3px solid transparent;
+	}
+
+	.pillar:hover {
+		background: var(--color-bg-subtle);
+		border-left-color: var(--color-accent);
+	}
+
+	.pillar--doctrine {
+		background: var(--color-bg-subtle);
+	}
+
+	.pillar--doctrine:hover {
+		background: var(--color-surface);
+	}
+
+	.pillar-index {
+		font-family: var(--font-sans, system-ui, sans-serif);
+		font-size: var(--font-size-2xs);
+		letter-spacing: var(--tracking-widest);
+		color: var(--color-border);
+		font-weight: 500;
+	}
+
+	.pillar-body {
+		flex: 1;
+	}
+
+	.pillar-title {
+		font-family: Georgia, 'Times New Roman', serif;
+		font-size: var(--font-size-lg);
+		font-weight: 700;
+		line-height: 1.2;
+		color: var(--color-text);
+		margin: 0 0 var(--spacing-3);
+	}
+
+	.pillar-desc {
+		font-family: var(--font-sans, system-ui, sans-serif);
+		font-size: var(--font-size-sm);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin: 0;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	.pillar-arrow {
+		font-size: var(--font-size-xs);
+		color: var(--color-muted);
+		align-self: flex-end;
+		transition: transform var(--transition-fast), color var(--transition-fast);
+	}
+
+	.pillar:hover .pillar-arrow {
+		transform: translateX(3px);
+		color: var(--color-text-secondary);
+	}
+
+	/* ─── RECORDS ─── */
+	.records {
+		margin-bottom: var(--spacing-20);
+	}
+
+	.records-list {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.record-item {
+		display: grid;
+		grid-template-columns: 2.5rem 1fr auto;
+		gap: var(--spacing-6);
+		align-items: start;
+		padding: var(--spacing-6) 0 var(--spacing-6) var(--spacing-4);
+		padding-left: var(--spacing-4);
+		border-bottom: 1px solid var(--color-border-subtle);
+		border-left: 3px solid transparent;
+		text-decoration: none;
+		color: inherit;
+		transition: border-left-color var(--transition-fast), opacity var(--transition-fast);
+	}
+
+	.record-item:first-child {
+		border-top: none;
+	}
+
+	.record-item:hover {
+		border-left-color: var(--color-accent);
+	}
+
+	.record-item:hover .record-title {
+		opacity: 0.6;
+	}
+
+	.record-num {
+		font-family: var(--font-sans, system-ui, sans-serif);
+		font-size: var(--font-size-xs);
+		color: var(--color-border);
+		letter-spacing: var(--tracking-wide);
+		padding-top: 3px;
+	}
+
+	.record-body {
+		flex: 1;
+	}
+
+	.record-title {
+		font-family: Georgia, 'Times New Roman', serif;
+		font-size: var(--font-size-xl);
+		font-weight: 700;
+		line-height: 1.2;
+		color: var(--color-text);
+		margin: 0 0 var(--spacing-2);
+		transition: opacity var(--transition-fast);
+	}
+
+	.record-excerpt {
+		font-size: var(--font-size-sm);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin: 0;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	.record-meta {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		gap: var(--spacing-2);
+		min-width: 100px;
+		padding-top: 3px;
+	}
+
+	.record-tag {
+		font-family: var(--font-sans, system-ui, sans-serif);
+		font-size: var(--font-size-2xs);
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+		color: var(--color-muted);
+		white-space: nowrap;
+	}
+
+	.record-date {
+		font-family: var(--font-sans, system-ui, sans-serif);
+		font-size: var(--font-size-xs);
+		color: var(--color-muted);
+		white-space: nowrap;
+	}
+
+	/* ─── CLOSING ─── */
+	.closing {
+		padding: var(--spacing-16) 0 var(--spacing-8);
+		border-top: 1px solid var(--color-border-subtle);
+		max-width: 680px;
+	}
+
+	.closing-quote {
+		font-family: Georgia, 'Times New Roman', serif;
+		font-size: var(--font-size-xl);
+		font-style: italic;
+		line-height: 1.6;
+		color: var(--color-text-secondary);
+		margin: 0 0 var(--spacing-4);
+		border: none;
+		padding: 0;
+	}
+
+	.closing-attr {
+		font-family: var(--font-sans, system-ui, sans-serif);
+		font-size: var(--font-size-xs);
+		letter-spacing: var(--tracking-wide);
+		color: var(--color-muted);
+		margin: 0;
+	}
+
+	/* ─── Responsive ─── */
+	@media (max-width: 1024px) {
+		.hero-statement {
+			font-size: clamp(1.75rem, 4vw, 2.625rem);
+		}
+	}
+
+	@media (max-width: 768px) {
+		.landing {
+			padding: 0 var(--spacing-5) var(--spacing-16);
+		}
+
+		.hero {
+			padding: var(--spacing-14) 0 var(--spacing-16);
+		}
+
+		.hero-container {
+			flex-direction: column;
+			gap: var(--spacing-10);
+		}
+
+		.hero-illustration-wrapper {
+			flex: 1;
+			max-width: 100%;
+		}
+
+		.hero-rule {
+			display: none;
+		}
+
+		.record-item {
+			grid-template-columns: 2rem 1fr;
+			grid-template-rows: auto auto;
+		}
+
+		.record-meta {
+			grid-column: 2;
+			flex-direction: row;
+			align-items: center;
+			justify-content: flex-start;
+			min-width: unset;
+			padding-top: var(--spacing-2);
+		}
+	}
+
+	@media (max-width: 600px) {
+		.hero {
+			padding: var(--spacing-10) 0 var(--spacing-12);
+			margin-bottom: var(--spacing-12);
+		}
+
+		.hero-statement {
+			font-size: var(--font-size-2xl);
+		}
+
+		.hero-sub,
+		.hero-reference-note,
+		.hero-illustration-wrapper,
+		.closing {
+			display: none;
+		}
+
+		.hero-actions {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		.pillars {
+			margin-bottom: var(--spacing-12);
+		}
+
+		.pillars-grid {
+			gap: var(--spacing-4);
+		}
+
+		.pillar {
+			padding: var(--spacing-4) 0;
+		}
+
+		.pillar-desc {
+			-webkit-line-clamp: 2;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+		}
+
+		.br-lg { display: none; }
+	}
+</style>

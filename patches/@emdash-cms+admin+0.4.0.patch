@@ -1,0 +1,61 @@
+diff --git a/node_modules/@emdash-cms/admin/dist/index.js b/node_modules/@emdash-cms/admin/dist/index.js
+index 76fb1a2..5ef6ccd 100644
+--- a/node_modules/@emdash-cms/admin/dist/index.js
++++ b/node_modules/@emdash-cms/admin/dist/index.js
+@@ -8226,7 +8226,7 @@ function SeoImageField({ seo, onChange }) {
+ 			className: "text-xs text-kumo-subtle mt-1",
+ 			children: _t({
+ 				id: "qP2isd",
+-				message: "Image shown when this page is shared on social media"
++				message: "Image shown when this page is shared on social media. Recommended: 1200x630. Upload JPG, PNG, WebP, or AVIF."
+ 			})
+ 		}),
+ 		/* @__PURE__ */ jsx(MediaPickerModal, {
+@@ -9335,36 +9335,8 @@ function ContentEditor({ collection, collectionLabel, item, fields, isNew, isSav
+ 								]
+ 							})]
+ 						}),
+-						currentUser && currentUser.role >= ROLE_EDITOR$3 && users && users.length > 0 && /* @__PURE__ */ jsxs("div", {
+-							className: "p-4 border-t",
+-							children: [/* @__PURE__ */ jsx("h3", {
+-								className: "mb-4 font-semibold",
+-								children: _t({
+-									id: "oDAEQq",
+-									message: "Ownership"
+-								})
+-							}), /* @__PURE__ */ jsx(AuthorSelector, {
+-								authorId: item?.authorId || null,
+-								users,
+-								onChange: onAuthorChange
+-							})]
+-						}),
+-						currentUser && currentUser.role >= ROLE_EDITOR$3 && /* @__PURE__ */ jsxs("div", {
+-							className: "p-4 border-t",
+-							children: [/* @__PURE__ */ jsx("h3", {
+-								className: "mb-4 font-semibold",
+-								children: _t({
+-									id: "xLGa7J",
+-									message: "Bylines"
+-								})
+-							}), /* @__PURE__ */ jsx(BylineCreditsEditor, {
+-								credits: activeBylines,
+-								bylines: availableBylines ?? [],
+-								onChange: handleBylinesChange,
+-								onQuickCreate: onQuickCreateByline,
+-								onQuickEdit: onQuickEditByline
+-							})]
+-						}),
++							false,
++							false,
+ 						i18n && item && !isNew && /* @__PURE__ */ jsxs("div", {
+ 							className: "p-4 border-t",
+ 							children: [/* @__PURE__ */ jsx("h3", {
+@@ -9623,7 +9595,7 @@ function FieldRenderer({ name, field, value, onChange, onEditorReady, minimal, p
+ 				label,
+ 				description: name === "featured_image" ? _t2({
+ 					id: "wd2th9",
+-					message: "Used as the main visual for this post on listing pages and at the top of the post"
++					message: "Used as the main visual for this post. Recommended: 1600x900 or larger. Upload JPG, PNG, WebP, or AVIF."
+ 				}) : void 0,
+ 				value: imageValue,
+ 				onChange: handleChange,

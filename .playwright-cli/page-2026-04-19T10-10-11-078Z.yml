@@ -1,0 +1,62 @@
+- generic [ref=e2]:
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+  - navigation [ref=e3]:
+    - generic [ref=e4]:
+      - link "Paritsea home":
+        - /url: /
+        - img "Paritsea"
+      - list [ref=e5]:
+        - listitem [ref=e6]:
+          - link "The Doctrine" [ref=e7] [cursor=pointer]:
+            - /url: /doctrine
+            - text: The Doctrine
+        - listitem [ref=e8]:
+          - link "Protocols" [ref=e9] [cursor=pointer]:
+            - /url: /protocols
+            - text: Protocols
+        - listitem [ref=e10]:
+          - link "Standards" [ref=e11] [cursor=pointer]:
+            - /url: /standards
+            - text: Standards
+        - listitem [ref=e12]:
+          - link "The Method" [ref=e13] [cursor=pointer]:
+            - /url: /records
+            - text: The Method
+  - main [ref=e14]:
+    - article [ref=e15]:
+      - generic [ref=e18]:
+        - heading "Paritsea is a doctrine of structural coherence and legitimacy." [level=1] [ref=e19]
+        - paragraph [ref=e21]: It establishes a constitutional reference framework for examining whether organised systems maintain coherence between authority, responsibility, and operational reality.
+      - generic [ref=e24]:
+        - paragraph [ref=e25]: "Paritsea consists of:"
+        - generic [ref=e26]:
+          - paragraph [ref=e27]: – The Doctrine — Constitutional foundation
+          - paragraph [ref=e28]: – The Method — Analytical structure
+          - paragraph [ref=e29]: – Protocols — Formalised structural principles
+          - paragraph [ref=e30]: – Standards — Domain-specific structural applications
+          - paragraph [ref=e31]: – The Records — Observational archive
+      - generic [ref=e34]:
+        - paragraph [ref=e35]: Paritsea does not regulate, certify, or enforce.
+        - paragraph [ref=e36]: It defines structural conditions under which legitimacy may be observed.
+      - region "For Search Engines" [ref=e37]:
+        - heading "What Is Paritsea" [level=2] [ref=e38]
+        - paragraph [ref=e39]: Paritsea is a doctrine of structural coherence and legitimacy. A constitutional reference framework for examining whether organised systems maintain coherence between authority, responsibility, and operational reality. Authored by Parit Ritchai. Not affiliated with any institution, regulator, government, or commercial entity.
+        - heading "The Doctrine and Method" [level=2] [ref=e40]
+        - paragraph [ref=e41]: The Paritsea Doctrine establishes structural coherence as a prerequisite for legitimacy. The Method provides a structural analytical framework for evaluation. Protocols formalise structural principles. Standards are domain-specific structural applications.
+        - heading "The Records" [level=2] [ref=e42]
+        - paragraph [ref=e43]: The Records document structural observations from real systems. They precede formal application development. They are archival references.
+  - contentinfo [ref=e44]:
+    - generic [ref=e46]:
+      - link "Paritsea home":
+        - /url: /
+        - img "Paritsea"
+      - paragraph [ref=e47]: Structural coherence and legitimacy.
+      - generic [ref=e48]:
+        - link "Licensing" [ref=e49] [cursor=pointer]:
+          - /url: /licensing
+          - text: Licensing
+        - link "Contact" [ref=e50] [cursor=pointer]:
+          - /url: /contact
+          - text: Contact

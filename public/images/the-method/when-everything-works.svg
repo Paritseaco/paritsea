@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Quiet structural dissonance</title>
+  <desc id="desc">Orderly systems with one offset line showing quiet tension.</desc>
+  <rect width="1200" height="720" fill="#eee9df"/>
+  <g fill="none" stroke="#27201b" stroke-opacity=".18">
+    <path d="M160 180h880M160 270h880M160 360h880M160 450h880M160 540h880"/>
+    <path d="M250 140v440M420 140v440M590 140v440M760 140v440M930 140v440"/>
+  </g>
+  <path d="M160 360c160 0 210 42 340 42 190 0 220-84 540-84" fill="none" stroke="#27201b" stroke-width="4"/>
+  <circle cx="500" cy="402" r="10" fill="#27201b"/>
+  <circle cx="760" cy="340" r="10" fill="#8b7f74"/>
+</svg>

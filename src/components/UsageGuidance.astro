@@ -1,0 +1,218 @@
+---
+interface Props {
+	variant: "doctrine" | "protocols" | "standards" | "the-method" | "implementations";
+	compact?: boolean;
+	className?: string;
+	locale?: "th" | "en";
+}
+
+const { variant, compact = false, className, locale = "th" } = Astro.props;
+
+const contentByLocale = {
+	en: {
+	doctrine: {
+		eyebrow: "Use and Reference",
+		title: "The Doctrine is open for reference, citation, and non-commercial adaptation.",
+		summary:
+			"You may read, discuss, teach, and adapt this doctrine with attribution. Commercial enforcement, certification claims, or official implementation status require separate permission.",
+		points: [
+			"Cite with attribution and link back to Paritsea.",
+			"Adapt ideas for internal or personal use without claiming endorsement.",
+			"Do not present reinterpretations as official Paritsea doctrine.",
+		],
+	},
+	protocols: {
+		eyebrow: "Use and Reference",
+		title: "Protocols can be studied and adapted, but not represented as official enforcement without permission.",
+		summary:
+			"Protocols are public structural instruments. They may be referenced and adapted with attribution, but commercial deployment, certification, or official Paritsea-branded enforcement requires agreement.",
+		points: [
+			"Use internally, academically, or analytically with attribution.",
+			"Commercial deployment or certification requires permission.",
+			"Adaptation does not equal official implementation.",
+		],
+	},
+	standards: {
+		eyebrow: "Use and Reference",
+		title: "Standards may be cited and interpreted publicly, but not converted into unauthorised certification or scoring systems.",
+		summary:
+			"Standards define verifiable conditions. You may reference and adapt them with attribution, but not market your use as Paritsea-certified or official without permission.",
+		points: [
+			"Cite the standard and preserve its structural meaning.",
+			"Do not turn it into ratings, badges, or certification claims without agreement.",
+			"Commercial enforcement requires a separate licence.",
+		],
+	},
+	"the-method": {
+		eyebrow: "Use and Reference",
+		title: "The Method is a public analytical registry intended for citation, discussion, and adaptation.",
+		summary:
+			"These entries may be referenced and built from with attribution. They are analytical objects, not official endorsements, and should not be repackaged as certified Paritsea positions.",
+		points: [
+			"Cite and discuss entries publicly with attribution.",
+			"Use them as reference observations in your own work.",
+			"Do not imply Paritsea approval of your adaptation or product.",
+		],
+	},
+	implementations: {
+		eyebrow: "Use and Reference",
+		title: "Implementations demonstrate application, but only documented implementations carry official status.",
+		summary:
+			"You may study and learn from these implementations, but adopting similar ideas does not make another system an official Paritsea implementation or a certified enforcement surface.",
+		points: [
+			"Reference implementations as examples, not transferable endorsements.",
+			"Only documented implementations are official Paritsea implementations.",
+			"Commercial productisation of Paritsea logic still follows the licensing policy.",
+		],
+	},
+	},
+	th: {
+		doctrine: {
+			eyebrow: "การใช้และการอ้างอิง",
+			title: "หลักคำสอนเปิดให้อ้างอิง อ้างถึง และดัดแปลงแบบไม่ใช่เชิงพาณิชย์",
+			summary:
+				"คุณสามารถอ่าน อภิปราย สอน และดัดแปลงหลักคำสอนนี้ได้เมื่อให้เครดิต การบังคับใช้เชิงพาณิชย์ การกล่าวอ้าง certification หรือสถานะการนำไปใช้อย่างเป็นทางการต้องได้รับอนุญาตแยกต่างหาก",
+			points: [
+				"อ้างอิงพร้อมให้เครดิตและลิงก์กลับมายัง Paritsea",
+				"ดัดแปลงแนวคิดเพื่อใช้ภายในหรือส่วนตัวได้ โดยไม่กล่าวอ้างว่าได้รับ endorsement",
+				"อย่านำการตีความใหม่ไปเสนอว่าเป็นหลักคำสอน Paritsea อย่างเป็นทางการ",
+			],
+		},
+		protocols: {
+			eyebrow: "การใช้และการอ้างอิง",
+			title: "โปรโตคอลศึกษาและดัดแปลงได้ แต่ห้ามนำเสนอเป็นการบังคับใช้อย่างเป็นทางการโดยไม่ได้รับอนุญาต",
+			summary:
+				"โปรโตคอลเป็นเครื่องมือเชิงโครงสร้างสาธารณะ สามารถอ้างอิงและดัดแปลงได้เมื่อให้เครดิต แต่การ deploy เชิงพาณิชย์ certification หรือการบังคับใช้ภายใต้ชื่อ Paritsea ต้องมีข้อตกลง",
+			points: [
+				"ใช้ภายใน ใช้เชิงวิชาการ หรือใช้วิเคราะห์ได้เมื่อให้เครดิต",
+				"การ deploy เชิงพาณิชย์หรือ certification ต้องได้รับอนุญาต",
+				"การดัดแปลงไม่เท่ากับการนำไปใช้อย่างเป็นทางการ",
+			],
+		},
+		standards: {
+			eyebrow: "การใช้และการอ้างอิง",
+			title: "มาตรฐานสามารถอ้างถึงและตีความต่อสาธารณะได้ แต่ห้ามแปลงเป็น certification หรือ scoring ที่ไม่ได้รับอนุญาต",
+			summary:
+				"มาตรฐานนิยามเงื่อนไขที่ตรวจสอบได้ คุณสามารถอ้างอิงและดัดแปลงได้เมื่อให้เครดิต แต่ห้ามทำตลาดว่าเป็น Paritsea-certified หรือ official โดยไม่ได้รับอนุญาต",
+			points: [
+				"อ้างอิงมาตรฐานและรักษาความหมายเชิงโครงสร้างไว้",
+				"อย่าแปลงเป็น rating, badge หรือ certification claim โดยไม่มีข้อตกลง",
+				"การบังคับใช้เชิงพาณิชย์ต้องมีสิทธิการใช้แยกต่างหาก",
+			],
+		},
+		"the-method": {
+			eyebrow: "การใช้และการอ้างอิง",
+			title: "The Method เป็นทะเบียนวิเคราะห์สาธารณะสำหรับอ้างอิง อภิปราย และดัดแปลง",
+			summary:
+				"entry เหล่านี้สามารถอ้างอิงและต่อยอดได้เมื่อให้เครดิต เป็นวัตถุเชิงวิเคราะห์ ไม่ใช่ endorsement อย่างเป็นทางการ และไม่ควรถูกบรรจุใหม่เป็นจุดยืน Paritsea ที่ certified",
+			points: [
+				"อ้างและอภิปราย entry ได้ต่อสาธารณะเมื่อให้เครดิต",
+				"ใช้เป็นข้อสังเกตอ้างอิงในงานของคุณเองได้",
+				"อย่าสื่อว่า Paritsea อนุมัติ adaptation หรือ product ของคุณ",
+			],
+		},
+		implementations: {
+			eyebrow: "การใช้และการอ้างอิง",
+			title: "การนำไปใช้แสดงให้เห็นการประยุกต์ แต่มีเพียง implementation ที่บันทึกไว้เท่านั้นที่มีสถานะอย่างเป็นทางการ",
+			summary:
+				"คุณสามารถศึกษาและเรียนรู้จาก implementation เหล่านี้ได้ แต่การรับแนวคิดคล้ายกันไปใช้ไม่ได้ทำให้ระบบอื่นกลายเป็น official Paritsea implementation หรือ certified enforcement surface",
+			points: [
+				"อ้าง implementation เป็นตัวอย่าง ไม่ใช่ endorsement ที่โอนได้",
+				"เฉพาะ implementation ที่บันทึกไว้เท่านั้นที่เป็น official Paritsea implementation",
+				"การทำ Paritsea logic เป็นผลิตภัณฑ์เชิงพาณิชย์ยังต้องอยู่ภายใต้นโยบายสิทธิการใช้",
+			],
+		},
+	},
+} as const;
+
+const content = contentByLocale[locale][variant];
+const licensingHref = locale === "en" ? "/en/licensing" : "/licensing";
+const linkLabel = locale === "en" ? "Read the full licence and use policy →" : "อ่านนโยบายสิทธิการใช้ฉบับเต็ม →";
+---
+
+<aside class:list={["usage-guidance", compact && "usage-guidance--compact", className]}>
+	<p class="usage-guidance-eyebrow">{content.eyebrow}</p>
+	<h2 class="usage-guidance-title">{content.title}</h2>
+	<p class="usage-guidance-summary">{content.summary}</p>
+	<ul class="usage-guidance-list">
+		{content.points.map((point) => (
+			<li>{point}</li>
+		))}
+	</ul>
+	<p class="usage-guidance-link-row">
+		<a href={licensingHref} class="usage-guidance-link">{linkLabel}</a>
+	</p>
+</aside>
+
+<style>
+	.usage-guidance {
+		margin: var(--spacing-8) 0;
+		padding: var(--spacing-5);
+		border: 1px solid var(--color-border-subtle);
+		background: color-mix(in srgb, var(--color-bg-subtle) 55%, transparent);
+	}
+
+	.usage-guidance--compact {
+		margin: var(--spacing-6) 0 0;
+	}
+
+	.usage-guidance-eyebrow {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: var(--tracking-widest);
+		color: var(--color-muted);
+		margin: 0 0 var(--spacing-2);
+	}
+
+	.usage-guidance-title {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-xl);
+		line-height: 1.25;
+		margin: 0 0 var(--spacing-3);
+		letter-spacing: var(--tracking-snug);
+	}
+
+	.usage-guidance-summary {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-base);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin: 0 0 var(--spacing-4);
+	}
+
+	.usage-guidance-list {
+		margin: 0 0 var(--spacing-4);
+		padding-left: 1.1rem;
+	}
+
+	.usage-guidance-list li {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin-bottom: var(--spacing-2);
+	}
+
+	.usage-guidance-link-row {
+		margin: 0;
+	}
+
+	.usage-guidance-link {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		color: var(--color-text);
+		text-decoration: none;
+	}
+
+	.usage-guidance-link:hover {
+		opacity: 0.7;
+	}
+
+	@media (max-width: 720px) {
+		.usage-guidance--compact {
+			display: none;
+		}
+	}
+</style>

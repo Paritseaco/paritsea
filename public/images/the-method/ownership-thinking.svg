@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Ownership thinking and system load</title>
+  <desc id="desc">A central support carrying uneven structural weight across a wide frame.</desc>
+  <rect width="1200" height="720" fill="#ece6dc"/>
+  <path d="M200 520h800" stroke="#2a221d" stroke-opacity=".18" stroke-width="2"/>
+  <path d="M600 180v340" stroke="#2a221d" stroke-width="10" stroke-linecap="round"/>
+  <path d="M280 250h640" stroke="#2a221d" stroke-width="4"/>
+  <g fill="none" stroke="#2a221d" stroke-opacity=".22" stroke-width="2">
+    <rect x="250" y="250" width="140" height="140"/>
+    <rect x="430" y="250" width="140" height="140"/>
+    <rect x="630" y="250" width="140" height="140"/>
+    <rect x="810" y="250" width="140" height="140"/>
+  </g>
+  <path d="M250 390c100 72 600 72 700 0" fill="none" stroke="#2a221d" stroke-width="3"/>
+  <circle cx="600" cy="520" r="18" fill="#2a221d"/>
+</svg>

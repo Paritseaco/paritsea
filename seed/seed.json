@@ -1,0 +1,2237 @@
+{
+	"$schema": "https://emdashcms.com/seed.schema.json",
+	"version": "1",
+	"meta": {
+		"name": "Paritsea",
+		"description": "Structural Coherence and Legitimacy",
+		"author": "Parit Ritchai"
+	},
+	"settings": {
+		"title": "Paritsea",
+		"tagline": "A public reference framework for structural coherence, legitimacy, and applied judgment."
+	},
+	"collections": [
+		{
+			"slug": "posts",
+			"label": "Content",
+			"labelSingular": "Entry",
+			"supports": [
+				"drafts",
+				"revisions",
+				"search",
+				"seo"
+			],
+			"commentsEnabled": false,
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "framework_page",
+					"label": "Page Destination",
+					"type": "select",
+					"required": true,
+					"translatable": false,
+					"validation": {
+						"options": [
+							"the-doctrine",
+							"protocols",
+							"standards",
+							"the-method",
+							"implementations"
+						]
+					}
+				},
+				{
+					"slug": "featured_image",
+					"label": "Featured Image",
+					"type": "image"
+				},
+				{
+					"slug": "content",
+					"label": "Content",
+					"type": "portableText",
+					"searchable": true
+				},
+				{
+					"slug": "excerpt",
+					"label": "Excerpt",
+					"type": "text"
+				}
+			]
+		},
+		{
+			"slug": "pages",
+			"label": "Pages",
+			"labelSingular": "Page",
+			"supports": [
+				"drafts",
+				"revisions",
+				"search"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "content",
+					"label": "Content",
+					"type": "portableText",
+					"searchable": true
+				}
+			]
+		}
+	],
+	"taxonomies": [
+		{
+			"name": "category",
+			"label": "Categories",
+			"labelSingular": "Category",
+			"hierarchical": true,
+			"collections": [
+				"posts"
+			],
+			"terms": [
+				{
+					"slug": "seeing-clearly",
+					"label": "Seeing Clearly"
+				},
+				{
+					"slug": "human-cost",
+					"label": "Human Cost"
+				},
+				{
+					"slug": "structural-tension",
+					"label": "Structural Tension"
+				},
+				{
+					"slug": "foundational",
+					"label": "Foundational"
+				},
+				{
+					"slug": "active",
+					"label": "Active"
+				}
+			]
+		}
+	],
+	"bylines": [
+		{
+			"id": "byline-parit",
+			"slug": "parit-ritchai",
+			"displayName": "Parit Ritchai"
+		}
+	],
+	"menus": [
+		{
+			"name": "primary",
+			"label": "Primary Navigation",
+			"items": [
+				{
+					"type": "custom",
+					"label": "The Doctrine",
+					"url": "/the-doctrine"
+				},
+				{
+					"type": "custom",
+					"label": "Protocols",
+					"url": "/protocols"
+				},
+				{
+					"type": "custom",
+					"label": "Standards",
+					"url": "/standards"
+				},
+				{
+					"type": "custom",
+					"label": "The Method",
+					"url": "/the-method"
+				},
+				{
+					"type": "custom",
+					"label": "Implementations",
+					"url": "/implementations"
+				}
+			]
+		}
+	],
+	"widgetAreas": [
+		{
+			"name": "footer",
+			"label": "Footer",
+			"description": "Widget area displayed in the site footer",
+			"widgets": [
+				{
+					"type": "content",
+					"title": "Paritsea",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "A public reference framework for structural coherence, legitimacy, and applied judgment."
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"content": {
+		"pages": [
+			{
+				"id": "licensing",
+				"slug": "licensing",
+				"status": "published",
+				"data": {
+					"title": "Licensing & Use",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"marks": [
+										"strong"
+									],
+									"text": "Constitutional Position"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Paritsea is an independent doctrine of structural coherence and legitimacy authored by Parit Ritchai."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The Paritsea Doctrine and all derived Protocols and Standards are made publicly accessible in order to preserve structural clarity and prevent distortion through opacity or exclusivity."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Licensing exists to protect doctrinal integrity, not to restrict legitimate reference."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Open Licence (Non-Commercial Use)"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The Paritsea Doctrine and its derived Protocols and Standards are released under the Creative Commons Attribution–NonCommercial 4.0 International Licence (CC BY-NC 4.0)."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Full legal terms are available at: creativecommons.org/licenses/by-nc/4.0/"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Non-commercial use is permitted with proper attribution."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "This licence applies to: The Paritsea Doctrine — All published Standards — All published Protocols — Public explanatory texts — Official diagrams and structural models"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Attribution Requirements"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Attribution must clearly include: The name \"Paritsea\" — Author: Parit Ritchai — Reference to the original source — A link to the official Paritsea website"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Attribution must not imply endorsement, partnership, certification, or institutional affiliation unless explicitly authorised."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Commercial Implementation"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Commercial implementation of any Paritsea Protocol or Standard requires a separate commercial licence agreement."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Commercial implementation includes, but is not limited to: Platform enforcement — Revenue-generating services — Certification systems — Institutional integration — Proprietary deployment within commercial entities"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Enquiries: hello@paritsea.co"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Dual Licensing Framework"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Paritsea may grant: Standard commercial licences — Dual licences (open + commercial usage rights) — Exclusive commercial licences within defined domains"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Dual licensing does not alter doctrinal content. The Paritsea Doctrine remains constitutionally immutable regardless of licensing structure."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Doctrinal Integrity Clause"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"marks": [
+										"strong"
+									],
+									"text": "The Paritsea Doctrine is immutable."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Derived Protocols and Standards may evolve, provided they do not contradict the Doctrine. No commercial agreement may alter or reinterpret the Doctrine. Licensing grants permission of use. It does not grant authority to redefine doctrine."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Prohibited Representations"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The following are prohibited without explicit written agreement: Claiming certification by Paritsea — Presenting compliance as endorsement — Modifying Protocol or Standard criteria while retaining the Paritsea name — Using Paritsea branding to imply regulatory authority"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Paritsea is a reference framework, not a regulator."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Version Sovereignty"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"marks": [
+										"strong"
+									],
+									"text": "Protocols and Standards are versioned."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"marks": [
+										"strong"
+									],
+									"text": "Each commercial licence is contract-specific and version-specific."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adoption of newer versions is not automatic. Previously licensed versions may continue operating under their granted terms. Paritsea retains authorship and doctrinal authority over all versions. Licensees retain implementation autonomy within the bounds of their licensed version. No commercial agreement may redefine or reinterpret the Doctrine."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Summary"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Paritsea is open for reference under CC BY-NC 4.0. Non-commercial use is permitted with attribution. Commercial implementation requires agreement. The Doctrine remains immutable. Protocols and Standards are version-governed. Licensing grants permission to implement — not authority to redefine."
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"id": "contact",
+				"slug": "contact",
+				"status": "published",
+				"data": {
+					"title": "Contact",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"marks": [
+										"strong"
+									],
+									"text": "Paritsea"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "hello@paritsea.co"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "All correspondence is reviewed. Response is discretionary."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Paritsea is an independent doctrinal reference authored by Parit Ritchai."
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"posts": [
+			{
+				"id": "doctrine",
+				"slug": "doctrine",
+				"status": "published",
+				"data": {
+					"title": "The Paritsea Doctrine of Structural Coherence and Legitimacy",
+					"framework_page": "the-doctrine",
+					"excerpt": "Paritsea establishes structural coherence as a prerequisite for legitimacy in any organised system.",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"marks": [
+										"em"
+									],
+									"text": "Constitutional Foundation — Immutable"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Section I — Foundational Premise"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Paritsea establishes structural coherence as a prerequisite for legitimacy in any organised system."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Legitimacy is not conferred by:"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "— Consensus\n— Popularity\n— Longevity\n— Institutional endorsement\n— Market scale"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Legitimacy arises from structural coherence."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Legitimacy, within Paritsea, is a structural condition — not a moral endorsement."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Section II — Structural Coherence"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Structural coherence requires:"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "— Internal consistency\n— Defined authority\n— Defined accountability\n— Alignment between declared function and operational behaviour\n— Transparent allocation of responsibility\n— Logical integrity across decision layers"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "A structure may be widely accepted yet internally incoherent. Institutionalisation does not resolve incoherence."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Section III — Distortion and Normalisation"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Distortions may become normalised through repetition. Normalisation does not transform distortion into legitimacy. A system that endures without coherence remains structurally deficient."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Section IV — Reform and Replacement"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Structural reform is justified only when it increases coherence and integrity. Replacement for novelty is not reform. Rejection of a structure must be grounded in structural incoherence, not ideological preference."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Section V — Scope"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Paritsea evaluates structural coherence only. It does not evaluate outcomes, popularity, performance, or success."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "It does not evaluate:\n— Moral virtue\n— Political ideology\n— Cultural preference\n— Financial scale\n— Popular support\n— Strategic success"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Section VI — Immutability"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The Paritsea Doctrine is immutable. It forms the constitutional foundation for all derived protocols and standards. Derived instruments may evolve, provided they do not contradict the doctrine."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Paritsea is a constitutional reference framework. It does not function as a regulator, certifier, or enforcement body."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"marks": [
+										"em"
+									],
+									"text": "Doctrine Version: 1.0 — Constitutional Text"
+								}
+							]
+						}
+					],
+					"featured_image": {
+						"src": "/images/framework/doctrine-structure.svg",
+						"alt": "Structural grid for the Paritsea Doctrine"
+					}
+				},
+				"bylines": [
+					{
+						"byline": "byline-parit"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"foundational"
+					]
+				}
+			},
+			{
+				"id": "stp",
+				"slug": "stp",
+				"status": "published",
+				"data": {
+					"title": "Structural Transparency Protocol (STP)",
+					"framework_page": "protocols",
+					"excerpt": "This protocol establishes foundational principles of structural transparency as a constitutional requirement.",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"marks": [
+										"em"
+									],
+									"text": "v1.0 · Foundational · Authored by Parit Ritchai"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "This protocol establishes foundational principles of structural transparency as a constitutional requirement."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "An Industry Challenge to Agencies"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Most agencies speak about transparency. Very few structure themselves around it."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The modern agency industry has evolved into a performance-driven ecosystem where velocity is rewarded, visibility is curated, and responsibility is often diffused. Clients are sold clarity. What they receive is structure."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "This document is not a guideline. It is a structural challenge."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "If an agency claims strategic capability, it must be willing to expose the structure that produces its work. If it cannot, the problem is not messaging. It is design."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Why This Protocol Exists"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Agencies today operate at the intersection of technology, data, performance metrics, and human labour. They promise efficiency. They promise optimisation. They promise measurable results."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "What is rarely disclosed is: who is actually doing the work, how capacity is distributed, where incentives are misaligned, whether conflicts of interest exist, and who absorbs the risk when outcomes fail."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Transparency is often aesthetic. Rarely structural. The Structural Transparency Protocol exists to change that."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The Five Structural Exposures"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "This protocol is built on five non-negotiable exposures. If an agency cannot meet these conditions, it is not structurally transparent."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "I. Human Visibility"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Clients must know who is doing the work. Not the pitch team. Not the logo slide. Not the senior partner who appears once a quarter. The actual operators."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Required disclosure: full team assignment before contract signing, clear role mapping (strategist, executor, reviewer), senior involvement defined in percentage and decision authority, experience level declared without abstraction."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "If strategy is sold at a senior rate, senior thinking must be structurally present. Anything else is narrative arbitrage."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "II. Capacity Integrity"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Overbooking is an unspoken norm in agency economics. Clients are rarely told how many accounts a team is handling, whether the team assigned is already operating at capacity, or whether onboarding requires shifting attention from existing clients."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Capacity must be disclosed as structure, not promise. If delivery quality depends on hidden overtime, burnout, or reactive staffing, it is not performance. It is deferred instability."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "III. Choice & Representation Rights"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "In most agencies, account managers and specialists are assigned. Clients are rarely given a say in who represents them, who interprets their data, or who shapes their strategy. This protocol rejects silent assignment."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Selecting a strategic lead should resemble selecting a specialist in a medical context. Assignment by convenience protects the agency. Choice protects the client."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "IV. Conflict & Competitive Boundaries"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Agencies frequently operate across competing brands, markets, and verticals. True structural transparency requires disclosure of brand positioning overlap, audience overlap analysis, geo-targeting conflict exposure, and strategic intent conflict declaration."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Silence is not neutrality. It is leverage. Clients deserve to know whether their competitive edge is structurally diluted before it is measured."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "V. Power & Responsibility Mapping"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "This is the exposure most agencies avoid. Who makes the final strategic decision? Who owns KPI definition? Who carries reputational risk? Who absorbs failure?"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Performance metrics without power mapping create a predictable outcome: execution absorbs blame, strategy remains insulated. Transparency without accountability is branding."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The Economic Reality"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The market does not reward moral positioning. It rewards risk reduction. Structural transparency is not a virtue signal. It is an economic correction."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Agencies that adopt this protocol will likely take on fewer clients, close deals more slowly, expose internal inefficiencies, and lose prospects seeking convenience. But they will also reduce reputational volatility, improve retention through structural trust, attract leadership-level clients, and eliminate misaligned accounts early."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The question is not whether transparency is admirable. The question is whether opacity is sustainable."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The Industry Challenge"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "This protocol is not a certification. It is not a badge. It is not a differentiator for marketing decks. It is a structural position."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "If an agency cannot publicly commit to these five exposures, it must reconsider how it defines transparency. If it can, it changes the power relationship between agency and client."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The industry will not reform through better language. It will reform through structural disclosure. The challenge stands."
+								}
+							]
+						}
+					],
+					"featured_image": {
+						"src": "/images/framework/stp-exposure.svg",
+						"alt": "Structural transparency exposure map"
+					}
+				},
+				"bylines": [
+					{
+						"byline": "byline-parit"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"foundational"
+					]
+				}
+			},
+			{
+				"id": "asls-01",
+				"slug": "asls-01",
+				"status": "published",
+				"data": {
+					"title": "Agency Structural Legitimacy Standard (ASLS-01)",
+					"framework_page": "standards",
+					"excerpt": "Operationalises the Structural Transparency Protocol within agency and service-based organisations.",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"marks": [
+										"em"
+									],
+									"text": "v1.0 · Active · Derived from: Structural Transparency Protocol (STP) v1.0 · Authored by Parit Ritchai"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "I. Purpose"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The Agency Structural Legitimacy Standard (ASLS-01) operationalises the Structural Transparency Protocol (STP) within agency and service-based organisations. It defines observable structural conditions under which an agency may be evaluated for legitimacy in relation to Human Visibility, Capacity Integrity, Choice & Representation Rights, Conflict & Competitive Boundaries, and Power & Responsibility Mapping."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "This standard does not regulate agencies. It establishes structural assessment conditions. Note: Legitimacy, within this framework, is a structural condition — not a marketing claim, performance outcome, or reputational status."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "II. Constitutional Position"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "ASLS-01 remains subordinate to STP v1.0. Where ambiguity arises, interpretation of STP prevails. ASLS-01 translates protocol exposure into verifiable structural disclosures, cross-domain consistency checks, and observable legitimacy states."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "III. Structural Assessment Domains"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "1. Human Visibility"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Agencies must disclose full named team assignment prior to contract execution, role classification (Strategist / Executor / Reviewer / Decision Authority), percentage of senior involvement, experience band declaration, and subcontractor disclosure where applicable."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Structural Condition: No strategic authority may be implied without structural presence."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "2. Capacity Integrity"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Agencies must disclose client-to-team ratio, active workload allocation, resource strain indicators, onboarding impact statement, and escalation pathway for capacity shifts."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Structural Condition: Capacity must be declared at agreement stage and remain observable throughout contract duration."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "3. Choice & Representation Rights"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Agencies must provide client right to confirm or request reassignment of primary contact, specialist reassignment process, and compatibility acknowledgement protocol."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Structural Condition: Representation must be structurally consensual, not silently assigned."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "4. Conflict & Competitive Boundaries"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Agencies must disclose direct competitor relationships, audience overlap, geo-targeting overlap, strategic positioning proximity, and data or intelligence overlap where relevant."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Conflict Classification Framework: Level 0 — Industry Overlap (no structural conflict), Level 1 — Competitive Proximity, Level 2 — Direct Competitive Conflict."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Structural Condition: Conflict exposure must be declared prior to performance evaluation or contractual execution. ASLS-01 does not prohibit competitive representation. It requires structural exposure."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "5. Power & Responsibility Mapping"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Agencies must document decision authority map, KPI ownership structure, risk allocation statement, and escalation authority framework."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Structural Condition: Strategic authority must align with accountability and risk absorption."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "IV. Evaluation Logic"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "ASLS-01 evaluates structural completeness, consistency between declared and observable structure, cross-domain coherence, and clarity of authority and risk alignment. ASLS-01 does not measure financial performance, creative quality, revenue size, or market popularity."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "V. Structural States"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Agencies may be observed under one of the following structural states:"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "A. Structurally Aligned: All five domains meet required disclosure conditions. No structural contradictions observed.\n\nB. Structurally Incomplete: One or more domains lack required disclosure. No evidence of contradiction.\n\nC. Structurally Misaligned: Declared structure conflicts with observable operational reality.\n\nD. Structurally Opaque: Required disclosures are absent or intentionally withheld."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Structural states describe exposure condition — not moral judgement."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "VI. Version Governance"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "ASLS-01 v1.0 is derived from STP v1.0. Future revisions must declare protocol dependency version, must not retroactively alter prior assessment logic, and require explicit version increment. Adoption of future versions is contract-specific and not automatic."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "VII. Licensing Position"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "ASLS-01 may be cited and referenced publicly. Commercial enforcement, automated implementation, or system-level operationalisation requires separate licensing agreement. Structural evaluation under ASLS-01 does not constitute certification unless explicitly defined by contractual arrangement."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "VIII. Economic Implication"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Adoption of ASLS-01 may reduce onboarding velocity, expose internal inefficiencies, and increase structural scrutiny. It may also improve retention stability, reduce reputational volatility, strengthen executive-level trust, and reduce structural dispute risk."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "ASLS-01 does not compel reform. It defines exposure conditions under which legitimacy may be observed."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "IX. Closing Position"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Legitimacy is not a marketing position. It is a structural condition. ASLS-01 defines the conditions under which structural legitimacy in agency systems may be observed. It does not compel change. It defines exposure."
+								}
+							]
+						}
+					],
+					"featured_image": {
+						"src": "/images/framework/asls-standard.svg",
+						"alt": "ASLS structural assessment matrix"
+					}
+				},
+				"bylines": [
+					{
+						"byline": "byline-parit"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"active"
+					]
+				}
+			},
+			{
+				"id": "record-when-everything-works",
+				"slug": "when-everything-works-and-something-is-still-wrong",
+				"status": "published",
+				"data": {
+					"title": "When Everything Works — and Something Is Still Wrong",
+					"framework_page": "the-method",
+					"excerpt": "If everything is working, why does it feel like something is wrong?",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"marks": [
+										"em"
+									],
+									"text": "Seeing Clearly"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "blockquote",
+							"children": [
+								{
+									"_type": "span",
+									"text": "\"If everything is working, why does it feel like something is wrong?\""
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "This work did not begin with broken systems."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "It began with systems that worked."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Dashboards were live. Processes were defined. Roles were assigned. Automation was running. Nothing was \"on fire\"."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "And yet, people were tired in ways that could not be explained by workload alone. Meetings ended without resolution. Decisions were revisited repeatedly. High performers carried invisible weight. Silence filled the spaces where clarity should have been."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "When organisations say \"everything is working\", they often mean: nothing has failed loudly enough to demand attention."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "But systems do not have to collapse to cause harm. They only need to drift far enough from human capacity."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "This is where Paritsea begins."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Not at failure. At the quiet dissonance between structure and lived experience."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The question is not: \"What is broken?\""
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "But: \"If everything is working, why does it feel like something is wrong?\""
+								}
+							]
+						}
+					],
+					"featured_image": {
+						"src": "/images/the-method/when-everything-works.svg",
+						"alt": "Quiet structural dissonance"
+					}
+				},
+				"bylines": [
+					{
+						"byline": "byline-parit"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"seeing-clearly"
+					]
+				}
+			},
+			{
+				"id": "record-automation-fear",
+				"slug": "on-automation-that-still-requires-fear",
+				"status": "published",
+				"data": {
+					"title": "On Automation That Still Requires Fear",
+					"framework_page": "the-method",
+					"excerpt": "If a system collapses without human vigilance, it is not a system. It is deferred responsibility.",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"marks": [
+										"em"
+									],
+									"text": "Human Cost"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "blockquote",
+							"children": [
+								{
+									"_type": "span",
+									"text": "\"If a system collapses without human vigilance, it is not a system. It is deferred responsibility.\""
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Automation is often introduced to reduce effort. To remove repetition. To free people from unnecessary labour."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Yet many automated systems do the opposite. They require constant monitoring. They demand standby humans \"just in case\". They create anxiety rather than relief."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "If a system collapses without human vigilance, it is not a system. It is deferred responsibility."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "When people are afraid to leave an automated workflow unattended, the automation has not reduced labour — it has relocated it into emotional space."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "A correct system does not ask for fear. It creates trust through structure."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "When automation increases vigilance instead of safety, the problem is not technical. It is architectural."
+								}
+							]
+						}
+					],
+					"featured_image": {
+						"src": "/images/the-method/automation-fear.svg",
+						"alt": "Automation loop requiring vigilance"
+					}
+				},
+				"bylines": [
+					{
+						"byline": "byline-parit"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"human-cost"
+					]
+				}
+			},
+			{
+				"id": "record-emotional-labour",
+				"slug": "when-monitoring-becomes-emotional-labour",
+				"status": "published",
+				"data": {
+					"title": "When Monitoring Becomes Emotional Labour",
+					"framework_page": "the-method",
+					"excerpt": "When systems rely on emotional vigilance, they do not scale. They drain.",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"marks": [
+										"em"
+									],
+									"text": "Human Cost"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "blockquote",
+							"children": [
+								{
+									"_type": "span",
+									"text": "\"When systems rely on emotional vigilance, they do not scale. They drain.\""
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Monitoring is often described as a technical task."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "In reality, it becomes emotional labour when: someone must constantly worry about what might fail, someone must stay alert so others can feel safe, someone absorbs uncertainty so the system appears stable."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "This labour is rarely acknowledged. It does not appear in dashboards. It is not reflected in productivity metrics. But it accumulates."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "People begin to feel responsible for outcomes they cannot control. Anxiety replaces clarity. Fatigue appears without visible cause."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "When systems rely on emotional vigilance, they do not scale. They drain."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "This is not a people problem. It is a structural one."
+								}
+							]
+						}
+					],
+					"featured_image": {
+						"src": "/images/the-method/emotional-labour.svg",
+						"alt": "Monitoring as emotional labour"
+					}
+				},
+				"bylines": [
+					{
+						"byline": "byline-parit"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"human-cost"
+					]
+				}
+			},
+			{
+				"id": "record-tool-not-problem",
+				"slug": "when-the-tool-was-not-the-problem",
+				"status": "published",
+				"data": {
+					"title": "When the Tool Was Not the Problem",
+					"framework_page": "the-method",
+					"excerpt": "Tools are rarely the problem. They only reveal it.",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"marks": [
+										"em"
+									],
+									"text": "Seeing Clearly"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "blockquote",
+							"children": [
+								{
+									"_type": "span",
+									"text": "\"Tools are rarely the problem. They only reveal it.\""
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The request was simple: \"Teach me how to build this automation workflow.\""
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The workflow already existed. The tools were chosen. The logic was drafted."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "What was missing was not technical skill, but structural understanding."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Why does this workflow exist? What responsibility is it replacing? What happens when it fails? Who carries the consequence?"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Building without answering these questions does not create systems. It creates fragile arrangements."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Paritsea did not refuse the work. It refused construction without architecture."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Tools are rarely the problem. They only reveal it."
+								}
+							]
+						}
+					],
+					"featured_image": {
+						"src": "/images/the-method/tool-not-problem.svg",
+						"alt": "Tool revealing hidden structure"
+					}
+				},
+				"bylines": [
+					{
+						"byline": "byline-parit"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"seeing-clearly"
+					]
+				}
+			},
+			{
+				"id": "record-ownership-thinking",
+				"slug": "when-ownership-thinking-collides-with-system-reality",
+				"status": "published",
+				"data": {
+					"title": "When Ownership Thinking Collides with System Reality",
+					"framework_page": "the-method",
+					"excerpt": "As long as carrying remains possible, the system appears functional. The cost is paid elsewhere. Quietly. By people.",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"marks": [
+										"em"
+									],
+									"text": "Structural Tension"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "blockquote",
+							"children": [
+								{
+									"_type": "span",
+									"text": "\"As long as carrying remains possible, the system appears functional. The cost is paid elsewhere. Quietly. By people.\""
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Some leaders carry everything themselves. Not because they are incapable of delegation, but because they do not trust structures to hold without them."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Growth becomes product expansion. Momentum becomes constant movement. Motivation becomes pressure disguised as inspiration."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "From this perspective: more offerings mean more opportunity, more activity means progress."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "From a system perspective: more load without structure means collapse — slowly."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "This is not a conflict of intent. It is a collision of mental models. One is centred on ownership. The other on sustainability."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "As long as carrying remains possible, the system appears functional. The cost is paid elsewhere. Quietly. By people."
+								}
+							]
+						}
+					],
+					"featured_image": {
+						"src": "/images/the-method/ownership-thinking.svg",
+						"alt": "Ownership thinking carrying system load"
+					}
+				},
+				"bylines": [
+					{
+						"byline": "byline-parit"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"structural-tension"
+					]
+				}
+			}
+		]
+	}
+}

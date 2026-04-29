@@ -1,0 +1,1324 @@
+---
+import { getMenu, getSiteSettings } from "emdash";
+import {
+	EmDashHead,
+	EmDashBodyStart,
+	EmDashBodyEnd,
+} from "emdash/ui";
+import { createPublicPageContext } from "emdash/page";
+import LiveSearch from "emdash/ui/search";
+import { Font } from "astro:assets";
+import { resolveBlogSiteIdentity } from "../utils/site-identity";
+import {
+	alternatePath,
+	getAstroLocale,
+	localeToHtmlLang,
+	localizedPath,
+	stripLocalePrefix,
+	ui,
+} from "../utils/i18n";
+import "../styles/theme.css";
+
+interface Props {
+	title: string;
+	pageTitle?: string | null;
+	description?: string | null;
+	image?: string | null;
+	canonical?: string | null;
+	robots?: string | null;
+	type?: "website" | "article";
+	publishedTime?: string | null;
+	modifiedTime?: string | null;
+	author?: string | null;
+	locale?: "th" | "en";
+	/** Pass content reference for plugin page contributions on content pages */
+	content?: { collection: string; id: string; slug?: string | null };
+}
+
+const {
+	title,
+	pageTitle,
+	description,
+	image,
+	canonical,
+	robots,
+	type = "website",
+	publishedTime,
+	modifiedTime,
+	author,
+	locale: localeProp,
+	content,
+} = Astro.props;
+const locale = localeProp ?? getAstroLocale(Astro);
+const copy = ui[locale];
+const { siteTitle, siteTagline, siteLogo, siteFavicon } = resolveBlogSiteIdentity(await getSiteSettings());
+// If title already includes site title (from getSeoMeta), use as-is
+const fullTitle = title.includes(siteTitle) ? title : `${title} — ${siteTitle}`;
+const requestPath = Astro.url.searchParams.get("__path") ?? ((Astro.locals.originalPath as string | undefined) ?? Astro.url.pathname);
+const canonicalPath = stripLocalePrefix(requestPath);
+const resolvedCanonical =
+	canonical ??
+	new URL(
+		requestPath,
+		(typeof Astro.site === "string" ? Astro.site : Astro.site?.toString()) ?? Astro.url.origin,
+	).toString();
+const languageAlternatePath = alternatePath(requestPath, locale);
+const thAlternateUrl = new URL(localizedPath(canonicalPath, "th"), Astro.url.origin).toString();
+const enAlternateUrl = new URL(localizedPath(canonicalPath, "en"), Astro.url.origin).toString();
+
+// Fetch primary menu defined in seed
+const menu = await getMenu("primary");
+const navItems = menu?.items.map((item) => ({
+	...item,
+	label: copy.navLabels[item.label as keyof typeof copy.navLabels] ?? item.label,
+	url:
+		item.label === "The Doctrine"
+			? localizedPath("/the-doctrine", locale)
+			: item.label === "Protocols"
+				? localizedPath("/protocols", locale)
+				: item.label === "Standards"
+					? localizedPath("/standards", locale)
+						: item.label === "The Method"
+							? localizedPath("/the-method", locale)
+							: item.label === "Implementations"
+								? localizedPath("/implementations", locale)
+								: localizedPath(item.url, locale),
+}));
+const resolvedNavItems = (() => {
+	const items = navItems ? [...navItems] : [];
+	if (!items.some((item) => stripLocalePrefix(item.url) === "/implementations")) {
+		items.push({
+			id: "implementations",
+			label: copy.navLabels.Implementations,
+			url: localizedPath("/implementations", locale),
+			target: undefined,
+			children: [],
+		});
+	}
+	return items;
+})();
+
+// Build public page context for plugin contributions
+// SEO data is passed here and rendered securely by EmDashHead
+const pageCtx = createPublicPageContext({
+	Astro,
+	kind: content ? "content" : "custom",
+	pageType: type,
+	title: fullTitle,
+	pageTitle: pageTitle ?? title,
+	description,
+	canonical: resolvedCanonical,
+	image,
+	content,
+	seo: { ogImage: image, robots },
+	articleMeta: { publishedTime, modifiedTime, author },
+	siteName: siteTitle,
+});
+
+// Check if user is logged in (for showing admin link)
+const isLoggedIn = !!Astro.locals.user;
+---
+
+<!doctype html>
+<html lang={localeToHtmlLang(locale)}>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet" />
+		<Font cssVariable="--font-sans" preload />
+		<Font cssVariable="--font-mono" />
+		<title>{fullTitle}</title>
+		<link rel="alternate" hreflang="th" href={thAlternateUrl} />
+		<link rel="alternate" hreflang="en" href={enAlternateUrl} />
+		<link rel="alternate" hreflang="x-default" href={thAlternateUrl} />
+		{siteFavicon && <link rel="icon" href={siteFavicon} />}
+		<EmDashHead page={pageCtx} />
+		<script is:inline>
+			// Apply theme immediately to prevent flash
+			(function () {
+				var c = document.cookie;
+				var i = c.indexOf("theme=");
+				var theme = i >= 0 ? c.slice(i + 6).split(";")[0] : null;
+				if (theme === "dark" || theme === "light") {
+					document.documentElement.classList.add(theme);
+				} else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+					document.documentElement.classList.add("dark");
+				}
+			})();
+		</script>
+	</head>
+	<body>
+		<EmDashBodyStart page={pageCtx} />
+		<header class="site-header">
+			<nav class="nav">
+				<a href={localizedPath("/", locale)} class="site-title">
+					{siteLogo
+						? <img src={siteLogo.url} alt={siteLogo.alt || siteTitle} class="site-logo-img" />
+						: siteTitle
+					}
+				</a>
+				<button
+					type="button"
+					class="nav-toggle"
+					aria-expanded="false"
+					aria-controls="site-navigation-panel"
+					aria-label={copy.menuOpen}
+				>
+					<span class="nav-toggle-box" aria-hidden="true">
+						<span class="nav-toggle-line"></span>
+						<span class="nav-toggle-line"></span>
+						<span class="nav-toggle-line"></span>
+					</span>
+				</button>
+				<div class="nav-right" id="site-navigation-panel">
+					<LiveSearch
+						placeholder={copy.search}
+						class="site-search"
+						inputClass="site-search-input"
+						resultsClass="site-search-results"
+						resultClass="site-search-result"
+						collections={["posts", "pages"]}
+					/>
+					<div class="nav-links">
+						{
+							resolvedNavItems.map((item) => (
+								<a
+									href={item.url}
+									target={item.target}
+									class={stripLocalePrefix(item.url) === "/the-doctrine" ? "nav-doctrine" : undefined}
+								>
+									{item.label}
+								</a>
+							))
+						}
+					</div>
+					{
+						isLoggedIn && (
+							<a href="/_emdash/admin" class="nav-admin">
+								{copy.admin}
+							</a>
+						)
+					}
+					<a href={languageAlternatePath} class="nav-language" aria-label={locale === "en" ? "Switch to Thai" : "Switch to English"}>
+						{copy.languageSwitch}
+					</a>
+				</div>
+			</nav>
+			<button
+				type="button"
+				class="nav-backdrop"
+				aria-label={copy.menuClose}
+				tabindex="-1"
+			></button>
+		</header>
+
+		<main>
+			<slot />
+		</main>
+
+		<footer class="site-footer">
+			<div class="footer-inner">
+				<div class="footer-grid">
+					<div class="footer-brand">
+						<a href={localizedPath("/", locale)} class="footer-logo">
+							{siteLogo
+								? <img src={siteLogo.url} alt={siteLogo.alt || siteTitle} class="footer-logo-img" />
+								: siteTitle
+							}
+						</a>
+						<p class="footer-tagline">
+							<span class="footer-tagline-full">{siteTagline}</span>
+							<span class="footer-tagline-short">{copy.footerTagline}</span>
+						</p>
+					</div>
+					<div class="footer-nav">
+						<h4 class="footer-heading">{copy.frameworkLayers}</h4>
+						<ul class="footer-links">
+							<li><a href={localizedPath("/the-doctrine", locale)}>{copy.navLabels["The Doctrine"]}</a></li>
+							<li><a href={localizedPath("/protocols", locale)}>{copy.navLabels.Protocols}</a></li>
+							<li><a href={localizedPath("/standards", locale)}>{copy.navLabels.Standards}</a></li>
+							<li><a href={localizedPath("/the-method", locale)}>{copy.navLabels["The Method"]}</a></li>
+							<li><a href={localizedPath("/implementations", locale)}>{copy.navLabels.Implementations}</a></li>
+						</ul>
+					</div>
+					<div class="footer-nav">
+						<h4 class="footer-heading">{copy.legalContact}</h4>
+						<ul class="footer-links">
+							<li><a href={localizedPath("/licensing", locale)}>{copy.licensing}</a></li>
+							<li><a href={localizedPath("/contact", locale)}>{copy.contact}</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="footer-bottom">
+					<p class="footer-copyright">
+						© Paritsea · <a href={localizedPath("/licensing", locale)}>{copy.licensing}</a>
+					</p>
+					<div class="theme-switcher">
+						<button
+							type="button"
+							class="theme-btn"
+							data-theme="light"
+							aria-label={copy.themeLight}
+						>
+							<svg
+								width="16"
+								height="16"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								><circle cx="12" cy="12" r="5"></circle><line
+									x1="12"
+									y1="1"
+									x2="12"
+									y2="3"></line><line x1="12" y1="21" x2="12" y2="23"
+								></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"
+								></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"
+								></line><line x1="1" y1="12" x2="3" y2="12"></line><line
+									x1="21"
+									y1="12"
+									x2="23"
+									y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"
+								></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"
+								></line></svg
+							>
+						</button>
+						<button
+							type="button"
+							class="theme-btn"
+							data-theme="dark"
+							aria-label={copy.themeDark}
+						>
+							<svg
+								width="16"
+								height="16"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+								></path></svg
+							>
+						</button>
+						<button
+							type="button"
+							class="theme-btn"
+							data-theme="system"
+							aria-label={copy.themeSystem}
+						>
+							<svg
+								width="16"
+								height="16"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								><rect x="2" y="3" width="20" height="14" rx="2" ry="2"
+								></rect><line x1="8" y1="21" x2="16" y2="21"></line><line
+									x1="12"
+									y1="17"
+									x2="12"
+									y2="21"></line></svg
+							>
+						</button>
+					</div>
+				</div>
+			</div>
+		</footer>
+
+		<script>
+			// Theme switcher
+			const THEME_REGEX = /theme=([^;]+)/;
+			const themeBtns =
+				document.querySelectorAll<HTMLButtonElement>(".theme-btn");
+			const root = document.documentElement;
+
+			function setCookie(
+				name: string,
+				value: string,
+				maxAge: number = 31536000
+			) {
+				const secure = location.protocol === "https:" ? "; Secure" : "";
+				if (value === "") {
+					document.cookie = `${name}=; path=/; max-age=0; SameSite=Lax${secure}`;
+				} else {
+					document.cookie = `${name}=${value}; path=/; max-age=${maxAge}; SameSite=Lax${secure}`;
+				}
+			}
+
+			function setTheme(theme: string) {
+				if (theme === "system") {
+					setCookie("theme", "");
+					root.classList.remove("light", "dark");
+					if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+						root.classList.add("dark");
+					}
+				} else {
+					setCookie("theme", theme);
+					root.classList.remove("light", "dark");
+					root.classList.add(theme);
+				}
+				updateActiveBtn(theme);
+			}
+
+			function updateActiveBtn(theme: string) {
+				themeBtns.forEach((btn) => {
+					btn.classList.toggle("active", btn.dataset.theme === theme);
+				});
+			}
+
+			function getStoredTheme(): string {
+				const match = document.cookie.match(THEME_REGEX);
+				return match ? match[1] : "system";
+			}
+
+			// Initialize
+			const storedTheme = getStoredTheme();
+			setTheme(storedTheme);
+
+			themeBtns.forEach((btn) => {
+				btn.addEventListener("click", () => {
+					setTheme(btn.dataset.theme || "system");
+				});
+			});
+
+			// Listen for system preference changes
+			window
+				.matchMedia("(prefers-color-scheme: dark)")
+				.addEventListener("change", (e) => {
+					if (getStoredTheme() === "system") {
+						root.classList.toggle("dark", e.matches);
+					}
+				});
+		</script>
+
+		<style is:global>
+			/*
+			 * Establish layer order: "base" has lower priority than unlayered
+			 * styles, so theme.css overrides always win regardless of source
+			 * order in the bundled CSS.
+			 */
+			@layer base;
+
+			@layer base {
+				*:where(:not([class*="emdash"]):not([class*="ec-"])),
+				*:where(:not([class*="emdash"]):not([class*="ec-"]))::before,
+				*:where(:not([class*="emdash"]):not([class*="ec-"]))::after {
+					box-sizing: border-box;
+				}
+
+				body,
+				h1,
+				h2,
+				h3,
+				h4,
+				h5,
+				h6,
+				p,
+				ul,
+				ol,
+				figure,
+				blockquote,
+				dl,
+				dd {
+					margin: 0;
+				}
+
+				ul,
+				ol {
+					padding: 0;
+				}
+
+				:root {
+					/* Colors - Light mode: Warm Cream / Ink */
+					--color-bg: #f0ece5;
+					--color-bg-subtle: #e8e4dc;
+					--color-text: #1c1410;
+					--color-text-secondary: #4a3c34;
+					--color-muted: #8c7d74;
+					--color-border: #cdc8c0;
+					--color-border-subtle: #dbd7d0;
+					--color-surface: #e8e4dc;
+					--color-accent: #1c1410;
+					--color-accent-hover: #2e2218;
+					--color-on-accent: #f0ece5;
+					--color-accent-ring: color-mix(
+						in srgb,
+						var(--color-accent) 10%,
+						transparent
+					);
+					--color-highlight: #c4bdb4;
+					--color-rule: #b8b2aa;
+
+					/* EmDash search theming */
+					--emdash-search-bg: var(--color-bg);
+					--emdash-search-text: var(--color-text);
+					--emdash-search-muted: var(--color-muted);
+					--emdash-search-border: var(--color-border);
+					--emdash-search-hover: var(--color-surface);
+					--emdash-search-highlight: var(--color-text);
+
+					/* Fonts */
+					--font-serif: 'Playfair Display', Georgia, serif;
+					--font-sans: 'Inter', system-ui, sans-serif;
+
+					/* Type scale */
+					--font-size-2xs: 0.6875rem;
+					--font-size-xs: 0.75rem;
+					--font-size-sm: 0.875rem;
+					--font-size-base: 1rem;
+					--font-size-lg: 1.125rem;
+					--font-size-xl: 1.375rem;
+					--font-size-2xl: 1.625rem;
+					--font-size-3xl: 2.125rem;
+					--font-size-4xl: 2.75rem;
+					--font-size-5xl: 3.75rem;
+
+					/* Line heights */
+					--leading-tight: 1.1;
+					--leading-snug: 1.25;
+					--leading-normal: 1.55;
+					--leading-relaxed: 1.75;
+
+					/* Spacing */
+					--spacing-1: 0.25rem;
+					--spacing-2: 0.5rem;
+					--spacing-3: 0.75rem;
+					--spacing-4: 1rem;
+					--spacing-5: 1.25rem;
+					--spacing-6: 1.5rem;
+					--spacing-7: 1.75rem;
+					--spacing-8: 2rem;
+					--spacing-10: 2.5rem;
+					--spacing-12: 3rem;
+					--spacing-16: 4rem;
+					--spacing-20: 5rem;
+					--spacing-24: 6rem;
+
+					/* Legacy spacing aliases */
+					--spacing-xs: var(--spacing-1);
+					--spacing-sm: var(--spacing-2);
+					--spacing-md: var(--spacing-4);
+					--spacing-lg: var(--spacing-6);
+					--spacing-xl: var(--spacing-8);
+					--spacing-2xl: var(--spacing-12);
+					--spacing-3xl: var(--spacing-16);
+
+					/* Layout */
+					--content-width: 600px;
+					--wide-width: 1100px;
+					--max-width: var(--content-width);
+					--gutter-width: 200px;
+					--radius: 0px;
+					--radius-lg: 2px;
+					--radius-full: 9999px;
+
+					/* Transitions */
+					--transition-fast: 120ms ease;
+					--transition-base: 180ms ease;
+
+					/* Nav */
+					--nav-height: 64px;
+
+					/* Search */
+					--search-input-width: 156px;
+
+					/* Article layout */
+					--meta-col-width: 160px;
+
+					/* Avatar sizes */
+					--avatar-size-xs: 16px;
+					--avatar-size-sm: 18px;
+					--avatar-size-md: 22px;
+					--avatar-size-lg: 30px;
+
+					/* Letter spacing */
+					--tracking-tight: -0.02em;
+					--tracking-snug: -0.01em;
+					--tracking-normal: 0em;
+					--tracking-wide: 0.06em;
+					--tracking-wider: 0.1em;
+					--tracking-widest: 0.14em;
+
+					/* Tag pill */
+					--tag-padding-y: 2px;
+
+					/* Shadows */
+					--shadow-dropdown: 0 2px 16px rgba(42, 31, 24, 0.12);
+					--shadow-btn-active: none;
+				}
+
+				/* Dark mode via system preference */
+				@media (prefers-color-scheme: dark) {
+					:root:not(.light) {
+						--color-bg: #1c1917;
+						--color-bg-subtle: #232018;
+						--color-text: #f0ebe3;
+						--color-text-secondary: #c4b9ae;
+						--color-muted: #8c7e74;
+						--color-border: #38332e;
+						--color-border-subtle: #2c2822;
+						--color-surface: #262220;
+						--color-accent: #e8dfd4;
+						--color-accent-hover: #f0ebe3;
+						--color-on-accent: #1c1917;
+						--color-highlight: #332e28;
+						--color-rule: #3a3530;
+					}
+				}
+
+				/* Explicit dark mode */
+				:root.dark {
+					--color-bg: #1c1917;
+					--color-bg-subtle: #232018;
+					--color-text: #f0ebe3;
+					--color-text-secondary: #c4b9ae;
+					--color-muted: #8c7e74;
+					--color-border: #38332e;
+					--color-border-subtle: #2c2822;
+					--color-surface: #262220;
+					--color-accent: #e8dfd4;
+					--color-accent-hover: #f0ebe3;
+					--color-on-accent: #1c1917;
+					--color-highlight: #332e28;
+					--color-rule: #3a3530;
+				}
+
+				html {
+					scroll-behavior: smooth;
+				}
+
+				body {
+					font-family: var(--font-sans);
+					font-size: var(--font-size-base);
+					line-height: var(--leading-relaxed);
+					color: var(--color-text);
+					background: var(--color-bg);
+					-webkit-font-smoothing: antialiased;
+					-moz-osx-font-smoothing: grayscale;
+					min-height: 100vh;
+				}
+
+				a:where(:not([class*="emdash"]):not([class*="ec-"])) {
+					color: inherit;
+					text-decoration: none;
+					transition: opacity var(--transition-fast);
+				}
+
+				a:where(:not([class*="emdash"]):not([class*="ec-"])):hover {
+					opacity: 0.65;
+				}
+
+				img {
+					max-width: 100%;
+					height: auto;
+					display: block;
+				}
+
+				/* Serif headings: Playfair Display for visual identity */
+				h1,
+				h2,
+				h3,
+				h4,
+				h5,
+				h6 {
+					font-family: var(--font-serif);
+					line-height: var(--leading-tight);
+					font-weight: 700;
+					letter-spacing: var(--tracking-snug);
+					color: var(--color-text);
+				}
+
+				h1 {
+					font-weight: 700;
+					letter-spacing: var(--tracking-tight);
+				}
+
+				h2 {
+					font-weight: 600;
+					font-size: var(--font-size-2xl);
+				}
+
+				/* Use sans for UI labels */
+				.label,
+				.meta,
+				.nav-links a,
+				.nav-language,
+				.footer-heading,
+				.section-title {
+					font-family: var(--font-sans);
+				}
+
+				::selection {
+					background: var(--color-highlight);
+					color: var(--color-text);
+				}
+			}
+		</style>
+
+		<style>
+			/* ─── Header / Nav ─── */
+			.site-header {
+				position: sticky;
+				top: 0;
+				z-index: 100;
+				background: var(--color-bg);
+				border-bottom: 1px solid var(--color-border-subtle);
+			}
+
+			.nav {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				max-width: var(--wide-width);
+				margin: 0 auto;
+				padding: 0 var(--spacing-8);
+				height: var(--nav-height);
+				gap: var(--spacing-6);
+			}
+
+			.site-title {
+				font-family: var(--font-sans);
+				font-size: var(--font-size-base);
+				font-weight: 600;
+				color: var(--color-text);
+				text-decoration: none;
+				letter-spacing: 0.045em;
+				text-transform: uppercase;
+				transition: opacity var(--transition-fast);
+				flex-shrink: 0;
+			}
+
+			.site-title:hover {
+				opacity: 0.6;
+			}
+
+			.nav-toggle {
+				display: none;
+				align-items: center;
+				justify-content: center;
+				width: 42px;
+				height: 42px;
+				padding: 0;
+				border: 1px solid var(--color-border-subtle);
+				background: transparent;
+				color: var(--color-text);
+				cursor: pointer;
+				transition: background var(--transition-fast), border-color var(--transition-fast);
+			}
+
+			.nav-toggle:hover {
+				background: var(--color-bg-subtle);
+				border-color: var(--color-border);
+			}
+
+			.nav-toggle-box {
+				display: inline-flex;
+				flex-direction: column;
+				justify-content: center;
+				gap: 4px;
+				width: 16px;
+			}
+
+			.nav-toggle-line {
+				display: block;
+				width: 16px;
+				height: 1px;
+				background: currentColor;
+				transform-origin: center;
+				transition: transform var(--transition-fast), opacity var(--transition-fast);
+			}
+
+			.site-logo-img {
+				height: 24px;
+				width: auto;
+				display: block;
+			}
+
+			.nav-right {
+				display: flex;
+				align-items: center;
+				gap: var(--spacing-6);
+				margin-left: auto;
+			}
+
+			.nav-links {
+				display: flex;
+				gap: var(--spacing-5);
+				font-size: var(--font-size-sm);
+				font-family: var(--font-sans);
+				letter-spacing: 0.01em;
+				font-weight: 450;
+			}
+
+			.nav-links a {
+				text-decoration: none;
+				color: var(--color-text-secondary);
+				transition: color var(--transition-fast);
+			}
+
+			.nav-links a:hover,
+			.nav-links a[aria-current="page"] {
+				color: var(--color-text);
+				opacity: 1;
+			}
+
+			.nav-links a.nav-doctrine {
+				color: var(--color-text);
+				font-weight: 500;
+				letter-spacing: 0.01em;
+			}
+
+			.nav-links a.nav-doctrine:hover {
+				color: var(--color-accent);
+			}
+
+			.nav-admin {
+				font-size: var(--font-size-sm);
+				color: var(--color-text-secondary);
+				text-decoration: none;
+				transition: color var(--transition-fast);
+				letter-spacing: 0.01em;
+				font-weight: 450;
+			}
+
+			.nav-admin:hover {
+				color: var(--color-text);
+				opacity: 1;
+			}
+
+			.nav-language {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				min-width: 2.4rem;
+				height: 2rem;
+				border: 1px solid var(--color-border-subtle);
+				color: var(--color-text-secondary);
+				text-decoration: none;
+				font-size: var(--font-size-xs);
+				font-weight: 600;
+				letter-spacing: 0.06em;
+				transition: color var(--transition-fast), border-color var(--transition-fast);
+			}
+
+			.nav-language:hover {
+				color: var(--color-text);
+				border-color: var(--color-border);
+			}
+
+			.nav-backdrop {
+				display: none;
+			}
+
+			/* ─── Search ─── */
+			.site-search {
+				position: relative;
+				width: var(--search-input-width);
+			}
+
+			:global(.site-search-input) {
+				width: var(--search-input-width);
+				padding: var(--spacing-1) 0;
+				font-family: var(--font-sans);
+				font-size: var(--font-size-sm);
+				border: none;
+				border-bottom: 1px solid var(--color-border);
+				border-radius: 0;
+				background: transparent;
+				color: var(--color-text);
+				transition: border-color var(--transition-fast);
+				letter-spacing: 0.01em;
+			}
+
+			:global(.site-search-input)::placeholder {
+				color: var(--color-muted);
+			}
+
+			:global(.site-search-input):focus,
+			:global(.site-search-input):focus-visible {
+				outline: none;
+				border-bottom-color: var(--color-text) !important;
+				box-shadow: none;
+			}
+
+			:global(.site-search-results) {
+				position: absolute;
+				top: 100%;
+				left: 0;
+				right: 0;
+				margin-top: var(--spacing-2);
+				background: var(--color-bg);
+				border: 1px solid var(--color-border);
+				border-radius: var(--radius-lg);
+				box-shadow: var(--shadow-dropdown);
+				max-height: 400px;
+				overflow-y: auto;
+				z-index: 1000;
+			}
+
+			:global(.site-search-results .emdash-live-search-loading),
+			:global(.site-search-results .emdash-live-search-no-results) {
+				padding: var(--spacing-4);
+				text-align: center;
+				color: var(--color-muted);
+				font-size: var(--font-size-sm);
+			}
+
+			:global(.site-search-result) {
+				display: block;
+				padding: var(--spacing-3) var(--spacing-4);
+				text-decoration: none;
+				color: var(--color-text);
+				border-bottom: 1px solid var(--color-border-subtle);
+				transition: background var(--transition-fast);
+			}
+
+			:global(.site-search-result):last-child {
+				border-bottom: none;
+			}
+
+			:global(.site-search-result):hover,
+			:global(.site-search-result):focus,
+			:global(.site-search-result.focused) {
+				background: var(--color-surface);
+				outline: none;
+			}
+
+			:global(.site-search-result .emdash-live-search-result-title) {
+				display: block;
+				font-weight: 500;
+				font-size: var(--font-size-sm);
+			}
+
+			:global(.site-search-result .emdash-live-search-result-collection) {
+				display: block;
+				font-size: var(--font-size-xs);
+				color: var(--color-muted);
+				text-transform: uppercase;
+				letter-spacing: var(--tracking-wide);
+				margin-top: 2px;
+			}
+
+			:global(.site-search-result .emdash-live-search-result-snippet) {
+				display: block;
+				font-size: var(--font-size-sm);
+				color: var(--color-muted);
+				margin-top: var(--spacing-1);
+				line-height: var(--leading-snug);
+			}
+
+			:global(.site-search-result .emdash-live-search-result-snippet mark) {
+				font-weight: 600;
+				color: var(--color-text);
+				background: none;
+			}
+
+			main {
+				min-height: calc(100vh - var(--nav-height) - 300px);
+			}
+
+			/* ─── Footer ─── */
+			.site-footer {
+				border-top: 1px solid var(--color-border-subtle);
+				margin-top: var(--spacing-24);
+			}
+
+			.footer-inner {
+				max-width: var(--wide-width);
+				margin: 0 auto;
+				padding: var(--spacing-8) var(--spacing-8) var(--spacing-10);
+			}
+
+			.footer-grid {
+				display: grid;
+				grid-template-columns: 2fr 1fr 1fr 1fr;
+				gap: var(--spacing-10);
+				margin-bottom: var(--spacing-8);
+			}
+
+			.footer-brand {
+				max-width: 260px;
+			}
+
+			.footer-logo {
+				font-family: var(--font-sans);
+				font-size: var(--font-size-sm);
+				font-weight: 600;
+				color: var(--color-text);
+				text-decoration: none;
+				letter-spacing: 0.12em;
+				text-transform: uppercase;
+				transition: opacity var(--transition-fast);
+				display: inline-block;
+			}
+
+			.footer-logo:hover {
+				opacity: 0.6;
+			}
+
+			.footer-logo-img {
+				height: 20px;
+				width: auto;
+			}
+
+			.footer-tagline {
+				margin-top: var(--spacing-3);
+				font-size: var(--font-size-sm);
+				color: var(--color-muted);
+				line-height: var(--leading-relaxed);
+				max-width: 220px;
+			}
+
+			.footer-tagline-short {
+				display: none;
+			}
+
+			.footer-nav {
+				min-width: 0;
+			}
+
+			.footer-heading {
+				font-family: var(--font-sans);
+				font-size: var(--font-size-sm);
+				font-weight: 500;
+				text-transform: uppercase;
+				letter-spacing: var(--tracking-widest);
+				color: var(--color-muted);
+				margin-bottom: var(--spacing-4);
+			}
+
+			.footer-links {
+				list-style: none;
+			}
+
+			.footer-links li {
+				margin-bottom: var(--spacing-2);
+			}
+
+			.footer-links a {
+				color: var(--color-text-secondary);
+				text-decoration: none;
+				font-size: var(--font-size-sm);
+				transition: color var(--transition-fast);
+				letter-spacing: 0.005em;
+			}
+
+			.footer-links a:hover {
+				color: var(--color-text);
+				opacity: 1;
+			}
+
+			.footer-widgets-section :global(.widget-area) {
+				display: block;
+			}
+
+			.footer-widgets-section :global(.widget) {
+				color: var(--color-text-secondary);
+			}
+
+			.footer-widgets-section :global(.widget__title) {
+				font-family: var(--font-sans, system-ui, sans-serif);
+				font-size: var(--font-size-sm);
+				font-weight: 500;
+				text-transform: uppercase;
+				letter-spacing: var(--tracking-widest);
+				color: var(--color-muted);
+				margin-bottom: var(--spacing-4);
+			}
+
+			.footer-widgets-section :global(.widget__content) {
+				color: var(--color-text-secondary);
+				font-size: var(--font-size-sm);
+				line-height: var(--leading-relaxed);
+			}
+
+			.footer-bottom {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding-top: var(--spacing-5);
+				border-top: 1px solid var(--color-border-subtle);
+			}
+
+			.footer-copyright {
+				font-size: var(--font-size-sm);
+				color: var(--color-muted);
+				letter-spacing: 0.005em;
+			}
+
+			.footer-copyright a {
+				color: var(--color-text-secondary);
+				transition: color var(--transition-fast);
+			}
+
+			.footer-copyright a:hover {
+				color: var(--color-text);
+				opacity: 1;
+			}
+
+			/* ─── Theme switcher ─── */
+			.theme-switcher {
+				display: flex;
+				gap: 2px;
+				padding: 2px;
+				background: var(--color-surface);
+				border-radius: var(--radius);
+				border: 1px solid var(--color-border-subtle);
+			}
+
+			.theme-btn {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 28px;
+				height: 24px;
+				background: transparent;
+				border: none;
+				color: var(--color-muted);
+				border-radius: var(--radius);
+				cursor: pointer;
+				transition: all var(--transition-fast);
+			}
+
+			.theme-btn:hover {
+				color: var(--color-text-secondary);
+			}
+
+			.theme-btn.active {
+				background: var(--color-bg);
+				color: var(--color-text);
+				box-shadow: var(--shadow-btn-active);
+			}
+
+			.theme-btn svg {
+				width: 14px;
+				height: 14px;
+			}
+
+			/* ─── Responsive ─── */
+			@media (max-width: 900px) {
+				.footer-grid {
+					grid-template-columns: 1fr 1fr;
+					gap: var(--spacing-8);
+				}
+
+				.footer-brand {
+					grid-column: span 2;
+					max-width: none;
+				}
+			}
+
+			@media (max-width: 760px) {
+				.nav {
+					height: var(--nav-height);
+					padding: 0 var(--spacing-5);
+					gap: var(--spacing-4);
+				}
+
+				.nav-toggle {
+					display: inline-flex;
+					margin-left: auto;
+				}
+
+				.nav-right {
+					position: fixed;
+					top: calc(var(--nav-height) + 1px);
+					left: 0;
+					right: 0;
+					height: calc(100dvh - var(--nav-height) - 1px);
+					margin-left: 0;
+					padding: var(--spacing-6) var(--spacing-5) var(--spacing-8);
+					background: var(--color-bg);
+					border-top: 1px solid var(--color-border-subtle);
+					flex-direction: column;
+					align-items: flex-start;
+					justify-content: flex-start;
+					gap: var(--spacing-6);
+					overflow-y: auto;
+					opacity: 0;
+					visibility: hidden;
+					pointer-events: none;
+					transform: translateY(-12px);
+					transition:
+						opacity var(--transition-base),
+						transform var(--transition-base),
+						visibility var(--transition-base);
+					z-index: 120;
+				}
+
+				.site-search {
+					display: none;
+				}
+
+				.nav-links {
+					width: 100%;
+					flex-direction: column;
+					gap: 0;
+					border-top: 1px solid var(--color-border-subtle);
+				}
+
+				.nav-links a,
+				.nav-admin,
+				.nav-language {
+					font-size: var(--font-size-lg);
+					letter-spacing: 0.005em;
+				}
+
+				.nav-links a {
+					display: block;
+					width: 100%;
+					padding: var(--spacing-4) 0;
+					border-bottom: 1px solid var(--color-border-subtle);
+				}
+
+				.nav-admin {
+					padding-top: var(--spacing-1);
+				}
+
+				.nav-language {
+					width: 100%;
+					justify-content: flex-start;
+					border: 0;
+					height: auto;
+					min-width: 0;
+					padding: var(--spacing-2) 0 0;
+				}
+
+				body[data-menu-open="true"] {
+					overflow: hidden;
+				}
+
+				body[data-menu-open="true"] .nav-right {
+					opacity: 1;
+					visibility: visible;
+					pointer-events: auto;
+					transform: translateY(0);
+				}
+
+				body[data-menu-open="true"] .nav-backdrop {
+					display: block;
+					position: fixed;
+					inset: calc(var(--nav-height) + 1px) 0 0;
+					background: color-mix(in srgb, var(--color-text) 8%, transparent);
+					border: 0;
+					padding: 0;
+					margin: 0;
+					cursor: pointer;
+					z-index: 110;
+				}
+
+				body[data-menu-open="true"] .nav-toggle-line:nth-child(1) {
+					transform: translateY(5px) rotate(45deg);
+				}
+
+				body[data-menu-open="true"] .nav-toggle-line:nth-child(2) {
+					opacity: 0;
+				}
+
+				body[data-menu-open="true"] .nav-toggle-line:nth-child(3) {
+					transform: translateY(-5px) rotate(-45deg);
+				}
+
+				.footer-grid {
+					grid-template-columns: 1fr;
+				}
+
+				.footer-nav {
+					display: none;
+				}
+
+				.footer-brand {
+					grid-column: span 1;
+					max-width: none;
+				}
+
+				.footer-tagline {
+					max-width: 18rem;
+					font-size: var(--font-size-xs);
+					line-height: 1.6;
+				}
+
+				.footer-tagline-full {
+					display: none;
+				}
+
+				.footer-tagline-short {
+					display: inline;
+				}
+
+				.footer-bottom {
+					flex-direction: column;
+					gap: var(--spacing-4);
+					text-align: center;
+				}
+			}
+		</style>
+
+		<script>
+			// ⌘K / Ctrl+K to focus search
+			document.addEventListener("keydown", (e) => {
+				if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+					e.preventDefault();
+					const searchInput = document.querySelector(
+						".site-search-input"
+					) as HTMLInputElement;
+					if (searchInput) {
+						searchInput.focus();
+					}
+				}
+			});
+
+			const body = document.body;
+			const navToggle = document.querySelector(".nav-toggle");
+			const navBackdrop = document.querySelector(".nav-backdrop");
+			const mobileNavLinks = document.querySelectorAll(".nav-links a, .nav-admin");
+			const mobileBreakpoint = window.matchMedia("(max-width: 760px)");
+
+			const closeMenu = () => {
+				body.removeAttribute("data-menu-open");
+				navToggle?.setAttribute("aria-expanded", "false");
+				navToggle?.setAttribute("aria-label", "Open navigation menu");
+			};
+
+			const openMenu = () => {
+				body.setAttribute("data-menu-open", "true");
+				navToggle?.setAttribute("aria-expanded", "true");
+				navToggle?.setAttribute("aria-label", "Close navigation menu");
+			};
+
+			navToggle?.addEventListener("click", () => {
+				if (body.getAttribute("data-menu-open") === "true") {
+					closeMenu();
+				} else {
+					openMenu();
+				}
+			});
+
+			navBackdrop?.addEventListener("click", closeMenu);
+
+			mobileNavLinks.forEach((link) => {
+				link.addEventListener("click", () => {
+					if (mobileBreakpoint.matches) closeMenu();
+				});
+			});
+
+			document.addEventListener("keydown", (event) => {
+				if (event.key === "Escape") closeMenu();
+			});
+
+			mobileBreakpoint.addEventListener("change", (event) => {
+				if (!event.matches) closeMenu();
+			});
+		</script>
+		<EmDashBodyEnd page={pageCtx} />
+	</body>
+</html>

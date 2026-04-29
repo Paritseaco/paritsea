@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Structural transparency exposure map</title>
+  <desc id="desc">Five exposed structural layers arranged around a visible operating core.</desc>
+  <rect width="1200" height="720" fill="#ece6dc"/>
+  <g fill="none" stroke="#231d18">
+    <path d="M180 150h840v420H180z" stroke-opacity=".16" stroke-width="2"/>
+    <path d="M270 210h660v300H270z" stroke-opacity=".15"/>
+    <path d="M360 270h480v180H360z" stroke-opacity=".18"/>
+  </g>
+  <g fill="#2a221d">
+    <circle cx="300" cy="360" r="12"/>
+    <circle cx="450" cy="260" r="12"/>
+    <circle cx="600" cy="360" r="16"/>
+    <circle cx="750" cy="260" r="12"/>
+    <circle cx="900" cy="360" r="12"/>
+  </g>
+  <path d="M300 360h600M450 260l150 100 150-100" fill="none" stroke="#2a221d" stroke-opacity=".42" stroke-width="3"/>
+  <g stroke="#8d8176" stroke-width="20" stroke-linecap="round" opacity=".28">
+    <path d="M240 585h110"/>
+    <path d="M410 585h110"/>
+    <path d="M580 585h110"/>
+    <path d="M750 585h110"/>
+  </g>
+</svg>

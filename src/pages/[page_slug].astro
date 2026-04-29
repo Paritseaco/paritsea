@@ -1,0 +1,514 @@
+---
+import { getEmDashEntry, decodeSlug } from "emdash";
+import { PortableText } from "emdash/ui";
+import Base from "../layouts/Base.astro";
+import { getAstroLocale, localizeEntry, localizedPath } from "../utils/i18n";
+
+const slug = decodeSlug(Astro.params.page_slug);
+const locale = getAstroLocale(Astro);
+
+if (!slug) {
+	return Astro.redirect("/404");
+}
+
+// Only handle known page slugs — avoid conflicting with other routes
+const KNOWN_PAGE_SLUGS = ["licensing", "contact"];
+if (!KNOWN_PAGE_SLUGS.includes(slug)) {
+	return Astro.redirect("/404");
+}
+
+const { entry: rawPage, cacheHint } = await getEmDashEntry("pages", slug);
+
+if (!rawPage) {
+	return Astro.redirect("/404");
+}
+const page = localizeEntry(rawPage, "pages", locale);
+
+Astro.cache.set(cacheHint);
+
+const isLicensingPage = slug === "licensing";
+const isContactPage = slug === "contact";
+
+const licensingSummary = locale === "th"
+	? [
+			"คุณสามารถอ่าน อ้างถึง สอน และดัดแปลง Paritsea แบบไม่ใช่เชิงพาณิชย์ได้เมื่อให้เครดิต",
+			"การนำไปใช้เชิงพาณิชย์ certification หรือการบังคับใช้เป็นผลิตภัณฑ์ต้องได้รับอนุญาต",
+			"การใช้ Paritsea ไม่ได้ทำให้เกิด endorsement, certification หรือสถานะ implementation อย่างเป็นทางการ",
+		]
+	: [
+			"You may read, cite, teach, and non-commercially adapt Paritsea with attribution.",
+			"Commercial implementation, certification, or productised enforcement requires permission.",
+			"Using Paritsea does not create endorsement, certification, or official implementation status.",
+		];
+
+const licensingAllowed = locale === "th" ? [
+	"อ้าง Paritsea ใน essay, lecture, strategy document และ research",
+	"ใช้กรอบนี้ภายในบริษัท งาน domain practice หรือการตัดสินใจส่วนบุคคล",
+	"อภิปราย สอน หรือแปลแนวคิดโดยให้เครดิตและลิงก์กลับมายัง Paritsea",
+	"ดัดแปลงแนวคิดเพื่อการเรียนรู้ การวิเคราะห์ หรือการใช้งานภายในแบบไม่ใช่เชิงพาณิชย์",
+] : [
+	"Cite Paritsea in essays, lectures, strategy documents, and research.",
+	"Use the framework internally in a company, domain practice, or personal decision-making.",
+	"Discuss, teach, or translate the concepts with attribution and a link back to Paritsea.",
+	"Adapt the concepts for non-commercial learning, analysis, or internal operational use.",
+];
+
+const licensingPermission = locale === "th" ? [
+	"ฝัง Paritsea logic ลงในผลิตภัณฑ์ ซอฟต์แวร์ บริการ หรือระบบที่สร้างรายได้",
+	"ให้บริการ audit, certification, trust mark, rating หรือ compliance โดยอ้างสิ่งที่สืบเนื่องจาก Paritsea",
+	"ทำการตลาดระบบว่าเป็น official Paritsea implementation โดยไม่มีข้อตกลงแยก",
+	"ใช้มาตรฐาน Paritsea เป็นชั้นบังคับใช้เชิงพาณิชย์ต่อสาธารณะโดยไม่ได้รับอนุญาต",
+] : [
+	"Embedding Paritsea logic into paid products, software, services, or revenue-generating systems.",
+	"Offering audits, certifications, trust marks, ratings, or compliance services under Paritsea-derived claims.",
+	"Marketing a system as an official Paritsea implementation without separate agreement.",
+	"Using Paritsea standards as a public commercial enforcement layer without permission.",
+];
+
+const licensingForbiddenClaims = locale === "th" ? [
+	"อ้าง certification, endorsement, partnership หรือ institutional affiliation โดยไม่มีอนุญาตชัดเจน",
+	"นำเสนอ adaptation เป็นหลักคำสอน โปรโตคอล มาตรฐาน หรือ implementation อย่างเป็นทางการของ Paritsea",
+	"ใช้ชื่อ อัตลักษณ์ หรือแบรนด์ Paritsea เพื่อสื่อถึงอำนาจที่คุณไม่ได้รับ",
+] : [
+	"Claiming certification, endorsement, partnership, or institutional affiliation without explicit authorisation.",
+	"Presenting an adaptation as official Paritsea doctrine, protocol, standard, or implementation.",
+	"Using the Paritsea name, identity, or branding to imply authority you have not been granted.",
+];
+
+const licensingFaq = locale === "th" ? [
+	{
+		question: "ฉันใช้ Paritsea ในบริษัทหรือชีวิตส่วนตัวได้ไหม",
+		answer:
+			"ได้ การใช้ภายใน การศึกษา การวิเคราะห์ และการดัดแปลงแบบไม่ใช่เชิงพาณิชย์ทำได้ ตราบเท่าที่ไม่สื่อว่าได้รับ endorsement หรือเป็น official implementation",
+	},
+	{
+		question: "ฉันเขียน สอน หรือพูดต่อสาธารณะเกี่ยวกับ Paritsea ได้ไหม",
+		answer: "ได้ การอ้างอิง อภิปราย สอน และ commentary ต่อสาธารณะทำได้เมื่อให้เครดิต",
+	},
+	{
+		question: "ฉันสร้างผลิตภัณฑ์หรือบริการแบบเสียเงินจากกรอบนี้ได้ไหม",
+		answer:
+			"ไม่ได้หากไม่มีอนุญาต การนำไปใช้เชิงพาณิชย์ การบังคับใช้แบบเสียเงิน certification หรือ platformisation ต้องมีข้อตกลงแยก",
+	},
+	{
+		question: "ถ้าฉันดัดแปลง จะทำให้ระบบของฉันเป็น official implementation ไหม",
+		answer:
+			"ไม่ใช่ การดัดแปลงหมายถึงคุณใช้กรอบนี้ในบริบทของคุณเอง สถานะ official implementation เป็นเรื่องแยกและต้องถูกบันทึกโดย Paritsea อย่างชัดเจน",
+	},
+	{
+		question: "ฉันใช้ชื่อหรือแบรนด์ Paritsea บน material ของฉันได้ไหม",
+		answer:
+			"คุณอ้างชื่อ Paritsea เพื่อให้เครดิตได้ แต่ห้ามใช้ในลักษณะที่สื่อถึง endorsement, certification, partnership หรือสถานะ official",
+	},
+] : [
+	{
+		question: "Can I use Paritsea inside my company or in my own life?",
+		answer:
+			"Yes. Internal use, study, analysis, and non-commercial adaptation are allowed as long as you do not imply endorsement or official implementation status.",
+	},
+	{
+		question: "Can I write, teach, or speak publicly about Paritsea?",
+		answer:
+			"Yes. Public reference, discussion, teaching, and commentary are allowed with attribution.",
+	},
+	{
+		question: "Can I build a paid product or service from it?",
+		answer:
+			"Not without permission. Commercial implementation, paid enforcement, certification, or platformisation requires separate agreement.",
+	},
+	{
+		question: "If I adapt it, does that make my system an official implementation?",
+		answer:
+			"No. Adaptation means you are using the framework in your own context. Official implementation status is separate and must be explicitly documented by Paritsea.",
+	},
+	{
+		question: "Can I use the Paritsea name or branding on my materials?",
+		answer:
+			"You may reference Paritsea by name for attribution, but not in ways that imply endorsement, certification, partnership, or official status.",
+	},
+];
+
+const contactSummary = locale === "th" ? [
+	"ใช้อีเมลนี้สำหรับเรื่องสิทธิการใช้ การขออนุญาต คำถามเรื่อง implementation และ correspondence จริงจังเกี่ยวกับกรอบอ้างอิง",
+	"ข้อความจะได้รับการพิจารณาอย่างรอบคอบ แต่การตอบกลับไม่รับประกันและขึ้นอยู่กับดุลยพินิจ",
+	"โปรดอ้างหน้าที่เกี่ยวข้อง โปรโตคอล มาตรฐาน หรือ implementation เมื่อเขียนเข้ามา",
+] : [
+	"Use this address for licensing, permissions, implementation enquiries, and serious framework correspondence.",
+	"Messages are reviewed carefully, but response is discretionary and not guaranteed.",
+	"Reference the relevant page, protocol, standard, or implementation when writing in.",
+];
+
+const contactUseCases = locale === "th" ? [
+	"คำถามเรื่อง commercial licensing หรือ implementation",
+	"คำถามเรื่อง permission, attribution หรือ official use",
+	"correspondence เชิงบรรณาธิการ สถาบัน หรือ research อย่างจริงจัง",
+	"คำขอเกี่ยวกับ implementation ที่บันทึกไว้หรือการนำกรอบไปใช้",
+] : [
+	"Commercial licensing or implementation enquiries",
+	"Questions about permissions, attribution, or official use",
+	"Serious editorial, institutional, or research correspondence",
+	"Requests related to documented implementations or framework adoption",
+];
+
+const contactNotFor = locale === "th" ? [
+	"การโปรโมตทั่วไปหรือ mass marketing",
+	"คำขอ endorsement, certification หรือ affiliation โดยไม่มีฐานมาก่อน",
+	"support request ที่ไม่เกี่ยวกับกรอบ Paritsea หรือ implementation ที่เผยแพร่",
+] : [
+	"General promotional outreach or mass marketing",
+	"Requests for endorsement, certification, or affiliation without prior basis",
+	"Support requests unrelated to Paritsea's framework or published implementations",
+];
+---
+
+<Base
+	title={page.data.title}
+	locale={locale}
+	content={{ collection: "pages", id: page.data.id, slug }}
+>
+	<article class="page-article">
+		<header class="page-header">
+			<h1 class="page-title" {...page.edit.title}>{page.data.title}</h1>
+		</header>
+
+		{
+			isLicensingPage ? (
+				<>
+					<section class="policy-callout">
+						<p class="policy-eyebrow">{locale === "th" ? "สรุปภาษาตรง" : "Plain-language summary"}</p>
+						<h2 class="policy-callout-title">{locale === "th" ? "Paritsea เปิดให้อ้างอิงและดัดแปลงได้ แต่ไม่เปิดให้ทำ certification, endorsement หรือ enforcement เชิงพาณิชย์โดยไม่ได้รับอนุญาต" : "Paritsea is open for reference and adaptation, but not for unauthorised certification, endorsement, or commercial enforcement."}</h2>
+						<ul class="policy-summary-list">
+							{licensingSummary.map((item) => (
+								<li>{item}</li>
+							))}
+						</ul>
+					</section>
+
+					<div class="page-content policy-content">
+						<section class="policy-section">
+							<h2>{locale === "th" ? "สิ่งที่คุณทำได้" : "What You May Do"}</h2>
+							<ul>
+								{licensingAllowed.map((item) => (
+									<li>{item}</li>
+								))}
+							</ul>
+						</section>
+
+						<section class="policy-section">
+							<h2>{locale === "th" ? "สิ่งที่ต้องขออนุญาต" : "What Requires Permission"}</h2>
+							<ul>
+								{licensingPermission.map((item) => (
+									<li>{item}</li>
+								))}
+							</ul>
+						</section>
+
+						<section class="policy-section">
+							<h2>{locale === "th" ? "สิ่งที่ห้ามกล่าวอ้าง" : "What You Must Not Claim"}</h2>
+							<ul>
+								{licensingForbiddenClaims.map((item) => (
+									<li>{item}</li>
+								))}
+							</ul>
+						</section>
+
+						<section class="policy-section">
+							<h2>{locale === "th" ? "ตัวอย่างการให้เครดิต" : "Attribution Example"}</h2>
+							<p>{locale === "th" ? "รูปแบบสั้นที่แนะนำ:" : "Recommended short form:"}</p>
+							<p class="policy-quote">Based on Paritsea by Parit Ritchai, <a href="https://paritsea.co">paritsea.co</a>.</p>
+							<p>{locale === "th" ? "รูปแบบยาวที่แนะนำ:" : "Recommended extended form:"}</p>
+							<p class="policy-quote">Adapted from Paritsea, a public reference framework by Parit Ritchai, available at <a href="https://paritsea.co">paritsea.co</a>.</p>
+						</section>
+
+						<section class="policy-section">
+							<h2>{locale === "th" ? "Adaptation กับ Official Implementation" : "Adaptation vs Official Implementation"}</h2>
+							<p><strong>Adaptation</strong> {locale === "th" ? "หมายถึงการใช้แนวคิด Paritsea ในบริบท องค์กร โดเมน หรือชีวิตของคุณเอง ซึ่งอนุญาตภายใต้เงื่อนไขสิทธิการใช้" : "means you are using Paritsea concepts in your own context, organisation, domain, or life. This is allowed within the licensing terms."}</p>
+							<p><strong>Official Implementation</strong> {locale === "th" ? "หมายถึงระบบที่ถูกบันทึกหรือยอมรับโดย Paritsea อย่างชัดเจนว่าเป็น implementation ของกรอบนี้ การดัดแปลงเพียงอย่างเดียวไม่ทำให้เกิดสถานะ official" : "means a system has been explicitly documented or recognised by Paritsea as an implementation of the framework. Adaptation alone does not create official status."}</p>
+						</section>
+
+						<section class="policy-section">
+							<h2>{locale === "th" ? "การใช้ชื่อและแบรนด์" : "Brand and Name Use"}</h2>
+							<p>{locale === "th" ? "คุณสามารถอ้างชื่อ Paritsea เพื่อให้เครดิตและอภิปรายได้ แต่ห้ามใช้ชื่อ อัตลักษณ์ หรือแบรนด์ Paritsea เพื่อสื่อถึง partnership, certification, endorsement หรืออำนาจทางการโดยไม่ได้รับอนุญาต" : "You may reference the Paritsea name for attribution and discussion. You may not use the Paritsea name, identity, or branding to imply partnership, certification, endorsement, or formal authority without permission."}</p>
+						</section>
+
+						<section class="policy-section">
+							<h2>{locale === "th" ? "คำถามที่พบบ่อย" : "Frequently Asked Questions"}</h2>
+							<p class="policy-faq-intro">{locale === "th" ? "คำถามทั่วไปเกี่ยวกับการอ้างอิง การดัดแปลง และการนำ Paritsea ไปใช้" : "Common questions about referencing, adapting, and implementing Paritsea."}</p>
+							<div class="policy-faq" role="list">
+								{licensingFaq.map((item) => (
+									<details class="policy-faq-item" role="listitem">
+										<summary class="policy-faq-question">{item.question}</summary>
+										<div class="policy-faq-answer">
+											<p>{item.answer}</p>
+										</div>
+									</details>
+								))}
+							</div>
+						</section>
+
+						<section class="policy-section policy-section--full">
+							<h2>{locale === "th" ? "นโยบายอย่างเป็นทางการ" : "Formal Policy"}</h2>
+							<PortableText value={page.data.content} />
+						</section>
+					</div>
+				</>
+			) : isContactPage ? (
+				<>
+					<section class="policy-callout">
+						<p class="policy-eyebrow">{locale === "th" ? "การติดต่อ" : "Correspondence"}</p>
+						<h2 class="policy-callout-title">{locale === "th" ? "Paritsea เปิดรับการติดต่ออย่างจริงจังเกี่ยวกับสิทธิการใช้ implementation และการใช้กรอบนี้ต่อสาธารณะ" : "Paritsea welcomes serious correspondence about licensing, implementation, and the public use of the framework."}</h2>
+						<ul class="policy-summary-list">
+							{contactSummary.map((item) => (
+								<li>{item}</li>
+							))}
+						</ul>
+					</section>
+
+					<div class="page-content policy-content">
+						<section class="policy-section">
+							<h2>{locale === "th" ? "ช่องทางหลัก" : "Primary Contact"}</h2>
+							<p class="policy-quote"><a href="mailto:hello@paritsea.co">hello@paritsea.co</a></p>
+							<p>{locale === "th" ? "โปรดใส่บริบท ลิงก์ และชั้นของกรอบอ้างอิงที่เกี่ยวข้องเมื่อเป็นไปได้ เพื่อให้ประเมินคำถามได้แม่นยำ" : "Include context, links, and the relevant framework layer where possible so the enquiry can be assessed accurately."}</p>
+						</section>
+
+						<section class="policy-section">
+							<h2>{locale === "th" ? "เหมาะสำหรับ" : "Best Used For"}</h2>
+							<ul>
+								{contactUseCases.map((item) => (
+									<li>{item}</li>
+								))}
+							</ul>
+						</section>
+
+						<section class="policy-section">
+							<h2>{locale === "th" ? "ไม่เหมาะสำหรับ" : "Not Intended For"}</h2>
+							<ul>
+								{contactNotFor.map((item) => (
+									<li>{item}</li>
+								))}
+							</ul>
+						</section>
+
+						<section class="policy-section">
+							<h2>{locale === "th" ? "ก่อนเขียนถึงเรา" : "Before You Write"}</h2>
+							<p>{locale === "th" ? "หากคำถามของคุณเกี่ยวกับการอ้างอิง การดัดแปลง การให้เครดิต หรือสถานะ official implementation โปรดอ่าน " : "If your question is about reference, adaptation, attribution, or official implementation status, please review the "}<a href={localizedPath("/licensing", locale)}>{locale === "th" ? "นโยบายสิทธิการใช้" : "licensing and use policy"}</a>{locale === "th" ? " ก่อน คำถามทั่วไปจำนวนมากมีคำตอบอยู่ที่นั่น" : " first. Many common questions are answered there."}</p>
+						</section>
+
+						<section class="policy-section policy-section--full">
+							<h2>{locale === "th" ? "บันทึกการติดต่อที่เผยแพร่" : "Published Contact Note"}</h2>
+							<PortableText value={page.data.content} />
+						</section>
+					</div>
+				</>
+			) : (
+				<div class="page-content">
+					<PortableText value={page.data.content} />
+				</div>
+			)
+		}
+	</article>
+</Base>
+
+<style>
+	.page-article {
+		max-width: 720px;
+		margin: 0 auto;
+		padding: var(--spacing-16) var(--spacing-6) var(--spacing-20);
+	}
+
+	.page-header {
+		margin-bottom: var(--spacing-10);
+		padding-bottom: var(--spacing-8);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.page-title {
+		font-family: var(--font-serif);
+		font-size: clamp(2rem, 4vw, 3rem);
+		font-weight: 700;
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+	}
+
+	.page-content :global(p) {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-base);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin-bottom: 1.25em;
+	}
+
+	.page-content :global(strong) {
+		color: var(--color-text);
+		font-weight: 600;
+	}
+
+	.page-content :global(h2) {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-xl);
+		font-weight: 600;
+		color: var(--color-text);
+		margin-top: 2.5em;
+		margin-bottom: 0.75em;
+		padding-top: var(--spacing-6);
+		border-top: 1px solid var(--color-border-subtle);
+	}
+
+	.page-content :global(h3) {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-base);
+		font-weight: 600;
+		color: var(--color-text);
+		margin-top: 1.75em;
+		margin-bottom: 0.5em;
+		text-transform: uppercase;
+		letter-spacing: var(--tracking-wider);
+		font-size: var(--font-size-xs);
+	}
+
+	.page-content :global(a) {
+		color: var(--color-accent);
+		text-decoration: none;
+	}
+
+	.page-content :global(a:hover) {
+		text-decoration: underline;
+	}
+
+	.page-content :global(ul),
+	.page-content :global(ol) {
+		margin-bottom: 1.25em;
+		padding-left: var(--spacing-5);
+	}
+
+	.page-content :global(li) {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-base);
+		color: var(--color-text-secondary);
+		margin-bottom: 0.35em;
+		line-height: var(--leading-relaxed);
+	}
+
+	.policy-callout {
+		padding: var(--spacing-6);
+		border: 1px solid var(--color-border-subtle);
+		background: color-mix(in srgb, var(--color-bg-subtle) 50%, transparent);
+		margin-bottom: var(--spacing-10);
+	}
+
+	.policy-eyebrow {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: var(--tracking-widest);
+		color: var(--color-muted);
+		margin: 0 0 var(--spacing-3);
+	}
+
+	.policy-callout-title {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-2xl);
+		line-height: 1.2;
+		margin: 0 0 var(--spacing-4);
+	}
+
+	.policy-summary-list {
+		margin: 0;
+		padding-left: 1.1rem;
+	}
+
+	.policy-summary-list li {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-base);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin-bottom: var(--spacing-2);
+	}
+
+	.policy-content {
+		display: grid;
+		gap: var(--spacing-2);
+	}
+
+	.policy-section {
+		margin-bottom: var(--spacing-6);
+	}
+
+	.policy-quote {
+		padding: var(--spacing-4);
+		border-left: 2px solid var(--color-border);
+		background: color-mix(in srgb, var(--color-bg-subtle) 40%, transparent);
+	}
+
+	.policy-faq {
+		display: grid;
+		gap: var(--spacing-3);
+	}
+
+	.policy-faq-intro {
+		margin-bottom: var(--spacing-4);
+	}
+
+	.policy-faq-item {
+		border-top: 1px solid var(--color-border-subtle);
+		padding-top: var(--spacing-3);
+	}
+
+	.policy-faq-item:last-child {
+		border-bottom: 1px solid var(--color-border-subtle);
+		padding-bottom: var(--spacing-3);
+	}
+
+	.policy-faq-question {
+		list-style: none;
+		cursor: pointer;
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		font-weight: 600;
+		line-height: 1.5;
+		color: var(--color-text);
+		padding-right: var(--spacing-8);
+		position: relative;
+	}
+
+	.policy-faq-question::-webkit-details-marker {
+		display: none;
+	}
+
+	.policy-faq-question::after {
+		content: "+";
+		position: absolute;
+		right: 0;
+		top: 0;
+		font-size: var(--font-size-lg);
+		font-weight: 400;
+		color: var(--color-muted);
+		line-height: 1;
+	}
+
+	.policy-faq-item[open] .policy-faq-question::after {
+		content: "−";
+		color: var(--color-text);
+	}
+
+	.policy-faq-answer {
+		padding-top: var(--spacing-3);
+	}
+
+	.policy-faq-answer p {
+		margin: 0;
+	}
+
+	.policy-section--full {
+		margin-top: var(--spacing-8);
+		padding-top: var(--spacing-6);
+		border-top: 1px solid var(--color-border);
+	}
+
+	@media (max-width: 600px) {
+		.page-article {
+			padding: var(--spacing-8) var(--spacing-4) var(--spacing-12);
+		}
+	}
+</style>

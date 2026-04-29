@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Paritsea doctrine structural grid</title>
+  <desc id="desc">An abstract institutional grid with aligned nodes and a central structural axis.</desc>
+  <rect width="1200" height="720" fill="#eee9df"/>
+  <path d="M120 120h960v480H120z" fill="none" stroke="#27201b" stroke-opacity=".18" stroke-width="2"/>
+  <path d="M220 180h760v360H220z" fill="none" stroke="#27201b" stroke-opacity=".16"/>
+  <path d="M600 120v480M120 360h960M360 120v480M840 120v480" stroke="#27201b" stroke-opacity=".12"/>
+  <circle cx="600" cy="360" r="72" fill="none" stroke="#27201b" stroke-width="2"/>
+  <circle cx="600" cy="360" r="7" fill="#27201b"/>
+  <circle cx="360" cy="240" r="9" fill="#6f6258"/>
+  <circle cx="840" cy="240" r="9" fill="#6f6258"/>
+  <circle cx="360" cy="480" r="9" fill="#6f6258"/>
+  <circle cx="840" cy="480" r="9" fill="#6f6258"/>
+  <path d="M360 240 600 360 840 240M360 480 600 360 840 480" fill="none" stroke="#27201b" stroke-opacity=".34" stroke-width="2"/>
+  <path d="M170 650h860" stroke="#27201b" stroke-opacity=".18"/>
+</svg>

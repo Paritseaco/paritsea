@@ -1,0 +1,619 @@
+diff --git a/node_modules/emdash/dist/astro/index.mjs b/node_modules/emdash/dist/astro/index.mjs
+index fb44cc0..2e721f7 100644
+--- a/node_modules/emdash/dist/astro/index.mjs
++++ b/node_modules/emdash/dist/astro/index.mjs
+@@ -559,18 +559,8 @@ function injectCoreRoutes(injectRoute) {
+ 		pattern: "/_emdash/api/admin/comments/[id]",
+ 		entrypoint: resolveRoute("api/admin/comments/[id].ts")
+ 	});
+-	injectRoute({
+-		pattern: "/sitemap.xml",
+-		entrypoint: resolveRoute("sitemap.xml.ts")
+-	});
+-	injectRoute({
+-		pattern: "/sitemap-[collection].xml",
+-		entrypoint: resolveRoute("sitemap-[collection].xml.ts")
+-	});
+-	injectRoute({
+-		pattern: "/robots.txt",
+-		entrypoint: resolveRoute("robots.txt.ts")
+-	});
++	// SEO routes are intentionally omitted in this project because Paritsea
++	// provides custom root-level robots/sitemap endpoints with canonical URLs.
+ 	injectRoute({
+ 		pattern: "/_emdash/api/setup/status",
+ 		entrypoint: resolveRoute("api/setup/status.ts")
+diff --git a/node_modules/emdash/src/api/handlers/content.ts b/node_modules/emdash/src/api/handlers/content.ts
+index 60af2ba..b48423c 100644
+--- a/node_modules/emdash/src/api/handlers/content.ts
++++ b/node_modules/emdash/src/api/handlers/content.ts
+@@ -9,6 +9,7 @@ import { BylineRepository } from "../../database/repositories/byline.js";
+ import type { ContentBylineInput } from "../../database/repositories/byline.js";
+ import { CommentRepository } from "../../database/repositories/comment.js";
+ import { ContentRepository } from "../../database/repositories/content.js";
++import { OptionsRepository } from "../../database/repositories/options.js";
+ import { RedirectRepository } from "../../database/repositories/redirect.js";
+ import { RevisionRepository } from "../../database/repositories/revision.js";
+ import { SeoRepository } from "../../database/repositories/seo.js";
+@@ -45,6 +46,73 @@ const SEO_DEFAULTS: ContentSeo = {
+ 	noIndex: false,
+ };
+ 
++const TRAILING_SLASH_RE = /\/$/;
++
++function normalizeSiteUrl(siteUrl: string): string {
++	return siteUrl.replace(TRAILING_SLASH_RE, "");
++}
++
++function resolveContentCanonicalPath(
++	collection: string,
++	item: ContentItem,
++): string | null {
++	const slug = typeof item.slug === "string" && item.slug.length > 0 ? item.slug : null;
++	if (!slug) return null;
++
++	if (collection === "pages") {
++		return `/${slug}`;
++	}
++
++	if (collection !== "posts") {
++		return null;
++	}
++
++	const frameworkPage =
++		typeof item.data.framework_page === "string" ? item.data.framework_page : null;
++	if (!frameworkPage) return null;
++
++	if (frameworkPage === "the-doctrine") {
++		return "/the-doctrine";
++	}
++
++	if (
++		frameworkPage === "protocols" ||
++		frameworkPage === "standards" ||
++		frameworkPage === "the-method" ||
++		frameworkPage === "implementations"
++	) {
++		return `/${frameworkPage}/${slug}`;
++	}
++
++	return null;
++}
++
++async function getStoredSiteUrl(db: Kysely<Database>): Promise<string | null> {
++	const options = new OptionsRepository(db);
++	return options.get<string>("emdash:site_url");
++}
++
++function applyCanonicalDefault(
++	siteUrl: string | null,
++	collection: string,
++	item: ContentItem,
++	seo: ContentSeo,
++): ContentSeo {
++	if (seo.canonical || !siteUrl) {
++		return seo;
++	}
++
++	const path = resolveContentCanonicalPath(collection, item);
++	if (!path) {
++		return seo;
++	}
++
++	return {
++		...seo,
++		canonical: `${normalizeSiteUrl(siteUrl)}${path}`,
++	};
++}
++
+ /**
+  * Check if a collection has SEO enabled.
+  */
+@@ -68,7 +136,13 @@ async function hydrateSeo(
+ ): Promise<void> {
+ 	if (!hasSeo) return;
+ 	const seoRepo = new SeoRepository(db);
+-	item.seo = await seoRepo.get(collection, item.id);
++	const siteUrl = await getStoredSiteUrl(db);
++	item.seo = applyCanonicalDefault(
++		siteUrl,
++		collection,
++		item,
++		await seoRepo.get(collection, item.id),
++	);
+ }
+ 
+ /**
+@@ -82,12 +156,18 @@ async function hydrateSeoMany(
+ ): Promise<void> {
+ 	if (!hasSeo || items.length === 0) return;
+ 	const seoRepo = new SeoRepository(db);
++	const siteUrl = await getStoredSiteUrl(db);
+ 	const seoMap = await seoRepo.getMany(
+ 		collection,
+ 		items.map((i) => i.id),
+ 	);
+ 	for (const item of items) {
+-		item.seo = seoMap.get(item.id) ?? { ...SEO_DEFAULTS };
++		item.seo = applyCanonicalDefault(
++			siteUrl,
++			collection,
++			item,
++			seoMap.get(item.id) ?? { ...SEO_DEFAULTS },
++		);
+ 	}
+ }
+ 
+@@ -448,6 +528,15 @@ export async function handleContentCreate(
+ 			return created;
+ 		});
+ 
++		if (hasSeo) {
++			item.seo = applyCanonicalDefault(
++				await getStoredSiteUrl(db),
++				collection,
++				item,
++				item.seo ?? { ...SEO_DEFAULTS },
++			);
++		}
++
+ 		return {
+ 			success: true,
+ 			data: { item, _rev: encodeRev(item) },
+@@ -595,6 +684,15 @@ export async function handleContentUpdate(
+ 			return updated;
+ 		});
+ 
++		if (hasSeo) {
++			item.seo = applyCanonicalDefault(
++				await getStoredSiteUrl(db),
++				collection,
++				item,
++				item.seo ?? { ...SEO_DEFAULTS },
++			);
++		}
++
+ 		return {
+ 			success: true,
+ 			data: { item, _rev: encodeRev(item) },
+diff --git a/node_modules/emdash/src/astro/integration/routes.ts b/node_modules/emdash/src/astro/integration/routes.ts
+index 4bed26b..a1cfc2a 100644
+--- a/node_modules/emdash/src/astro/integration/routes.ts
++++ b/node_modules/emdash/src/astro/integration/routes.ts
+@@ -664,21 +664,8 @@ export function injectCoreRoutes(injectRoute: InjectRoute): void {
+ 		entrypoint: resolveRoute("api/admin/comments/[id].ts"),
+ 	});
+ 
+-	// SEO routes (public, at site root)
+-	injectRoute({
+-		pattern: "/sitemap.xml",
+-		entrypoint: resolveRoute("sitemap.xml.ts"),
+-	});
+-
+-	injectRoute({
+-		pattern: "/sitemap-[collection].xml",
+-		entrypoint: resolveRoute("sitemap-[collection].xml.ts"),
+-	});
+-
+-	injectRoute({
+-		pattern: "/robots.txt",
+-		entrypoint: resolveRoute("robots.txt.ts"),
+-	});
++	// SEO routes are omitted in this project because Paritsea uses custom
++	// root-level robots/sitemap endpoints that reflect canonical public URLs.
+ 
+ 	// Setup wizard API routes
+ 	injectRoute({
+diff --git a/node_modules/emdash/src/astro/routes/api/auth/oauth/[provider].ts b/node_modules/emdash/src/astro/routes/api/auth/oauth/[provider].ts
+index 58e6ce1..7e50b1d 100644
+--- a/node_modules/emdash/src/astro/routes/api/auth/oauth/[provider].ts
++++ b/node_modules/emdash/src/astro/routes/api/auth/oauth/[provider].ts
+@@ -5,6 +5,7 @@
+  */
+ 
+ import type { APIRoute } from "astro";
++import { env as workerEnv } from "cloudflare:workers";
+ 
+ export const prerender = false;
+ 
+@@ -87,12 +88,11 @@ export const GET: APIRoute = async ({ params, request, locals, redirect }) => {
+ 	try {
+ 		const url = new URL(request.url);
+ 
+-		// Get OAuth providers from environment
+-		// Access via locals.runtime for Cloudflare, or import.meta.env for Node
+-		// eslint-disable-next-line typescript-eslint(no-unsafe-type-assertion) -- locals.runtime is injected by the Cloudflare adapter at runtime; not declared on App.Locals since the adapter is optional
+-		const runtimeLocals = locals as unknown as { runtime?: { env?: Record<string, unknown> } };
++		// Astro v6 removed `locals.runtime.env`; use the Cloudflare Workers env import.
++		// Fallback to import.meta.env for non-Workers environments.
+ 		// eslint-disable-next-line typescript-eslint(no-unsafe-type-assertion) -- import.meta.env is typed as ImportMetaEnv but we need Record<string, unknown> for getOAuthConfig
+-		const env = runtimeLocals.runtime?.env ?? (import.meta.env as Record<string, unknown>);
++		const env = ((workerEnv as Record<string, unknown> | undefined) ??
++			(import.meta.env as Record<string, unknown>));
+ 		const providers = getOAuthConfig(env);
+ 
+ 		if (!providers[provider]) {
+diff --git a/node_modules/emdash/src/astro/routes/api/auth/oauth/[provider]/callback.ts b/node_modules/emdash/src/astro/routes/api/auth/oauth/[provider]/callback.ts
+index c74994c..3af3210 100644
+--- a/node_modules/emdash/src/astro/routes/api/auth/oauth/[provider]/callback.ts
++++ b/node_modules/emdash/src/astro/routes/api/auth/oauth/[provider]/callback.ts
+@@ -5,6 +5,7 @@
+  */
+ 
+ import type { APIRoute } from "astro";
++import { env as workerEnv } from "cloudflare:workers";
+ 
+ export const prerender = false;
+ 
+@@ -113,11 +114,11 @@ export const GET: APIRoute = async ({ params, request, locals, session, redirect
+ 	}
+ 
+ 	try {
+-		// Get OAuth providers from environment
+-		// eslint-disable-next-line typescript-eslint(no-unsafe-type-assertion) -- locals.runtime is injected by the Cloudflare adapter at runtime; not declared on App.Locals since the adapter is optional
+-		const runtimeLocals = locals as unknown as { runtime?: { env?: Record<string, unknown> } };
++		// Astro v6 removed `locals.runtime.env`; use the Cloudflare Workers env import.
++		// Fallback to import.meta.env for non-Workers environments.
+ 		// eslint-disable-next-line typescript-eslint(no-unsafe-type-assertion) -- import.meta.env is typed as ImportMetaEnv but we need Record<string, unknown> for getOAuthConfig
+-		const env = runtimeLocals.runtime?.env ?? (import.meta.env as Record<string, unknown>);
++		const env = ((workerEnv as Record<string, unknown> | undefined) ??
++			(import.meta.env as Record<string, unknown>));
+ 		const providers = getOAuthConfig(env);
+ 
+ 		if (!providers[provider]) {
+diff --git a/node_modules/emdash/src/astro/routes/api/media.ts b/node_modules/emdash/src/astro/routes/api/media.ts
+index 31f146a..183b8b1 100644
+--- a/node_modules/emdash/src/astro/routes/api/media.ts
++++ b/node_modules/emdash/src/astro/routes/api/media.ts
+@@ -8,6 +8,7 @@
+ import * as path from "node:path";
+ 
+ import type { APIRoute } from "astro";
++import { env } from "cloudflare:workers";
+ import { ulid } from "ulidx";
+ 
+ import { requirePerm } from "#api/authorize.js";
+@@ -24,6 +25,13 @@ export const prerender = false;
+ 
+ /** Maximum allowed file upload size (50 MB). */
+ const MAX_UPLOAD_SIZE = 50 * 1024 * 1024;
++const IMAGE_WEBP_QUALITY = 88;
++const WEBP_TRANSFORM_INPUT_TYPES = new Set([
++	"image/jpeg",
++	"image/png",
++	"image/webp",
++	"image/avif",
++]);
+ 
+ /**
+  * Add URL to media items
+@@ -36,6 +44,15 @@ function addUrlToMedia(item: MediaItem): MediaItem & { url: string } {
+ 	};
+ }
+ 
++function shouldTranscodeUploadToWebp(mimeType: string): boolean {
++	return WEBP_TRANSFORM_INPUT_TYPES.has(mimeType);
++}
++
++function toWebpFilename(filename: string): string {
++	const ext = path.extname(filename);
++	return ext ? filename.slice(0, -ext.length) + ".webp" : `${filename}.webp`;
++}
++
+ /**
+  * List media items
+  */
+@@ -134,13 +151,42 @@ export const POST: APIRoute = async ({ request, locals }) => {
+ 		// Generate unique storage key
+ 		const id = ulid();
+ 		const ext = path.extname(file.name) || "";
+-		const storageKey = `${id}${ext}`;
++		let uploadBuffer = buffer;
++		let uploadFilename = file.name;
++		let uploadMimeType = file.type;
++		let uploadSize = file.size;
++		let storageKey = `${id}${ext}`;
++
++		// Store new editorial images as WebP so the media library stays lightweight by default.
++		if (shouldTranscodeUploadToWebp(file.type) && env.IMAGES && typeof file.stream === "function") {
++			try {
++				const transformed = (
++					await env.IMAGES.input(file.stream()).output({
++						format: "image/webp",
++						quality: IMAGE_WEBP_QUALITY,
++					})
++				).response();
++				const transformedBuffer = new Uint8Array(await transformed.arrayBuffer());
++				if (transformedBuffer.byteLength > 0) {
++					uploadBuffer = transformedBuffer;
++					uploadFilename = toWebpFilename(file.name);
++					uploadMimeType = "image/webp";
++					uploadSize = transformedBuffer.byteLength;
++					storageKey = `${id}.webp`;
++				}
++			} catch (error) {
++				console.warn(
++					"[emdash] Failed to transcode uploaded image to WebP; storing original asset.",
++					error,
++				);
++			}
++		}
+ 
+ 		// Upload to storage using the configured adapter
+ 		await emdash.storage.upload({
+ 			key: storageKey,
+-			body: buffer,
+-			contentType: file.type,
++			body: uploadBuffer,
++			contentType: uploadMimeType,
+ 		});
+ 
+ 		// Get image dimensions from form data (sent by client)
+@@ -158,21 +204,21 @@ export const POST: APIRoute = async ({ request, locals }) => {
+ 		const thumbnail = thumbnailEntry instanceof File ? thumbnailEntry : null;
+ 
+ 		let placeholder: Awaited<ReturnType<typeof generatePlaceholder>> = null;
+-		if (file.type.startsWith("image/")) {
++		if (uploadMimeType.startsWith("image/")) {
+ 			if (thumbnail) {
+ 				const thumbBuffer = new Uint8Array(await thumbnail.arrayBuffer());
+ 				placeholder = await generatePlaceholder(thumbBuffer, thumbnail.type);
+ 			} else {
+ 				const clientDims = width && height ? { width, height } : undefined;
+-				placeholder = await generatePlaceholder(buffer, file.type, clientDims);
++				placeholder = await generatePlaceholder(uploadBuffer, uploadMimeType, clientDims);
+ 			}
+ 		}
+ 
+ 		// Create media record
+ 		const result = await emdash.handleMediaCreate({
+-			filename: file.name,
+-			mimeType: file.type,
+-			size: file.size,
++			filename: uploadFilename,
++			mimeType: uploadMimeType,
++			size: uploadSize,
+ 			width,
+ 			height,
+ 			storageKey,
+diff --git a/node_modules/emdash/src/astro/routes/api/media/file/[...key].ts b/node_modules/emdash/src/astro/routes/api/media/file/[...key].ts
+index 4dc231d..b609dfc 100644
+--- a/node_modules/emdash/src/astro/routes/api/media/file/[...key].ts
++++ b/node_modules/emdash/src/astro/routes/api/media/file/[...key].ts
+@@ -5,10 +5,13 @@
+  */
+ 
+ import type { APIRoute } from "astro";
++import { env } from "cloudflare:workers";
+ 
+ import { apiError, handleError } from "#api/error.js";
+ 
+ export const prerender = false;
++const MAX_DELIVERY_DIMENSION = 3200;
++const DEFAULT_WEBP_QUALITY = 82;
+ 
+ /**
+  * Content types that are safe to display inline (simple raster/vector images, video, audio).
+@@ -27,8 +30,16 @@ const SAFE_INLINE_TYPES = new Set([
+ 	"audio/wav",
+ 	"audio/ogg",
+ ]);
++const TRANSFORMABLE_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "image/avif"]);
+ 
+-export const GET: APIRoute = async ({ params, locals }) => {
++function parsePositiveInt(value: string | null, max: number): number | undefined {
++	if (!value) return undefined;
++	const parsed = Number.parseInt(value, 10);
++	if (!Number.isFinite(parsed) || parsed <= 0) return undefined;
++	return Math.min(parsed, max);
++}
++
++export const GET: APIRoute = async ({ params, locals, request }) => {
+ 	const { key } = params;
+ 	const { emdash } = locals;
+ 
+@@ -42,6 +53,76 @@ export const GET: APIRoute = async ({ params, locals }) => {
+ 
+ 	try {
+ 		const result = await emdash.storage.download(key);
++		const url = new URL(request.url);
++		const width = parsePositiveInt(url.searchParams.get("w"), MAX_DELIVERY_DIMENSION);
++		const height = parsePositiveInt(url.searchParams.get("h"), MAX_DELIVERY_DIMENSION);
++		const quality = parsePositiveInt(url.searchParams.get("q"), 100) ?? DEFAULT_WEBP_QUALITY;
++		const requestedFormat = url.searchParams.get("f");
++		const accepts = request.headers.get("Accept") || "";
++		const outputFormat =
++			requestedFormat === "webp"
++				? "image/webp"
++				: requestedFormat === "avif"
++					? "image/avif"
++					: requestedFormat === "jpeg"
++						? "image/jpeg"
++						: requestedFormat === "png"
++							? "image/png"
++							: accepts.includes("image/webp")
++								? "image/webp"
++								: null;
++		const shouldTransform =
++			Boolean(env.IMAGES) &&
++			Boolean(result.body) &&
++			TRANSFORMABLE_IMAGE_TYPES.has(result.contentType) &&
++			(outputFormat !== null || width !== undefined || height !== undefined);
++
++		if (shouldTransform && result.body) {
++			const [transformBody, fallbackBody] = result.body.tee();
++			try {
++				let pipeline = env.IMAGES.input(transformBody);
++				if (width || height) {
++					pipeline = pipeline.transform({
++						width,
++						height,
++						fit: "scale-down",
++					});
++				}
++				const transformedResponse = (
++					await pipeline.output({
++						format: outputFormat ?? "image/webp",
++						quality,
++					})
++				).response();
++
++				const headers: Record<string, string> = {
++					"Content-Type":
++						transformedResponse.headers.get("Content-Type") || outputFormat || result.contentType,
++					"Cache-Control": "public, max-age=31536000, immutable",
++					"X-Content-Type-Options": "nosniff",
++					"Content-Security-Policy":
++						"sandbox; default-src 'none'; img-src 'self'; style-src 'unsafe-inline'",
++					"Content-Disposition": "inline",
++					Vary: "Accept",
++				};
++
++				return new Response(transformedResponse.body, { status: 200, headers });
++			} catch (error) {
++				console.warn("[emdash] Failed to optimize image delivery; serving original asset.", error);
++				const fallbackHeaders: Record<string, string> = {
++					"Content-Type": result.contentType,
++					"Cache-Control": "public, max-age=31536000, immutable",
++					"X-Content-Type-Options": "nosniff",
++					"Content-Security-Policy":
++						"sandbox; default-src 'none'; img-src 'self'; style-src 'unsafe-inline'",
++					"Content-Disposition": SAFE_INLINE_TYPES.has(result.contentType) ? "inline" : "attachment",
++				};
++				if (result.size) {
++					fallbackHeaders["Content-Length"] = String(result.size);
++				}
++				return new Response(fallbackBody, { status: 200, headers: fallbackHeaders });
++			}
++		}
+ 
+ 		const headers: Record<string, string> = {
+ 			"Content-Type": result.contentType,
+diff --git a/node_modules/emdash/src/components/EmDashImage.astro b/node_modules/emdash/src/components/EmDashImage.astro
+index 88c26a3..19f22ea 100644
+--- a/node_modules/emdash/src/components/EmDashImage.astro
++++ b/node_modules/emdash/src/components/EmDashImage.astro
+@@ -63,6 +63,41 @@ function buildLocalImageUrl(img: MediaValue): string {
+ 	return "";
+ }
+ 
++function buildOptimizedLocalImageUrl(
++	img: MediaValue,
++	options: { width?: number; height?: number; format?: string; quality?: number } = {}
++): string {
++	const base = buildLocalImageUrl(img);
++	if (!base) return "";
++
++	const params = new URLSearchParams();
++	if (options.width) params.set("w", String(options.width));
++	if (options.height) params.set("h", String(options.height));
++	if (options.format) params.set("f", options.format);
++	if (options.quality) params.set("q", String(options.quality));
++
++	const query = params.toString();
++	return query ? `${base}?${query}` : base;
++}
++
++function generateLocalSrcset(
++	img: MediaValue,
++	maxWidth: number,
++	aspectRatio?: number
++): string {
++	return BREAKPOINTS.filter((w) => w <= maxWidth * 2)
++		.map((w) => {
++			const h = aspectRatio ? Math.round(w / aspectRatio) : undefined;
++			return `${buildOptimizedLocalImageUrl(img, {
++				width: w,
++				height: h,
++				format: "webp",
++				quality: 82,
++			})} ${w}w`;
++		})
++		.join(", ");
++}
++
+ /**
+  * Generate srcset using provider's getSrc function
+  */
+@@ -98,7 +133,21 @@ if (img) {
+ 
+ 	if (providerId === "local" || img.src) {
+ 		// Local provider or direct src URL
+-		src = img.src || buildLocalImageUrl(img);
++		if (img.src) {
++			src = img.src;
++		} else {
++			src = buildOptimizedLocalImageUrl(img, {
++				width: finalWidth,
++				height: finalHeight,
++				format: "webp",
++				quality: 82,
++			});
++			const maxWidth = finalWidth || 1200;
++			srcset = generateLocalSrcset(img, maxWidth, aspectRatio);
++			sizes = finalWidth
++				? `(min-width: ${finalWidth}px) ${finalWidth}px, 100vw`
++				: "100vw";
++		}
+ 	} else {
+ 		// External provider
+ 		try {
+diff --git a/node_modules/emdash/src/components/EmDashMedia.astro b/node_modules/emdash/src/components/EmDashMedia.astro
+index 5df7cbd..788c668 100644
+--- a/node_modules/emdash/src/components/EmDashMedia.astro
++++ b/node_modules/emdash/src/components/EmDashMedia.astro
+@@ -36,6 +36,24 @@ interface Props extends Omit<HTMLAttributes<"img" | "video" | "audio">, "src" |
+ 
+ const { value, alt, width, height, format, ...attrs } = Astro.props;
+ 
++function buildOptimizedLocalImageUrl(
++	media: MediaValue,
++	options: { width?: number; height?: number; format?: string; quality?: number } = {},
++): string {
++	const storageKey = (media.meta?.storageKey as string) || media.id;
++	if (!storageKey) return "";
++
++	const params = new URLSearchParams();
++	if (options.width) params.set("w", String(options.width));
++	if (options.height) params.set("h", String(options.height));
++	if (options.format) params.set("f", options.format);
++	if (options.quality) params.set("q", String(options.quality));
++
++	const query = params.toString();
++	const base = `/_emdash/api/media/file/${storageKey}`;
++	return query ? `${base}?${query}` : base;
++}
++
+ // Normalize string URLs to MediaValue
+ function normalizeValue(val: MediaValue | string | undefined | null): MediaValue | null {
+ 	if (!val) return null;
+@@ -97,7 +115,12 @@ if (media) {
+ 			} else {
+ 				embed = {
+ 					type: "image",
+-					src: `/_emdash/api/media/file/${storageKey}`,
++					src: buildOptimizedLocalImageUrl(media, {
++						width,
++						height,
++						format: format === "auto" ? "webp" : format || "webp",
++						quality: 82,
++					}),
+ 					width: media.width,
+ 					height: media.height,
+ 					alt: media.alt,
+diff --git a/node_modules/emdash/src/emdash-runtime.ts b/node_modules/emdash/src/emdash-runtime.ts
+index be83a7d..3709014 100644
+--- a/node_modules/emdash/src/emdash-runtime.ts
++++ b/node_modules/emdash/src/emdash-runtime.ts
+@@ -1187,7 +1187,10 @@ export class EmDashRuntime {
+ 						if (field.validation?.options) {
+ 							entry.options = field.validation.options.map((v) => ({
+ 								value: v,
+-								label: v.charAt(0).toUpperCase() + v.slice(1),
++								label: v
++									.split(/[-_]/g)
++									.map((part) => part.charAt(0).toUpperCase() + part.slice(1))
++									.join(" "),
+ 							}));
+ 						}
+ 						// Include full validation for repeater fields (subFields, minItems, maxItems)

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Automation and vigilance</title>
+  <desc id="desc">A looping system path held open by a watch point.</desc>
+  <rect width="1200" height="720" fill="#ece6dc"/>
+  <path d="M340 210h360c92 0 166 74 166 166s-74 166-166 166H500c-92 0-166-74-166-166" fill="none" stroke="#29211c" stroke-opacity=".22" stroke-width="26" stroke-linecap="round"/>
+  <path d="M340 210h360c92 0 166 74 166 166s-74 166-166 166H500c-92 0-166-74-166-166" fill="none" stroke="#29211c" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="334" cy="376" r="24" fill="#29211c"/>
+  <circle cx="866" cy="376" r="10" fill="#29211c"/>
+  <path d="M310 600h580" stroke="#29211c" stroke-opacity=".18"/>
+</svg>

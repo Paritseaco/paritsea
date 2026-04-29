@@ -1,0 +1,133 @@
+---
+import { getTerm, getEmDashCollection, getEntryTerms, decodeSlug } from "emdash";
+import Base from "../../layouts/Base.astro";
+import PostCard from "../../components/PostCard.astro";
+import { getReadingTime } from "../../utils/reading-time";
+import { resolvePostPath } from "../../utils/public-paths";
+import { getAstroLocale, localizeEntry, localizeTermLabel, localizedPath } from "../../utils/i18n";
+
+const slug = decodeSlug(Astro.params.slug);
+const locale = getAstroLocale(Astro);
+const structuralPages = new Set(["the-doctrine", "protocols", "standards", "the-method"]);
+
+if (slug && structuralPages.has(slug)) {
+	return Astro.redirect(localizedPath(`/${slug}`, locale), 301);
+}
+
+const term = slug ? await getTerm("category", slug) : null;
+
+if (!term) {
+	return Astro.redirect("/404");
+}
+
+const { entries: posts } = await getEmDashCollection("posts", {
+	where: { category: term.slug },
+	orderBy: { published_at: "desc" },
+});
+
+const filteredPosts = await Promise.all(
+	posts.map(async (post) => {
+		const categories = await getEntryTerms("posts", post.data.id, "category");
+		const bylines = post.data.bylines ?? [];
+		return {
+			post: localizeEntry(post, "posts", locale),
+			cats: categories.map((term) => ({ ...term, label: localizeTermLabel(term.label, locale) })),
+			bylines,
+		};
+	})
+);
+const termLabel = localizeTermLabel(term.label, locale);
+---
+
+<Base
+	title={`${termLabel} — Paritsea`}
+	description={`Legacy archive view for ${termLabel}.`}
+	robots="noindex, follow"
+	locale={locale}
+>
+	<section class="archive-section">
+		<header class="archive-header">
+			<span class="archive-label">{locale === "th" ? "หมวดหมู่" : "Category"}</span>
+			<h1 class="archive-title">{termLabel}</h1>
+			<p class="archive-count">
+				{filteredPosts.length}
+				{locale === "th" ? " รายการ" : filteredPosts.length === 1 ? "post" : "posts"}
+			</p>
+		</header>
+
+		{
+			filteredPosts.length === 0 ? (
+				<p class="no-posts">{locale === "th" ? "ยังไม่มี entry ในหมวดนี้" : "No posts in this category yet."}</p>
+			) : (
+				<div class="posts-grid">
+					{filteredPosts.map(({ post, cats }) => (
+						<PostCard
+							title={post.data.title}
+							excerpt={post.data.excerpt}
+							featuredImage={post.data.featured_image}
+							href={
+								localizedPath(resolvePostPath(post.id, post.data.framework_page, null) ??
+								`/the-method/${post.id}`, locale)
+							}
+							date={post.data.publishedAt ?? undefined}
+							readingTime={getReadingTime(post.data.content)}
+							tags={cats.map((c) => ({ slug: c.slug, label: c.label }))}
+							locale={locale}
+						/>
+					))}
+				</div>
+			)
+		}
+	</section>
+</Base>
+
+<style>
+	.archive-section {
+		max-width: 960px;
+		margin: 0 auto;
+		padding: var(--spacing-12) var(--spacing-6) var(--spacing-20);
+	}
+
+	.archive-header {
+		padding: var(--spacing-12) 0;
+		border-bottom: 1px solid var(--color-border);
+		margin-bottom: var(--spacing-10);
+	}
+
+	.archive-label {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		text-transform: uppercase;
+		letter-spacing: var(--tracking-widest);
+		color: var(--color-muted);
+	}
+
+	.archive-title {
+		font-family: var(--font-serif);
+		font-size: clamp(2.5rem, 6vw, 4rem);
+		line-height: 1;
+		letter-spacing: -0.04em;
+		margin: var(--spacing-3) 0 var(--spacing-2);
+	}
+
+	.archive-count,
+	.no-posts {
+		font-family: var(--font-sans);
+		color: var(--color-text-secondary);
+	}
+
+	.posts-grid {
+		display: grid;
+		gap: var(--spacing-10);
+	}
+
+	@media (max-width: 720px) {
+		.archive-header {
+			padding: var(--spacing-10) 0;
+		}
+
+		.archive-section {
+			padding: var(--spacing-8) var(--spacing-4) var(--spacing-14);
+		}
+	}
+</style>

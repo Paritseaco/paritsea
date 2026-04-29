@@ -1,0 +1,311 @@
+---
+import Base from "../layouts/Base.astro";
+import UsageGuidance from "../components/UsageGuidance.astro";
+import { getAstroLocale, localizedPath, ui } from "../utils/i18n";
+
+const locale = getAstroLocale(Astro);
+const navLabels = ui[locale].navLabels;
+
+const copy = locale === "th"
+	? {
+			title: navLabels.Implementations,
+			description:
+				"การนำไปใช้คือชั้นประยุกต์ของ Paritsea: ระบบที่บันทึกไว้ซึ่งทำให้หลักคำสอน โปรโตคอล และมาตรฐานกลายเป็นพฤติกรรมการทำงานจริง",
+			eyebrow: "ชั้นอ้างอิงเชิงประยุกต์",
+			intro:
+				"Paritsea ถูกออกแบบให้เดินทางออกจากข้อความ Implementation คือระบบ ผลิตภัณฑ์ และสภาพแวดล้อมการทำงานที่ทำให้หลักคำสอน โปรโตคอล และมาตรฐานกลายเป็นพฤติกรรมจริง",
+			secondary:
+				"implementation จะนับว่าผ่านเมื่อใช้ Paritsea อย่างซื่อตรงพอที่จะยังอ่านออกว่าเป็นวัตถุอ้างอิง ไม่ใช่เพียงภาษาผลิตภัณฑ์หรือ compliance เชิงภาพลักษณ์",
+			publiclyDocumented: "เผยแพร่แล้ว",
+			open: "เปิด implementation →",
+			qualification: "กฎการนับเป็น implementation",
+			qualificationText:
+				"implementation ต้องใช้ Paritsea ในเชิงโครงสร้าง ไม่ใช่เชิงตกแต่ง กรอบอ้างอิงต้องกำหนดพฤติกรรมของผลิตภัณฑ์ ตรรกะความรับผิด และ trust surface ที่ผู้อ่านตรวจสอบได้อย่างมีความหมาย",
+			integrity: "ความสมบูรณ์ของการอ้างอิง",
+			integrityText:
+				"implementation ต้องไม่แปลงมาตรฐานเป็นระบบรีวิว star rating leaderboard sponsored discovery หรือการเปิด raw score การประยุกต์ต้องรักษาความหมายเชิงโครงสร้าง ไม่ใช่จำลองภาพของมัน",
+			current: "การอ่านสถานะปัจจุบัน",
+			currentTextBefore: "AgenSea คือ implementation แรกที่บันทึกไว้ และปัจจุบันใช้",
+			currentTextAfter: "ภายในโมเดลผลิตภัณฑ์ MVP",
+			items: [
+				{
+					name: "AgenSea",
+					status: "MVP กำลังพัฒนา",
+					label: "ASLS-01 v1.1 implementation",
+					description:
+						"แพลตฟอร์มความโปร่งใสเชิงโครงสร้างสำหรับงานเอเจนซี-ลูกค้า ที่นำ ASLS ไปใช้ใน discovery, profile logic, trust surface, contract และ workflow การทำงาน",
+					href: "https://agensea-flame.vercel.app/",
+					notes: [
+						"ใช้ความชอบธรรมเชิงโครงสร้างแทนสัญญาณชื่อเสียง",
+						"แปลง ASLS เป็น trust surface ที่มนุษย์อ่านได้ แทนการเปิด raw score",
+						"แยก structural scoring ออกจาก operational trust signals อย่างชัดเจน",
+					],
+				},
+			],
+		}
+	: {
+			title: "Implementations",
+			description:
+				"Implementations are the applied layer of Paritsea: documented systems that enforce doctrine, protocols, and standards in real environments.",
+			eyebrow: "Applied Reference Layer",
+			intro:
+				"Paritsea is intended to travel beyond text. Implementations are the systems, products, and operating environments where doctrine, protocols, and standards become real operating behaviour.",
+			secondary:
+				"An implementation qualifies when it applies Paritsea faithfully enough to remain legible as a reference object, not merely as branded product language or cosmetic compliance.",
+			publiclyDocumented: "publicly documented",
+			open: "Open implementation →",
+			qualification: "Qualification Rule",
+			qualificationText:
+				"An implementation must apply Paritsea structurally, not cosmetically. The framework has to shape product behaviour, accountability logic, and reader-visible trust surfaces in ways others can meaningfully inspect.",
+			integrity: "Reference Integrity",
+			integrityText:
+				"Implementations must not convert standards into review systems, star ratings, leaderboard mechanics, sponsored discovery, or raw score exposure. Application has to preserve structural meaning, not simulate it.",
+			current: "Current Reading",
+			currentTextBefore: "AgenSea is the first documented implementation and currently applies",
+			currentTextAfter: "inside an MVP product model.",
+			items: [
+				{
+					name: "AgenSea",
+					status: "MVP in development",
+					label: "ASLS-01 v1.1 implementation",
+					description:
+						"A structural transparency platform for agency-client work that applies ASLS inside discovery, profile logic, trust surfaces, contracts, and operating workflows.",
+					href: "https://agensea-flame.vercel.app/",
+					notes: [
+						"Implements structural legitimacy rather than reputation signals.",
+						"Translates ASLS into human-readable trust surfaces instead of exposing raw scores.",
+						"Treats structural scoring and operational trust signals as distinct layers.",
+					],
+				},
+			],
+		};
+---
+
+<Base
+	title={copy.title}
+	description={copy.description}
+	locale={locale}
+>
+	<div class="implementations-page">
+		<header class="page-header">
+			<div class="page-header-inner">
+				<p class="page-eyebrow">{copy.eyebrow}</p>
+				<h1 class="page-title">{copy.title}</h1>
+				<p class="page-description">
+					{copy.intro}
+				</p>
+				<p class="page-description-secondary">
+					{copy.secondary}
+				</p>
+				<p class="page-meta-note">
+					{copy.items.length} {copy.items.length === 1 ? "implementation" : "implementations"} {copy.publiclyDocumented}
+				</p>
+				<UsageGuidance variant="implementations" compact locale={locale} />
+			</div>
+		</header>
+
+		<section class="implementation-list" aria-label="Implementation registry">
+			{copy.items.map((implementation, index) => (
+				<article class="implementation-card">
+					<div class="implementation-index">{String(index + 1).padStart(2, "0")}</div>
+					<div class="implementation-body">
+						<div class="implementation-meta">
+							<span class="implementation-label">{implementation.label}</span>
+							<span class="implementation-status">{implementation.status}</span>
+						</div>
+						<h2 class="implementation-title">{implementation.name}</h2>
+						<p class="implementation-description">{implementation.description}</p>
+						<ul class="implementation-notes">
+							{implementation.notes.map((note) => (
+								<li>{note}</li>
+							))}
+						</ul>
+						<a
+							href={implementation.href}
+							class="implementation-link"
+							target="_blank"
+							rel="noreferrer"
+						>
+							{copy.open}
+						</a>
+					</div>
+				</article>
+			))}
+		</section>
+
+		<aside class="page-aside">
+			<div class="aside-block">
+				<h2 class="aside-heading">{copy.qualification}</h2>
+				<p class="aside-text">
+					{copy.qualificationText}
+				</p>
+			</div>
+			<div class="aside-block">
+				<h2 class="aside-heading">{copy.integrity}</h2>
+				<p class="aside-text">
+					{copy.integrityText}
+				</p>
+			</div>
+			<div class="aside-block">
+				<h2 class="aside-heading">{copy.current}</h2>
+				<p class="aside-text">
+					{copy.currentTextBefore} <a href={localizedPath("/standards/asls-01", locale)} class="aside-link">ASLS-01</a> {copy.currentTextAfter}
+				</p>
+			</div>
+		</aside>
+	</div>
+</Base>
+
+<style>
+	.implementations-page {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: var(--spacing-16) var(--spacing-8) var(--spacing-20);
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 280px;
+		gap: 0 var(--spacing-16);
+		align-items: start;
+	}
+
+	.page-header {
+		grid-column: 1 / -1;
+		padding-bottom: var(--spacing-12);
+		border-bottom: 1px solid var(--color-border);
+		margin-bottom: var(--spacing-12);
+	}
+
+	.page-header-inner {
+		max-width: 760px;
+	}
+
+	.page-eyebrow,
+	.aside-heading,
+	.implementation-label,
+	.implementation-status {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		text-transform: uppercase;
+		letter-spacing: var(--tracking-widest);
+		color: var(--color-muted);
+	}
+
+	.page-title,
+	.implementation-title {
+		font-family: var(--font-serif);
+		letter-spacing: -0.03em;
+	}
+
+	.page-title {
+		font-size: clamp(3rem, 7vw, 5rem);
+		line-height: 0.95;
+		margin: 0 0 var(--spacing-5);
+	}
+
+	.page-description,
+	.page-description-secondary,
+	.page-meta-note,
+	.implementation-description,
+	.implementation-notes,
+	.aside-text {
+		font-family: var(--font-sans);
+		color: var(--color-text-secondary);
+		line-height: var(--leading-relaxed);
+	}
+
+	.page-description-secondary {
+		margin-top: var(--spacing-4);
+	}
+
+	.page-meta-note {
+		margin-top: var(--spacing-5);
+		font-size: var(--font-size-sm);
+		color: var(--color-muted);
+	}
+
+	.implementation-list {
+		display: grid;
+		gap: var(--spacing-5);
+	}
+
+	.implementation-card {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: var(--spacing-5);
+		padding: var(--spacing-5) 0;
+		border-top: 1px solid var(--color-border);
+	}
+
+	.implementation-index {
+		font-family: var(--font-mono);
+		font-size: var(--font-size-xs);
+		color: var(--color-muted);
+		padding-top: 0.3rem;
+	}
+
+	.implementation-meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		margin-bottom: var(--spacing-2);
+	}
+
+	.implementation-title {
+		font-size: clamp(1.6rem, 3vw, 2.4rem);
+		line-height: 1.04;
+		margin: 0 0 var(--spacing-3);
+	}
+
+	.implementation-description {
+		margin: 0 0 var(--spacing-4);
+	}
+
+	.implementation-notes {
+		margin: 0 0 var(--spacing-5);
+		padding-left: 1.2rem;
+	}
+
+	.implementation-notes li + li {
+		margin-top: 0.5rem;
+	}
+
+	.implementation-link,
+	.aside-link {
+		font-family: var(--font-sans);
+		color: var(--color-text);
+		text-decoration: none;
+	}
+
+	.implementation-link:hover,
+	.aside-link:hover {
+		opacity: 0.68;
+	}
+
+	.page-aside {
+		display: grid;
+		gap: var(--spacing-6);
+		position: sticky;
+		top: calc(var(--nav-height) + var(--spacing-6));
+	}
+
+	.aside-block {
+		padding-top: var(--spacing-4);
+		border-top: 1px solid var(--color-border);
+	}
+
+	.aside-heading {
+		color: var(--color-text);
+		margin: 0 0 var(--spacing-3);
+	}
+
+	@media (max-width: 960px) {
+		.implementations-page {
+			grid-template-columns: 1fr;
+			padding: var(--spacing-10) var(--spacing-5) var(--spacing-14);
+		}
+
+		.page-aside {
+			position: static;
+			margin-top: var(--spacing-8);
+		}
+	}
+</style>

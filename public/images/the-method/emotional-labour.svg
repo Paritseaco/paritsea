@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Monitoring as emotional labour</title>
+  <desc id="desc">A person-shaped node holding multiple unstable system lines.</desc>
+  <rect width="1200" height="720" fill="#efeae2"/>
+  <circle cx="600" cy="360" r="44" fill="#2a221d"/>
+  <g fill="none" stroke="#2a221d" stroke-opacity=".35" stroke-width="3">
+    <path d="M600 360 260 200"/>
+    <path d="M600 360 940 200"/>
+    <path d="M600 360 260 520"/>
+    <path d="M600 360 940 520"/>
+    <path d="M600 360 600 130"/>
+    <path d="M600 360 600 590"/>
+  </g>
+  <g fill="#8b7f74">
+    <circle cx="260" cy="200" r="12"/>
+    <circle cx="940" cy="200" r="12"/>
+    <circle cx="260" cy="520" r="12"/>
+    <circle cx="940" cy="520" r="12"/>
+    <circle cx="600" cy="130" r="12"/>
+    <circle cx="600" cy="590" r="12"/>
+  </g>
+  <path d="M430 360h340" stroke="#efeae2" stroke-width="6" opacity=".75"/>
+</svg>

@@ -1,0 +1,1 @@
+[     527ms] [WARNING] [Paritsea] Missing VITE_SUPABASE_URL or VITE_SUPABASE_PUBLISHABLE_KEY. Falling back to a placeholder client so the public site can still render. @ https://paritsea.co/assets/index-BoscQa28.js:168
