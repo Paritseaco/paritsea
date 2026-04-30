@@ -256,70 +256,70 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 	},
 	"asls-01": {
 		title: "มาตรฐานความชอบธรรมเชิงโครงสร้างของเอเจนซี (ASLS-01)",
-		excerpt: "ทำให้โปรโตคอลความโปร่งใสเชิงโครงสร้างใช้ได้จริงในองค์กรเอเจนซีและองค์กรบริการ",
+		excerpt: "ASLS-01 แปลง STP ให้เป็นเกณฑ์ที่ตรวจสอบได้จริงในองค์กรเอเจนซีและธุรกิจบริการ",
 		content: {
 			"v1.0 · Active · Derived from: Structural Transparency Protocol (STP) v1.0 · Authored by Parit Ritchai":
-				"v1.0 · ใช้งานอยู่ · สืบเนื่องจาก: โปรโตคอลความโปร่งใสเชิงโครงสร้าง (STP) v1.0 · เขียนโดย Parit Ritchai",
-			"I. Purpose": "I. วัตถุประสงค์",
+				"v1.0 · ใช้งานอยู่ · สืบเนื่องจาก STP v1.0 · เขียนโดย Parit Ritchai",
+			"I. Purpose": "I. จุดประสงค์",
 			"The Agency Structural Legitimacy Standard (ASLS-01) operationalises the Structural Transparency Protocol (STP) within agency and service-based organisations. It defines observable structural conditions under which an agency may be evaluated for legitimacy in relation to Human Visibility, Capacity Integrity, Choice & Representation Rights, Conflict & Competitive Boundaries, and Power & Responsibility Mapping.":
-				"มาตรฐานความชอบธรรมเชิงโครงสร้างของเอเจนซี (ASLS-01) ทำให้โปรโตคอลความโปร่งใสเชิงโครงสร้าง (STP) ใช้งานได้จริงในเอเจนซีและองค์กรบริการ โดยนิยามเงื่อนไขเชิงโครงสร้างที่สังเกตได้สำหรับประเมินความชอบธรรมของเอเจนซีในมิติการมองเห็นมนุษย์ ความสมบูรณ์ของกำลังการทำงาน สิทธิในการเลือกและการเป็นตัวแทน ความขัดแย้งและขอบเขตการแข่งขัน และการแมปอำนาจกับความรับผิด",
+				"ASLS-01 แปลง STP ให้ใช้งานได้จริงในเอเจนซีและองค์กรบริการ โดยกำหนดเงื่อนไขที่สังเกตและตรวจสอบได้ใน 5 ด้าน ได้แก่ การมองเห็นคนที่ทำงานจริง ความซื่อตรงของกำลังการทำงาน สิทธิในการเลือกตัวแทน ขอบเขตความขัดแย้งทางผลประโยชน์ และการแมปอำนาจกับความรับผิด",
 			"This standard does not regulate agencies. It establishes structural assessment conditions. Note: Legitimacy, within this framework, is a structural condition — not a marketing claim, performance outcome, or reputational status.":
-				"มาตรฐานนี้ไม่ได้กำกับดูแลเอเจนซี แต่กำหนดเงื่อนไขสำหรับการประเมินเชิงโครงสร้าง หมายเหตุ: ในกรอบนี้ ความชอบธรรมคือสภาวะเชิงโครงสร้าง ไม่ใช่คำกล่าวอ้างทางการตลาด ผลลัพธ์เชิงผลงาน หรือสถานะทางชื่อเสียง",
-			"II. Constitutional Position": "II. ตำแหน่งเชิงรัฐธรรมนูญ",
+				"มาตรฐานนี้ไม่ได้กำกับดูแลเอเจนซี — แต่กำหนดเงื่อนไขที่ใช้ประเมินโครงสร้าง\n\nหมายเหตุ: ในกรอบนี้ ความชอบธรรมคือสภาวะที่โครงสร้างกำหนด ไม่ใช่การอ้างสิทธิทางการตลาด ผลงาน หรือชื่อเสียง",
+			"II. Constitutional Position": "II. ความสัมพันธ์กับ STP",
 			"ASLS-01 remains subordinate to STP v1.0. Where ambiguity arises, interpretation of STP prevails. ASLS-01 translates protocol exposure into verifiable structural disclosures, cross-domain consistency checks, and observable legitimacy states.":
-				"ASLS-01 อยู่ใต้ STP v1.0 เมื่อเกิดความกำกวม การตีความตาม STP จะมีน้ำหนักสูงกว่า ASLS-01 แปลงการเปิดเผยตามโปรโตคอลให้เป็นการเปิดเผยเชิงโครงสร้างที่ตรวจสอบได้ การตรวจความสอดคล้องข้ามโดเมน และสภาวะความชอบธรรมที่สังเกตได้",
-			"III. Structural Assessment Domains": "III. โดเมนการประเมินเชิงโครงสร้าง",
-			"1. Human Visibility": "1. การมองเห็นมนุษย์",
+				"ASLS-01 อยู่ภายใต้ STP v1.0 เสมอ เมื่อเกิดความคลุมเครือ การตีความตาม STP มีน้ำหนักสูงกว่า\n\nหน้าที่ของ ASLS-01 คือแปลงข้อกำหนดของ STP ให้เป็นการเปิดเผยที่ตรวจสอบได้ ตรวจสอบความสอดคล้องข้ามด้าน และระบุสภาวะความชอบธรรมที่สังเกตได้",
+			"III. Structural Assessment Domains": "III. 5 ด้านการประเมิน",
+			"1. Human Visibility": "1. มองเห็นคนที่ทำงานจริง",
 			"Agencies must disclose full named team assignment prior to contract execution, role classification (Strategist / Executor / Reviewer / Decision Authority), percentage of senior involvement, experience band declaration, and subcontractor disclosure where applicable.":
-				"เอเจนซีต้องเปิดเผยรายชื่อทีมที่ได้รับมอบหมายครบถ้วนก่อนทำสัญญา การจำแนกบทบาท (นักกลยุทธ์ / ผู้ปฏิบัติ / ผู้ตรวจทาน / ผู้มีอำนาจตัดสินใจ) สัดส่วนการมีส่วนร่วมของระดับอาวุโส ระดับประสบการณ์ และผู้รับเหมาช่วงหากมี",
+				"ก่อนเซ็นสัญญา เอเจนซีต้องเปิดเผยว่าใครทำงานจริง — ไม่ใช่แค่ทีม pitch\n\nต้องระบุชื่อสมาชิกทีม บทบาทที่ชัดเจน (นักกลยุทธ์ / ผู้ปฏิบัติ / ผู้ตรวจทาน / ผู้มีอำนาจตัดสินใจ) สัดส่วนการมีส่วนร่วมของระดับอาวุโส และผู้รับเหมาช่วงหากมี",
 			"Structural Condition: No strategic authority may be implied without structural presence.":
-				"เงื่อนไขเชิงโครงสร้าง: ห้ามสื่อถึงอำนาจเชิงกลยุทธ์โดยไม่มีการมีอยู่จริงในโครงสร้าง",
-			"2. Capacity Integrity": "2. ความสมบูรณ์ของกำลังการทำงาน",
+				"เงื่อนไข: ห้ามอ้างอำนาจเชิงกลยุทธ์โดยที่คนนั้นไม่ได้มีส่วนร่วมจริงในโครงสร้าง",
+			"2. Capacity Integrity": "2. ความซื่อตรงของกำลังการทำงาน",
 			"Agencies must disclose client-to-team ratio, active workload allocation, resource strain indicators, onboarding impact statement, and escalation pathway for capacity shifts.":
-				"เอเจนซีต้องเปิดเผยอัตราส่วนลูกค้าต่อทีม การกระจายภาระงานจริง ตัวชี้วัดแรงกดดันต่อทรัพยากร ผลกระทบจากการเริ่มงาน และเส้นทางการยกระดับเมื่อกำลังการทำงานเปลี่ยน",
+				"เอเจนซีต้องเปิดเผยว่าทีมดูแลลูกค้ากี่รายในขณะนั้น งานถูกกระจายอย่างไร และการรับลูกค้าใหม่กระทบทีมเดิมอย่างไร\n\nต้องมีช่องทางที่ชัดเจนสำหรับเมื่อกำลังการทำงานเปลี่ยนแปลง",
 			"Structural Condition: Capacity must be declared at agreement stage and remain observable throughout contract duration.":
-				"เงื่อนไขเชิงโครงสร้าง: ต้องประกาศกำลังการทำงานตั้งแต่ขั้นตกลง และต้องสังเกตได้ตลอดระยะสัญญา",
-			"3. Choice & Representation Rights": "3. สิทธิในการเลือกและการเป็นตัวแทน",
+				"เงื่อนไข: ต้องประกาศกำลังการทำงานตั้งแต่ขั้นตกลง และต้องสังเกตได้ตลอดระยะสัญญา",
+			"3. Choice & Representation Rights": "3. สิทธิในการเลือกตัวแทน",
 			"Agencies must provide client right to confirm or request reassignment of primary contact, specialist reassignment process, and compatibility acknowledgement protocol.":
-				"เอเจนซีต้องให้สิทธิลูกค้าในการยืนยันหรือขอเปลี่ยนผู้ติดต่อหลัก มีกระบวนการเปลี่ยนผู้เชี่ยวชาญ และมีโปรโตคอลรับทราบความเข้ากันได้",
+				"ลูกค้าต้องมีสิทธิยืนยันหรือขอเปลี่ยนผู้รับผิดชอบหลักได้ ไม่ใช่แค่รับการมอบหมายโดยไม่ถูกถาม\n\nต้องมีกระบวนการเปลี่ยนทีมที่ชัดเจน และการรับรู้ความเข้ากันได้ก่อนเริ่มงาน",
 			"Structural Condition: Representation must be structurally consensual, not silently assigned.":
-				"เงื่อนไขเชิงโครงสร้าง: การเป็นตัวแทนต้องเกิดจากความยินยอมเชิงโครงสร้าง ไม่ใช่การมอบหมายแบบเงียบ",
-			"4. Conflict & Competitive Boundaries": "4. ความขัดแย้งและขอบเขตการแข่งขัน",
+				"เงื่อนไข: การเป็นตัวแทนต้องเกิดจากความยินยอม ไม่ใช่การมอบหมายแบบเงียบ",
+			"4. Conflict & Competitive Boundaries": "4. ความขัดแย้งทางผลประโยชน์",
 			"Agencies must disclose direct competitor relationships, audience overlap, geo-targeting overlap, strategic positioning proximity, and data or intelligence overlap where relevant.":
-				"เอเจนซีต้องเปิดเผยความสัมพันธ์กับคู่แข่งโดยตรง การทับซ้อนของกลุ่มเป้าหมาย การทับซ้อนของพื้นที่เป้าหมาย ความใกล้เคียงของตำแหน่งเชิงกลยุทธ์ และการทับซ้อนของข้อมูลหรืออินไซต์ที่เกี่ยวข้อง",
+				"เอเจนซีต้องแจ้งว่าดูแลแบรนด์คู่แข่งอยู่หรือไม่ กลุ่มเป้าหมายทับซ้อนกันหรือเปล่า และมีข้อมูลเชิงกลยุทธ์ที่อาจขัดกันระหว่างลูกค้าหรือไม่",
 			"Conflict Classification Framework: Level 0 — Industry Overlap (no structural conflict), Level 1 — Competitive Proximity, Level 2 — Direct Competitive Conflict.":
-				"กรอบจำแนกความขัดแย้ง: ระดับ 0 — ทับซ้อนในอุตสาหกรรม (ไม่มีความขัดแย้งเชิงโครงสร้าง), ระดับ 1 — ใกล้เคียงเชิงแข่งขัน, ระดับ 2 — ขัดแย้งกับคู่แข่งโดยตรง",
+				"กรอบจำแนก: ระดับ 0 — ทับซ้อนในอุตสาหกรรม (ไม่มีความขัดแย้งเชิงโครงสร้าง) | ระดับ 1 — ใกล้เคียงเชิงแข่งขัน | ระดับ 2 — ขัดแย้งกับคู่แข่งโดยตรง",
 			"Structural Condition: Conflict exposure must be declared prior to performance evaluation or contractual execution. ASLS-01 does not prohibit competitive representation. It requires structural exposure.":
-				"เงื่อนไขเชิงโครงสร้าง: ต้องประกาศความขัดแย้งก่อนประเมินผลงานหรือทำสัญญา ASLS-01 ไม่ได้ห้ามการเป็นตัวแทนของคู่แข่ง แต่กำหนดให้ต้องเปิดเผยเชิงโครงสร้าง",
-			"5. Power & Responsibility Mapping": "5. การแมปอำนาจและความรับผิด",
+				"เงื่อนไข: ต้องแจ้งความขัดแย้งก่อนประเมินผลหรือทำสัญญา ASLS-01 ไม่ได้ห้ามดูแลแบรนด์คู่แข่ง — แต่กำหนดให้ต้องเปิดเผย",
+			"5. Power & Responsibility Mapping": "5. แมปอำนาจและความรับผิด",
 			"Agencies must document decision authority map, KPI ownership structure, risk allocation statement, and escalation authority framework.":
-				"เอเจนซีต้องจัดทำแผนที่อำนาจตัดสินใจ โครงสร้างความเป็นเจ้าของ KPI คำแถลงการจัดสรรความเสี่ยง และกรอบอำนาจในการยกระดับ",
+				"ต้องระบุให้ชัดว่าใครตัดสินใจขั้นสุดท้าย ใครเป็นเจ้าของ KPI ใครแบกรับความเสี่ยง และเมื่องานล้มเหลว — ใครรับผลนั้น",
 			"Structural Condition: Strategic authority must align with accountability and risk absorption.":
-				"เงื่อนไขเชิงโครงสร้าง: อำนาจเชิงกลยุทธ์ต้องสอดคล้องกับความรับผิดและการรับความเสี่ยง",
+				"เงื่อนไข: อำนาจตัดสินใจต้องสอดคล้องกับความรับผิดและการรับความเสี่ยง",
 			"IV. Evaluation Logic": "IV. ตรรกะการประเมิน",
 			"ASLS-01 evaluates structural completeness, consistency between declared and observable structure, cross-domain coherence, and clarity of authority and risk alignment. ASLS-01 does not measure financial performance, creative quality, revenue size, or market popularity.":
-				"ASLS-01 ประเมินความครบถ้วนของโครงสร้าง ความสอดคล้องระหว่างสิ่งที่ประกาศกับสิ่งที่สังเกตได้ ความสอดคล้องข้ามโดเมน และความชัดเจนของอำนาจกับความเสี่ยง ASLS-01 ไม่วัดผลงานทางการเงิน คุณภาพงานสร้างสรรค์ ขนาดรายได้ หรือความนิยมในตลาด",
-			"V. Structural States": "V. สภาวะเชิงโครงสร้าง",
+				"ASLS-01 ประเมินว่าโครงสร้างครบถ้วนหรือไม่ สิ่งที่ประกาศตรงกับสิ่งที่เกิดขึ้นจริงหรือเปล่า และอำนาจกับความรับผิดสอดคล้องกันอย่างไร\n\nมาตรฐานนี้ไม่ได้วัดผลงานทางการเงิน ความคิดสร้างสรรค์ ขนาดรายได้ หรือความนิยม",
+			"V. Structural States": "V. สภาวะที่เอเจนซีอาจอยู่",
 			"Agencies may be observed under one of the following structural states:":
-				"เอเจนซีอาจถูกสังเกตภายใต้สภาวะเชิงโครงสร้างต่อไปนี้:",
+				"เอเจนซีอาจถูกสังเกตในสภาวะใดสภาวะหนึ่งต่อไปนี้:",
 			"A. Structurally Aligned: All five domains meet required disclosure conditions. No structural contradictions observed.\n\nB. Structurally Incomplete: One or more domains lack required disclosure. No evidence of contradiction.\n\nC. Structurally Misaligned: Declared structure conflicts with observable operational reality.\n\nD. Structurally Opaque: Required disclosures are absent or intentionally withheld.":
-				"A. สอดคล้องเชิงโครงสร้าง: ทั้งห้าโดเมนผ่านเงื่อนไขการเปิดเผย ไม่มีความขัดแย้งเชิงโครงสร้างที่สังเกตได้\n\nB. ไม่ครบถ้วนเชิงโครงสร้าง: หนึ่งโดเมนหรือมากกว่านั้นขาดการเปิดเผยที่จำเป็น แต่ยังไม่มีหลักฐานของความขัดแย้ง\n\nC. ไม่ตรงกันเชิงโครงสร้าง: โครงสร้างที่ประกาศขัดกับความจริงในการปฏิบัติที่สังเกตได้\n\nD. ทึบแสงเชิงโครงสร้าง: การเปิดเผยที่จำเป็นขาดหายหรือถูกปิดบังโดยเจตนา",
+				"A. สอดคล้อง — ทั้งห้าด้านผ่านเงื่อนไขการเปิดเผย ไม่มีความขัดแย้งที่สังเกตได้\n\nB. ไม่ครบ — บางด้านขาดการเปิดเผย แต่ยังไม่พบหลักฐานของความขัดแย้ง\n\nC. ไม่ตรงกัน — สิ่งที่ประกาศขัดกับสิ่งที่เกิดขึ้นจริง\n\nD. ปิดบัง — การเปิดเผยที่จำเป็นขาดหาย หรือถูกกักไว้โดยเจตนา",
 			"Structural states describe exposure condition — not moral judgement.":
-				"สภาวะเชิงโครงสร้างอธิบายเงื่อนไขการเปิดเผย ไม่ใช่การตัดสินทางศีลธรรม",
+				"สภาวะเหล่านี้อธิบายเงื่อนไขการเปิดเผย ไม่ใช่การตัดสินทางศีลธรรม",
 			"VI. Version Governance": "VI. การกำกับเวอร์ชัน",
 			"ASLS-01 v1.0 is derived from STP v1.0. Future revisions must declare protocol dependency version, must not retroactively alter prior assessment logic, and require explicit version increment. Adoption of future versions is contract-specific and not automatic.":
-				"ASLS-01 v1.0 สืบเนื่องจาก STP v1.0 การปรับปรุงในอนาคตต้องระบุเวอร์ชันของโปรโตคอลที่พึ่งพา ห้ามเปลี่ยนตรรกะการประเมินย้อนหลัง และต้องเพิ่มเวอร์ชันอย่างชัดเจน การรับเวอร์ชันใหม่ขึ้นอยู่กับสัญญาแต่ละฉบับ ไม่ใช่เรื่องอัตโนมัติ",
-			"VII. Licensing Position": "VII. ตำแหน่งเรื่องสิทธิการใช้",
+				"ASLS-01 v1.0 สืบเนื่องจาก STP v1.0 การแก้ไขในอนาคตต้องระบุเวอร์ชัน STP ที่พึ่งพา ห้ามเปลี่ยนตรรกะการประเมินย้อนหลัง และต้องเพิ่มเลขเวอร์ชันอย่างชัดเจน\n\nการรับเวอร์ชันใหม่ขึ้นอยู่กับสัญญาแต่ละฉบับ — ไม่ใช่อัตโนมัติ",
+			"VII. Licensing Position": "VII. การใช้และอ้างอิง",
 			"ASLS-01 may be cited and referenced publicly. Commercial enforcement, automated implementation, or system-level operationalisation requires separate licensing agreement. Structural evaluation under ASLS-01 does not constitute certification unless explicitly defined by contractual arrangement.":
-				"ASLS-01 สามารถอ้างอิงและกล่าวถึงต่อสาธารณะได้ แต่การบังคับใช้เชิงพาณิชย์ การนำไปใช้แบบอัตโนมัติ หรือการปฏิบัติในระดับระบบต้องมีข้อตกลงสิทธิการใช้แยกต่างหาก การประเมินเชิงโครงสร้างตาม ASLS-01 ไม่ถือเป็นการรับรอง เว้นแต่กำหนดไว้ชัดเจนในสัญญา",
-			"VIII. Economic Implication": "VIII. ผลทางเศรษฐกิจ",
+				"ASLS-01 อ้างอิงต่อสาธารณะได้ การบังคับใช้เชิงพาณิชย์ การนำไปใช้แบบอัตโนมัติ หรือการฝังเข้าระบบต้องมีข้อตกลงสิทธิการใช้แยกต่างหาก\n\nการประเมินตาม ASLS-01 ไม่ถือเป็นการรับรอง เว้นแต่กำหนดไว้ชัดเจนในสัญญา",
+			"VIII. Economic Implication": "VIII. ผลกระทบทางธุรกิจ",
 			"Adoption of ASLS-01 may reduce onboarding velocity, expose internal inefficiencies, and increase structural scrutiny. It may also improve retention stability, reduce reputational volatility, strengthen executive-level trust, and reduce structural dispute risk.":
-				"การรับ ASLS-01 อาจลดความเร็วในการเริ่มงาน เปิดเผยความไร้ประสิทธิภาพภายใน และเพิ่มการตรวจสอบเชิงโครงสร้าง แต่ก็อาจเพิ่มเสถียรภาพในการรักษาลูกค้า ลดความผันผวนด้านชื่อเสียง เสริมความไว้วางใจระดับผู้บริหาร และลดความเสี่ยงของข้อพิพาทเชิงโครงสร้าง",
+				"การนำ ASLS-01 ไปใช้อาจทำให้รับงานใหม่ช้าลง เปิดเผยความไร้ประสิทธิภาพภายใน และเพิ่มการตรวจสอบ\n\nแต่ก็อาจเพิ่มความมั่นคงในการรักษาลูกค้า ลดความผันผวนของชื่อเสียง เสริมความไว้วางใจระดับผู้บริหาร และลดความเสี่ยงของข้อพิพาท",
 			"ASLS-01 does not compel reform. It defines exposure conditions under which legitimacy may be observed.":
-				"ASLS-01 ไม่ได้บังคับให้ปฏิรูป แต่นิยามเงื่อนไขการเปิดเผยซึ่งทำให้ความชอบธรรมอาจถูกสังเกตได้",
-			"IX. Closing Position": "IX. จุดยืนปิดท้าย",
+				"ASLS-01 ไม่บังคับให้เปลี่ยนแปลง — แต่กำหนดเงื่อนไขที่ทำให้ความชอบธรรมถูกมองเห็นได้",
+			"IX. Closing Position": "IX. จุดยืน",
 			"Legitimacy is not a marketing position. It is a structural condition. ASLS-01 defines the conditions under which structural legitimacy in agency systems may be observed. It does not compel change. It defines exposure.":
-				"ความชอบธรรมไม่ใช่ตำแหน่งทางการตลาด แต่เป็นสภาวะเชิงโครงสร้าง ASLS-01 นิยามเงื่อนไขที่ทำให้ความชอบธรรมเชิงโครงสร้างในระบบเอเจนซีถูกสังเกตได้ มันไม่ได้บังคับให้เปลี่ยนแปลง แต่นิยามการเปิดเผย",
+				"ความชอบธรรมไม่ใช่การตลาด — มันเป็นสภาวะที่โครงสร้างกำหนด\n\nASLS-01 กำหนดเงื่อนไขที่ทำให้ความชอบธรรมเชิงโครงสร้างในระบบเอเจนซีถูกสังเกตได้ ไม่ได้สั่งให้เปลี่ยน — แต่กำหนดการเปิดเผย",
 		},
 	},
 	"record-when-everything-works": {
