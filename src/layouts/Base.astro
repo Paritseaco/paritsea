@@ -679,25 +679,61 @@ const isLoggedIn = !!Astro.locals.user;
 				}
 
 				:lang(th) body {
-					font-size: 1.0625rem;   /* Sarabun reads slightly larger than Inter */
-					line-height: 1.85;      /* Thai script needs more vertical rhythm */
+					font-size: 1.0625rem;
+					line-height: 1.85;
 					letter-spacing: 0;
-					word-break: keep-all;   /* prevent break mid-syllable */
+					word-break: keep-all;
 				}
 
+				/*
+				 * Thai headings — light weight.
+				 * Sarabun 700 renders as thick newspaper type.
+				 * 300 reads as constitutional document: calm, precise.
+				 */
 				:lang(th) h1,
 				:lang(th) h2,
 				:lang(th) h3,
 				:lang(th) h4,
 				:lang(th) h5,
 				:lang(th) h6 {
-					font-weight: 600;
+					font-family: 'Sarabun', system-ui, sans-serif;
+					font-weight: 300;
 					letter-spacing: 0;
-					line-height: 1.35;
+					line-height: 1.4;
 				}
 
+				/*
+				 * Hero statement — hardcoded Georgia in index.astro doesn't inherit
+				 * :lang(th) font variables, so we override directly here.
+				 */
 				:lang(th) .hero-statement {
-					line-height: 1.25;
+					font-family: 'Sarabun', system-ui, sans-serif !important;
+					font-weight: 300 !important;
+					font-size: clamp(1.875rem, 4.2vw, 3.25rem) !important;
+					line-height: 1.42 !important;
+					letter-spacing: 0 !important;
+				}
+
+				/* Pillar & record titles (also hardcoded Georgia) */
+				:lang(th) .pillar-title,
+				:lang(th) .record-title,
+				:lang(th) .closing-quote,
+				:lang(th) .article-title,
+				:lang(th) .index-title,
+				:lang(th) .page-title,
+				:lang(th) .implementation-title {
+					font-family: 'Sarabun', system-ui, sans-serif !important;
+					font-weight: 300 !important;
+					letter-spacing: 0 !important;
+				}
+
+				/* Article blockquotes */
+				:lang(th) .article-content :global(blockquote) {
+					font-family: 'Sarabun', system-ui, sans-serif !important;
+					font-weight: 300 !important;
+					font-style: normal !important;
+					line-height: 1.7 !important;
+					letter-spacing: 0 !important;
 				}
 
 				:lang(th) .article-content :global(p),
