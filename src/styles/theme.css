@@ -19,6 +19,10 @@
 	--color-accent-ring: color-mix(in srgb, var(--color-accent) 10%, transparent);
 	--color-highlight: #c4bdb4;
 	--color-rule: #b8b2aa;
+	--color-sand: #c4a882;          /* warm sand — logo wave/dot accent */
+	--color-sand-subtle: #ede6da;   /* muted sand for backgrounds */
+	--color-clay: #b8794a;          /* muted clay — secondary accent */
+	--color-sea: #3f5753;           /* deep sea gray-green — depth accent */
 
 	/* --- Type scale (compact, precise) --- */
 	--font-size-2xs: 0.6875rem;  /* 11px */
@@ -97,6 +101,10 @@
 		--color-on-accent: #100e0b;
 		--color-highlight: #2a2320;
 		--color-rule: #2e2824;
+		--color-sand: #a8916c;
+		--color-sand-subtle: #2a2318;
+		--color-clay: #c4865a;
+		--color-sea: #5a7d7b;
 	}
 }
 
@@ -114,4 +122,8 @@
 	--color-on-accent: #100e0b;
 	--color-highlight: #2a2320;
 	--color-rule: #2e2824;
+	--color-sand: #a8916c;
+	--color-sand-subtle: #2a2318;
+	--color-clay: #c4865a;
+	--color-sea: #5a7d7b;
 }

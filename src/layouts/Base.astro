@@ -126,7 +126,7 @@ const isLoggedIn = !!Astro.locals.user;
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet" />
 		<Font cssVariable="--font-sans" preload />
 		<Font cssVariable="--font-mono" />
 		<title>{fullTitle}</title>
@@ -457,6 +457,10 @@ const isLoggedIn = !!Astro.locals.user;
 					);
 					--color-highlight: #c4bdb4;
 					--color-rule: #b8b2aa;
+					--color-sand: #c4a882;
+					--color-sand-subtle: #ede6da;
+					--color-clay: #b8794a;
+					--color-sea: #3f5753;
 
 					/* EmDash search theming */
 					--emdash-search-bg: var(--color-bg);
@@ -572,6 +576,8 @@ const isLoggedIn = !!Astro.locals.user;
 						--color-on-accent: #1c1917;
 						--color-highlight: #332e28;
 						--color-rule: #3a3530;
+						--color-sand: #a8916c;
+						--color-sand-subtle: #2a2318;
 					}
 				}
 
@@ -590,6 +596,10 @@ const isLoggedIn = !!Astro.locals.user;
 					--color-on-accent: #1c1917;
 					--color-highlight: #332e28;
 					--color-rule: #3a3530;
+					--color-sand: #a8916c;
+					--color-sand-subtle: #2a2318;
+					--color-clay: #c4865a;
+					--color-sea: #5a7d7b;
 				}
 
 				html {
@@ -661,6 +671,40 @@ const isLoggedIn = !!Astro.locals.user;
 					background: var(--color-highlight);
 					color: var(--color-text);
 				}
+
+				/* ─── Thai locale typography ─── */
+				:lang(th) {
+					--font-sans: 'Sarabun', system-ui, sans-serif;
+					--font-serif: 'Sarabun', system-ui, sans-serif;
+				}
+
+				:lang(th) body {
+					font-size: 1.0625rem;   /* Sarabun reads slightly larger than Inter */
+					line-height: 1.85;      /* Thai script needs more vertical rhythm */
+					letter-spacing: 0;
+					word-break: keep-all;   /* prevent break mid-syllable */
+				}
+
+				:lang(th) h1,
+				:lang(th) h2,
+				:lang(th) h3,
+				:lang(th) h4,
+				:lang(th) h5,
+				:lang(th) h6 {
+					font-weight: 600;
+					letter-spacing: 0;
+					line-height: 1.35;
+				}
+
+				:lang(th) .hero-statement {
+					line-height: 1.25;
+				}
+
+				:lang(th) .article-content :global(p),
+				:lang(th) .article-content :global(li) {
+					letter-spacing: 0;
+					line-height: 1.9;
+				}
 			}
 		</style>
 
@@ -686,13 +730,13 @@ const isLoggedIn = !!Astro.locals.user;
 			}
 
 			.site-title {
-				font-family: var(--font-sans);
-				font-size: var(--font-size-base);
-				font-weight: 600;
+				font-family: var(--font-serif);
+				font-size: var(--font-size-lg);
+				font-weight: 400;
 				color: var(--color-text);
 				text-decoration: none;
-				letter-spacing: 0.045em;
-				text-transform: uppercase;
+				letter-spacing: 0.01em;
+				text-transform: none;
 				transition: opacity var(--transition-fast);
 				flex-shrink: 0;
 			}
@@ -738,7 +782,7 @@ const isLoggedIn = !!Astro.locals.user;
 			}
 
 			.site-logo-img {
-				height: 24px;
+				height: 32px;
 				width: auto;
 				display: block;
 			}
@@ -950,13 +994,13 @@ const isLoggedIn = !!Astro.locals.user;
 			}
 
 			.footer-logo {
-				font-family: var(--font-sans);
-				font-size: var(--font-size-sm);
-				font-weight: 600;
+				font-family: var(--font-serif);
+				font-size: var(--font-size-base);
+				font-weight: 400;
 				color: var(--color-text);
 				text-decoration: none;
-				letter-spacing: 0.12em;
-				text-transform: uppercase;
+				letter-spacing: 0.01em;
+				text-transform: none;
 				transition: opacity var(--transition-fast);
 				display: inline-block;
 			}
