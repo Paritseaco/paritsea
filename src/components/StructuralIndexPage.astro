@@ -158,17 +158,30 @@ const copy = locale === "th"
 	{isProtocols && (
 		<div class="index-page">
 			<header class="index-header">
-				<div class="index-header-inner">
-					<p class="index-eyebrow">{copy.referenceLayer}</p>
-					<h1 class="index-title">{navLabels.Protocols}</h1>
-					<p class="index-description">
-						{copy.protocolsDescription}
-					</p>
-					<p class="index-meta-note">
-						{scopedPosts.length} {scopedPosts.length === 1 ? "protocol" : "protocols"} {copy.publiclyDocumented} &ensp;·&ensp; {copy.further}
-					</p>
-					<UsageGuidance variant="protocols" compact locale={locale} />
+				<div class="index-header-grid">
+					<div class="index-header-primary">
+						<p class="index-eyebrow">
+							{copy.referenceLayer}
+							<span class="index-count">{locale === "th" ? `${scopedPosts.length} Protocol ${copy.publiclyDocumented}` : `${scopedPosts.length} protocol${scopedPosts.length === 1 ? "" : "s"} ${copy.publiclyDocumented}`}</span>
+						</p>
+						<h1 class="index-title">{navLabels.Protocols}</h1>
+						<p class="index-description">{copy.protocolsDescription}</p>
+						<p class="index-meta-further">{copy.further}</p>
+					</div>
+					<div class="index-header-aside">
+						<div class="aside-block">
+							<h3 class="aside-heading">{copy.aboutProtocols}</h3>
+							<p class="aside-text">{copy.aboutProtocolsText}</p>
+						</div>
+						<div class="aside-block">
+							<h3 class="aside-heading">{copy.derivedFrom}</h3>
+							<p class="aside-text">
+								{copy.derivedFromText} <a href={localizedPath("/the-doctrine", locale)} class="aside-link">{copy.doctrineLink}</a>. {copy.noContradiction}
+							</p>
+						</div>
+					</div>
 				</div>
+				<UsageGuidance variant="protocols" compact locale={locale} />
 			</header>
 
 			<section class="document-registry">
@@ -182,9 +195,7 @@ const copy = locale === "th"
 								<div class="document-card-body">
 									{cats.length > 0 && (
 										<div class="document-card-tags">
-											{cats.map((c) => (
-												<span class="document-tag">{c.label}</span>
-											))}
+											{cats.map((c) => <span class="document-tag">{c.label}</span>)}
 										</div>
 									)}
 									<h2 class="document-card-title">{post.data.title}</h2>
@@ -199,38 +210,34 @@ const copy = locale === "th"
 					</div>
 				)}
 			</section>
-
-			<aside class="index-aside">
-				<div class="aside-block">
-					<h3 class="aside-heading">{copy.aboutProtocols}</h3>
-					<p class="aside-text">
-						{copy.aboutProtocolsText}
-					</p>
-				</div>
-				<div class="aside-block">
-					<h3 class="aside-heading">{copy.derivedFrom}</h3>
-					<p class="aside-text">
-						{copy.derivedFromText} <a href={localizedPath("/the-doctrine", locale)} class="aside-link">{copy.doctrineLink}</a>. {copy.noContradiction}
-					</p>
-				</div>
-			</aside>
 		</div>
 	)}
 
 	{isStandards && (
 		<div class="index-page">
 			<header class="index-header">
-				<div class="index-header-inner">
-					<p class="index-eyebrow">{copy.referenceLayer}</p>
-					<h1 class="index-title">{navLabels.Standards}</h1>
-					<p class="index-description">
-						{copy.standardsDescription}
-					</p>
-					<p class="index-meta-note">
-						{scopedPosts.length} {scopedPosts.length === 1 ? "standard" : "standards"} {copy.publiclyDocumented} &ensp;·&ensp; {copy.further}
-					</p>
-					<UsageGuidance variant="standards" compact locale={locale} />
+				<div class="index-header-grid">
+					<div class="index-header-primary">
+						<p class="index-eyebrow">
+							{copy.referenceLayer}
+							<span class="index-count">{locale === "th" ? `${scopedPosts.length} มาตรฐาน ${copy.publiclyDocumented}` : `${scopedPosts.length} standard${scopedPosts.length === 1 ? "" : "s"} ${copy.publiclyDocumented}`}</span>
+						</p>
+						<h1 class="index-title">{navLabels.Standards}</h1>
+						<p class="index-description">{copy.standardsDescription}</p>
+						<p class="index-meta-further">{copy.further}</p>
+					</div>
+					<div class="index-header-aside">
+						<div class="aside-block">
+							<h3 class="aside-heading">{copy.aboutStandards}</h3>
+							<p class="aside-text">{copy.aboutStandardsText}</p>
+						</div>
+						<div class="aside-block">
+							<h3 class="aside-heading">{copy.relationship}</h3>
+							<p class="aside-text">{copy.relationshipText}</p>
+						</div>
+					</div>
 				</div>
+				<UsageGuidance variant="standards" compact locale={locale} />
 			</header>
 
 			<section class="document-registry">
@@ -244,9 +251,7 @@ const copy = locale === "th"
 								<div class="document-card-body">
 									{cats.length > 0 && (
 										<div class="document-card-tags">
-											{cats.map((c) => (
-												<span class="document-tag">{c.label}</span>
-											))}
+											{cats.map((c) => <span class="document-tag">{c.label}</span>)}
 										</div>
 									)}
 									<h2 class="document-card-title">{post.data.title}</h2>
@@ -261,41 +266,34 @@ const copy = locale === "th"
 					</div>
 				)}
 			</section>
-
-			<aside class="index-aside">
-				<div class="aside-block">
-					<h3 class="aside-heading">{copy.aboutStandards}</h3>
-					<p class="aside-text">
-						{copy.aboutStandardsText}
-					</p>
-				</div>
-				<div class="aside-block">
-					<h3 class="aside-heading">{copy.relationship}</h3>
-					<p class="aside-text">
-						{copy.relationshipText}
-					</p>
-				</div>
-			</aside>
 		</div>
 	)}
 
 	{isMethod && (
 		<div class="index-page">
 			<header class="index-header">
-				<div class="index-header-inner">
-					<p class="index-eyebrow">{locale === "th" ? "ทะเบียนวิเคราะห์" : "Analytical Registry"}</p>
-					<h1 class="index-title">{navLabels["The Method"]}</h1>
-					<p class="index-description">
-						{copy.methodDescription}
-					</p>
-					<p class="index-description-secondary">
-						{copy.methodSecondary}
-					</p>
-					<p class="index-meta-note">
-						{scopedPosts.length} {scopedPosts.length === 1 ? "entry" : "entries"} published
-					</p>
-					<UsageGuidance variant="the-method" compact locale={locale} />
+				<div class="index-header-grid">
+					<div class="index-header-primary">
+						<p class="index-eyebrow">
+							{locale === "th" ? "ทะเบียนวิเคราะห์" : "Analytical Registry"}
+							<span class="index-count">{locale === "th" ? `${scopedPosts.length} บันทึก ${copy.publiclyDocumented}` : `${scopedPosts.length} entr${scopedPosts.length === 1 ? "y" : "ies"} published`}</span>
+						</p>
+						<h1 class="index-title">{navLabels["The Method"]}</h1>
+						<p class="index-description">{copy.methodDescription}</p>
+						<p class="index-description-secondary">{copy.methodSecondary}</p>
+					</div>
+					<div class="index-header-aside">
+						<div class="aside-block">
+							<h3 class="aside-heading">{copy.notWhat}</h3>
+							<p class="aside-text">{copy.notWhatText}</p>
+						</div>
+						<div class="aside-block">
+							<h3 class="aside-heading">{copy.whatHappens}</h3>
+							<p class="aside-text">{copy.whatHappensText}</p>
+						</div>
+					</div>
 				</div>
+				<UsageGuidance variant="the-method" compact locale={locale} />
 			</header>
 
 			<section class="document-registry">
@@ -309,9 +307,7 @@ const copy = locale === "th"
 								<div class="document-card-body">
 									{cats.length > 0 && (
 										<div class="document-card-tags">
-											{cats.map((c) => (
-												<span class="document-tag">{c.label}</span>
-											))}
+											{cats.map((c) => <span class="document-tag">{c.label}</span>)}
 										</div>
 									)}
 									<h2 class="document-card-title">{post.data.title}</h2>
@@ -326,73 +322,74 @@ const copy = locale === "th"
 					</div>
 				)}
 			</section>
-
-			<aside class="index-aside">
-				<div class="aside-block">
-					<h3 class="aside-heading">{copy.notWhat}</h3>
-					<p class="aside-text">
-						{copy.notWhatText}
-					</p>
-				</div>
-				<div class="aside-block">
-					<h3 class="aside-heading">{copy.whatHappens}</h3>
-					<p class="aside-text">
-						{copy.whatHappensText}
-					</p>
-				</div>
-			</aside>
 		</div>
 	)}
 </Base>
 
 <style>
+	/* ─── Page shell ─── */
 	.index-page {
-		max-width: 1200px;
+		max-width: var(--wide-width);
 		margin: 0 auto;
 		padding: var(--spacing-16) var(--spacing-8) var(--spacing-20);
-		display: grid;
-		grid-template-columns: 1fr 280px;
-		grid-template-rows: auto 1fr;
-		gap: 0 var(--spacing-16);
-		align-items: start;
 	}
 
+	/* ─── Header ─── */
 	.index-header {
-		grid-column: 1 / -1;
-		padding-bottom: var(--spacing-12);
-		border-bottom: 1px solid var(--color-border);
+		padding-bottom: var(--spacing-10);
+		border-bottom: 1px solid var(--color-border-subtle);
 		margin-bottom: var(--spacing-12);
 	}
 
-	.index-header-inner {
-		max-width: 700px;
+	/* Two-column header: title+desc left | aside info right */
+	.index-header-grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 260px;
+		gap: var(--spacing-16);
+		align-items: start;
+		margin-bottom: var(--spacing-8);
 	}
 
-	.index-eyebrow,
-	.aside-heading {
+	.index-header-aside {
+		padding-top: calc(var(--font-size-xs) + var(--spacing-3));
+		display: grid;
+		gap: var(--spacing-6);
+	}
+
+	/* Eyebrow row: label + count right-aligned */
+	.index-eyebrow {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
 		font-family: var(--font-sans);
 		font-size: var(--font-size-xs);
 		text-transform: uppercase;
 		letter-spacing: var(--tracking-widest);
 		color: var(--color-muted);
+		margin-bottom: var(--spacing-4);
 	}
 
-	.index-title,
-	.document-card-title {
-		font-family: var(--font-serif);
-		letter-spacing: -.03em;
+	.index-count {
+		font-size: var(--font-size-xs);
+		letter-spacing: var(--tracking-wide);
+		text-transform: none;
+		color: var(--color-muted);
+		font-weight: 400;
 	}
 
+	/* Title */
 	.index-title {
+		font-family: var(--font-serif);
 		font-size: clamp(3rem, 7vw, 5rem);
 		line-height: .95;
+		letter-spacing: -.03em;
 		margin: 0 0 var(--spacing-5);
 	}
 
+	/* Descriptions */
 	.index-description,
 	.index-description-secondary,
-	.index-meta-note,
-	.aside-text,
+	.index-meta-further,
 	.registry-empty,
 	.document-card-excerpt {
 		font-family: var(--font-sans);
@@ -404,32 +401,74 @@ const copy = locale === "th"
 		margin-top: var(--spacing-4);
 	}
 
-	.index-meta-note {
-		margin-top: var(--spacing-5);
+	.index-meta-further {
+		margin-top: var(--spacing-4);
 		font-size: var(--font-size-sm);
 		color: var(--color-muted);
 	}
 
+	/* Aside info (now in header) */
+	.aside-heading {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		text-transform: uppercase;
+		letter-spacing: var(--tracking-widest);
+		color: var(--color-text);
+		margin: 0 0 var(--spacing-2);
+	}
+
+	.aside-block {
+		padding-top: var(--spacing-3);
+		border-top: 1px solid var(--color-border-subtle);
+	}
+
+	.aside-text {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		color: var(--color-text-secondary);
+		line-height: var(--leading-relaxed);
+		margin: 0;
+	}
+
+	.aside-link {
+		color: var(--color-text);
+		text-decoration: underline;
+		text-underline-offset: 2px;
+		text-decoration-thickness: 1px;
+	}
+
+	/* ─── Document list ─── */
+	.document-registry {
+		max-width: 760px;
+	}
+
 	.document-list {
 		display: grid;
-		gap: var(--spacing-5);
 	}
 
 	.document-card {
 		display: grid;
-		grid-template-columns: auto 1fr;
+		grid-template-columns: 2.5rem 1fr;
 		gap: var(--spacing-5);
-		padding: var(--spacing-5) 0;
-		border-top: 1px solid var(--color-border);
+		padding: var(--spacing-6) 0;
+		border-top: 1px solid var(--color-border-subtle);
+		border-left: 3px solid transparent;
+		padding-left: var(--spacing-3);
 		text-decoration: none;
 		color: inherit;
+		transition: border-left-color var(--transition-fast);
+	}
+
+	.document-card:hover {
+		border-left-color: var(--color-accent);
 	}
 
 	.document-card-index {
-		font-family: var(--font-mono);
+		font-family: var(--font-sans);
 		font-size: var(--font-size-xs);
-		color: var(--color-muted);
+		color: var(--color-border);
 		padding-top: .3rem;
+		letter-spacing: var(--tracking-wide);
 	}
 
 	.document-card-tags {
@@ -448,14 +487,16 @@ const copy = locale === "th"
 	}
 
 	.document-card-title {
-		font-size: clamp(1.4rem, 2.6vw, 2rem);
-		line-height: 1.06;
+		font-family: var(--font-serif);
+		font-size: clamp(1.25rem, 2.4vw, 1.875rem);
+		line-height: 1.15;
+		letter-spacing: -.02em;
 		margin: 0 0 var(--spacing-2);
 		transition: opacity var(--transition-fast);
 	}
 
 	.document-card:hover .document-card-title {
-		opacity: .7;
+		opacity: .65;
 	}
 
 	.document-card-footer {
@@ -468,37 +509,37 @@ const copy = locale === "th"
 		margin-top: var(--spacing-3);
 	}
 
-	.document-read,
-	.aside-link {
-		color: var(--color-text);
+	.document-read {
+		color: var(--color-text-secondary);
 	}
 
-	.index-aside {
-		display: grid;
-		gap: var(--spacing-6);
-		position: sticky;
-		top: calc(var(--nav-height) + var(--spacing-6));
-	}
-
-	.aside-block {
-		padding-top: var(--spacing-4);
-		border-top: 1px solid var(--color-border);
-	}
-
-	.aside-heading {
-		color: var(--color-text);
-		margin: 0 0 var(--spacing-3);
-	}
-
+	/* ─── Responsive ─── */
 	@media (max-width: 960px) {
-		.index-page {
+		.index-header-grid {
 			grid-template-columns: 1fr;
+			gap: var(--spacing-8);
+		}
+
+		.index-header-aside {
+			padding-top: 0;
+			border-top: 1px solid var(--color-border-subtle);
+			padding-top: var(--spacing-6);
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.index-page {
 			padding: var(--spacing-10) var(--spacing-5) var(--spacing-14);
 		}
 
-		.index-aside {
-			position: static;
-			margin-top: var(--spacing-8);
+		.index-header-aside {
+			grid-template-columns: 1fr;
+		}
+
+		.index-eyebrow {
+			flex-direction: column;
+			gap: var(--spacing-1);
 		}
 	}
 </style>

@@ -148,42 +148,42 @@ const categoryLabels: Record<string, string> = {
 
 const postTranslations: Record<string, { title: string; excerpt?: string; content: Record<string, string> }> = {
 	doctrine: {
-		title: "หลักคำสอน Paritsea ว่าด้วยความสอดคล้องเชิงโครงสร้างและความชอบธรรม",
-		excerpt: "Paritsea วางความสอดคล้องเชิงโครงสร้างเป็นเงื่อนไขตั้งต้นของความชอบธรรมในระบบที่จัดระเบียบแล้ว",
+		title: "หลักการ Paritsea ว่าด้วยความสอดคล้องเชิงโครงสร้างและความชอบธรรม",
+		excerpt: "Paritsea วางความสอดคล้องเชิงโครงสร้างไว้เป็นเงื่อนไขพื้นฐานของความชอบธรรมในทุกระบบที่จัดระเบียบ",
 		content: {
-			"Constitutional Foundation — Immutable": "ฐานรากเชิงรัฐธรรมนูญ — ไม่เปลี่ยนรูป",
-			"Section I — Foundational Premise": "หมวด I — ข้อสมมติฐานฐานราก",
+			"Constitutional Foundation — Immutable": "ฐานรากรัฐธรรมนูญ — ไม่เปลี่ยนรูป",
+			"Section I — Foundational Premise": "หมวด I — ข้อตั้งต้น",
 			"Paritsea establishes structural coherence as a prerequisite for legitimacy in any organised system.":
-				"Paritsea วางความสอดคล้องเชิงโครงสร้างเป็นเงื่อนไขตั้งต้นของความชอบธรรมในระบบที่จัดระเบียบแล้ว",
-			"Legitimacy is not conferred by:": "ความชอบธรรมไม่ได้เกิดจาก:",
+				"Paritsea วางความสอดคล้องเชิงโครงสร้างไว้เป็นเงื่อนไขพื้นฐานของความชอบธรรมในทุกระบบที่จัดระเบียบ",
+			"Legitimacy is not conferred by:": "ความชอบธรรมไม่ได้มาจาก:",
 			"— Consensus\n— Popularity\n— Longevity\n— Institutional endorsement\n— Market scale":
 				"— ฉันทามติ\n— ความนิยม\n— การอยู่มานาน\n— การรับรองจากสถาบัน\n— ขนาดของตลาด",
-			"Legitimacy arises from structural coherence.": "ความชอบธรรมเกิดจากความสอดคล้องเชิงโครงสร้าง",
+			"Legitimacy arises from structural coherence.": "ความชอบธรรมเกิดจากความสอดคล้องของโครงสร้าง",
 			"Legitimacy, within Paritsea, is a structural condition — not a moral endorsement.":
-				"ในกรอบ Paritsea ความชอบธรรมคือสภาวะเชิงโครงสร้าง ไม่ใช่การรับรองทางศีลธรรม",
+				"ในกรอบ Paritsea ความชอบธรรมคือสภาวะที่โครงสร้างกำหนด ไม่ใช่การรับรองทางศีลธรรม",
 			"Section II — Structural Coherence": "หมวด II — ความสอดคล้องเชิงโครงสร้าง",
 			"Structural coherence requires:": "ความสอดคล้องเชิงโครงสร้างต้องมี:",
 			"— Internal consistency\n— Defined authority\n— Defined accountability\n— Alignment between declared function and operational behaviour\n— Transparent allocation of responsibility\n— Logical integrity across decision layers":
-				"— ความสอดคล้องภายใน\n— อำนาจที่นิยามชัด\n— ความรับผิดที่นิยามชัด\n— ความตรงกันระหว่างหน้าที่ที่ประกาศกับพฤติกรรมที่เกิดขึ้นจริง\n— การจัดวางความรับผิดอย่างโปร่งใส\n— ความสมบูรณ์ทางตรรกะข้ามชั้นการตัดสินใจ",
+				"— ความสอดคล้องภายใน\n— อำนาจที่กำหนดชัด\n— ความรับผิดที่กำหนดชัด\n— ความตรงกันระหว่างหน้าที่ที่ประกาศไว้กับสิ่งที่ทำจริง\n— การจัดสรรความรับผิดอย่างโปร่งใส\n— ความสมเหตุสมผลทางตรรกะข้ามชั้นการตัดสินใจ",
 			"A structure may be widely accepted yet internally incoherent. Institutionalisation does not resolve incoherence.":
-				"โครงสร้างหนึ่งอาจได้รับการยอมรับอย่างกว้างขวาง แต่ยังไม่สอดคล้องภายในได้ การกลายเป็นสถาบันไม่ได้แก้ความไม่สอดคล้องนั้น",
+				"โครงสร้างที่ได้รับการยอมรับอย่างกว้างขวางอาจยังไม่สอดคล้องภายในก็ได้ การกลายเป็นสถาบันไม่ได้แก้ไขความไม่สอดคล้องนั้น",
 			"Section III — Distortion and Normalisation": "หมวด III — การบิดเบือนและการทำให้เป็นปกติ",
 			"Distortions may become normalised through repetition. Normalisation does not transform distortion into legitimacy. A system that endures without coherence remains structurally deficient.":
-				"การบิดเบือนอาจถูกทำให้เป็นปกติผ่านการทำซ้ำ แต่ความเป็นปกติไม่ได้เปลี่ยนการบิดเบือนให้เป็นความชอบธรรม ระบบที่ดำรงอยู่ได้โดยไร้ความสอดคล้องยังคงบกพร่องเชิงโครงสร้าง",
+				"การบิดเบือนกลายเป็นเรื่องปกติได้เมื่อถูกทำซ้ำ แต่การเป็นปกติไม่ได้เปลี่ยนการบิดเบือนให้เป็นความชอบธรรม ระบบที่ยืนหยัดได้โดยไม่มีความสอดคล้องยังคงบกพร่องเชิงโครงสร้าง",
 			"Section IV — Reform and Replacement": "หมวด IV — การปฏิรูปและการแทนที่",
 			"Structural reform is justified only when it increases coherence and integrity. Replacement for novelty is not reform. Rejection of a structure must be grounded in structural incoherence, not ideological preference.":
-				"การปฏิรูปเชิงโครงสร้างชอบธรรมต่อเมื่อเพิ่มความสอดคล้องและความสมบูรณ์ การแทนที่เพียงเพราะความใหม่ไม่ใช่การปฏิรูป การปฏิเสธโครงสร้างต้องตั้งอยู่บนความไม่สอดคล้องเชิงโครงสร้าง ไม่ใช่ความชอบทางอุดมการณ์",
+				"การปฏิรูปเชิงโครงสร้างมีความชอบธรรมเฉพาะเมื่อมันเพิ่มความสอดคล้องและความสมบูรณ์ การแทนที่เพราะต้องการความใหม่ไม่ใช่การปฏิรูป การปฏิเสธโครงสร้างต้องมีฐานจากความไม่สอดคล้องเชิงโครงสร้าง ไม่ใช่ความชอบทางอุดมการณ์",
 			"Section V — Scope": "หมวด V — ขอบเขต",
 			"Paritsea evaluates structural coherence only. It does not evaluate outcomes, popularity, performance, or success.":
-				"Paritsea ประเมินเฉพาะความสอดคล้องเชิงโครงสร้าง ไม่ได้ประเมินผลลัพธ์ ความนิยม ประสิทธิภาพ หรือความสำเร็จ",
+				"Paritsea ประเมินเฉพาะความสอดคล้องเชิงโครงสร้าง ไม่ประเมินผลลัพธ์ ความนิยม สมรรถนะ หรือความสำเร็จ",
 			"It does not evaluate:\n— Moral virtue\n— Political ideology\n— Cultural preference\n— Financial scale\n— Popular support\n— Strategic success":
-				"กรอบนี้ไม่ประเมิน:\n— คุณธรรมทางศีลธรรม\n— อุดมการณ์ทางการเมือง\n— ความชอบทางวัฒนธรรม\n— ขนาดทางการเงิน\n— แรงสนับสนุนจากมหาชน\n— ความสำเร็จเชิงกลยุทธ์",
+				"กรอบนี้ไม่ประเมิน:\n— คุณค่าทางศีลธรรม\n— อุดมการณ์ทางการเมือง\n— ความชอบทางวัฒนธรรม\n— ขนาดทางการเงิน\n— ความนิยมจากสาธารณะ\n— ความสำเร็จเชิงกลยุทธ์",
 			"Section VI — Immutability": "หมวด VI — ความไม่เปลี่ยนรูป",
 			"The Paritsea Doctrine is immutable. It forms the constitutional foundation for all derived protocols and standards. Derived instruments may evolve, provided they do not contradict the doctrine.":
-				"หลักคำสอน Paritsea เป็นข้อความที่ไม่เปลี่ยนรูป และเป็นฐานรากเชิงรัฐธรรมนูญของโปรโตคอลและมาตรฐานทั้งหมดที่สืบเนื่องมา เครื่องมือที่สืบเนื่องอาจพัฒนาได้ ตราบเท่าที่ไม่ขัดต่อหลักคำสอน",
+				"หลักการ Paritsea ไม่เปลี่ยนรูป มันเป็นรากฐานของโปรโตคอลและมาตรฐานทุกฉบับที่สืบเนื่องมา เครื่องมือที่สืบเนื่องสามารถพัฒนาได้ ตราบเท่าที่ไม่ขัดต่อหลักการ",
 			"Paritsea is a constitutional reference framework. It does not function as a regulator, certifier, or enforcement body.":
-				"Paritsea เป็นกรอบอ้างอิงเชิงรัฐธรรมนูญ ไม่ใช่ผู้กำกับดูแล ผู้รับรอง หรือหน่วยงานบังคับใช้",
-			"Doctrine Version: 1.0 — Constitutional Text": "เวอร์ชันหลักคำสอน: 1.0 — ข้อความฐานราก",
+				"Paritsea คือกรอบอ้างอิงเชิงรัฐธรรมนูญ ไม่ใช่ผู้กำกับดูแล ผู้รับรอง หรือหน่วยงานบังคับใช้",
+			"Doctrine Version: 1.0 — Constitutional Text": "เวอร์ชันหลักการ: 1.0 — ข้อความรากฐาน",
 		},
 	},
 	stp: {

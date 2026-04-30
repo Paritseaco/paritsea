@@ -686,11 +686,12 @@ const isLoggedIn = !!Astro.locals.user;
 				}
 
 				/*
-				 * Thai headings — light weight.
-				 * Sarabun 700 renders as thick newspaper type.
-				 * 300 reads as constitutional document: calm, precise.
+				 * Thai heading weight strategy:
+				 * — Body/subheadings (h2–h6): weight 300 — calm, precise, document-like
+				 * — Large display titles (index-title, page-title ~3–4rem): weight 400
+				 *   Thai glyphs at display size need slightly more stroke to remain legible
+				 * — Article titles (medium ~2–2.5rem): weight 400 for authority on long Thai titles
 				 */
-				:lang(th) h1,
 				:lang(th) h2,
 				:lang(th) h3,
 				:lang(th) h4,
@@ -702,9 +703,47 @@ const isLoggedIn = !!Astro.locals.user;
 					line-height: 1.4;
 				}
 
+				/* Large display headings — weight 400, smaller than EN equivalent */
+				:lang(th) .index-title,
+				:lang(th) .page-title {
+					font-family: 'Sarabun', system-ui, sans-serif !important;
+					font-size: clamp(2.25rem, 5vw, 3.75rem) !important;
+					font-weight: 400 !important;
+					letter-spacing: 0 !important;
+					line-height: 1.2 !important;
+				}
+
+				/* Article & implementation titles */
+				:lang(th) .article-title,
+				:lang(th) .implementation-title {
+					font-family: 'Sarabun', system-ui, sans-serif !important;
+					font-size: clamp(1.625rem, 3.25vw, 2.5rem) !important;
+					font-weight: 400 !important;
+					letter-spacing: 0 !important;
+					line-height: 1.42 !important;
+				}
+
+				/* Document card titles in index pages */
+				:lang(th) .document-card-title {
+					font-family: 'Sarabun', system-ui, sans-serif !important;
+					font-size: clamp(1.125rem, 2vw, 1.5rem) !important;
+					font-weight: 400 !important;
+					letter-spacing: 0 !important;
+					line-height: 1.45 !important;
+				}
+
+				/* Pillar & record titles (hardcoded Georgia in index.astro) */
+				:lang(th) .pillar-title,
+				:lang(th) .record-title {
+					font-family: 'Sarabun', system-ui, sans-serif !important;
+					font-weight: 300 !important;
+					letter-spacing: 0 !important;
+					line-height: 1.35 !important;
+				}
+
 				/*
 				 * Hero statement — hardcoded Georgia in index.astro doesn't inherit
-				 * :lang(th) font variables, so we override directly here.
+				 * :lang(th) font variables, so override directly here.
 				 */
 				:lang(th) .hero-statement {
 					font-family: 'Sarabun', system-ui, sans-serif !important;
@@ -714,17 +753,13 @@ const isLoggedIn = !!Astro.locals.user;
 					letter-spacing: 0 !important;
 				}
 
-				/* Pillar & record titles (also hardcoded Georgia) */
-				:lang(th) .pillar-title,
-				:lang(th) .record-title,
-				:lang(th) .closing-quote,
-				:lang(th) .article-title,
-				:lang(th) .index-title,
-				:lang(th) .page-title,
-				:lang(th) .implementation-title {
+				/* Closing quote */
+				:lang(th) .closing-quote {
 					font-family: 'Sarabun', system-ui, sans-serif !important;
 					font-weight: 300 !important;
+					font-style: normal !important;
 					letter-spacing: 0 !important;
+					line-height: 1.6 !important;
 				}
 
 				/* Article blockquotes */
@@ -734,6 +769,7 @@ const isLoggedIn = !!Astro.locals.user;
 					font-style: normal !important;
 					line-height: 1.7 !important;
 					letter-spacing: 0 !important;
+					font-size: var(--font-size-lg) !important;
 				}
 
 				:lang(th) .article-content :global(p),
