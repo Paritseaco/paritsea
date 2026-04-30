@@ -92,10 +92,10 @@ const home = locale === "th"
 				"Paritsea ช่วยตั้งชื่อแรงตึงที่ซ่อนอยู่ในโครงสร้าง ก่อนมันจะแข็งตัวกลายเป็นบรรทัดฐาน",
 			sub:
 				"กรอบอ้างอิงนี้ถูกออกแบบให้ถูกอ้างอิง ดัดแปลง และนำไปใช้ได้ ทั้งในองค์กร ผลิตภัณฑ์ และการตัดสินใจส่วนบุคคล ทุกที่ที่ความชัดเจนเชิงโครงสร้างมีความสำคัญ",
-			readDoctrine: "อ่านหลักการ",
+			readDoctrine: "อ่านแก่น",
 			viewImplementations: "ดูการประยุกต์ใช้ →",
 			referenceNote:
-				"หลักการ โปรโตคอล มาตรฐาน วิธีวิเคราะห์ และการประยุกต์ใช้ อยู่ในสถาปัตยกรรมอ้างอิงเดียว",
+				"แก่น โปรโตคอล มาตรฐาน วิธีวิเคราะห์ และการประยุกต์ใช้ อยู่ในสถาปัตยกรรมอ้างอิงเดียว",
 			referenceArchitecture: "สถาปัตยกรรมอ้างอิง",
 			methodDesc:
 				"บันทึกวิเคราะห์ที่ระบุแรงตึงเชิงโครงสร้าง ก่อนมันจะแข็งตัวกลายเป็นบรรทัดฐาน",
@@ -105,7 +105,7 @@ const home = locale === "th"
 			openMethod: "เปิด The Method →",
 			// Quote: punchier, parallel structure — "ปัญหาคือ" restated for rhythm
 			quote: "\"ปัญหาไม่ใช่ว่าสิ่งต่างๆ พัง\nปัญหาคือมันทำงานอยู่ — และยังมีบางอย่างผิด\"",
-			attr: "— Parit Ritchai, หลักการ",
+			attr: "— Parit Ritchai, แก่น",
 		}
 	: {
 			eyebrow: "Public Reference Framework",
@@ -164,40 +164,74 @@ const home = locale === "th"
 					</p>
 				</div>
 				<div class="hero-illustration-wrapper">
-					<svg class="hero-illustration" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
-						{/* Large geometric structure illustration */}
-						{/* Outer framework */}
-						<rect x="50" y="50" width="500" height="300" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.2" />
-						<rect x="75" y="75" width="450" height="250" fill="none" stroke="currentColor" stroke-width="1" opacity="0.15" />
+					{/*
+					 * Framework Architecture Diagram
+					 * Shows the 5 reference layers of Paritsea.
+					 * A wave line (the sea threshold) divides Standards from The Method.
+					 * Sand accent (#c4a882) marks the wave and anchor dot — brand colour.
+					 */}
+					<svg class="hero-illustration" viewBox="0 0 420 560" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+						{/* Outer reference frame */}
+						<rect x="10" y="10" width="400" height="540" fill="none" stroke="currentColor" stroke-width="0.75" opacity="0.12"/>
 
-						{/* Vertical divisions */}
-						<line x1="200" y1="50" x2="200" y2="350" stroke="currentColor" stroke-width="0.5" opacity="0.1" />
-						<line x1="300" y1="50" x2="300" y2="350" stroke="currentColor" stroke-width="0.5" opacity="0.1" />
-						<line x1="400" y1="50" x2="400" y2="350" stroke="currentColor" stroke-width="0.5" opacity="0.1" />
+						{/* Left margin rule */}
+						<line x1="52" y1="68" x2="52" y2="492" stroke="currentColor" stroke-width="0.75" opacity="0.15"/>
 
-						{/* Horizontal divisions */}
-						<line x1="50" y1="150" x2="550" y2="150" stroke="currentColor" stroke-width="0.5" opacity="0.1" />
-						<line x1="50" y1="250" x2="550" y2="250" stroke="currentColor" stroke-width="0.5" opacity="0.1" />
+						{/* Subtle vertical grid */}
+						<line x1="157" y1="10" x2="157" y2="550" stroke="currentColor" stroke-width="0.4" opacity="0.06"/>
+						<line x1="263" y1="10" x2="263" y2="550" stroke="currentColor" stroke-width="0.4" opacity="0.06"/>
+						<line x1="369" y1="10" x2="369" y2="550" stroke="currentColor" stroke-width="0.4" opacity="0.06"/>
 
-						{/* Key nodes */}
-						<circle cx="100" cy="100" r="5" fill="currentColor" opacity="0.7" />
-						<circle cx="300" cy="80" r="4" fill="currentColor" opacity="0.5" />
-						<circle cx="500" cy="120" r="4" fill="currentColor" opacity="0.4" />
-						<circle cx="150" cy="200" r="3" fill="currentColor" opacity="0.3" />
-						<circle cx="300" cy="200" r="5" fill="currentColor" opacity="0.6" />
-						<circle cx="450" cy="200" r="3" fill="currentColor" opacity="0.4" />
-						<circle cx="100" cy="300" r="4" fill="currentColor" opacity="0.5" />
-						<circle cx="300" cy="320" r="5" fill="currentColor" opacity="0.7" />
-						<circle cx="500" cy="300" r="4" fill="currentColor" opacity="0.5" />
+						{/* ── 01  THE DOCTRINE / แก่น ── */}
+						<text x="24" y="75" font-family="ui-monospace,monospace" font-size="9" letter-spacing="0.08em" fill="currentColor" opacity="0.4">01</text>
+						<line x1="52" y1="72" x2="400" y2="72" stroke="currentColor" stroke-width="1.75" opacity="0.55"/>
+						{/* Anchor dot — structural clarity point */}
+						<circle cx="210" cy="72" r="4" fill="currentColor" opacity="0.7"/>
 
-						{/* Connecting paths */}
-						<path d="M 100 100 Q 200 150 300 200" stroke="currentColor" stroke-width="1" fill="none" opacity="0.2" />
-						<path d="M 300 200 Q 400 180 500 120" stroke="currentColor" stroke-width="1" fill="none" opacity="0.15" />
-						<path d="M 100 100 L 100 300" stroke="currentColor" stroke-width="1" fill="none" opacity="0.1" />
-						<path d="M 300 80 L 300 320" stroke="currentColor" stroke-width="1" fill="none" opacity="0.12" />
-						<path d="M 500 120 L 500 300" stroke="currentColor" stroke-width="1" fill="none" opacity="0.1" />
-						<path d="M 100 300 Q 200 280 300 320" stroke="currentColor" stroke-width="1" fill="none" opacity="0.15" />
-						<path d="M 300 320 Q 400 290 500 300" stroke="currentColor" stroke-width="1" fill="none" opacity="0.12" />
+						{/* Connectors from 01 down */}
+						<line x1="126" y1="72" x2="126" y2="178" stroke="currentColor" stroke-width="0.6" opacity="0.18"/>
+						<line x1="335" y1="72" x2="335" y2="178" stroke="currentColor" stroke-width="0.6" opacity="0.14"/>
+
+						{/* ── 02  PROTOCOLS ── */}
+						<text x="24" y="185" font-family="ui-monospace,monospace" font-size="9" letter-spacing="0.08em" fill="currentColor" opacity="0.35">02</text>
+						<line x1="52" y1="182" x2="400" y2="182" stroke="currentColor" stroke-width="1.1" opacity="0.38"/>
+						<circle cx="126" cy="182" r="2.5" fill="currentColor" opacity="0.45"/>
+						<circle cx="335" cy="182" r="2.5" fill="currentColor" opacity="0.38"/>
+
+						<line x1="126" y1="182" x2="210" y2="282" stroke="currentColor" stroke-width="0.5" opacity="0.14"/>
+						<line x1="335" y1="182" x2="210" y2="282" stroke="currentColor" stroke-width="0.5" opacity="0.12"/>
+
+						{/* ── 03  STANDARDS ── */}
+						<text x="24" y="289" font-family="ui-monospace,monospace" font-size="9" letter-spacing="0.08em" fill="currentColor" opacity="0.32">03</text>
+						<line x1="52" y1="286" x2="400" y2="286" stroke="currentColor" stroke-width="1.1" opacity="0.32"/>
+						<circle cx="210" cy="286" r="2.5" fill="currentColor" opacity="0.42"/>
+
+						{/* ── SEA WAVE THRESHOLD ── */}
+						{/* Wave 1 — primary, sand colour */}
+						<path
+							d="M52 322 C110 302 150 342 210 322 C270 302 320 342 400 322"
+							stroke="#c4a882" stroke-width="1.75" fill="none" opacity="0.85"
+						/>
+						{/* Wave 2 — secondary, lighter */}
+						<path
+							d="M52 337 C110 317 150 357 210 337 C270 317 320 357 400 337"
+							stroke="#c4a882" stroke-width="1" fill="none" opacity="0.45"
+						/>
+						{/* Wave anchor dot */}
+						<circle cx="210" cy="322" r="3" fill="#c4a882" opacity="0.9"/>
+
+						{/* ── 04  THE METHOD ── */}
+						<text x="24" y="390" font-family="ui-monospace,monospace" font-size="9" letter-spacing="0.08em" fill="currentColor" opacity="0.3">04</text>
+						<line x1="52" y1="387" x2="400" y2="387" stroke="currentColor" stroke-width="1.1" opacity="0.28"/>
+						<circle cx="157" cy="387" r="2" fill="currentColor" opacity="0.32"/>
+						<circle cx="335" cy="387" r="2" fill="currentColor" opacity="0.28"/>
+
+						{/* ── 05  IMPLEMENTATIONS ── */}
+						<text x="24" y="492" font-family="ui-monospace,monospace" font-size="9" letter-spacing="0.08em" fill="currentColor" opacity="0.25">05</text>
+						<line x1="52" y1="489" x2="400" y2="489" stroke="currentColor" stroke-width="1" opacity="0.22"/>
+						<circle cx="210" cy="489" r="2.5" fill="currentColor" opacity="0.28"/>
+						<circle cx="88" cy="489" r="1.5" fill="currentColor" opacity="0.2"/>
+						<circle cx="340" cy="489" r="1.5" fill="currentColor" opacity="0.2"/>
 					</svg>
 				</div>
 			</div>
@@ -382,19 +416,24 @@ const home = locale === "th"
 	}
 
 	.hero-illustration-wrapper {
-		flex: 0 0 280px;
-		opacity: 0.7;
+		flex: 0 0 260px;
+		align-self: stretch;
+		display: flex;
+		align-items: flex-start;
+		padding-top: var(--spacing-3);
+		opacity: 0.75;
 		transition: opacity var(--transition-fast);
 	}
 
 	.hero:hover .hero-illustration-wrapper {
-		opacity: 0.95;
+		opacity: 1;
 	}
 
 	.hero-illustration {
 		width: 100%;
 		height: auto;
 		display: block;
+		/* Taller viewBox ratio — fill vertical space naturally */
 	}
 
 	.hero-eyebrow {

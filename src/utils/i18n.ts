@@ -107,7 +107,7 @@ export const ui = {
     contact: "ติดต่อ",
     languageSwitch: "EN",
     navLabels: {
-      "The Doctrine": "หลักการ",
+      "The Doctrine": "แก่น",
       Protocols: "โปรโตคอล",
       Standards: "มาตรฐาน",
       "The Method": "วิธีวิเคราะห์",
@@ -126,14 +126,14 @@ export const ui = {
       reads: "ครั้ง",
       onThisPage: "เนื้อหาในหน้านี้",
       continueReading: "อ่านเพิ่มเติม",
-      constitutionalDocument: "เอกสารรัฐธรรมนูญ",
+      constitutionalDocument: "เอกสารแก่น",
       doctrineNotice:
-        "เอกสารนี้เป็นรากฐานของโปรโตคอลและมาตรฐานทั้งหมดของ Paritsea — ไม่เปลี่ยนรูป",
-      constitutionalDoctrine: "หลักการรัฐธรรมนูญ",
+        "เอกสารนี้เป็นฐานของโปรโตคอลและมาตรฐานทั้งหมดของ Paritsea — ไม่เปลี่ยนรูป",
+      constitutionalDoctrine: "แก่น Paritsea",
       protocol: "Protocol",
       standard: "มาตรฐาน",
       implementation: "การประยุกต์ใช้",
-      doctrine: "หลักการ",
+      doctrine: "แก่น",
     },
   },
 } as const;
@@ -148,10 +148,10 @@ const categoryLabels: Record<string, string> = {
 
 const postTranslations: Record<string, { title: string; excerpt?: string; content: Record<string, string> }> = {
 	doctrine: {
-		title: "หลักการ Paritsea ว่าด้วยความสอดคล้องเชิงโครงสร้างและความชอบธรรม",
+		title: "แก่น Paritsea ว่าด้วยความสอดคล้องเชิงโครงสร้างและความชอบธรรม",
 		excerpt: "Paritsea วางความสอดคล้องเชิงโครงสร้างไว้เป็นเงื่อนไขพื้นฐานของความชอบธรรมในทุกระบบที่จัดระเบียบ",
 		content: {
-			"Constitutional Foundation — Immutable": "ฐานรากรัฐธรรมนูญ — ไม่เปลี่ยนรูป",
+			"Constitutional Foundation — Immutable": "ฐานแก่น — ไม่เปลี่ยนรูป",
 			"Section I — Foundational Premise": "หมวด I — ข้อตั้งต้น",
 			"Paritsea establishes structural coherence as a prerequisite for legitimacy in any organised system.":
 				"Paritsea วางความสอดคล้องเชิงโครงสร้างไว้เป็นเงื่อนไขพื้นฐานของความชอบธรรมในทุกระบบที่จัดระเบียบ",
@@ -180,19 +180,19 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 				"กรอบนี้ไม่ประเมิน:\n— คุณค่าทางศีลธรรม\n— อุดมการณ์ทางการเมือง\n— ความชอบทางวัฒนธรรม\n— ขนาดทางการเงิน\n— ความนิยมจากสาธารณะ\n— ความสำเร็จเชิงกลยุทธ์",
 			"Section VI — Immutability": "หมวด VI — ความไม่เปลี่ยนรูป",
 			"The Paritsea Doctrine is immutable. It forms the constitutional foundation for all derived protocols and standards. Derived instruments may evolve, provided they do not contradict the doctrine.":
-				"หลักการ Paritsea ไม่เปลี่ยนรูป มันเป็นรากฐานของโปรโตคอลและมาตรฐานทุกฉบับที่สืบเนื่องมา เครื่องมือที่สืบเนื่องสามารถพัฒนาได้ ตราบเท่าที่ไม่ขัดต่อหลักการ",
+				"แก่น Paritsea ไม่เปลี่ยนรูป มันเป็นรากฐานของโปรโตคอลและมาตรฐานทุกฉบับที่สืบเนื่องมา เครื่องมือที่สืบเนื่องสามารถพัฒนาได้ ตราบเท่าที่ไม่ขัดต่อแก่น",
 			"Paritsea is a constitutional reference framework. It does not function as a regulator, certifier, or enforcement body.":
 				"Paritsea คือกรอบอ้างอิงเชิงรัฐธรรมนูญ ไม่ใช่ผู้กำกับดูแล ผู้รับรอง หรือหน่วยงานบังคับใช้",
-			"Doctrine Version: 1.0 — Constitutional Text": "เวอร์ชันหลักการ: 1.0 — ข้อความรากฐาน",
+			"Doctrine Version: 1.0 — Constitutional Text": "แก่น เวอร์ชัน 1.0 — ข้อความรากฐาน",
 		},
 	},
 	stp: {
 		title: "โปรโตคอลความโปร่งใสเชิงโครงสร้าง (STP)",
-		excerpt: "โปรโตคอลนี้วางหลักการพื้นฐานของความโปร่งใสเชิงโครงสร้างในฐานะข้อกำหนดเชิงรัฐธรรมนูญ",
+		excerpt: "โปรโตคอลนี้วางหลักการพื้นฐานของความโปร่งใสเชิงโครงสร้างในฐานะข้อกำหนดเชิงโครงสร้างขั้นพื้นฐาน",
 		content: {
 			"v1.0 · Foundational · Authored by Parit Ritchai": "v1.0 · ฐานราก · เขียนโดย Parit Ritchai",
 			"This protocol establishes foundational principles of structural transparency as a constitutional requirement.":
-				"โปรโตคอลนี้วางหลักการพื้นฐานของความโปร่งใสเชิงโครงสร้างในฐานะข้อกำหนดเชิงรัฐธรรมนูญ",
+				"โปรโตคอลนี้วางหลักการพื้นฐานของความโปร่งใสเชิงโครงสร้างในฐานะข้อกำหนดเชิงโครงสร้างขั้นพื้นฐาน",
 			"An Industry Challenge to Agencies": "คำท้าต่ออุตสาหกรรมเอเจนซี",
 			"Most agencies speak about transparency. Very few structure themselves around it.":
 				"เอเจนซีจำนวนมากพูดถึงความโปร่งใส แต่มีน้อยมากที่จัดโครงสร้างตัวเองรอบความโปร่งใสนั้น",
