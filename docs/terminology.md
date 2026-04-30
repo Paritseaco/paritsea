@@ -109,17 +109,28 @@ This document records all language decisions for the Paritsea project. Reference
 
 ## Hero Copy (Homepage)
 
-### Thai statement (not a translation — written natively)
-```
-ก่อนจะกระทำได้อย่างชอบธรรม
-โครงสร้างต้องสอดคล้องก่อน
-```
+The headline creates tension the reader immediately recognises — not a philosophical statement.
+Both versions are written natively (Thai is NOT a translation of the English).
 
-### Thai definition
+### English
 ```
-Paritsea ช่วยตั้งชื่อแรงตึงที่ซ่อนอยู่ในโครงสร้าง
-ก่อนมันจะแข็งตัวกลายเป็นบรรทัดฐาน
+The system works.
+Something is still wrong.
 ```
+Sub: *Paritsea is a public reference framework for naming structural tension before it becomes normalised practice.*
+
+### Thai (native — not translated)
+```
+ระบบไม่ได้พัง
+แต่บางอย่างผิดอยู่
+```
+Sub: *Paritsea ช่วยตั้งชื่อสิ่งที่ผิดในโครงสร้าง — ก่อนมันจะกลายเป็นบรรทัดฐาน*
+
+### Why this works
+- Two-line paradox: system functions ≠ system is legitimate
+- Reader feels it before they understand it
+- Mirrors the closing quote — gives the whole page coherence
+- Avoids abstract philosophical framing ("structural coherence is a prerequisite...")
 
 ---
 

@@ -84,12 +84,12 @@ function formatDate(date: Date | null | undefined) {
 const home = locale === "th"
 	? {
 			eyebrow: "กรอบอ้างอิงสาธารณะ",
-			// Statement reordered to natural Thai climactic structure
-			// — key concept lands at the end, not front-loaded
-			statement: "ก่อนจะกระทำได้อย่างชอบธรรม\nโครงสร้างต้องสอดคล้องก่อน",
-			// Definition: shorter, more evocative — leads with the core value proposition
+			// Written in native Thai — not a translation.
+			// Two-line paradox: creates tension the reader immediately recognises.
+			statement: "ระบบไม่ได้พัง\nแต่บางอย่างผิดอยู่",
+			// What Paritsea does in response to that feeling.
 			definition:
-				"Paritsea ช่วยตั้งชื่อแรงตึงที่ซ่อนอยู่ในโครงสร้าง ก่อนมันจะแข็งตัวกลายเป็นบรรทัดฐาน",
+				"Paritsea ช่วยตั้งชื่อสิ่งที่ผิดในโครงสร้าง — ก่อนมันจะกลายเป็นบรรทัดฐาน",
 			sub:
 				"กรอบอ้างอิงนี้ถูกออกแบบให้ถูกอ้างอิง ดัดแปลง และนำไปใช้ได้ ทั้งในองค์กร ผลิตภัณฑ์ และการตัดสินใจส่วนบุคคล ทุกที่ที่ความชัดเจนเชิงโครงสร้างมีความสำคัญ",
 			readDoctrine: "อ่านแก่น",
@@ -109,9 +109,11 @@ const home = locale === "th"
 		}
 	: {
 			eyebrow: "Public Reference Framework",
-			statement: "Structural coherence\nis a prerequisite\nfor legitimate action.",
+			// Two-line paradox — creates tension the reader immediately recognises.
+			statement: "The system works.\nSomething is still wrong.",
+			// What Paritsea does in response.
 			definition:
-				"Paritsea is a public reference framework for naming structural tension, defining legitimacy, and translating doctrine into applied judgment across domains.",
+				"Paritsea is a public reference framework for naming structural tension before it becomes normalised practice.",
 			sub:
 				"Designed to be cited, adapted, and implemented in organisations, products, and personal decision-making where structural clarity matters.",
 			readDoctrine: "Read the Doctrine",
@@ -448,9 +450,9 @@ const home = locale === "th"
 
 	.hero-statement {
 		font-family: Georgia, 'Times New Roman', serif;
-		font-size: clamp(2rem, 4.5vw, 3.5rem);
+		font-size: clamp(2.25rem, 5vw, 4rem);
 		font-weight: 700;
-		line-height: 1.06;
+		line-height: 1.1;
 		letter-spacing: var(--tracking-tight);
 		color: var(--color-text);
 		margin: 0 0 var(--spacing-7);
