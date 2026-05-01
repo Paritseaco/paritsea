@@ -188,70 +188,70 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 	},
 	stp: {
 		title: "โปรโตคอลความโปร่งใสเชิงโครงสร้าง (STP)",
-		excerpt: "โปรโตคอลนี้วางหลักการพื้นฐานของความโปร่งใสเชิงโครงสร้างในฐานะข้อกำหนดเชิงโครงสร้างขั้นพื้นฐาน",
+		excerpt: "STP กำหนดให้ความโปร่งใสเชิงโครงสร้างเป็นข้อกำหนดพื้นฐาน ไม่ใช่ทางเลือก",
 		content: {
 			"v1.0 · Foundational · Authored by Parit Ritchai": "v1.0 · ฐานราก · เขียนโดย Parit Ritchai",
 			"This protocol establishes foundational principles of structural transparency as a constitutional requirement.":
-				"โปรโตคอลนี้วางหลักการพื้นฐานของความโปร่งใสเชิงโครงสร้างในฐานะข้อกำหนดเชิงโครงสร้างขั้นพื้นฐาน",
-			"An Industry Challenge to Agencies": "คำท้าต่ออุตสาหกรรมเอเจนซี",
+				"STP กำหนดเงื่อนไขพื้นฐานที่เอเจนซีต้องผ่าน เพื่อกล่าวอ้างความโปร่งใสเชิงโครงสร้างได้อย่างมีความหมาย",
+			"An Industry Challenge to Agencies": "คำท้าถึงอุตสาหกรรมเอเจนซี",
 			"Most agencies speak about transparency. Very few structure themselves around it.":
-				"เอเจนซีจำนวนมากพูดถึงความโปร่งใส แต่มีน้อยมากที่จัดโครงสร้างตัวเองรอบความโปร่งใสนั้น",
+				"เอเจนซีพูดถึงความโปร่งใสกันมาก แต่น้อยมากที่จัดโครงสร้างตัวเองรอบมัน",
 			"The modern agency industry has evolved into a performance-driven ecosystem where velocity is rewarded, visibility is curated, and responsibility is often diffused. Clients are sold clarity. What they receive is structure.":
-				"อุตสาหกรรมเอเจนซีสมัยใหม่พัฒนาเป็นระบบที่ขับด้วยผลลัพธ์ ความเร็วได้รับรางวัล การมองเห็นถูกจัดฉาก และความรับผิดมักกระจายจนจับไม่ได้ ลูกค้าถูกขายความชัดเจน แต่สิ่งที่ได้รับจริงคือโครงสร้าง",
-			"This document is not a guideline. It is a structural challenge.": "เอกสารนี้ไม่ใช่แนวทางปฏิบัติ แต่เป็นคำท้าเชิงโครงสร้าง",
+				"ธุรกิจเอเจนซีวันนี้ขับเคลื่อนด้วยผลลัพธ์ ความเร็วได้รับรางวัล ภาพลักษณ์ถูกจัดการ และความรับผิดกระจายจนหาต้นตอไม่ได้\n\nลูกค้าถูกขายความชัดเจน — สิ่งที่ได้รับจริงคือโครงสร้างของเอเจนซี",
+			"This document is not a guideline. It is a structural challenge.": "เอกสารนี้ไม่ใช่แนวทางปฏิบัติ — มันคือคำท้าเชิงโครงสร้าง",
 			"If an agency claims strategic capability, it must be willing to expose the structure that produces its work. If it cannot, the problem is not messaging. It is design.":
-				"หากเอเจนซีอ้างว่ามีความสามารถเชิงกลยุทธ์ ก็ต้องพร้อมเปิดเผยโครงสร้างที่ผลิตงานนั้น หากทำไม่ได้ ปัญหาไม่ใช่การสื่อสาร แต่คือการออกแบบ",
-			"Why This Protocol Exists": "เหตุผลที่โปรโตคอลนี้มีอยู่",
+				"ถ้าเอเจนซีอ้างว่ามีความสามารถเชิงกลยุทธ์ ต้องพร้อมเปิดเผยโครงสร้างที่ผลิตงานนั้น\n\nถ้าทำไม่ได้ — ปัญหาไม่ใช่การสื่อสาร มันคือการออกแบบ",
+			"Why This Protocol Exists": "ทำไม STP ถึงมีอยู่",
 			"Agencies today operate at the intersection of technology, data, performance metrics, and human labour. They promise efficiency. They promise optimisation. They promise measurable results.":
-				"เอเจนซีปัจจุบันทำงานตรงรอยต่อของเทคโนโลยี ข้อมูล ตัวชี้วัดผลงาน และแรงงานมนุษย์ พวกเขาสัญญาเรื่องประสิทธิภาพ การปรับให้เหมาะสม และผลลัพธ์ที่วัดได้",
+				"เอเจนซีวันนี้อยู่ตรงรอยต่อของเทคโนโลยี ข้อมูล ตัวชี้วัด และแรงงานมนุษย์ พวกเขาสัญญาเรื่องประสิทธิภาพ การปรับ และผลลัพธ์ที่วัดได้",
 			"What is rarely disclosed is: who is actually doing the work, how capacity is distributed, where incentives are misaligned, whether conflicts of interest exist, and who absorbs the risk when outcomes fail.":
-				"สิ่งที่แทบไม่ถูกเปิดเผยคือ ใครทำงานจริง กำลังการทำงานถูกกระจายอย่างไร แรงจูงใจตรงไหนไม่สอดคล้อง มีผลประโยชน์ทับซ้อนหรือไม่ และใครรับความเสี่ยงเมื่อผลลัพธ์ล้มเหลว",
+				"สิ่งที่แทบไม่ถูกพูดถึงคือ: ใครทำงานจริง กำลังการทำงานถูกกระจายอย่างไร แรงจูงใจตรงไหนไม่ตรงกัน มีผลประโยชน์ทับซ้อนหรือไม่ และเมื่องานล้มเหลว — ใครแบกรับ",
 			"Transparency is often aesthetic. Rarely structural. The Structural Transparency Protocol exists to change that.":
-				"ความโปร่งใสมักเป็นเรื่องภาพลักษณ์ และแทบไม่ใช่เรื่องโครงสร้าง โปรโตคอลความโปร่งใสเชิงโครงสร้างมีขึ้นเพื่อเปลี่ยนสิ่งนั้น",
-			"The Five Structural Exposures": "การเปิดเผยเชิงโครงสร้างห้าประการ",
+				"ความโปร่งใสมักเป็นเรื่องภาพ แทบไม่ใช่เรื่องโครงสร้าง STP มีขึ้นเพื่อเปลี่ยนสิ่งนั้น",
+			"The Five Structural Exposures": "5 เงื่อนไขที่ต้องเปิดเผย",
 			"This protocol is built on five non-negotiable exposures. If an agency cannot meet these conditions, it is not structurally transparent.":
-				"โปรโตคอลนี้ตั้งอยู่บนการเปิดเผยห้าประการที่ต่อรองไม่ได้ หากเอเจนซีไม่สามารถผ่านเงื่อนไขเหล่านี้ ก็ยังไม่โปร่งใสเชิงโครงสร้าง",
-			"I. Human Visibility": "I. การมองเห็นมนุษย์",
+				"STP กำหนดเงื่อนไข 5 ข้อที่ต่อรองไม่ได้ เอเจนซีที่ผ่านไม่ครบทุกข้อ — ยังไม่โปร่งใสเชิงโครงสร้าง",
+			"I. Human Visibility": "I. มองเห็นคนที่ทำงานจริง",
 			"Clients must know who is doing the work. Not the pitch team. Not the logo slide. Not the senior partner who appears once a quarter. The actual operators.":
-				"ลูกค้าต้องรู้ว่าใครทำงานจริง ไม่ใช่ทีมพิตช์ ไม่ใช่สไลด์โลโก้ ไม่ใช่พาร์ตเนอร์อาวุโสที่โผล่มาไตรมาสละครั้ง แต่คือผู้ปฏิบัติงานจริง",
+				"ลูกค้าต้องรู้ว่าใครทำงานจริง — ไม่ใช่ทีมพิตช์ ไม่ใช่สไลด์โลโก้ ไม่ใช่พาร์ตเนอร์ที่โผล่มาไตรมาสละครั้ง แต่คือคนที่ลงมือทำ",
 			"Required disclosure: full team assignment before contract signing, clear role mapping (strategist, executor, reviewer), senior involvement defined in percentage and decision authority, experience level declared without abstraction.":
-				"ต้องเปิดเผย: การจัดทีมครบถ้วนก่อนเซ็นสัญญา การแมปบทบาทชัดเจน (นักกลยุทธ์ ผู้ปฏิบัติ ผู้ตรวจทาน) สัดส่วนและอำนาจตัดสินใจของระดับอาวุโส และระดับประสบการณ์ที่ระบุโดยไม่คลุมเครือ",
+				"ต้องเปิดเผยก่อนเซ็นสัญญา: ชื่อสมาชิกทีมครบถ้วน บทบาทที่ชัดเจน (นักกลยุทธ์ / ผู้ปฏิบัติ / ผู้ตรวจทาน) สัดส่วนและอำนาจตัดสินใจของระดับอาวุโส และระดับประสบการณ์ที่ระบุโดยไม่คลุมเครือ",
 			"If strategy is sold at a senior rate, senior thinking must be structurally present. Anything else is narrative arbitrage.":
-				"ถ้าขายกลยุทธ์ในราคาอาวุโส ความคิดระดับอาวุโสต้องมีอยู่ในโครงสร้างจริง สิ่งอื่นคือการเก็งกำไรด้วยเรื่องเล่า",
-			"II. Capacity Integrity": "II. ความสมบูรณ์ของกำลังการทำงาน",
+				"ถ้าคิดราคาในระดับอาวุโส ความคิดนั้นต้องอยู่ในโครงสร้างจริง — ถ้าไม่ใช่ นั่นคือการขายภาพแทนโครงสร้าง",
+			"II. Capacity Integrity": "II. ความซื่อตรงของกำลังการทำงาน",
 			"Overbooking is an unspoken norm in agency economics. Clients are rarely told how many accounts a team is handling, whether the team assigned is already operating at capacity, or whether onboarding requires shifting attention from existing clients.":
-				"การรับงานเกินกำลังเป็นบรรทัดฐานที่ไม่พูดกันในเศรษฐศาสตร์เอเจนซี ลูกค้ามักไม่รู้ว่าทีมดูแลกี่บัญชี ทีมที่ได้รับมอบหมายเต็มกำลังแล้วหรือไม่ หรือการเริ่มงานใหม่ต้องดึงความสนใจจากลูกค้าเดิมหรือไม่",
+				"การรับงานเกินกำลังเป็นสิ่งที่รู้กันแต่ไม่พูดกันในธุรกิจเอเจนซี ลูกค้ามักไม่รู้ว่าทีมดูแลกี่บัญชีอยู่ ทีมนั้นเต็มกำลังแล้วหรือไม่ หรือการรับงานใหม่จะดึงความสนใจออกจากลูกค้าเดิมหรือเปล่า",
 			"Capacity must be disclosed as structure, not promise. If delivery quality depends on hidden overtime, burnout, or reactive staffing, it is not performance. It is deferred instability.":
-				"กำลังการทำงานต้องถูกเปิดเผยในฐานะโครงสร้าง ไม่ใช่คำสัญญา หากคุณภาพการส่งมอบพึ่งโอทีที่ซ่อนอยู่ ภาวะหมดไฟ หรือการจัดคนแบบตั้งรับ นั่นไม่ใช่ผลงาน แต่เป็นความไม่มั่นคงที่ถูกเลื่อนออกไป",
-			"III. Choice & Representation Rights": "III. สิทธิในการเลือกและการเป็นตัวแทน",
+				"กำลังการทำงานต้องเปิดเผยเป็นโครงสร้าง ไม่ใช่คำสัญญา\n\nถ้าคุณภาพงานพึ่งโอทีที่ซ่อนอยู่ burnout หรือการจัดทีมแบบตั้งรับ — นั่นไม่ใช่ผลงาน มันคือความไม่มั่นคงที่ถูกเลื่อนออกไป",
+			"III. Choice & Representation Rights": "III. สิทธิในการเลือกตัวแทน",
 			"In most agencies, account managers and specialists are assigned. Clients are rarely given a say in who represents them, who interprets their data, or who shapes their strategy. This protocol rejects silent assignment.":
-				"ในเอเจนซีส่วนใหญ่ ผู้จัดการบัญชีและผู้เชี่ยวชาญถูกมอบหมายให้ ลูกค้ามักไม่มีสิทธิเลือกว่าใครเป็นตัวแทน ใครตีความข้อมูล หรือใครกำหนดกลยุทธ์ โปรโตคอลนี้ปฏิเสธการมอบหมายแบบเงียบ",
+				"ในเอเจนซีส่วนใหญ่ ทีมถูกมอบหมายให้โดยไม่ถามความเห็น ลูกค้าแทบไม่มีสิทธิในการเลือกว่าใครเป็นตัวแทน ใครตีความข้อมูล หรือใครกำหนดกลยุทธ์\n\nSTP ปฏิเสธการมอบหมายแบบเงียบ",
 			"Selecting a strategic lead should resemble selecting a specialist in a medical context. Assignment by convenience protects the agency. Choice protects the client.":
-				"การเลือกผู้นำเชิงกลยุทธ์ควรคล้ายการเลือกผู้เชี่ยวชาญในบริบททางการแพทย์ การมอบหมายตามความสะดวกปกป้องเอเจนซี ส่วนการเลือกปกป้องลูกค้า",
-			"IV. Conflict & Competitive Boundaries": "IV. ความขัดแย้งและขอบเขตการแข่งขัน",
+				"การเลือกผู้นำเชิงกลยุทธ์ควรมีน้ำหนักเหมือนการเลือกผู้เชี่ยวชาญทางการแพทย์ การมอบหมายตามความสะดวกปกป้องเอเจนซี — การให้เลือกปกป้องลูกค้า",
+			"IV. Conflict & Competitive Boundaries": "IV. ผลประโยชน์ทับซ้อนและขอบเขตการแข่งขัน",
 			"Agencies frequently operate across competing brands, markets, and verticals. True structural transparency requires disclosure of brand positioning overlap, audience overlap analysis, geo-targeting conflict exposure, and strategic intent conflict declaration.":
-				"เอเจนซีมักทำงานข้ามแบรนด์ ตลาด และแนวดิ่งที่แข่งขันกัน ความโปร่งใสเชิงโครงสร้างที่แท้จริงต้องเปิดเผยการทับซ้อนของตำแหน่งแบรนด์ การวิเคราะห์กลุ่มเป้าหมายที่ซ้อนกัน ความขัดแย้งด้านพื้นที่เป้าหมาย และเจตนาเชิงกลยุทธ์ที่อาจขัดกัน",
+				"เอเจนซีมักดูแลแบรนด์คู่แข่งพร้อมกัน ทำงานในตลาดและ vertical ที่ทับซ้อนกัน ความโปร่งใสเชิงโครงสร้างต้องเปิดเผยสิ่งเหล่านี้: การทับซ้อนของตำแหน่งแบรนด์ กลุ่มเป้าหมายที่ซ้อนกัน ความขัดแย้งด้านพื้นที่ และเจตนาเชิงกลยุทธ์ที่อาจขัดกัน",
 			"Silence is not neutrality. It is leverage. Clients deserve to know whether their competitive edge is structurally diluted before it is measured.":
-				"ความเงียบไม่ใช่ความเป็นกลาง แต่เป็นอำนาจต่อรอง ลูกค้าควรรู้ว่าความได้เปรียบในการแข่งขันของตนถูกเจือจางเชิงโครงสร้างหรือไม่ก่อนจะเริ่มวัดผล",
-			"V. Power & Responsibility Mapping": "V. การแมปอำนาจและความรับผิด",
+				"ความเงียบไม่ใช่ความเป็นกลาง — มันคืออำนาจต่อรอง ลูกค้าควรรู้ก่อนว่าความได้เปรียบของตนถูกเจือจางอยู่หรือไม่ ก่อนที่จะเริ่มวัดผล",
+			"V. Power & Responsibility Mapping": "V. ใครมีอำนาจ ใครรับผิด",
 			"This is the exposure most agencies avoid. Who makes the final strategic decision? Who owns KPI definition? Who carries reputational risk? Who absorbs failure?":
-				"นี่คือการเปิดเผยที่เอเจนซีหลีกเลี่ยงมากที่สุด ใครตัดสินใจเชิงกลยุทธ์ขั้นสุดท้าย ใครเป็นเจ้าของนิยาม KPI ใครแบกรับความเสี่ยงด้านชื่อเสียง และใครรับผลของความล้มเหลว",
+				"นี่คือเงื่อนไขที่เอเจนซีหลีกเลี่ยงมากที่สุด\n\nใครตัดสินใจขั้นสุดท้าย ใครเป็นเจ้าของ KPI ใครแบกความเสี่ยงด้านชื่อเสียง และเมื่อมันล้มเหลว — ใครรับผล",
 			"Performance metrics without power mapping create a predictable outcome: execution absorbs blame, strategy remains insulated. Transparency without accountability is branding.":
-				"ตัวชี้วัดผลงานที่ไม่มีการแมปอำนาจนำไปสู่ผลลัพธ์ที่คาดเดาได้: ฝ่ายปฏิบัติรับคำตำหนิ ส่วนกลยุทธ์ยังถูกกันไว้ ความโปร่งใสที่ไม่มีความรับผิดคือแบรนด์ดิ้ง",
-			"The Economic Reality": "ความจริงทางเศรษฐกิจ",
+				"วัดผลงานโดยไม่แมปอำนาจ ผลลัพธ์ที่ได้มีอยู่แบบเดียว: ฝ่ายปฏิบัติรับคำตำหนิ กลยุทธ์รับเครดิต\n\nความโปร่งใสที่ไม่มีความรับผิด — คือแบรนด์ดิ้ง",
+			"The Economic Reality": "ความจริงทางธุรกิจ",
 			"The market does not reward moral positioning. It rewards risk reduction. Structural transparency is not a virtue signal. It is an economic correction.":
-				"ตลาดไม่ได้ให้รางวัลกับจุดยืนทางศีลธรรม แต่ให้รางวัลกับการลดความเสี่ยง ความโปร่งใสเชิงโครงสร้างไม่ใช่การส่งสัญญาณคุณธรรม แต่คือการแก้ไขทางเศรษฐกิจ",
+				"ตลาดไม่ได้ให้รางวัลกับจุดยืนทางศีลธรรม — มันให้รางวัลกับการลดความเสี่ยง ความโปร่งใสเชิงโครงสร้างไม่ใช่เรื่องคุณธรรม มันคือการแก้ไขเชิงเศรษฐกิจ",
 			"Agencies that adopt this protocol will likely take on fewer clients, close deals more slowly, expose internal inefficiencies, and lose prospects seeking convenience. But they will also reduce reputational volatility, improve retention through structural trust, attract leadership-level clients, and eliminate misaligned accounts early.":
-				"เอเจนซีที่รับโปรโตคอลนี้อาจรับลูกค้าน้อยลง ปิดดีลช้าลง เปิดเผยความไร้ประสิทธิภาพภายใน และเสียผู้มุ่งหวังที่ต้องการความสะดวก แต่พวกเขาจะลดความผันผวนด้านชื่อเสียง เพิ่มการรักษาลูกค้าผ่านความไว้วางใจเชิงโครงสร้าง ดึงดูดลูกค้าระดับผู้นำ และคัดบัญชีที่ไม่สอดคล้องออกตั้งแต่ต้น",
+				"เอเจนซีที่รับ STP อาจรับลูกค้าน้อยลง ปิดดีลช้าลง และเปิดเผยความไม่มีประสิทธิภาพภายใน\n\nแลกมาด้วย: ความผันผวนด้านชื่อเสียงน้อยลง ความไว้วางใจที่มั่นคงกว่า ลูกค้าที่ตรงกันมากกว่า และข้อพิพาทน้อยลง",
 			"The question is not whether transparency is admirable. The question is whether opacity is sustainable.":
-				"คำถามไม่ใช่ว่าความโปร่งใสน่ายกย่องหรือไม่ แต่คือความทึบแสงนั้นยั่งยืนหรือไม่",
-			"The Industry Challenge": "คำท้าต่ออุตสาหกรรม",
+				"คำถามไม่ใช่ว่าความโปร่งใสน่ายกย่องหรือไม่ — คำถามคือ การปิดบังนั้นยั่งยืนได้นานแค่ไหน",
+			"The Industry Challenge": "คำท้า",
 			"This protocol is not a certification. It is not a badge. It is not a differentiator for marketing decks. It is a structural position.":
-				"โปรโตคอลนี้ไม่ใช่การรับรอง ไม่ใช่ตราสัญลักษณ์ และไม่ใช่จุดขายบนเด็คการตลาด แต่คือจุดยืนเชิงโครงสร้าง",
+				"STP ไม่ใช่การรับรอง ไม่ใช่ตรา และไม่ใช่จุดขายในเด็คการตลาด — มันคือจุดยืนเชิงโครงสร้าง",
 			"If an agency cannot publicly commit to these five exposures, it must reconsider how it defines transparency. If it can, it changes the power relationship between agency and client.":
-				"หากเอเจนซีไม่สามารถประกาศยึดการเปิดเผยทั้งห้านี้ได้ ก็ต้องทบทวนว่านิยามความโปร่งใสของตนคืออะไร หากทำได้ ความสัมพันธ์เชิงอำนาจระหว่างเอเจนซีกับลูกค้าจะเปลี่ยนไป",
+				"ถ้าเอเจนซีไม่สามารถประกาศยึดเงื่อนไขทั้งห้าได้ ต้องทบทวนว่าตัวเองนิยามความโปร่งใสว่าอะไร\n\nถ้าทำได้ — ความสัมพันธ์เชิงอำนาจระหว่างเอเจนซีกับลูกค้าจะเปลี่ยนไป",
 			"The industry will not reform through better language. It will reform through structural disclosure. The challenge stands.":
-				"อุตสาหกรรมจะไม่ปฏิรูปด้วยภาษาที่ดีขึ้น แต่จะปฏิรูปผ่านการเปิดเผยเชิงโครงสร้าง คำท้านี้ยังคงอยู่",
+				"อุตสาหกรรมไม่ได้ปฏิรูปด้วยภาษาที่ดีขึ้น — มันปฏิรูปด้วยการเปิดเผย คำท้านี้ยังอยู่",
 		},
 	},
 	"asls-01": {
