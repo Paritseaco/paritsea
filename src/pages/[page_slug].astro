@@ -2,7 +2,7 @@
 import { getEmDashEntry, decodeSlug } from "emdash";
 import { PortableText } from "emdash/ui";
 import Base from "../layouts/Base.astro";
-import { getAstroLocale, localizeEntry, localizedPath } from "../utils/i18n";
+import { getAstroLocale, localizeEntry, localizedPath, ui } from "../utils/i18n";
 
 const slug = decodeSlug(Astro.params.page_slug);
 const locale = getAstroLocale(Astro);
@@ -12,7 +12,7 @@ if (!slug) {
 }
 
 // Only handle known page slugs — avoid conflicting with other routes
-const KNOWN_PAGE_SLUGS = ["licensing", "contact"];
+const KNOWN_PAGE_SLUGS = ["licensing", "contact", "about"];
 if (!KNOWN_PAGE_SLUGS.includes(slug)) {
 	return Astro.redirect("/404");
 }
@@ -28,6 +28,57 @@ Astro.cache.set(cacheHint);
 
 const isLicensingPage = slug === "licensing";
 const isContactPage = slug === "contact";
+const isAboutPage = slug === "about";
+
+const copy = ui[locale];
+
+const aboutContent = locale === "th" ? {
+	title: "เกี่ยวกับ Paritsea",
+	eyebrow: "กรอบอ้างอิงสาธารณะ",
+	summary: "Paritsea คือกรอบอ้างอิงสาธารณะที่นิยามความสอดคล้องเชิงโครงสร้างและความชอบธรรมในระบบที่จัดระเบียบ เขียนโดย Parit Ritchai",
+	sections: [
+		{
+			title: "ผู้เขียน",
+			content: "Parit Ritchai เป็นผู้ก่อตั้ง SE Ocean และผู้สร้างหลักคำสอน Paritsea และกรอบ AgenSea งานของเขาผสานการวิเคราะห์เชิงโครงสร้าง การอ่านแบบแผนของมนุษย์ และทิศทางเชิงกลยุทธ์ไว้ในสถาปัตยกรรมอ้างอิงสาธารณะ",
+		},
+		{
+			title: "สถาปัตยกรรมอ้างอิง",
+			content: "Paritsea ประกอบด้วย 5 ชั้น: แก่น (The Doctrine) → โปรโตคอล (Protocols) → มาตรฐาน (Standards) → วิธีวิเคราะห์ (The Method) → การประยุกต์ใช้ (Implementations) แต่ละชั้นสืบเนื่องจากชั้นก่อนหน้า โดยแก่นเป็นข้อความที่ไม่เปลี่ยนรูป",
+		},
+		{
+			title: "ความสัมพันธ์กับ SE Ocean",
+			content: "SE Ocean (seocean.co.th) คือบริษัทที่นำแนวคิดจาก Paritsea ไปใช้ผ่านแพลตฟอร์ม AgenSea ซึ่งเป็นการประยุกต์ใช้มาตรฐาน ASLS-01 เป็นครั้งแรก Paritsea ในฐานะหลักคำสอน แยกจากบริษัท — เพื่อรักษาความเป็นอิสระและป้องกันผลประโยชน์ทับซ้อน",
+		},
+		{
+			title: "ความเชื่อมโยงกับเนื้อหาบนสื่ออื่น",
+			content: "วิดีโอสะท้อนคิดบน YouTube และเนื้อหาสั้นบน Instagram (IG Reels) และ Threads อยู่ใน knowledge flow เดียวกับบทความใน The Method — รูปแบบต่าง แก่นวิเคราะห์เดียวกัน",
+		},
+	],
+	bio: "ผู้ก่อตั้ง SE Ocean · ผู้สร้าง Paritsea Doctrine & AgenSea",
+} : {
+	title: "About Paritsea",
+	eyebrow: "Public Reference Framework",
+	summary: "Paritsea is a public reference framework for structural coherence, legitimacy, and applied judgment. Authored by Parit Ritchai.",
+	sections: [
+		{
+			title: "Author",
+			content: "Parit Ritchai is the founder of SE Ocean and the creator of the Paritsea Doctrine and the AgenSea framework. His work integrates structural analysis, human pattern reading, and strategic direction into a public reference architecture.",
+		},
+		{
+			title: "Reference Architecture",
+			content: "Paritsea is organised into five layers: The Doctrine (foundational position) → Protocols (structural requirements) → Standards (verifiable thresholds) → The Method (analytical registry) → Implementations (applied systems). Each layer derives from the one before it, with the Doctrine remaining constitutionally immutable.",
+		},
+		{
+			title: "Relationship to SE Ocean",
+			content: "SE Ocean (seocean.co.th) is the company that implements Paritsea concepts through the AgenSea platform — the first applied implementation of the ASLS-01 Standard. Paritsea as a doctrine remains independent from any commercial entity to preserve structural clarity and prevent conflicts of interest.",
+		},
+		{
+			title: "Connected Content",
+			content: "Video reflections on YouTube and short-form content on Instagram (IG Reels) and Threads exist within the same knowledge flow as The Method entries — different formats, the same analytical spine.",
+		},
+	],
+	bio: "Founder of SE Ocean · Creator of the Paritsea Doctrine & AgenSea",
+};
 
 const licensingSummary = locale === "th"
 	? [
@@ -300,6 +351,25 @@ const contactNotFor = locale === "th" ? [
 						</section>
 					</div>
 				</>
+			) : isAboutPage ? (
+				<div class="about-page">
+					<div class="about-author">
+						<img src="/images/parit-profile.jpg" alt="Parit Ritchai" class="about-author-img" />
+						<div class="about-author-info">
+							<h2 class="about-author-name">{copy.authorName}</h2>
+							<p class="about-author-role">{aboutContent.bio}</p>
+						</div>
+					</div>
+					<p class="about-summary">{aboutContent.summary}</p>
+					<div class="about-sections">
+						{aboutContent.sections.map((section) => (
+							<section class="about-section">
+								<h2 class="about-section-title">{section.title}</h2>
+								<p class="about-section-text">{section.content}</p>
+							</section>
+						))}
+					</div>
+				</div>
 			) : (
 				<div class="page-content">
 					<PortableText value={page.data.content} />
@@ -506,9 +576,89 @@ const contactNotFor = locale === "th" ? [
 		border-top: 1px solid var(--color-border);
 	}
 
+	/* ─── About Page ─── */
+	.about-page {
+		max-width: 640px;
+	}
+
+	.about-author {
+		display: flex;
+		gap: var(--spacing-6);
+		align-items: center;
+		margin-bottom: var(--spacing-8);
+		padding-bottom: var(--spacing-8);
+		border-bottom: 1px solid var(--color-border-subtle);
+	}
+
+	.about-author-img {
+		width: 80px;
+		height: 80px;
+		border-radius: 50%;
+		object-fit: cover;
+		flex-shrink: 0;
+	}
+
+	.about-author-name {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-xl);
+		font-weight: 700;
+		color: var(--color-text);
+		margin: 0 0 var(--spacing-1);
+	}
+
+	.about-author-role {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		color: var(--color-text-secondary);
+		margin: 0;
+	}
+
+	.about-summary {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-lg);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text);
+		margin-bottom: var(--spacing-10);
+		padding-bottom: var(--spacing-8);
+		border-bottom: 1px solid var(--color-border-subtle);
+	}
+
+	.about-sections {
+		display: grid;
+		gap: var(--spacing-8);
+	}
+
+	.about-section {
+		padding-top: var(--spacing-6);
+		border-top: 1px solid var(--color-border-subtle);
+	}
+
+	.about-section-title {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-lg);
+		font-weight: 600;
+		color: var(--color-text);
+		margin: 0 0 var(--spacing-3);
+	}
+
+	.about-section-text {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-base);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin: 0;
+	}
+
 	@media (max-width: 600px) {
 		.page-article {
 			padding: var(--spacing-8) var(--spacing-4) var(--spacing-12);
 		}
+		.about-author {
+			flex-direction: column;
+			text-align: center;
+		}
+		.about-author-img {
+			width: 64px;
+			height: 64px;
+		}
 	}
-</style>

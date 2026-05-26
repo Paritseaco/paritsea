@@ -52,6 +52,12 @@ const {
 const locale = localeProp ?? getAstroLocale(Astro);
 const copy = ui[locale];
 const { siteTitle, siteTagline, siteLogo, siteFavicon } = resolveBlogSiteIdentity(await getSiteSettings());
+const brandWordmark = "/images/logo/paritsea-wordmark.svg";
+const brandMark = "/images/logo/paritsea-mark.svg";
+const brandFavicon = "/images/logo/paritsea-favicon.svg";
+const headerLogoSrc = siteLogo?.url ?? brandWordmark;
+const footerLogoSrc = siteLogo?.url ?? brandWordmark;
+const resolvedFavicon = siteFavicon ?? brandFavicon;
 // If title already includes site title (from getSeoMeta), use as-is
 const fullTitle = title.includes(siteTitle) ? title : `${title} — ${siteTitle}`;
 const requestPath = Astro.url.searchParams.get("__path") ?? ((Astro.locals.originalPath as string | undefined) ?? Astro.url.pathname);
@@ -95,6 +101,16 @@ const resolvedNavItems = (() => {
 			children: [],
 		});
 	}
+	// Add About link if not present
+	if (!items.some((item) => stripLocalePrefix(item.url) === "/about")) {
+		items.push({
+			id: "about",
+			label: copy.aboutShort,
+			url: localizedPath("/about", locale),
+			target: undefined,
+			children: [],
+		});
+	}
 	return items;
 })();
 
@@ -130,10 +146,10 @@ const isLoggedIn = !!Astro.locals.user;
 		<Font cssVariable="--font-sans" preload />
 		<Font cssVariable="--font-mono" />
 		<title>{fullTitle}</title>
-		<link rel="alternate" hreflang="th" href={thAlternateUrl} />
 		<link rel="alternate" hreflang="en" href={enAlternateUrl} />
-		<link rel="alternate" hreflang="x-default" href={thAlternateUrl} />
-		{siteFavicon && <link rel="icon" href={siteFavicon} />}
+		<link rel="alternate" hreflang="th" href={thAlternateUrl} />
+		<link rel="alternate" hreflang="x-default" href={enAlternateUrl} />
+		<link rel="icon" href={resolvedFavicon} type="image/svg+xml" />
 		<EmDashHead page={pageCtx} />
 		<script is:inline>
 			// Apply theme immediately to prevent flash
@@ -154,10 +170,7 @@ const isLoggedIn = !!Astro.locals.user;
 		<header class="site-header">
 			<nav class="nav">
 				<a href={localizedPath("/", locale)} class="site-title">
-					{siteLogo
-						? <img src={siteLogo.url} alt={siteLogo.alt || siteTitle} class="site-logo-img" />
-						: siteTitle
-					}
+					<img src={headerLogoSrc} alt={siteLogo?.alt || siteTitle} class="site-logo-img" />
 				</a>
 				<button
 					type="button"
@@ -223,10 +236,7 @@ const isLoggedIn = !!Astro.locals.user;
 				<div class="footer-grid">
 					<div class="footer-brand">
 						<a href={localizedPath("/", locale)} class="footer-logo">
-							{siteLogo
-								? <img src={siteLogo.url} alt={siteLogo.alt || siteTitle} class="footer-logo-img" />
-								: siteTitle
-							}
+							<img src={footerLogoSrc} alt={siteLogo?.alt || siteTitle} class="footer-logo-img" />
 						</a>
 						<p class="footer-tagline">
 							<span class="footer-tagline-full">{siteTagline}</span>
@@ -243,13 +253,22 @@ const isLoggedIn = !!Astro.locals.user;
 							<li><a href={localizedPath("/implementations", locale)}>{copy.navLabels.Implementations}</a></li>
 						</ul>
 					</div>
-					<div class="footer-nav">
-						<h4 class="footer-heading">{copy.legalContact}</h4>
-						<ul class="footer-links">
-							<li><a href={localizedPath("/licensing", locale)}>{copy.licensing}</a></li>
-							<li><a href={localizedPath("/contact", locale)}>{copy.contact}</a></li>
-						</ul>
-					</div>
+				<div class="footer-nav">
+					<h4 class="footer-heading">{copy.legalContact}</h4>
+					<ul class="footer-links">
+						<li><a href={localizedPath("/about", locale)}>{copy.about}</a></li>
+						<li><a href={localizedPath("/licensing", locale)}>{copy.licensing}</a></li>
+						<li><a href={localizedPath("/contact", locale)}>{copy.contact}</a></li>
+					</ul>
+				</div>
+				<div class="footer-nav">
+					<h4 class="footer-heading">{copy.socialFollow}</h4>
+					<ul class="footer-links">
+						<li><a href="https://www.instagram.com/paritsea" target="_blank" rel="noreferrer">{copy.socialInstagram}</a></li>
+						<li><a href="https://www.threads.net/@paritsea" target="_blank" rel="noreferrer">{copy.socialThreads}</a></li>
+						<li><a href="https://www.youtube.com/@paritsea" target="_blank" rel="noreferrer">{copy.socialYouTube}</a></li>
+					</ul>
+				</div>
 				</div>
 				<div class="footer-bottom">
 					<p class="footer-copyright">
@@ -402,9 +421,8 @@ const isLoggedIn = !!Astro.locals.user;
 
 		<style is:global>
 			/*
-			 * Establish layer order: "base" has lower priority than unlayered
-			 * styles, so theme.css overrides always win regardless of source
-			 * order in the bundled CSS.
+			 * Base reset and structural defaults.
+			 * Theme variables (colors, spacing, typography) are defined in theme.css with higher priority.
 			 */
 			@layer base;
 
@@ -437,169 +455,14 @@ const isLoggedIn = !!Astro.locals.user;
 					padding: 0;
 				}
 
+				/* EmDash search theming from theme vars */
 				:root {
-					/* Colors - Light mode: Warm Cream / Ink */
-					--color-bg: #f0ece5;
-					--color-bg-subtle: #e8e4dc;
-					--color-text: #1c1410;
-					--color-text-secondary: #4a3c34;
-					--color-muted: #8c7d74;
-					--color-border: #cdc8c0;
-					--color-border-subtle: #dbd7d0;
-					--color-surface: #e8e4dc;
-					--color-accent: #1c1410;
-					--color-accent-hover: #2e2218;
-					--color-on-accent: #f0ece5;
-					--color-accent-ring: color-mix(
-						in srgb,
-						var(--color-accent) 10%,
-						transparent
-					);
-					--color-highlight: #c4bdb4;
-					--color-rule: #b8b2aa;
-					--color-sand: #c4a882;
-					--color-sand-subtle: #ede6da;
-					--color-clay: #b8794a;
-					--color-sea: #3f5753;
-
-					/* EmDash search theming */
 					--emdash-search-bg: var(--color-bg);
 					--emdash-search-text: var(--color-text);
 					--emdash-search-muted: var(--color-muted);
 					--emdash-search-border: var(--color-border);
 					--emdash-search-hover: var(--color-surface);
 					--emdash-search-highlight: var(--color-text);
-
-					/* Fonts */
-					--font-serif: 'Playfair Display', Georgia, serif;
-					--font-sans: 'Inter', system-ui, sans-serif;
-
-					/* Type scale */
-					--font-size-2xs: 0.6875rem;
-					--font-size-xs: 0.75rem;
-					--font-size-sm: 0.875rem;
-					--font-size-base: 1rem;
-					--font-size-lg: 1.125rem;
-					--font-size-xl: 1.375rem;
-					--font-size-2xl: 1.625rem;
-					--font-size-3xl: 2.125rem;
-					--font-size-4xl: 2.75rem;
-					--font-size-5xl: 3.75rem;
-
-					/* Line heights */
-					--leading-tight: 1.1;
-					--leading-snug: 1.25;
-					--leading-normal: 1.55;
-					--leading-relaxed: 1.75;
-
-					/* Spacing */
-					--spacing-1: 0.25rem;
-					--spacing-2: 0.5rem;
-					--spacing-3: 0.75rem;
-					--spacing-4: 1rem;
-					--spacing-5: 1.25rem;
-					--spacing-6: 1.5rem;
-					--spacing-7: 1.75rem;
-					--spacing-8: 2rem;
-					--spacing-10: 2.5rem;
-					--spacing-12: 3rem;
-					--spacing-16: 4rem;
-					--spacing-20: 5rem;
-					--spacing-24: 6rem;
-
-					/* Legacy spacing aliases */
-					--spacing-xs: var(--spacing-1);
-					--spacing-sm: var(--spacing-2);
-					--spacing-md: var(--spacing-4);
-					--spacing-lg: var(--spacing-6);
-					--spacing-xl: var(--spacing-8);
-					--spacing-2xl: var(--spacing-12);
-					--spacing-3xl: var(--spacing-16);
-
-					/* Layout */
-					--content-width: 600px;
-					--wide-width: 1100px;
-					--max-width: var(--content-width);
-					--gutter-width: 200px;
-					--radius: 0px;
-					--radius-lg: 2px;
-					--radius-full: 9999px;
-
-					/* Transitions */
-					--transition-fast: 120ms ease;
-					--transition-base: 180ms ease;
-
-					/* Nav */
-					--nav-height: 64px;
-
-					/* Search */
-					--search-input-width: 156px;
-
-					/* Article layout */
-					--meta-col-width: 160px;
-
-					/* Avatar sizes */
-					--avatar-size-xs: 16px;
-					--avatar-size-sm: 18px;
-					--avatar-size-md: 22px;
-					--avatar-size-lg: 30px;
-
-					/* Letter spacing */
-					--tracking-tight: -0.02em;
-					--tracking-snug: -0.01em;
-					--tracking-normal: 0em;
-					--tracking-wide: 0.06em;
-					--tracking-wider: 0.1em;
-					--tracking-widest: 0.14em;
-
-					/* Tag pill */
-					--tag-padding-y: 2px;
-
-					/* Shadows */
-					--shadow-dropdown: 0 2px 16px rgba(42, 31, 24, 0.12);
-					--shadow-btn-active: none;
-				}
-
-				/* Dark mode via system preference */
-				@media (prefers-color-scheme: dark) {
-					:root:not(.light) {
-						--color-bg: #1c1917;
-						--color-bg-subtle: #232018;
-						--color-text: #f0ebe3;
-						--color-text-secondary: #c4b9ae;
-						--color-muted: #8c7e74;
-						--color-border: #38332e;
-						--color-border-subtle: #2c2822;
-						--color-surface: #262220;
-						--color-accent: #e8dfd4;
-						--color-accent-hover: #f0ebe3;
-						--color-on-accent: #1c1917;
-						--color-highlight: #332e28;
-						--color-rule: #3a3530;
-						--color-sand: #a8916c;
-						--color-sand-subtle: #2a2318;
-					}
-				}
-
-				/* Explicit dark mode */
-				:root.dark {
-					--color-bg: #1c1917;
-					--color-bg-subtle: #232018;
-					--color-text: #f0ebe3;
-					--color-text-secondary: #c4b9ae;
-					--color-muted: #8c7e74;
-					--color-border: #38332e;
-					--color-border-subtle: #2c2822;
-					--color-surface: #262220;
-					--color-accent: #e8dfd4;
-					--color-accent-hover: #f0ebe3;
-					--color-on-accent: #1c1917;
-					--color-highlight: #332e28;
-					--color-rule: #3a3530;
-					--color-sand: #a8916c;
-					--color-sand-subtle: #2a2318;
-					--color-clay: #c4865a;
-					--color-sea: #5a7d7b;
 				}
 
 				html {
@@ -633,7 +496,7 @@ const isLoggedIn = !!Astro.locals.user;
 					display: block;
 				}
 
-				/* Serif headings: Playfair Display for visual identity */
+				/* Serif headings */
 				h1,
 				h2,
 				h3,
@@ -657,7 +520,7 @@ const isLoggedIn = !!Astro.locals.user;
 					font-size: var(--font-size-2xl);
 				}
 
-				/* Use sans for UI labels */
+				/* Sans for UI labels */
 				.label,
 				.meta,
 				.nav-links a,
@@ -685,13 +548,6 @@ const isLoggedIn = !!Astro.locals.user;
 					word-break: keep-all;
 				}
 
-				/*
-				 * Thai heading weight strategy:
-				 * — Body/subheadings (h2–h6): weight 300 — calm, precise, document-like
-				 * — Large display titles (index-title, page-title ~3–4rem): weight 400
-				 *   Thai glyphs at display size need slightly more stroke to remain legible
-				 * — Article titles (medium ~2–2.5rem): weight 400 for authority on long Thai titles
-				 */
 				:lang(th) h2,
 				:lang(th) h3,
 				:lang(th) h4,
@@ -703,7 +559,6 @@ const isLoggedIn = !!Astro.locals.user;
 					line-height: 1.4;
 				}
 
-				/* Large display headings — weight 400, smaller than EN equivalent */
 				:lang(th) .index-title,
 				:lang(th) .page-title {
 					font-family: 'Sarabun', system-ui, sans-serif !important;
@@ -713,7 +568,6 @@ const isLoggedIn = !!Astro.locals.user;
 					line-height: 1.2 !important;
 				}
 
-				/* Article & implementation titles */
 				:lang(th) .article-title,
 				:lang(th) .implementation-title {
 					font-family: 'Sarabun', system-ui, sans-serif !important;
@@ -723,7 +577,6 @@ const isLoggedIn = !!Astro.locals.user;
 					line-height: 1.42 !important;
 				}
 
-				/* Document card titles in index pages */
 				:lang(th) .document-card-title {
 					font-family: 'Sarabun', system-ui, sans-serif !important;
 					font-size: clamp(1.125rem, 2vw, 1.5rem) !important;
@@ -732,7 +585,6 @@ const isLoggedIn = !!Astro.locals.user;
 					line-height: 1.45 !important;
 				}
 
-				/* Pillar & record titles (hardcoded Georgia in index.astro) */
 				:lang(th) .pillar-title,
 				:lang(th) .record-title {
 					font-family: 'Sarabun', system-ui, sans-serif !important;
@@ -741,10 +593,6 @@ const isLoggedIn = !!Astro.locals.user;
 					line-height: 1.35 !important;
 				}
 
-				/*
-				 * Hero statement — hardcoded Georgia in index.astro doesn't inherit
-				 * :lang(th) font variables, so override directly here.
-				 */
 				:lang(th) .hero-statement {
 					font-family: 'Sarabun', system-ui, sans-serif !important;
 					font-weight: 300 !important;
@@ -753,7 +601,6 @@ const isLoggedIn = !!Astro.locals.user;
 					letter-spacing: 0 !important;
 				}
 
-				/* Closing quote */
 				:lang(th) .closing-quote {
 					font-family: 'Sarabun', system-ui, sans-serif !important;
 					font-weight: 300 !important;
@@ -762,7 +609,6 @@ const isLoggedIn = !!Astro.locals.user;
 					line-height: 1.6 !important;
 				}
 
-				/* Article blockquotes */
 				:lang(th) .article-content :global(blockquote) {
 					font-family: 'Sarabun', system-ui, sans-serif !important;
 					font-weight: 300 !important;
@@ -786,8 +632,11 @@ const isLoggedIn = !!Astro.locals.user;
 				position: sticky;
 				top: 0;
 				z-index: 100;
-				background: var(--color-bg);
-				border-bottom: 1px solid var(--color-border-subtle);
+				background:
+					radial-gradient(circle at 8% -80%, color-mix(in srgb, var(--color-accent) 30%, transparent), transparent 55%),
+					color-mix(in srgb, var(--color-bg) 88%, #090d1c 12%);
+				backdrop-filter: blur(10px);
+				border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 28%, var(--color-border-subtle));
 			}
 
 			.nav {
@@ -796,7 +645,7 @@ const isLoggedIn = !!Astro.locals.user;
 				align-items: center;
 				max-width: var(--wide-width);
 				margin: 0 auto;
-				padding: 0 var(--spacing-8);
+				padding: 0 var(--spacing-6);
 				height: var(--nav-height);
 				gap: var(--spacing-6);
 			}
@@ -809,12 +658,18 @@ const isLoggedIn = !!Astro.locals.user;
 				text-decoration: none;
 				letter-spacing: 0.01em;
 				text-transform: none;
-				transition: opacity var(--transition-fast);
+				transition: opacity var(--transition-fast), filter var(--transition-fast);
 				flex-shrink: 0;
+				padding: 0.35rem 0.6rem;
+				border: 1px solid color-mix(in srgb, var(--color-accent) 18%, transparent);
+				border-radius: var(--radius-sm);
+				background: color-mix(in srgb, var(--color-surface) 35%, transparent);
 			}
 
 			.site-title:hover {
-				opacity: 0.6;
+				opacity: 0.85;
+				filter: saturate(1.08);
+				transform: translateY(-1px);
 			}
 
 			.nav-toggle {
@@ -854,7 +709,7 @@ const isLoggedIn = !!Astro.locals.user;
 			}
 
 			.site-logo-img {
-				height: 32px;
+				height: 34px;
 				width: auto;
 				display: block;
 			}
@@ -878,12 +733,18 @@ const isLoggedIn = !!Astro.locals.user;
 			.nav-links a {
 				text-decoration: none;
 				color: var(--color-text-secondary);
-				transition: color var(--transition-fast);
+				transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+				padding: 0.35rem 0.55rem;
+				border-radius: var(--radius-sm);
+				border: 1px solid transparent;
 			}
 
 			.nav-links a:hover,
 			.nav-links a[aria-current="page"] {
 				color: var(--color-text);
+				background: color-mix(in srgb, var(--color-surface) 68%, transparent);
+				border-color: color-mix(in srgb, var(--color-accent) 28%, transparent);
+				transform: translateY(-1px);
 				opacity: 1;
 			}
 
@@ -917,18 +778,20 @@ const isLoggedIn = !!Astro.locals.user;
 				justify-content: center;
 				min-width: 2.4rem;
 				height: 2rem;
-				border: 1px solid var(--color-border-subtle);
+				border: 1px solid color-mix(in srgb, var(--color-accent) 35%, var(--color-border-subtle));
 				color: var(--color-text-secondary);
 				text-decoration: none;
 				font-size: var(--font-size-xs);
 				font-weight: 600;
 				letter-spacing: 0.06em;
-				transition: color var(--transition-fast), border-color var(--transition-fast);
+				background: color-mix(in srgb, var(--color-surface) 40%, transparent);
+				transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
 			}
 
 			.nav-language:hover {
 				color: var(--color-text);
-				border-color: var(--color-border);
+				border-color: var(--color-accent);
+				background: color-mix(in srgb, var(--color-accent) 16%, transparent);
 			}
 
 			.nav-backdrop {
@@ -1044,14 +907,17 @@ const isLoggedIn = !!Astro.locals.user;
 
 			/* ─── Footer ─── */
 			.site-footer {
-				border-top: 1px solid var(--color-border-subtle);
+				border-top: 1px solid color-mix(in srgb, var(--color-accent) 30%, var(--color-border-subtle));
 				margin-top: var(--spacing-24);
+				background:
+					radial-gradient(circle at 90% 10%, color-mix(in srgb, var(--color-accent) 10%, transparent), transparent 50%),
+					linear-gradient(180deg, color-mix(in srgb, var(--color-bg) 88%, #0a0f20 12%), var(--color-bg));
 			}
 
 			.footer-inner {
 				max-width: var(--wide-width);
 				margin: 0 auto;
-				padding: var(--spacing-8) var(--spacing-8) var(--spacing-10);
+				padding: var(--spacing-12) var(--spacing-8) var(--spacing-10);
 			}
 
 			.footer-grid {
@@ -1082,7 +948,7 @@ const isLoggedIn = !!Astro.locals.user;
 			}
 
 			.footer-logo-img {
-				height: 20px;
+				height: 24px;
 				width: auto;
 			}
 
@@ -1207,6 +1073,7 @@ const isLoggedIn = !!Astro.locals.user;
 
 			.theme-btn:hover {
 				color: var(--color-text-secondary);
+				background: color-mix(in srgb, var(--color-accent) 14%, transparent);
 			}
 
 			.theme-btn.active {
@@ -1220,8 +1087,12 @@ const isLoggedIn = !!Astro.locals.user;
 				height: 14px;
 			}
 
-			/* ─── Responsive ─── */
-			@media (max-width: 900px) {
+			/* ─── Responsive ───
+			 * Site-wide breakpoint convention:
+			 *   ≤ 960px → tablet/mobile (nav collapses to hamburger; multi-column layouts stack)
+			 *   ≤ 640px → phone (compact spacing, hidden secondary content)
+			 */
+			@media (max-width: 960px) {
 				.footer-grid {
 					grid-template-columns: 1fr 1fr;
 					gap: var(--spacing-8);
@@ -1233,7 +1104,7 @@ const isLoggedIn = !!Astro.locals.user;
 				}
 			}
 
-			@media (max-width: 760px) {
+			@media (max-width: 960px) {
 				.nav {
 					height: var(--nav-height);
 					padding: 0 var(--spacing-5);

@@ -31,11 +31,11 @@ export const GET: APIRoute = async ({ site }) => {
 			const path = resolvePostPath(post.id, frameworkPage, null);
 			if (!path) return null;
 			const url = toAbsoluteUrl(siteUrl, path);
-			const enUrl = toAbsoluteUrl(siteUrl, localizedPath(path, "en"));
+			const thUrl = toAbsoluteUrl(siteUrl, localizedPath(path, "th"));
 			const lastmod = post.data.updatedAt?.toISOString().split("T")[0] ??
 				post.data.publishedAt.toISOString().split("T")[0];
 
-			return [{ url, lastmod }, { url: enUrl, lastmod }];
+			return [{ url, lastmod }, { url: thUrl, lastmod }];
 		})
 	).then((results) => results.flat().filter(Boolean) as Array<{ url: string; lastmod: string }>);
 
@@ -52,14 +52,14 @@ export const GET: APIRoute = async ({ site }) => {
 		{ url: `${siteUrl}/implementations` },
 		{ url: `${siteUrl}/licensing` },
 		{ url: `${siteUrl}/contact` },
-		{ url: `${siteUrl}/en` },
-		{ url: `${siteUrl}/en/the-doctrine` },
-		{ url: `${siteUrl}/en/protocols` },
-		{ url: `${siteUrl}/en/standards` },
-		{ url: `${siteUrl}/en/the-method` },
-		{ url: `${siteUrl}/en/implementations` },
-		{ url: `${siteUrl}/en/licensing` },
-		{ url: `${siteUrl}/en/contact` },
+		{ url: `${siteUrl}/th` },
+		{ url: `${siteUrl}/th/the-doctrine` },
+		{ url: `${siteUrl}/th/protocols` },
+		{ url: `${siteUrl}/th/standards` },
+		{ url: `${siteUrl}/th/the-method` },
+		{ url: `${siteUrl}/th/implementations` },
+		{ url: `${siteUrl}/th/licensing` },
+		{ url: `${siteUrl}/th/contact` },
 	];
 
 	// Combine all URLs and deduplicate by canonical loc.

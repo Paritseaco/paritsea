@@ -3,12 +3,12 @@
 	"version": "1",
 	"meta": {
 		"name": "Paritsea",
-		"description": "Structural Coherence and Legitimacy",
+		"description": "ความชอบธรรมเชิงโครงสร้าง · Structural coherence and legitimacy",
 		"author": "Parit Ritchai"
 	},
 	"settings": {
 		"title": "Paritsea",
-		"tagline": "A public reference framework for structural coherence, legitimacy, and applied judgment."
+		"tagline": "A public reference framework for structural coherence, legitimacy, and applied judgement — Paritsea"
 	},
 	"collections": [
 		{
@@ -61,6 +61,28 @@
 					"slug": "excerpt",
 					"label": "Excerpt",
 					"type": "text"
+				},
+				{
+					"slug": "format",
+					"label": "Content Format",
+					"type": "select",
+					"required": false,
+					"translatable": false,
+					"validation": {
+						"options": [
+							"essay",
+							"video-reflection",
+							"pattern-brief",
+							"decision-note"
+						]
+					}
+				},
+				{
+					"slug": "youtube_url",
+					"label": "YouTube URL",
+					"type": "string",
+					"required": false,
+					"translatable": false
 				}
 			]
 		},

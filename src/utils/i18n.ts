@@ -5,10 +5,10 @@ type PortableTextBlock = {
 	[key: string]: unknown;
 };
 
-const EN_PREFIX = "/en";
+const TH_PREFIX = "/th";
 
 export function getLocaleFromPath(pathname: string): SiteLocale {
-	return pathname === EN_PREFIX || pathname.startsWith(`${EN_PREFIX}/`) ? "en" : "th";
+	return pathname === TH_PREFIX || pathname.startsWith(`${TH_PREFIX}/`) ? "th" : "en";
 }
 
 export function getAstroLocale(Astro: { url: URL; locals: { locale?: unknown } }): SiteLocale {
@@ -20,15 +20,15 @@ export function getAstroLocale(Astro: { url: URL; locals: { locale?: unknown } }
 }
 
 export function stripLocalePrefix(pathname: string): string {
-	if (pathname === EN_PREFIX) return "/";
-	if (pathname.startsWith(`${EN_PREFIX}/`)) return pathname.slice(EN_PREFIX.length) || "/";
+	if (pathname === TH_PREFIX) return "/";
+	if (pathname.startsWith(`${TH_PREFIX}/`)) return pathname.slice(TH_PREFIX.length) || "/";
 	return pathname || "/";
 }
 
 export function localizedPath(path: string | null | undefined, locale: SiteLocale): string {
 	const normalized = path && path.startsWith("/") ? path : `/${path ?? ""}`;
 	const stripped = stripLocalePrefix(normalized);
-	if (locale === "en") return stripped === "/" ? EN_PREFIX : `${EN_PREFIX}${stripped}`;
+	if (locale === "th") return stripped === "/" ? TH_PREFIX : `${TH_PREFIX}${stripped}`;
 	return stripped;
 }
 
@@ -55,12 +55,26 @@ export const ui = {
     themeSystem: "System theme",
     admin: "Admin",
     footerTagline: "Public reference framework for structural coherence and legitimacy.",
-    // simpler phrasing for Thai
     frameworkLayers: "Framework Layers",
     legalContact: "Legal & Contact",
     licensing: "Licensing",
     contact: "Contact",
     languageSwitch: "TH",
+    about: "About",
+    aboutShort: "About",
+    socialFollow: "Follow",
+    socialInstagram: "Instagram",
+    socialThreads: "Threads",
+    socialYouTube: "YouTube",
+    authorName: "Parit Ritchai",
+    authorRole: "Philosophy Architecture — Paritsea",
+    authorBio: "Founder of SE Ocean, creator of the Paritsea Doctrine and AgenSea framework. My work integrates structural analysis, human pattern reading, and strategic direction into a public reference architecture.",
+    readDoctrine: "Read the Doctrine",
+    exploreMethod: "Explore the Method",
+    viewImplementations: "View Implementations",
+    startHere: "Start here",
+    startHereDesc: "New to Paritsea? Begin with the foundational position, then explore analytical entries, or see applied systems.",
+    followOn: "Follow on",
     navLabels: {
       "The Doctrine": "The Doctrine",
       Protocols: "Protocols",
@@ -92,20 +106,34 @@ export const ui = {
     },
   },
   th: {
-    // Natural Thai — The Architect + The Witness tone: calm, precise, reflective
-    search: "ค้นหา",
+    search: "ค้นหา...",
     menuOpen: "เปิดเมนู",
     menuClose: "ปิดเมนู",
-    themeLight: "โหมดสว่าง",
-    themeDark: "โหมดมืด",
+    themeLight: "สว่าง",
+    themeDark: "มืด",
     themeSystem: "ตามระบบ",
-    admin: "Admin",
-    footerTagline: "กรอบแนวทางอ้างอิงสาธารณะ ว่าด้วยความชอบธรรมเชิงโครงสร้าง",
+    admin: "จัดการเว็บ",
+    footerTagline: "กรอบอ้างอิงสาธารณะ ว่าด้วยความชอบธรรมเชิงโครงสร้าง",
     frameworkLayers: "สถาปัตยกรรมอ้างอิง",
-    legalContact: "สิทธิ์การใช้ & ติดต่อ",
+    legalContact: "สิทธิ์ & ติดต่อ",
     licensing: "สิทธิ์การใช้",
     contact: "ติดต่อ",
     languageSwitch: "EN",
+    about: "เกี่ยวกับ",
+    aboutShort: "เกี่ยวกับ",
+    socialFollow: "ติดตาม",
+    socialInstagram: "Instagram",
+    socialThreads: "Threads",
+    socialYouTube: "YouTube",
+    authorName: "Parit Ritchai",
+    authorRole: "ผู้เขียน — Paritsea",
+    authorBio: "ก่อตั้ง SE Ocean สร้างหลักคำสอน Paritsea และกรอบ AgenSea งานของผมผสานการวิเคราะห์เชิงโครงสร้าง การอ่านแบบแผนคน และทิศทางเชิงกลยุทธ์ เป็นสถาปัตยกรรมอ้างอิงสาธารณะ",
+    readDoctrine: "อ่านแก่น",
+    exploreMethod: "เปิดวิธีวิเคราะห์",
+    viewImplementations: "ดูการประยุกต์ใช้",
+    startHere: "เริ่มตรงนี้",
+    startHereDesc: "ใหม่กับ Paritsea? เริ่มจากแก่นหลัก แล้วค่อยสำรวจบันทึกวิเคราะห์ หรือดูระบบที่นำไปใช้จริง",
+    followOn: "ติดตาม",
     navLabels: {
       "The Doctrine": "แก่น",
       Protocols: "โปรโตคอล",
@@ -117,18 +145,18 @@ export const ui = {
       author: "ผู้เขียน",
       authors: "ผู้เขียน",
       lastUpdated: "อัปเดตล่าสุด",
-      readingTime: "เวลาในการอ่าน",
+      readingTime: "เวลาอ่าน",
       readership: "จำนวนการอ่าน",
-      copyUrl: "คัดลอกลิงก์หน้านี้",
-      copied: "คัดลอกแล้ว",
+      copyUrl: "คัดลอกลิงก์",
+      copied: "คัดลอกลิงก์แล้ว",
       copyFailed: "คัดลอกไม่สำเร็จ",
       minRead: "นาที",
       reads: "ครั้ง",
-      onThisPage: "เนื้อหาในหน้านี้",
-      continueReading: "อ่านเพิ่มเติม",
+      onThisPage: "ในหน้านี้",
+      continueReading: "อ่านต่อ",
       constitutionalDocument: "เอกสารแก่น",
       doctrineNotice:
-        "เอกสารนี้เป็นฐานของโปรโตคอลและมาตรฐานทั้งหมดของ Paritsea — ไม่เปลี่ยนรูป",
+        "เอกสารนี้เป็นฐานรากของโปรโตคอลและมาตรฐานทั้งหมดของ Paritsea — ไม่เปลี่ยนรูป",
       constitutionalDoctrine: "แก่น Paritsea",
       protocol: "Protocol",
       standard: "มาตรฐาน",

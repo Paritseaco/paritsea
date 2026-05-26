@@ -16,8 +16,12 @@ const copy = locale === "th"
 				"Paritsea ถูกออกแบบให้เดินทางออกจากข้อความ การประยุกต์ใช้คือระบบ ผลิตภัณฑ์ และสภาพแวดล้อมการทำงาน ที่ทำให้หลักการ โปรโตคอล และมาตรฐานกลายเป็นพฤติกรรมที่สังเกตได้จริง",
 			secondary:
 				"การประยุกต์ใช้จะนับว่าผ่าน เมื่อใช้ Paritsea อย่างซื่อตรงพอที่ยังอ่านออกว่าเป็นวัตถุอ้างอิง ไม่ใช่แค่ภาษาการตลาดหรือ compliance เชิงภาพลักษณ์",
+			integrationNote:
+				"ชั้นนี้เชื่อมกลับไปยัง The Method และ YouTube: สิ่งที่สังเกตในภาควิเคราะห์ จะถูกแปลงเป็นโครงสร้างปฏิบัติในภาค implementation",
 			publiclyDocumented: "เผยแพร่แล้ว",
 			open: "เปิดดูการประยุกต์ใช้ →",
+			methodLink: "เปิด The Method",
+			youtubeLink: "ดู YouTube Reflections",
 			qualification: "เกณฑ์การนับ",
 			qualificationText:
 				"การประยุกต์ใช้ต้องนำ Paritsea ไปใช้ในเชิงโครงสร้าง ไม่ใช่เชิงตกแต่ง กรอบอ้างอิงต้องกำหนดพฤติกรรมของผลิตภัณฑ์ ตรรกะความรับผิด และ trust surface ที่ผู้อ่านตรวจสอบได้อย่างมีความหมาย",
@@ -52,8 +56,12 @@ const copy = locale === "th"
 				"Paritsea is intended to travel beyond text. Implementations are the systems, products, and operating environments where doctrine, protocols, and standards become real operating behaviour.",
 			secondary:
 				"An implementation qualifies when it applies Paritsea faithfully enough to remain legible as a reference object, not merely as branded product language or cosmetic compliance.",
+			integrationNote:
+				"This layer connects back to The Method and YouTube reflections: what is observed in analysis becomes enforceable structure in implementation.",
 			publiclyDocumented: "publicly documented",
 			open: "Open implementation →",
+			methodLink: "Open The Method",
+			youtubeLink: "View YouTube reflections",
 			qualification: "Qualification Rule",
 			qualificationText:
 				"An implementation must apply Paritsea structurally, not cosmetically. The framework has to shape product behaviour, accountability logic, and reader-visible trust surfaces in ways others can meaningfully inspect.",
@@ -100,6 +108,11 @@ const copy = locale === "th"
 				<p class="page-meta-note">
 					{copy.items.length} {copy.items.length === 1 ? "implementation" : "implementations"} {copy.publiclyDocumented}
 				</p>
+				<p class="page-description-secondary">{copy.integrationNote}</p>
+				<div class="page-cross-links">
+					<a href={localizedPath("/the-method", locale)} class="page-cross-link">{copy.methodLink} →</a>
+					<a href="https://www.youtube.com/@paritsea" target="_blank" rel="noreferrer" class="page-cross-link">{copy.youtubeLink} →</a>
+				</div>
 				<UsageGuidance variant="implementations" compact locale={locale} />
 			</div>
 		</header>
@@ -165,13 +178,25 @@ const copy = locale === "th"
 		grid-template-columns: minmax(0, 1fr) 280px;
 		gap: 0 var(--spacing-16);
 		align-items: start;
+		position: relative;
+	}
+
+	.implementations-page::before {
+		content: "";
+		position: absolute;
+		inset: 0 0 auto 0;
+		height: 280px;
+		background: radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--color-accent) 16%, transparent), transparent 58%);
+		pointer-events: none;
 	}
 
 	.page-header {
 		grid-column: 1 / -1;
 		padding-bottom: var(--spacing-12);
-		border-bottom: 1px solid var(--color-border);
+		border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 30%, var(--color-border));
 		margin-bottom: var(--spacing-12);
+		position: relative;
+		z-index: 1;
 	}
 
 	.page-header-inner {
@@ -222,6 +247,21 @@ const copy = locale === "th"
 		color: var(--color-muted);
 	}
 
+	.page-cross-links {
+		display: flex;
+		gap: var(--spacing-5);
+		flex-wrap: wrap;
+		margin: var(--spacing-4) 0 var(--spacing-2);
+	}
+
+	.page-cross-link {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		color: var(--color-text);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
 	.implementation-list {
 		display: grid;
 		gap: var(--spacing-5);
@@ -232,7 +272,16 @@ const copy = locale === "th"
 		grid-template-columns: auto 1fr;
 		gap: var(--spacing-5);
 		padding: var(--spacing-5) 0;
-		border-top: 1px solid var(--color-border);
+		border-top: 1px solid color-mix(in srgb, var(--color-accent) 20%, var(--color-border));
+		border-left: 3px solid transparent;
+		padding-left: var(--spacing-3);
+		border-radius: var(--radius-sm);
+		transition: border-left-color var(--transition-fast), background var(--transition-fast);
+	}
+
+	.implementation-card:hover {
+		border-left-color: var(--color-accent);
+		background: color-mix(in srgb, var(--color-surface) 68%, transparent);
 	}
 
 	.implementation-index {
@@ -289,7 +338,7 @@ const copy = locale === "th"
 
 	.aside-block {
 		padding-top: var(--spacing-4);
-		border-top: 1px solid var(--color-border);
+		border-top: 1px solid color-mix(in srgb, var(--color-accent) 22%, var(--color-border));
 	}
 
 	.aside-heading {

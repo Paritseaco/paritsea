@@ -17,6 +17,7 @@ import {
 } from "../utils/i18n";
 
 const locale = getAstroLocale(Astro);
+const copy = ui[locale];
 const navLabels = ui[locale].navLabels;
 
 const { entries: posts, cacheHint } = await getEmDashCollection("posts");
@@ -68,6 +69,7 @@ const methodEntriesWithTags = await Promise.all(
 			`/the-method/${post.id}`;
 		return {
 			post: localizeEntry(post, "posts", locale),
+			youtubeUrl: typeof post.data.youtube_url === "string" ? post.data.youtube_url : null,
 			categories: categories.map((category) => ({
 				slug: category.slug,
 				label: localizeTermLabel(category.label, locale),
@@ -84,49 +86,53 @@ function formatDate(date: Date | null | undefined) {
 const home = locale === "th"
 	? {
 			eyebrow: "กรอบอ้างอิงสาธารณะ",
-			// Written in native Thai — not a translation.
-			// Two-line paradox: creates tension the reader immediately recognises.
-			statement: "ระบบไม่ได้พัง\nแต่บางอย่างผิดอยู่",
-			// What Paritsea does in response to that feeling.
+			statement: "เมื่อชีวิตกับระบบซับซ้อน\nเราต้องมีภาษาที่ทำให้มันชัด",
 			definition:
-				"Paritsea ช่วยตั้งชื่อสิ่งที่ผิดในโครงสร้าง — ก่อนมันจะกลายเป็นบรรทัดฐาน",
+				"Paritsea คือพื้นที่ที่อ่านชีวิตคนและระบบไปพร้อมกัน แปลงความสับสนให้เป็นโครงสร้างที่นิยามได้ ตัดสินใจได้ และนำไปใช้ได้จริง",
 			sub:
-				"กรอบอ้างอิงนี้ถูกออกแบบให้ถูกอ้างอิง ดัดแปลง และนำไปใช้ได้ ทั้งในองค์กร ผลิตภัณฑ์ และการตัดสินใจส่วนบุคคล ทุกที่ที่ความชัดเจนเชิงโครงสร้างมีความสำคัญ",
+				"วิธีทำงานของฉันผสาน intuition + analysis + strategy เพื่ออ่าน pattern อธิบายความซับซ้อน และสร้าง framework ที่ใช้ได้กับคน งาน และธุรกิจ",
+			startHere: "เริ่มตรงนี้",
+			startHereDesc: "ใหม่ต่อ Paritsea? เริ่มจากแก่นหลัก จากนั้นสำรวจบันทึกวิเคราะห์ หรือดูกระบบที่นำไปใช้จริง",
+			methodLabel: "วิธีคิดหลัก",
+			methodSummary: "Intuition × Analysis × Strategy",
+			methodDetail:
+				"จับสัญญาณที่ยังไม่มีภาษา → แยกโครงสร้างและ pattern → แปลงเป็นคำแนะนำและทิศทางที่ตัดสินใจได้",
 			readDoctrine: "อ่านแก่น",
-			viewImplementations: "ดูการประยุกต์ใช้ →",
-			referenceNote:
-				"แก่น โปรโตคอล มาตรฐาน วิธีวิเคราะห์ และการประยุกต์ใช้ อยู่ในสถาปัตยกรรมอ้างอิงเดียว",
-			referenceArchitecture: "สถาปัตยกรรมอ้างอิง",
+			exploreMethod: "เปิดวิธีวิเคราะห์",
+			viewImplementations: "ดูการประยุกต์ใช้",
 			methodDesc:
 				"บันทึกวิเคราะห์ที่ระบุแรงตึงเชิงโครงสร้าง ก่อนมันจะแข็งตัวกลายเป็นบรรทัดฐาน",
 			implementationsDesc:
 				"ระบบที่นำตรรกะ Paritsea ไปใช้จริงในสภาพแวดล้อมการทำงาน AgenSea คือการประยุกต์ใช้แรกที่บันทึกไว้ภายใต้ ASLS-01",
 			registry: "ทะเบียนวิเคราะห์",
 			openMethod: "เปิด The Method →",
-			// Quote: punchier, parallel structure — "ปัญหาคือ" restated for rhythm
+			followOn: "ติดตาม",
 			quote: "\"ปัญหาไม่ใช่ว่าสิ่งต่างๆ พัง\nปัญหาคือมันทำงานอยู่ — และยังมีบางอย่างผิด\"",
 			attr: "— Parit Ritchai, แก่น",
 		}
 	: {
 			eyebrow: "Public Reference Framework",
-			// Two-line paradox — creates tension the reader immediately recognises.
-			statement: "The system works.\nSomething is still wrong.",
-			// What Paritsea does in response.
+			statement: "When life and systems are complex,\nwe need language that makes them legible.",
 			definition:
-				"Paritsea is a public reference framework for naming structural tension before it becomes normalised practice.",
+				"Paritsea integrates people, systems, structure, and ambiguity into clear working language — so complexity can be named, understood, and acted on.",
 			sub:
-				"Designed to be cited, adapted, and implemented in organisations, products, and personal decision-making where structural clarity matters.",
+				"My work combines intuition + analysis + strategy to read patterns, build frameworks, and turn insight into usable direction.",
+			startHere: "Start Here",
+			startHereDesc: "New to Paritsea? Begin with the foundational position, then explore analytical entries, or see applied systems.",
+			methodLabel: "Core Method",
+			methodSummary: "Intuition × Analysis × Strategy",
+			methodDetail:
+				"Sense what has no language yet → analyse structures and recurring patterns → convert insight into practical choices.",
 			readDoctrine: "Read the Doctrine",
-			viewImplementations: "View Implementations →",
-			referenceNote:
-				"Doctrine, protocols, standards, analytical method, and applied implementations in one public architecture.",
-			referenceArchitecture: "Reference Architecture",
+			exploreMethod: "Explore the Method",
+			viewImplementations: "View Implementations",
 			methodDesc:
 				"Analytical entries that identify structural tension before it hardens into normalized practice.",
 			implementationsDesc:
 				"Applied systems that enforce Paritsea logic in real operating environments. AgenSea is the first documented ASLS-01 implementation.",
 			registry: "Analytical Registry",
 			openMethod: "Open The Method →",
+			followOn: "Follow on",
 			quote: "\"The problem is not that things are broken.\nThe problem is that they work — and something is still wrong.\"",
 			attr: "— Parit Ritchai, The Doctrine",
 		};
@@ -137,113 +143,74 @@ const home = locale === "th"
 
 		{/* ── HERO ── */}
 		<section class="hero">
-			<div class="hero-container">
-				<div class="hero-inner">
-					<p class="hero-eyebrow">{home.eyebrow}</p>
-					<h1 class="hero-statement">
-						{home.statement.split("\n").map((line, index) => (
-							<>{index > 0 && <br />}{line}</>
-						))}
-					</h1>
-					<p class="hero-definition">
-						{home.definition}
-					</p>
-					<p class="hero-sub">
-						{home.sub}
-					</p>
-					<div class="hero-actions">
-						{doctrinePost && (
-							<a href={localizedPath("/the-doctrine", locale)} class="btn-primary">
-								{home.readDoctrine}
-							</a>
-						)}
-						<a href={localizedPath("/implementations", locale)} class="btn-ghost">
-							{home.viewImplementations}
-						</a>
+			<div class="hero-content">
+				<p class="hero-eyebrow">{home.eyebrow}</p>
+				<h1 class="hero-statement">{home.statement.split("\n").map((line, index) => <>{index > 0 && <br />}{line}</>)}</h1>
+				<p class="hero-definition">{home.definition}</p>
+				
+				<div class="hero-actions">
+					{doctrinePost && <a href={localizedPath("/the-doctrine", locale)} class="btn-primary">{home.readDoctrine}</a>}
+					<a href={localizedPath("/the-method", locale)} class="btn-secondary">{home.exploreMethod}</a>
+				</div>
+			</div>
+
+			{/* ── AUTHOR CARD ── */}
+			<aside class="hero-author">
+				<img src="/images/parit-profile.jpg" alt="Parit Ritchai" class="hero-author-img" />
+				<div class="hero-author-body">
+					<p class="hero-author-name">{copy.authorName}</p>
+					<p class="hero-author-role">{copy.authorRole}</p>
+					<p class="hero-author-bio">{copy.authorBio}</p>
+					<div class="hero-author-links">
+						<a href="https://www.instagram.com/paritsea" target="_blank" rel="noreferrer" class="hero-author-link">{copy.socialInstagram}</a>
+						<a href="https://www.threads.net/@paritsea" target="_blank" rel="noreferrer" class="hero-author-link">{copy.socialThreads}</a>
+						<a href="https://www.youtube.com/@paritsea" target="_blank" rel="noreferrer" class="hero-author-link">{copy.socialYouTube}</a>
+						<a href={localizedPath("/about", locale)} class="hero-author-link hero-author-link--about">{copy.about} →</a>
 					</div>
-					<p class="hero-reference-note">
-						{home.referenceNote}
-					</p>
 				</div>
-				<div class="hero-illustration-wrapper">
-					{/*
-					 * Framework Architecture Diagram — Paritsea 5 layers.
-					 * viewBox 420×700 renders at ~300×500px — matches left column height.
-					 * Strokes scaled for clarity at display size; wave in sand (#c4a882).
-					 */}
-					<svg class="hero-illustration" viewBox="0 0 420 700" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+			</aside>
+		</section>
 
-						{/* Outer reference frame */}
-						<rect x="10" y="10" width="400" height="680" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
-
-						{/* Left margin rule */}
-						<line x1="54" y1="72" x2="54" y2="630" stroke="currentColor" stroke-width="1" opacity="0.22"/>
-
-						{/* Subtle vertical grid — just enough to feel like a diagram */}
-						<line x1="160" y1="10" x2="160" y2="690" stroke="currentColor" stroke-width="0.75" opacity="0.09"/>
-						<line x1="265" y1="10" x2="265" y2="690" stroke="currentColor" stroke-width="0.75" opacity="0.09"/>
-						<line x1="370" y1="10" x2="370" y2="690" stroke="currentColor" stroke-width="0.75" opacity="0.09"/>
-
-						{/* ── 01  แก่น / The Doctrine ── (anchor layer — heaviest) */}
-						<text x="24" y="82" font-family="ui-monospace,monospace" font-size="11" letter-spacing="0.1em" fill="currentColor" opacity="0.55">01</text>
-						<line x1="54" y1="78" x2="406" y2="78" stroke="currentColor" stroke-width="2.5" opacity="0.65"/>
-						<circle cx="210" cy="78" r="5" fill="currentColor" opacity="0.75"/>
-
-						{/* Connectors 01 → 02 */}
-						<line x1="130" y1="78" x2="130" y2="210" stroke="currentColor" stroke-width="0.75" opacity="0.2"/>
-						<line x1="330" y1="78" x2="330" y2="210" stroke="currentColor" stroke-width="0.75" opacity="0.16"/>
-
-						{/* ── 02  Protocols ── */}
-						<text x="24" y="220" font-family="ui-monospace,monospace" font-size="11" letter-spacing="0.1em" fill="currentColor" opacity="0.45">02</text>
-						<line x1="54" y1="216" x2="406" y2="216" stroke="currentColor" stroke-width="2" opacity="0.42"/>
-						<circle cx="130" cy="216" r="3.5" fill="currentColor" opacity="0.5"/>
-						<circle cx="330" cy="216" r="3.5" fill="currentColor" opacity="0.42"/>
-
-						{/* Connectors 02 → 03 */}
-						<line x1="130" y1="216" x2="210" y2="352" stroke="currentColor" stroke-width="0.75" opacity="0.16"/>
-						<line x1="330" y1="216" x2="210" y2="352" stroke="currentColor" stroke-width="0.75" opacity="0.13"/>
-
-						{/* ── 03  Standards ── */}
-						<text x="24" y="362" font-family="ui-monospace,monospace" font-size="11" letter-spacing="0.1em" fill="currentColor" opacity="0.38">03</text>
-						<line x1="54" y1="358" x2="406" y2="358" stroke="currentColor" stroke-width="2" opacity="0.35"/>
-						<circle cx="210" cy="358" r="3.5" fill="currentColor" opacity="0.45"/>
-
-						{/* ── SEA WAVE THRESHOLD ── between Standards and The Method */}
-						<path d="M54 408 C120 382 175 434 230 408 C285 382 340 434 406 408"
-							stroke="#c4a882" stroke-width="2.5" fill="none" opacity="0.9"/>
-						<path d="M54 428 C120 402 175 454 230 428 C285 402 340 454 406 428"
-							stroke="#c4a882" stroke-width="1.5" fill="none" opacity="0.5"/>
-						<circle cx="230" cy="408" r="4" fill="#c4a882" opacity="0.95"/>
-
-						{/* ── 04  The Method ── */}
-						<text x="24" y="495" font-family="ui-monospace,monospace" font-size="11" letter-spacing="0.1em" fill="currentColor" opacity="0.32">04</text>
-						<line x1="54" y1="491" x2="406" y2="491" stroke="currentColor" stroke-width="2" opacity="0.3"/>
-						<circle cx="160" cy="491" r="3" fill="currentColor" opacity="0.36"/>
-						<circle cx="340" cy="491" r="3" fill="currentColor" opacity="0.3"/>
-
-						{/* Connectors 04 → 05 */}
-						<line x1="160" y1="491" x2="210" y2="622" stroke="currentColor" stroke-width="0.75" opacity="0.14"/>
-						<line x1="340" y1="491" x2="210" y2="622" stroke="currentColor" stroke-width="0.75" opacity="0.12"/>
-
-						{/* ── 05  Implementations ── */}
-						<text x="24" y="632" font-family="ui-monospace,monospace" font-size="11" letter-spacing="0.1em" fill="currentColor" opacity="0.28">05</text>
-						<line x1="54" y1="628" x2="406" y2="628" stroke="currentColor" stroke-width="1.75" opacity="0.25"/>
-						<circle cx="210" cy="628" r="4" fill="currentColor" opacity="0.3"/>
-						<circle cx="100" cy="628" r="2" fill="currentColor" opacity="0.2"/>
-						<circle cx="350" cy="628" r="2" fill="currentColor" opacity="0.2"/>
-
-					</svg>
-				</div>
+		{/* ── START HERE / PATHWAY ── */}
+		<section class="pathway">
+			<p class="pathway-label">{copy.startHere}</p>
+			<p class="pathway-desc">{copy.startHereDesc}</p>
+			<div class="pathway-cards">
+				<a href={localizedPath("/the-doctrine", locale)} class="pathway-card">
+					<span class="pathway-card-num">01</span>
+					<div class="pathway-card-body">
+						<h3 class="pathway-card-title">{navLabels["The Doctrine"]}</h3>
+						<p class="pathway-card-desc">{locale === "th" ? "รากฐานของกรอบอ้างอิง" : "The foundational position"}</p>
+					</div>
+				</a>
+				<a href={localizedPath("/the-method", locale)} class="pathway-card">
+					<span class="pathway-card-num">02</span>
+					<div class="pathway-card-body">
+						<h3 class="pathway-card-title">{navLabels["The Method"]}</h3>
+						<p class="pathway-card-desc">{locale === "th" ? "บันทึกวิเคราะห์" : "Analytical records"}</p>
+					</div>
+				</a>
+				<a href={localizedPath("/implementations", locale)} class="pathway-card">
+					<span class="pathway-card-num">03</span>
+					<div class="pathway-card-body">
+						<h3 class="pathway-card-title">{navLabels.Implementations}</h3>
+						<p class="pathway-card-desc">{locale === "th" ? "ระบบที่นำไปใช้จริง" : "Applied systems"}</p>
+					</div>
+				</a>
 			</div>
-			<div class="hero-rule" aria-hidden="true">
-				<span class="rule-label">{home.referenceArchitecture}</span>
-			</div>
+		</section>
+
+		{/* ── METHOD STRIP ── */}
+		<section class="method-strip" aria-label={home.methodLabel}>
+			<p class="method-strip-label">{home.methodLabel}</p>
+			<p class="method-strip-summary">{home.methodSummary}</p>
+			<p class="method-strip-detail">{home.methodDetail}</p>
 		</section>
 
 		{/* ── SYSTEM PILLARS ── */}
 		<section class="pillars">
 			<header class="section-header">
-				<span class="section-eyebrow">{home.referenceArchitecture}</span>
+				<span class="section-eyebrow">{locale === "th" ? "สถาปัตยกรรมอ้างอิง" : "Reference Architecture"}</span>
 			</header>
 			<div class="pillars-grid">
 
@@ -319,7 +286,7 @@ const home = locale === "th"
 					<a href={localizedPath("/the-method", locale)} class="section-more">{home.openMethod}</a>
 				</header>
 				<div class="records-list">
-					{methodEntriesWithTags.map(({ post, categories, href }, i) => (
+					{methodEntriesWithTags.map(({ post, youtubeUrl, categories, href }, i) => (
 						<a href={href} class="record-item">
 							<span class="record-num">
 								{String(i + 1).padStart(2, "0")}
@@ -334,6 +301,9 @@ const home = locale === "th"
 								{categories.length > 0 && (
 									<span class="record-tag">{categories[0].label}</span>
 								)}
+								{youtubeUrl && (
+									<span class="record-tag record-tag-video">{locale === "th" ? "วิดีโอ" : "Video"}</span>
+								)}
 								{formatDate(post.data.publishedAt) && (
 									<time class="record-date">{formatDate(post.data.publishedAt)}</time>
 								)}
@@ -343,6 +313,26 @@ const home = locale === "th"
 				</div>
 			</section>
 		)}
+
+		{/* ── SOCIAL / FOLLOW ── */}
+		<section class="social-bridge">
+			<p class="social-bridge-eyebrow">{locale === "th" ? "เนื้อหาบนสื่ออื่น" : "Across Platforms"}</p>
+			<p class="social-bridge-text">{locale === "th" ? "วิดีโอสะท้อนคิดและเนื้อหาสั้นใน knowledge flow เดียวกัน — รูปแบบต่าง แก่นวิเคราะห์เดียวกัน" : "Video reflections and short-form content in the same knowledge flow — different formats, the same analytical spine."}</p>
+			<div class="social-bridge-links">
+				<a href="https://www.instagram.com/paritsea" target="_blank" rel="noreferrer" class="social-bridge-link">
+					Instagram
+					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+				</a>
+				<a href="https://www.youtube.com/@paritsea" target="_blank" rel="noreferrer" class="social-bridge-link">
+					YouTube
+					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.94 2C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 8.25 15.5 12 9.75 15.75 9.75 8.25"/></svg>
+				</a>
+				<a href="https://www.threads.net/@paritsea" target="_blank" rel="noreferrer" class="social-bridge-link">
+					Threads
+					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 12a4 4 0 0 0-8 0 4 4 0 0 0 8 0"/><path d="M12 8v8"/></svg>
+				</a>
+			</div>
+		</section>
 
 		{/* ── CLOSING STATEMENT ── */}
 		<section class="closing">
@@ -365,6 +355,251 @@ const home = locale === "th"
 		padding: 0 var(--spacing-8) var(--spacing-24);
 	}
 
+	/* ─── HERO ─── */
+	.hero {
+		display: grid;
+		grid-template-columns: 1fr 260px;
+		gap: var(--spacing-12);
+		padding: var(--spacing-16) 0 var(--spacing-12);
+		align-items: start;
+		position: relative;
+	}
+
+	.hero::after {
+		content: "";
+		position: absolute;
+		inset: 0 0 auto 0;
+		height: 1px;
+		background: linear-gradient(90deg, var(--color-accent-subtle), var(--color-border-subtle), transparent);
+		bottom: 0;
+		top: auto;
+	}
+
+	.hero-content {
+		max-width: 700px;
+	}
+
+	.hero-eyebrow {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		font-weight: 500;
+		letter-spacing: var(--tracking-widest);
+		text-transform: uppercase;
+		color: var(--color-accent);
+		margin: 0 0 var(--spacing-5);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.hero-eyebrow::before {
+		content: "◆";
+		font-size: 0.7em;
+		color: var(--color-accent);
+		opacity: 0.8;
+	}
+
+	.hero-statement {
+		font-family: var(--font-serif);
+		font-size: clamp(2rem, 4.5vw, 3.5rem);
+		font-weight: 700;
+		line-height: var(--leading-display);
+		letter-spacing: var(--tracking-tight);
+		color: var(--color-text);
+		margin: 0 0 var(--spacing-6);
+	}
+
+	.hero-definition {
+		font-size: var(--font-size-lg);
+		line-height: 1.6;
+		color: var(--color-text-secondary);
+		max-width: 620px;
+		margin: 0 0 var(--spacing-7);
+	}
+
+	.hero-actions {
+		display: flex;
+		gap: var(--spacing-4);
+		align-items: center;
+	}
+
+	.btn-primary {
+		display: inline-block;
+		padding: var(--spacing-3) var(--spacing-7);
+		background: var(--color-accent);
+		color: var(--color-on-accent);
+		text-decoration: none;
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		font-weight: 500;
+		letter-spacing: 0.02em;
+		transition: background var(--transition-fast), transform var(--transition-fast);
+	}
+
+	.btn-primary:hover {
+		background: var(--color-accent-hover);
+		transform: translateY(-1px);
+		opacity: 1;
+	}
+
+	.btn-secondary {
+		display: inline-block;
+		padding: var(--spacing-3) var(--spacing-7);
+		border: 1px solid var(--color-border);
+		color: var(--color-text-secondary);
+		text-decoration: none;
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		font-weight: 500;
+		letter-spacing: 0.02em;
+		transition: border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+	}
+
+	.btn-secondary:hover {
+		border-color: var(--color-accent);
+		color: var(--color-text);
+		transform: translateY(-1px);
+		opacity: 1;
+	}
+
+	/* ─── AUTHOR CARD ─── */
+	.hero-author {
+		background: var(--color-surface);
+		padding: var(--spacing-5);
+		border: 1px solid var(--color-border-subtle);
+		position: sticky;
+		top: calc(var(--nav-height) + var(--spacing-16));
+	}
+
+	.hero-author-img {
+		width: 64px;
+		height: 64px;
+		border-radius: 50%;
+		object-fit: cover;
+		margin-bottom: var(--spacing-4);
+	}
+
+	.hero-author-name {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-base);
+		font-weight: 700;
+		color: var(--color-text);
+		margin: 0 0 var(--spacing-1);
+	}
+
+	.hero-author-role {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		color: var(--color-accent);
+		margin: 0 0 var(--spacing-3);
+		letter-spacing: var(--tracking-wide);
+	}
+
+	.hero-author-bio {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin: 0 0 var(--spacing-4);
+	}
+
+	.hero-author-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--spacing-2);
+	}
+
+	.hero-author-link {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		color: var(--color-text-secondary);
+		text-decoration: none;
+		padding: var(--spacing-1) var(--spacing-2);
+		border: 1px solid var(--color-border-subtle);
+		transition: color var(--transition-fast), border-color var(--transition-fast);
+	}
+
+	.hero-author-link:hover {
+		color: var(--color-text);
+		border-color: var(--color-accent);
+		opacity: 1;
+	}
+
+	.hero-author-link--about {
+		color: var(--color-accent);
+		border-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
+	}
+
+	.hero-author-link--about:hover {
+		background: var(--color-accent-subtle);
+	}
+
+	/* ─── PATHWAY ─── */
+	.pathway {
+		padding: var(--spacing-10) 0 var(--spacing-12);
+	}
+
+	.pathway-label {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		letter-spacing: var(--tracking-widest);
+		text-transform: uppercase;
+		color: var(--color-muted);
+		margin: 0 0 var(--spacing-2);
+	}
+
+	.pathway-desc {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		color: var(--color-text-secondary);
+		margin: 0 0 var(--spacing-6);
+	}
+
+	.pathway-cards {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--spacing-4);
+	}
+
+	.pathway-card {
+		display: flex;
+		gap: var(--spacing-4);
+		padding: var(--spacing-5);
+		border: 1px solid var(--color-border);
+		text-decoration: none;
+		color: inherit;
+		transition: border-color var(--transition-base), background var(--transition-base);
+	}
+
+	.pathway-card:hover {
+		border-color: var(--color-accent);
+		background: var(--color-accent-subtle);
+	}
+
+	.pathway-card-num {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		color: var(--color-accent);
+		font-weight: 600;
+		flex-shrink: 0;
+		padding-top: 2px;
+	}
+
+	.pathway-card-title {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		font-weight: 600;
+		color: var(--color-text);
+		margin: 0 0 var(--spacing-1);
+	}
+
+	.pathway-card-desc {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		color: var(--color-muted);
+		margin: 0;
+	}
+
 	/* ─── Section common ─── */
 	.section-header {
 		display: flex;
@@ -372,20 +607,30 @@ const home = locale === "th"
 		align-items: baseline;
 		padding-bottom: var(--spacing-4);
 		border-bottom: 1px solid var(--color-border-subtle);
-		margin-bottom: var(--spacing-10);
+		margin-bottom: var(--spacing-8);
 	}
 
 	.section-eyebrow {
-		font-family: var(--font-sans, system-ui, sans-serif);
+		font-family: var(--font-sans);
 		font-size: var(--font-size-xs);
 		font-weight: 500;
 		letter-spacing: var(--tracking-widest);
 		text-transform: uppercase;
 		color: var(--color-muted);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+	}
+
+	.section-eyebrow::before {
+		content: "◆";
+		font-size: 0.7em;
+		color: var(--color-accent);
+		opacity: 0.8;
 	}
 
 	.section-more {
-		font-family: var(--font-sans, system-ui, sans-serif);
+		font-family: var(--font-sans);
 		font-size: var(--font-size-xs);
 		color: var(--color-text-secondary);
 		text-decoration: none;
@@ -397,146 +642,57 @@ const home = locale === "th"
 		color: var(--color-text);
 	}
 
-	/* ─── HERO ─── */
-	.hero {
-		padding: var(--spacing-20) 0 var(--spacing-24);
+	/* ─── METHOD STRIP ─── */
+	.method-strip {
+		display: grid;
+		grid-template-columns: 170px 1fr;
+		gap: var(--spacing-4) var(--spacing-8);
+		padding: var(--spacing-8) 0 var(--spacing-12);
 		border-bottom: 1px solid var(--color-border-subtle);
-		margin-bottom: var(--spacing-20);
+		margin-bottom: var(--spacing-14);
+		position: relative;
 	}
 
-	.hero-container {
-		display: flex;
-		gap: var(--spacing-16);
-		align-items: flex-start;
-	}
-
-	.hero-inner {
-		max-width: 760px;
-		flex: 1;
-	}
-
-	.hero-illustration-wrapper {
-		flex: 0 0 300px;
-		display: flex;
-		align-items: flex-start;
-		padding-top: var(--spacing-2);
-		opacity: 0.82;
-		transition: opacity var(--transition-fast);
-	}
-
-	.hero:hover .hero-illustration-wrapper {
-		opacity: 1;
-	}
-
-	.hero-illustration {
-		width: 100%;
-		height: auto;
-		display: block;
-		/* viewBox 420×700 → at 300px wide renders ~500px tall,
-		   matching the left column text height */
-	}
-
-	.hero-eyebrow {
-		font-family: var(--font-sans, system-ui, sans-serif);
+	.method-strip::after {
+		content: "△  ▽  △";
+		position: absolute;
+		right: 0;
+		top: 0;
 		font-size: var(--font-size-xs);
-		font-weight: 500;
+		letter-spacing: 0.35em;
+		color: var(--color-muted);
+		opacity: 0.4;
+	}
+
+	.method-strip-label {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
 		letter-spacing: var(--tracking-widest);
 		text-transform: uppercase;
 		color: var(--color-muted);
-		margin: 0 0 var(--spacing-6);
+		margin: 0;
 	}
 
-	.hero-statement {
-		font-family: Georgia, 'Times New Roman', serif;
-		font-size: clamp(2.25rem, 5vw, 4rem);
-		font-weight: 700;
-		line-height: 1.1;
-		letter-spacing: var(--tracking-tight);
+	.method-strip-summary {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-xl);
+		line-height: 1.35;
+		margin: 0;
 		color: var(--color-text);
-		margin: 0 0 var(--spacing-7);
 	}
 
-	.hero-definition {
-		font-size: var(--font-size-lg);
-		line-height: 1.6;
-		color: var(--color-text-secondary);
-		max-width: 620px;
-		margin: 0 0 var(--spacing-5);
-	}
-
-	.hero-sub {
-		font-size: var(--font-size-base);
+	.method-strip-detail {
+		grid-column: 2;
+		margin: 0;
+		font-size: var(--font-size-sm);
 		line-height: var(--leading-relaxed);
 		color: var(--color-text-secondary);
-		max-width: 560px;
-		margin: 0 0 var(--spacing-8);
-	}
-
-	.br-lg { display: block; }
-
-	.hero-actions {
-		display: flex;
-		gap: var(--spacing-5);
-		align-items: center;
-	}
-
-	.hero-reference-note {
-		font-family: var(--font-sans, system-ui, sans-serif);
-		font-size: var(--font-size-sm);
-		line-height: 1.7;
-		color: var(--color-muted);
-		max-width: 660px;
-		margin: var(--spacing-6) 0 0;
-	}
-
-	.btn-primary {
-		display: inline-block;
-		padding: var(--spacing-3) var(--spacing-7);
-		background: var(--color-text);
-		color: var(--color-bg);
-		text-decoration: none;
-		font-family: var(--font-sans, system-ui, sans-serif);
-		font-size: var(--font-size-sm);
-		font-weight: 500;
-		letter-spacing: 0.02em;
-		transition: opacity var(--transition-fast);
-	}
-
-	.btn-primary:hover {
-		opacity: 0.78;
-	}
-
-	.btn-ghost {
-		font-family: var(--font-sans, system-ui, sans-serif);
-		font-size: var(--font-size-sm);
-		color: var(--color-muted);
-		text-decoration: none;
-		letter-spacing: 0.01em;
-		transition: color var(--transition-fast);
-	}
-
-	.btn-ghost:hover {
-		color: var(--color-text);
-	}
-
-	.hero-rule {
-		display: flex;
-		align-items: center;
-		gap: var(--spacing-4);
-		margin-top: var(--spacing-14);
-	}
-
-	.rule-label {
-		font-family: var(--font-sans, system-ui, sans-serif);
-		font-size: var(--font-size-xs);
-		letter-spacing: var(--tracking-widest);
-		text-transform: uppercase;
-		color: var(--color-border);
+		max-width: 780px;
 	}
 
 	/* ─── PILLARS ─── */
 	.pillars {
-		margin-bottom: var(--spacing-20);
+		margin-bottom: var(--spacing-16);
 	}
 
 	.pillars-grid {
@@ -574,7 +730,7 @@ const home = locale === "th"
 	}
 
 	.pillar-index {
-		font-family: var(--font-sans, system-ui, sans-serif);
+		font-family: var(--font-sans);
 		font-size: var(--font-size-2xs);
 		letter-spacing: var(--tracking-widest);
 		color: var(--color-border);
@@ -586,7 +742,7 @@ const home = locale === "th"
 	}
 
 	.pillar-title {
-		font-family: Georgia, 'Times New Roman', serif;
+		font-family: var(--font-serif);
 		font-size: var(--font-size-lg);
 		font-weight: 700;
 		line-height: 1.2;
@@ -595,7 +751,7 @@ const home = locale === "th"
 	}
 
 	.pillar-desc {
-		font-family: var(--font-sans, system-ui, sans-serif);
+		font-family: var(--font-sans);
 		font-size: var(--font-size-sm);
 		line-height: var(--leading-relaxed);
 		color: var(--color-text-secondary);
@@ -620,7 +776,13 @@ const home = locale === "th"
 
 	/* ─── RECORDS ─── */
 	.records {
-		margin-bottom: var(--spacing-20);
+		margin-bottom: var(--spacing-16);
+	}
+
+	.record-tag-video {
+		color: var(--color-accent);
+		border: 1px solid color-mix(in srgb, var(--color-accent) 36%, transparent);
+		padding: 2px 8px;
 	}
 
 	.records-list {
@@ -655,7 +817,7 @@ const home = locale === "th"
 	}
 
 	.record-num {
-		font-family: var(--font-sans, system-ui, sans-serif);
+		font-family: var(--font-sans);
 		font-size: var(--font-size-xs);
 		color: var(--color-border);
 		letter-spacing: var(--tracking-wide);
@@ -667,7 +829,7 @@ const home = locale === "th"
 	}
 
 	.record-title {
-		font-family: Georgia, 'Times New Roman', serif;
+		font-family: var(--font-serif);
 		font-size: var(--font-size-xl);
 		font-weight: 700;
 		line-height: 1.2;
@@ -697,7 +859,7 @@ const home = locale === "th"
 	}
 
 	.record-tag {
-		font-family: var(--font-sans, system-ui, sans-serif);
+		font-family: var(--font-sans);
 		font-size: var(--font-size-2xs);
 		letter-spacing: var(--tracking-wide);
 		text-transform: uppercase;
@@ -706,21 +868,83 @@ const home = locale === "th"
 	}
 
 	.record-date {
-		font-family: var(--font-sans, system-ui, sans-serif);
+		font-family: var(--font-sans);
 		font-size: var(--font-size-xs);
 		color: var(--color-muted);
 		white-space: nowrap;
 	}
 
+	/* ─── SOCIAL BRIDGE ─── */
+	.social-bridge {
+		padding: var(--spacing-10) 0;
+		border-top: 1px solid var(--color-border-subtle);
+		margin-bottom: var(--spacing-16);
+		display: grid;
+		grid-template-columns: 1fr auto;
+		gap: var(--spacing-6);
+		align-items: center;
+	}
+
+	.social-bridge-eyebrow {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		letter-spacing: var(--tracking-widest);
+		text-transform: uppercase;
+		color: var(--color-muted);
+		margin: 0 0 var(--spacing-2);
+		grid-column: 1;
+	}
+
+	.social-bridge-text {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		color: var(--color-text-secondary);
+		line-height: var(--leading-relaxed);
+		margin: 0;
+		grid-column: 1;
+		grid-row: 2;
+	}
+
+	.social-bridge-links {
+		display: flex;
+		gap: var(--spacing-3);
+		grid-column: 2;
+		grid-row: 1 / 3;
+		align-self: center;
+	}
+
+	.social-bridge-link {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--spacing-2);
+		padding: var(--spacing-2) var(--spacing-4);
+		border: 1px solid var(--color-border);
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		color: var(--color-text-secondary);
+		text-decoration: none;
+		transition: border-color var(--transition-fast), color var(--transition-fast);
+	}
+
+	.social-bridge-link:hover {
+		border-color: var(--color-accent);
+		color: var(--color-text);
+		opacity: 1;
+	}
+
+	.social-bridge-link svg {
+		flex-shrink: 0;
+	}
+
 	/* ─── CLOSING ─── */
 	.closing {
-		padding: var(--spacing-16) 0 var(--spacing-8);
+		padding: var(--spacing-12) 0 var(--spacing-8);
 		border-top: 1px solid var(--color-border-subtle);
 		max-width: 680px;
 	}
 
 	.closing-quote {
-		font-family: Georgia, 'Times New Roman', serif;
+		font-family: var(--font-serif);
 		font-size: var(--font-size-xl);
 		font-style: italic;
 		line-height: 1.6;
@@ -731,7 +955,7 @@ const home = locale === "th"
 	}
 
 	.closing-attr {
-		font-family: var(--font-sans, system-ui, sans-serif);
+		font-family: var(--font-sans);
 		font-size: var(--font-size-xs);
 		letter-spacing: var(--tracking-wide);
 		color: var(--color-muted);
@@ -739,33 +963,59 @@ const home = locale === "th"
 	}
 
 	/* ─── Responsive ─── */
-	@media (max-width: 1024px) {
+	@media (max-width: 960px) {
+		.hero {
+			grid-template-columns: 1fr;
+			gap: var(--spacing-8);
+			padding: var(--spacing-10) 0 var(--spacing-8);
+		}
+
+		.hero-author {
+			position: static;
+			display: flex;
+			gap: var(--spacing-4);
+			align-items: flex-start;
+		}
+
+		.hero-author-img {
+			width: 48px;
+			height: 48px;
+			margin-bottom: 0;
+			flex-shrink: 0;
+		}
+
 		.hero-statement {
 			font-size: clamp(1.75rem, 4vw, 2.625rem);
 		}
-	}
 
-	@media (max-width: 768px) {
+		.pathway-cards {
+			grid-template-columns: 1fr;
+		}
+
+		.method-strip {
+			grid-template-columns: 1fr;
+			gap: var(--spacing-3);
+			padding: var(--spacing-6) 0 var(--spacing-10);
+			margin-bottom: var(--spacing-10);
+		}
+
+		.method-strip-detail {
+			grid-column: 1;
+		}
+
+		.social-bridge {
+			grid-template-columns: 1fr;
+			gap: var(--spacing-4);
+		}
+
+		.social-bridge-links {
+			grid-column: 1;
+			grid-row: auto;
+			flex-wrap: wrap;
+		}
+
 		.landing {
 			padding: 0 var(--spacing-5) var(--spacing-16);
-		}
-
-		.hero {
-			padding: var(--spacing-14) 0 var(--spacing-16);
-		}
-
-		.hero-container {
-			flex-direction: column;
-			gap: var(--spacing-10);
-		}
-
-		.hero-illustration-wrapper {
-			flex: 1;
-			max-width: 100%;
-		}
-
-		.hero-rule {
-			display: none;
 		}
 
 		.record-item {
@@ -783,21 +1033,17 @@ const home = locale === "th"
 		}
 	}
 
-	@media (max-width: 600px) {
+	@media (max-width: 640px) {
 		.hero {
-			padding: var(--spacing-10) 0 var(--spacing-12);
-			margin-bottom: var(--spacing-12);
+			padding: var(--spacing-8) 0 var(--spacing-6);
 		}
 
 		.hero-statement {
 			font-size: var(--font-size-2xl);
 		}
 
-		.hero-sub,
-		.hero-reference-note,
-		.hero-illustration-wrapper,
-		.closing {
-			display: none;
+		.hero-author {
+			flex-direction: row;
 		}
 
 		.hero-actions {
@@ -805,25 +1051,21 @@ const home = locale === "th"
 			align-items: flex-start;
 		}
 
-		.pillars {
-			margin-bottom: var(--spacing-12);
+		.method-strip-summary {
+			font-size: var(--font-size-lg);
 		}
 
 		.pillars-grid {
-			gap: var(--spacing-4);
+			grid-template-columns: 1fr;
 		}
 
-		.pillar {
-			padding: var(--spacing-4) 0;
+		.closing {
+			display: none;
 		}
 
-		.pillar-desc {
-			-webkit-line-clamp: 2;
-			display: -webkit-box;
-			-webkit-box-orient: vertical;
-			overflow: hidden;
+		.social-bridge {
+			padding: var(--spacing-6) 0;
 		}
-
-		.br-lg { display: none; }
 	}
 </style>
+</write_to_file>

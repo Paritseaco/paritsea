@@ -1,28 +1,43 @@
 /*
   theme.css — Paritsea
-  Style: Constitutional · Precise · Warm Ink on Cream
+  Style: Warm Minimal Authority
+  A public reference framework for structural coherence, legitimacy, and applied judgment.
+
+  Palettes:
+    Light: Warm cream base (#F7F1E6) with deep clay (#A86542) accent
+    Dark:  Warm earthy dark (#1A1612) with golden sand (#C49A6C) accent
+
+  Responsive breakpoint convention (used across all files):
+    @media (max-width: 960px)  → tablet / collapsed nav (hamburger), multi-column layouts stack
+    @media (max-width: 640px)  → phone, compact spacing, hidden secondary content
+
+  Note: CSS variables can't be used inside @media queries, so values are hard-coded
+  in each file. Keep them aligned with the two values above when adding new rules.
 */
 
 :root {
-	/* --- Colors: Warm Cream / Ink --- */
-	--color-bg: #f0ece5;
-	--color-bg-subtle: #e8e4dc;
-	--color-text: #1c1410;
-	--color-text-secondary: #4a3c34;
+	/* --- Colors: Warm Minimal Authority --- */
+	--color-bg: #f7f1e6;
+	--color-bg-subtle: #eee6d8;
+	--color-bg-warm: #f4ece0;
+	--color-text: #231b17;
+	--color-text-secondary: #5a4b43;
 	--color-muted: #8c7d74;
-	--color-border: #cdc8c0;
-	--color-border-subtle: #dbd7d0;
-	--color-surface: #e8e4dc;
-	--color-accent: #1c1410;
-	--color-accent-hover: #2e2218;
-	--color-on-accent: #f0ece5;
-	--color-accent-ring: color-mix(in srgb, var(--color-accent) 10%, transparent);
-	--color-highlight: #c4bdb4;
-	--color-rule: #b8b2aa;
-	--color-sand: #c4a882;          /* warm sand — logo wave/dot accent */
-	--color-sand-subtle: #ede6da;   /* muted sand for backgrounds */
-	--color-clay: #b8794a;          /* muted clay — secondary accent */
-	--color-sea: #3f5753;           /* deep sea gray-green — depth accent */
+	--color-border: #d5c8b8;
+	--color-border-subtle: #e3d9cb;
+	--color-surface: #f0e8da;
+	--color-accent: #a86542;
+	--color-accent-hover: #8f5335;
+	--color-accent-subtle: color-mix(in srgb, #a86542 10%, transparent);
+	--color-on-accent: #fdf7ef;
+	--color-accent-ring: color-mix(in srgb, #a86542 15%, transparent);
+	--color-highlight: #e2d1be;
+	--color-rule: #c4b4a0;
+	--color-sand: #c49a6c;
+	--color-sand-subtle: #ece0ce;
+	--color-clay: #bf7b58;
+	--color-sea: #5f878a;
+	--color-gold: #c49a6c;
 
 	/* --- Type scale (compact, precise) --- */
 	--font-size-2xs: 0.6875rem;  /* 11px */
@@ -36,17 +51,23 @@
 	--font-size-4xl: 2.75rem;    /* 44px */
 	--font-size-5xl: 3.75rem;    /* 60px */
 
+	/* --- Font families --- */
+	--font-sans: 'Inter', system-ui, sans-serif;
+	--font-serif: 'Playfair Display', serif;
+	--font-mono: 'JetBrains Mono', monospace;
+
 	/* --- Line heights --- */
 	--leading-none: 1;
-	--leading-tight: 1.1;
+	--leading-tight: 1.08;
 	--leading-snug: 1.25;
 	--leading-normal: 1.5;
 	--leading-relaxed: 1.72;
 	--leading-loose: 2;
+	--leading-display: 0.95;
 
 	/* --- Letter spacing --- */
 	--tracking-tightest: -0.04em;
-	--tracking-tight: -0.02em;
+	--tracking-tight: -0.025em;
 	--tracking-snug: -0.01em;
 	--tracking-normal: 0em;
 	--tracking-wide: 0.05em;
@@ -54,26 +75,39 @@
 	--tracking-widest: 0.14em;
 
 	/* --- Layout --- */
-	--content-width: 620px;
-	--wide-width: 1120px;
-	--nav-height: 64px;
+	--content-width: 680px;
+	--wide-width: 1240px;
+	--nav-height: 68px;
 	--gutter-width: 196px;
 	--meta-col-width: 196px;
 	--search-input-width: 156px;
 
+	/* --- Spacing scale (rem units) --- */
+	--spacing-1: 0.25rem;   /* 4px */
+	--spacing-2: 0.5rem;    /* 8px */
+	--spacing-3: 0.75rem;   /* 12px */
+	--spacing-4: 1rem;      /* 16px */
+	--spacing-5: 1.25rem;   /* 20px */
+	--spacing-6: 1.5rem;    /* 24px */
+	--spacing-8: 2rem;      /* 32px */
+	--spacing-10: 2.5rem;   /* 40px */
+	--spacing-12: 3rem;     /* 48px */
+	--spacing-24: 6rem;     /* 96px */
+
 	/* --- Borders & radius --- */
 	--radius: 0px;
-	--radius-sm: 1px;
-	--radius-lg: 2px;
+	--radius-sm: 4px;
+	--radius-lg: 8px;
 	--radius-full: 9999px;
 
 	/* --- Shadows --- */
-	--shadow-dropdown: 0 4px 24px rgba(28, 20, 16, 0.10), 0 1px 4px rgba(28, 20, 16, 0.06);
+	--shadow-dropdown: 0 22px 48px rgba(5, 8, 22, 0.5), 0 2px 8px rgba(5, 8, 22, 0.3);
 	--shadow-btn-active: none;
+	--shadow-card: 0 1px 3px rgba(35, 27, 23, 0.06), 0 1px 2px rgba(35, 27, 23, 0.04);
 
 	/* --- Transitions --- */
-	--transition-fast: 100ms ease;
-	--transition-base: 160ms ease;
+	--transition-fast: 120ms ease;
+	--transition-base: 200ms ease;
 
 	/* --- Avatars --- */
 	--avatar-size-xs: 16px;
@@ -83,47 +117,49 @@
 
 	/* --- Tag --- */
 	--tag-padding-y: 2px;
+
+	/* --- Grid motif --- */
+	--grid-color: color-mix(in srgb, var(--color-accent) 6%, transparent);
+	--grid-color-strong: color-mix(in srgb, var(--color-accent) 12%, transparent);
 }
 
-/* Dark mode */
-@media (prefers-color-scheme: dark) {
-	:root:not(.light) {
-		--color-bg: #100e0b;
-		--color-bg-subtle: #171310;
-		--color-text: #ece7df;
-		--color-text-secondary: #a8998e;
-		--color-muted: #6e6058;
-		--color-border: #2a2320;
-		--color-border-subtle: #1e1a17;
-		--color-surface: #1a1612;
-		--color-accent: #ece7df;
-		--color-accent-hover: #d8d0c8;
-		--color-on-accent: #100e0b;
-		--color-highlight: #2a2320;
-		--color-rule: #2e2824;
-		--color-sand: #a8916c;
-		--color-sand-subtle: #2a2318;
-		--color-clay: #c4865a;
-		--color-sea: #5a7d7b;
-	}
-}
+/* Keep light as default, dark only when explicitly enabled */
+/* Dark mode is handled by .dark class override */
 
 :root.dark {
-	--color-bg: #100e0b;
-	--color-bg-subtle: #171310;
-	--color-text: #ece7df;
-	--color-text-secondary: #a8998e;
-	--color-muted: #6e6058;
-	--color-border: #2a2320;
-	--color-border-subtle: #1e1a17;
-	--color-surface: #1a1612;
-	--color-accent: #ece7df;
-	--color-accent-hover: #d8d0c8;
-	--color-on-accent: #100e0b;
-	--color-highlight: #2a2320;
-	--color-rule: #2e2824;
-	--color-sand: #a8916c;
-	--color-sand-subtle: #2a2318;
-	--color-clay: #c4865a;
-	--color-sea: #5a7d7b;
+	--color-bg: #1a1612;
+	--color-bg-subtle: #231e18;
+	--color-bg-warm: #1f1a15;
+	--color-text: #f0ebe3;
+	--color-text-secondary: #c4b9ae;
+	--color-muted: #8c7e74;
+	--color-border: #3a342e;
+	--color-border-subtle: #2c2822;
+	--color-surface: #262220;
+	--color-accent: #c49a6c;
+	--color-accent-hover: #d4ae82;
+	--color-accent-subtle: color-mix(in srgb, #c49a6c 12%, transparent);
+	--color-on-accent: #1a1612;
+	--color-highlight: #3e3730;
+	--color-rule: #4a433c;
+	--color-sand: #c49a6c;
+	--color-sand-subtle: #2e2822;
+	--color-clay: #bf7b58;
+	--color-sea: #5d8f91;
+	--color-gold: #c49a6c;
+}
+
+:root.light {
+	--color-bg: #f7f1e6;
+	--color-bg-subtle: #eee6d8;
+	--color-bg-warm: #f4ece0;
+	--color-text: #231b17;
+	--color-text-secondary: #5a4b43;
+	--color-muted: #8c7d74;
+	--color-border: #d5c8b8;
+	--color-border-subtle: #e3d9cb;
+	--color-surface: #f0e8da;
+	--color-accent: #a86542;
+	--color-accent-hover: #8f5335;
+	--color-on-accent: #fdf7ef;
 }
