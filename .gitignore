@@ -7,3 +7,12 @@ data.db
 .env
 .env.local
 .env.*
+
+# macOS
+.DS_Store
+
+# Wrangler/Cloudflare dev
+.wrangler
+
+# Claude
+.claude
