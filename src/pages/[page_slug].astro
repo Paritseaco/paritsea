@@ -41,6 +41,7 @@ if (cacheHint) {
 }
 
 const copy = ui[locale];
+const authorRoleLines = copy.authorRole.split("·").map((s) => s.trim());
 
 const aboutContent = locale === "th" ? {
 	title: "เกี่ยวกับ Paritsea",
@@ -382,8 +383,16 @@ const contactNotFor = locale === "th" ? [
 					<div class="about-author">
 						<img src="/images/parit-profile.jpg" alt="Parit Ritchai" class="about-author-img" />
 						<div class="about-author-info">
-							<h2 class="about-author-name">{copy.authorName}</h2>
-							<p class="about-author-role">{aboutContent.bio}</p>
+<h2 class="about-author-name">{copy.authorName}</h2>
+{authorRoleLines.length > 1 ? (
+  <p class="about-author-role">
+    {authorRoleLines.map((line, i) => (
+      <span>{line}{i < authorRoleLines.length - 1 ? <br /> : null}</span>
+    ))}
+  </p>
+) : (
+  <p class="about-author-role">{copy.authorRole}</p>
+)}
 						</div>
 					</div>
 					<p class="about-summary">{aboutContent.summary}</p>
