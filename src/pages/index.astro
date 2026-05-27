@@ -83,6 +83,33 @@ function formatDate(date: Date | null | undefined) {
 	return formatDateForLocale(date, locale);
 }
 
+// ─── Fetch latest YouTube videos from RSS ───
+interface YouTubeVideo {
+	id: string;
+	title: string;
+	published: string;
+}
+let youtubeVideos: YouTubeVideo[] = [];
+try {
+	const rssUrl = "https://www.youtube.com/feeds/videos.xml?channel_id=UCAbKE9k4l5OYlKnZXzEPhbA";
+	const res = await fetch(rssUrl);
+	const xml = await res.text();
+	// Simple XML parsing — extract entries
+	const entries = xml.split("<entry>").slice(1);
+	youtubeVideos = entries.slice(0, 4).map((entry) => {
+		const idMatch = entry.match(/<yt:videoId>([^<]+)<\/yt:videoId>/);
+		const titleMatch = entry.match(/<title>([^<]+)<\/title>/);
+		const pubMatch = entry.match(/<published>([^<]+)<\/published>/);
+		return {
+			id: idMatch?.[1] ?? "",
+			title: titleMatch?.[1] ?? "",
+			published: pubMatch?.[1] ?? "",
+		};
+	}).filter((v) => v.id);
+} catch {
+	// Silent fail — YouTube section just won't render
+}
+
 const home = locale === "th"
 	? {
 			eyebrow: "กรอบอ้างอิงสาธารณะ",
@@ -90,7 +117,7 @@ const home = locale === "th"
 			definition:
 				"Paritsea คือพื้นที่ที่อ่านชีวิตคนและระบบไปพร้อมกัน แปลงความสับสนให้เป็นโครงสร้างที่นิยามได้ ตัดสินใจได้ และนำไปใช้ได้จริง",
 			sub:
-				"วิธีทำงานของฉันผสาน intuition + analysis + strategy เพื่ออ่าน pattern อธิบายความซับซ้อน และสร้าง framework ที่ใช้ได้กับคน งาน และธุรกิจ",
+				"ผสานมุมมองที่หลากมิติและลึก เพื่ออ่านสถานการณ์ อ่านคน และช่วยอธิบายความซับซ้อน และสร้าง framework ที่ใช้ได้กับคน งาน และธุรกิจ",
 			startHere: "เริ่มตรงนี้",
 			startHereDesc: "ใหม่ต่อ Paritsea? เริ่มจากแก่นหลัก จากนั้นสำรวจบันทึกวิเคราะห์ หรือดูกระบบที่นำไปใช้จริง",
 			methodLabel: "วิธีคิดหลัก",
@@ -107,6 +134,14 @@ const home = locale === "th"
 			registry: "ทะเบียนวิเคราะห์",
 			openMethod: "เปิด The Method →",
 			followOn: "ติดตาม",
+			sessionsEyebrow: "Online Session",
+			sessionsTitle: "เข้าร่วมฟรี · พูดคุยสด",
+			sessionsDesc: "ทุกวัน 2 ทุ่ม — เปิดให้ทุกคนเข้าร่วม พูดคุย ถามคำถาม หรือมานั่งฟัง ผ่าน WeGowhere (อาจเปลี่ยนช่องทางตามความเหมาะสม)",
+			sessionsCTA: "เข้าร่วม session ล่าสุด",
+			sessionsFuture: "ในอนาคตอาจปรับเป็นรายสัปดาห์ เปลี่ยนไปใช้ YouTube Live หรือ Google Meet — เพื่อให้คนใหม่ ๆ เข้ามาทำความรู้จักกันง่ายขึ้น ก่อนที่จะเริ่มใช้บริการ",
+			sessionsPurpose: "เป้าหมายคือการสร้าง community รอบ Paritsea ให้คนที่มีคำถามหรือสนใจแนวคิดนี้มีพื้นที่ได้พูดคุย โดยไม่ต้องเริ่มจากการเป็นลูกค้า",
+			videoEyebrow: "วิดีโอล่าสุด",
+			videoCTA: "ดูช่อง YouTube →",
 			quote: "\"ปัญหาไม่ใช่ว่าสิ่งต่างๆ พัง\nปัญหาคือมันทำงานอยู่ — และยังมีบางอย่างผิด\"",
 			attr: "— Parit Ritchai, แก่น",
 		}
@@ -116,7 +151,7 @@ const home = locale === "th"
 			definition:
 				"Paritsea integrates people, systems, structure, and ambiguity into clear working language — so complexity can be named, understood, and acted on.",
 			sub:
-				"My work combines intuition + analysis + strategy to read patterns, build frameworks, and turn insight into usable direction.",
+				"Combining multidimensional depth with clarity — reading situations, reading people, explaining complexity, and building frameworks that work across people, work, and business.",
 			startHere: "Start Here",
 			startHereDesc: "New to Paritsea? Begin with the foundational position, then explore analytical entries, or see applied systems.",
 			methodLabel: "Core Method",
@@ -133,6 +168,14 @@ const home = locale === "th"
 			registry: "Analytical Registry",
 			openMethod: "Open The Method →",
 			followOn: "Follow on",
+			sessionsEyebrow: "Online Sessions",
+			sessionsTitle: "Join Free · Live Talks",
+			sessionsDesc: "Every day at 8 PM ICT — open to all. Come ask questions, discuss, or just listen. Currently on WeGowhere (channel may change as we grow).",
+			sessionsCTA: "Join the latest session",
+			sessionsFuture: "May shift to weekly, moving to YouTube Live or Google Meet — so new people can engage easily without needing to start as a client first.",
+			sessionsPurpose: "The goal is to build a community around Paritsea where anyone curious about the framework can show up and talk — no service commitment required.",
+			videoEyebrow: "Latest Videos",
+			videoCTA: "View YouTube Channel →",
 			quote: "\"The problem is not that things are broken.\nThe problem is that they work — and something is still wrong.\"",
 			attr: "— Parit Ritchai, The Doctrine",
 		};
@@ -147,6 +190,7 @@ const home = locale === "th"
 				<p class="hero-eyebrow">{home.eyebrow}</p>
 				<h1 class="hero-statement">{home.statement.split("\n").map((line, index) => <>{index > 0 && <br />}{line}</>)}</h1>
 				<p class="hero-definition">{home.definition}</p>
+				<p class="hero-sub">{home.sub}</p>
 				
 				<div class="hero-actions">
 					{doctrinePost && <a href={localizedPath("/the-doctrine", locale)} class="btn-primary">{home.readDoctrine}</a>}
@@ -314,6 +358,53 @@ const home = locale === "th"
 			</section>
 		)}
 
+		{/* ── YOUTUBE VIDEOS ── */}
+		{youtubeVideos.length > 0 && (
+			<section class="videos">
+				<header class="section-header">
+					<span class="section-eyebrow">{home.videoEyebrow}</span>
+					<a href="https://www.youtube.com/@paritsea" target="_blank" rel="noreferrer" class="section-more">{home.videoCTA}</a>
+				</header>
+				<div class="videos-grid">
+					{youtubeVideos.map((video) => (
+						<a
+							href={`https://www.youtube.com/watch?v=${video.id}`}
+							target="_blank"
+							rel="noreferrer"
+							class="video-card"
+						>
+							<div class="video-thumb-wrap">
+								<img
+									src={`https://i3.ytimg.com/vi/${video.id}/hqdefault.jpg`}
+									alt={video.title}
+									class="video-thumb"
+									loading="lazy"
+								/>
+								<span class="video-play-icon">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 19,12 8,19"/></svg>
+								</span>
+							</div>
+							<p class="video-title">{video.title}</p>
+						</a>
+					))}
+				</div>
+			</section>
+		)}
+
+		{/* ── ONLINE SESSIONS ── */}
+		<section class="sessions">
+			<p class="sessions-eyebrow">{home.sessionsEyebrow}</p>
+			<div class="sessions-content">
+				<h2 class="sessions-title">{home.sessionsTitle}</h2>
+				<p class="sessions-desc">{home.sessionsDesc}</p>
+				<a href="https://link.wegowhere.com/9edXFs85t3b" target="_blank" rel="noreferrer" class="btn-primary">{home.sessionsCTA}</a>
+				<div class="sessions-note">
+					<p>{home.sessionsPurpose}</p>
+					<p class="sessions-note-future">{home.sessionsFuture}</p>
+				</div>
+			</div>
+		</section>
+
 		{/* ── SOCIAL / FOLLOW ── */}
 		<section class="social-bridge">
 			<p class="social-bridge-eyebrow">{locale === "th" ? "เนื้อหาบนสื่ออื่น" : "Across Platforms"}</p>
@@ -398,11 +489,19 @@ const home = locale === "th"
 		line-height: 1.08;
 		letter-spacing: var(--tracking-tight);
 		color: var(--color-text);
-		margin: 0 0 var(--spacing-8);
+		margin: 0 0 var(--spacing-6);
 	}
 
 	.hero-definition {
 		font-size: var(--font-size-lg);
+		line-height: 1.7;
+		color: var(--color-text-secondary);
+		max-width: 640px;
+		margin: 0 0 var(--spacing-4);
+	}
+
+	.hero-sub {
+		font-size: var(--font-size-base);
 		line-height: 1.7;
 		color: var(--color-text-secondary);
 		max-width: 640px;
@@ -926,6 +1025,173 @@ const home = locale === "th"
 		white-space: nowrap;
 	}
 
+	/* ─── YOUTUBE VIDEOS ─── */
+	.videos {
+		margin-bottom: var(--spacing-14);
+	}
+
+	.videos-grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: var(--spacing-5);
+	}
+
+	.video-card {
+		display: flex;
+		flex-direction: column;
+		text-decoration: none;
+		color: inherit;
+		transition: transform var(--transition-fast);
+	}
+
+	.video-card:hover {
+		transform: translateY(-2px);
+	}
+
+	.video-card:hover .video-title {
+		color: var(--color-accent);
+	}
+
+	.video-thumb-wrap {
+		position: relative;
+		aspect-ratio: 16 / 9;
+		background: var(--color-bg-subtle);
+		overflow: hidden;
+		margin-bottom: var(--spacing-3);
+		border: 1px solid var(--color-border-subtle);
+	}
+
+	.video-thumb {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+
+	.video-play-icon {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 40px;
+		height: 40px;
+		background: rgba(0, 0, 0, 0.65);
+		color: #fff;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: background var(--transition-fast);
+		opacity: 0.85;
+	}
+
+	.video-card:hover .video-play-icon {
+		background: var(--color-accent);
+		opacity: 1;
+	}
+
+	.video-title {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		line-height: var(--leading-snug);
+		color: var(--color-text);
+		margin: 0;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		transition: color var(--transition-fast);
+	}
+
+	/* ─── ONLINE SESSIONS ─── */
+	.sessions {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: var(--spacing-4) var(--spacing-10);
+		padding: var(--spacing-12) 0;
+		border-top: 1px solid var(--color-border-subtle);
+		border-bottom: 1px solid var(--color-border-subtle);
+		margin-bottom: var(--spacing-14);
+		position: relative;
+		background: linear-gradient(to right, var(--color-bg-subtle) 0%, transparent 25%);
+		padding-left: var(--spacing-8);
+		padding-right: var(--spacing-8);
+		margin-left: calc(-1 * var(--spacing-8));
+		margin-right: calc(-1 * var(--spacing-8));
+	}
+
+	.sessions-eyebrow {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		font-weight: 600;
+		letter-spacing: var(--tracking-widest);
+		text-transform: uppercase;
+		color: var(--color-accent);
+		margin: 0;
+		display: inline-flex;
+		align-items: flex-start;
+		gap: 0.5rem;
+		padding-top: 4px;
+	}
+
+	.sessions-eyebrow::before {
+		content: "◆";
+		font-size: 0.8em;
+		color: var(--color-accent);
+		opacity: 0.9;
+	}
+
+	.sessions-content {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-4);
+	}
+
+	.sessions-title {
+		font-family: var(--font-serif);
+		font-size: clamp(var(--font-size-xl), 2.5vw, var(--font-size-2xl));
+		font-weight: 700;
+		line-height: 1.2;
+		color: var(--color-text);
+		margin: 0;
+		letter-spacing: var(--tracking-tight);
+	}
+
+	.sessions-desc {
+		font-size: var(--font-size-base);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin: 0;
+		max-width: 600px;
+	}
+
+	.sessions .btn-primary {
+		align-self: flex-start;
+	}
+
+	.sessions-note {
+		margin-top: var(--spacing-2);
+		padding: var(--spacing-4);
+		border-left: 2px solid var(--color-border);
+		background: color-mix(in srgb, var(--color-bg) 30%, transparent);
+	}
+
+	.sessions-note p {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin: 0;
+	}
+
+	.sessions-note-future {
+		margin-top: var(--spacing-3);
+		padding-top: var(--spacing-3);
+		border-top: 1px solid var(--color-border-subtle);
+		color: var(--color-muted) !important;
+		font-style: italic;
+	}
+
 	/* ─── SOCIAL BRIDGE ─── */
 	.social-bridge {
 		padding: var(--spacing-10) 0;
@@ -1040,7 +1306,8 @@ const home = locale === "th"
 			font-size: clamp(1.75rem, 4vw, 2.5rem);
 		}
 
-		.hero-definition {
+		.hero-definition,
+		.hero-sub {
 			font-size: var(--font-size-base);
 		}
 
@@ -1061,6 +1328,16 @@ const home = locale === "th"
 
 		.method-strip::after {
 			display: none;
+		}
+
+		.videos-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		.sessions {
+			grid-template-columns: 1fr;
+			gap: var(--spacing-4);
+			padding: var(--spacing-8) 0;
 		}
 
 		.social-bridge {
@@ -1126,6 +1403,10 @@ const home = locale === "th"
 		}
 
 		.pillars-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.videos-grid {
 			grid-template-columns: 1fr;
 		}
 
