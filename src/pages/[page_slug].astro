@@ -35,46 +35,62 @@ const copy = ui[locale];
 const aboutContent = locale === "th" ? {
 	title: "เกี่ยวกับ Paritsea",
 	eyebrow: "กรอบอ้างอิงสาธารณะ",
-	summary: "Paritsea คือกรอบอ้างอิงสาธารณะที่นิยามความสอดคล้องเชิงโครงสร้างและความชอบธรรมในระบบที่จัดระเบียบ เขียนโดย Parit Ritchai",
+	summary: "Paritsea คือกรอบที่ใช้อ่านระบบ อ่านคน และอ่านความซับซ้อนไปพร้อมกัน — แปลความไม่ชัดเจนให้เป็นโครงสร้างที่เข้าใจ ตั้งชื่อได้ และใช้ประโยชน์ได้จริง",
 	sections: [
 		{
+			title: "ที่มา",
+			content: "Paritsea เกิดจากคำถามที่ว่า \"เมื่อระบบซับซ้อน เราจะมั่นใจได้อย่างไรว่ากำลังมองเห็นภาพจริง\" — ในการทำงานกับองค์กร ทีม และคนจำนวนมาก สิ่งที่พบคือปัญหาไม่ได้อยู่ที่คนไม่เก่ง แต่อยู่ที่เราไม่มีภาษาที่ชัดพอที่จะนิยามความซับซ้อนนั้น Paritsea จึงเป็นมากกว่ากรอบคิด — มันคือภาษาทำงานที่ทำให้ความคลุมเครือกลายเป็นสิ่งที่จัดการได้",
+		},
+		{
 			title: "ผู้เขียน",
-			content: "Parit Ritchai เป็นผู้ก่อตั้ง SE Ocean และผู้สร้างหลักคำสอน Paritsea และกรอบ AgenSea งานของเขาผสานการวิเคราะห์เชิงโครงสร้าง การอ่านแบบแผนของมนุษย์ และทิศทางเชิงกลยุทธ์ไว้ในสถาปัตยกรรมอ้างอิงสาธารณะ",
+			content: "Parit Ritchai คือผู้ก่อตั้ง SE Ocean และผู้สร้าง Paritsea Doctrine และกรอบ AgenSea งานของเขาอยู่ที่รอยต่อระหว่างการวิเคราะห์เชิงโครงสร้าง การอ่านแบบแผนของมนุษย์ และการออกแบบทิศทางเชิงกลยุทธ์ — โดยมีเป้าหมายเพื่อสร้างภาษาที่ทำให้ความซับซ้อนเป็นสิ่งที่เข้าใจได้ ไม่ใช่แค่รู้สึกได้ Parit ไม่ได้มองว่าตัวเองเป็นนักวิชาการหรือที่ปรึกษาในความหมายดั้งเดิม แต่มองว่าสิ่งที่ทำคือการสร้างเครื่องมือสำหรับนำทาง",
 		},
 		{
-			title: "สถาปัตยกรรมอ้างอิง",
-			content: "Paritsea ประกอบด้วย 5 ชั้น: แก่น (The Doctrine) → โปรโตคอล (Protocols) → มาตรฐาน (Standards) → วิธีวิเคราะห์ (The Method) → การประยุกต์ใช้ (Implementations) แต่ละชั้นสืบเนื่องจากชั้นก่อนหน้า โดยแก่นเป็นข้อความที่ไม่เปลี่ยนรูป",
+			title: "ทำไมต้องเป็นกรอบอ้างอิงสาธารณะ",
+			content: "แนวคิดที่แข็งแรงที่สุดคือแนวคิดที่ถูกทดสอบในที่แจ้ง Paritsea จึงถูกเผยแพร่เป็นกรอบอ้างอิงสาธารณะ เพื่อให้คนอื่นสามารถอ่าน ตรวจสอบ ดัดแปลง และนำไปใช้ได้โดยไม่ต้องรออนุญาต — ตราบเท่าที่ไม่กล่าวอ้าง endorsement หรือ official implementation ความโปร่งใสนี้คือกลไกตรวจสอบในตัวเอง: ถ้ากรอบอ่อนแอ มันจะถูกเปิดโปง ถ้ามันแข็งแรง มันจะถูกนำไปใช้โดยไม่ต้องบังคับ",
 		},
 		{
-			title: "ความสัมพันธ์กับ SE Ocean",
-			content: "SE Ocean (seocean.co.th) คือบริษัทที่นำแนวคิดจาก Paritsea ไปใช้ผ่านแพลตฟอร์ม AgenSea ซึ่งเป็นการประยุกต์ใช้มาตรฐาน ASLS-01 เป็นครั้งแรก Paritsea ในฐานะหลักคำสอน แยกจากบริษัท — เพื่อรักษาความเป็นอิสระและป้องกันผลประโยชน์ทับซ้อน",
+			title: "สถาปัตยกรรมทั้งหมด",
+			content: "Paritsea ประกอบด้วย 5 ชั้นที่สืบทอดกัน: (1) แก่น — หลักการที่ไม่เปลี่ยนรูปซึ่งทุกอย่างเริ่มจากตรงนั้น (2) โปรโตคอล — ข้อกำหนดเชิงโครงสร้างที่ต้องมีเพื่อให้ระบบเดินหน้าได้ (3) มาตรฐาน — เกณฑ์ที่ตรวจสอบได้ว่าสิ่งที่อ้างเป็นจริงหรือไม่ (4) วิธีวิเคราะห์ — บันทึกประจำชั้นที่ใช้กรอบนี้ในการอ่านระบบจริง (5) การประยุกต์ใช้ — ระบบที่นำตรรกะ Paritsea ไปบังคับใช้ในสภาพแวดล้อมการทำงานจริง แก่นไม่เปลี่ยน ชั้นอื่นพัฒนาได้เมื่อบริบทเปลี่ยน",
 		},
 		{
-			title: "ความเชื่อมโยงกับเนื้อหาบนสื่ออื่น",
-			content: "วิดีโอสะท้อนคิดบน YouTube และเนื้อหาสั้นบน Instagram (IG Reels) และ Threads อยู่ใน knowledge flow เดียวกับบทความใน The Method — รูปแบบต่าง แก่นวิเคราะห์เดียวกัน",
+			title: "ความสัมพันธ์กับ SE Ocean และ AgenSea",
+			content: "SE Ocean คือบริษัทที่นำแนวคิดจาก Paritsea ไปประยุกต์ใช้เชิงพาณิชย์ผ่านแพลตฟอร์ม AgenSea — การ implementation ครั้งแรกของมาตรฐาน ASLS-01 แต่ Paritsea ในฐานะหลักคำสอนและกรอบอ้างอิง ถูกแยกออกจากผลประโยชน์ทางการค้าอย่างชัดเจน เพื่อรักษาความเป็นอิสระในการประเมิน ความเป็นไปได้ที่กรอบจะถูกวิพากษ์ และความน่าเชื่อถือในระยะยาว การแยกนี้คือส่วนหนึ่งของโครงสร้าง ไม่ใช่สิ่งที่ทำตามหลัง",
+		},
+		{
+			title: "เนื้อหาบนสื่ออื่น",
+			content: "วิดีโอสะท้อนคิดบน YouTube และเนื้อหาสั้นบน Instagram และ Threads อยู่ใน knowledge flow เดียวกับบทความใน The Method — รูปแบบต่างกัน แต่มีแก่นวิเคราะห์เดียวกัน เนื้อหาสั้นอาจถูกย่อยแล้ว แต่รากของมันมาจากชั้นสถาปัตยกรรมเดียวกัน ใครที่อ่าน The Method แล้วจะเห็น structural pattern เดียวกันใน Reel หรือ Thread ที่เผยแพร่",
 		},
 	],
 	bio: "ผู้ก่อตั้ง SE Ocean · ผู้สร้าง Paritsea Doctrine & AgenSea",
 } : {
 	title: "About Paritsea",
 	eyebrow: "Public Reference Framework",
-	summary: "Paritsea is a public reference framework for structural coherence, legitimacy, and applied judgment. Authored by Parit Ritchai.",
+	summary: "Paritsea is a framework for reading systems, people, and complexity simultaneously — converting ambiguity into structures that can be named, understood, and acted on.",
 	sections: [
 		{
+			title: "Origin",
+			content: "Paritsea began with a question: \"When systems get complex, how do we know we're seeing the whole picture?\" Working across organisations, teams, and people over many years revealed that the real problem isn't that people aren't capable — it's that we lack precise language to name what we're dealing with. Paritsea emerged as more than a framework: it became a working language for making ambiguity manageable. The name Paritsea itself is not a brand — it is a reference point.",
+		},
+		{
 			title: "Author",
-			content: "Parit Ritchai is the founder of SE Ocean and the creator of the Paritsea Doctrine and the AgenSea framework. His work integrates structural analysis, human pattern reading, and strategic direction into a public reference architecture.",
+			content: "Parit Ritchai is the founder of SE Ocean and the creator of the Paritsea Doctrine and the AgenSea framework. His work sits at the intersection of structural analysis, human pattern reading, and strategic direction design — with the goal of building language that makes complexity legible rather than just felt. Parit does not position himself as an academic or a consultant in the traditional sense; he sees the work as building navigational tools for people who need to make decisions in systems that resist clarity.",
 		},
 		{
-			title: "Reference Architecture",
-			content: "Paritsea is organised into five layers: The Doctrine (foundational position) → Protocols (structural requirements) → Standards (verifiable thresholds) → The Method (analytical registry) → Implementations (applied systems). Each layer derives from the one before it, with the Doctrine remaining constitutionally immutable.",
+			title: "Why a Public Reference Framework",
+			content: "The strongest ideas are those tested in the open. Paritsea is published as a public reference framework so that anyone can read, verify, adapt, and apply it without requiring permission — as long as they do not claim endorsement or official implementation status. This transparency acts as a self-correcting mechanism: if the framework is weak, it will be exposed; if it is strong, it will be adopted without needing enforcement.",
 		},
 		{
-			title: "Relationship to SE Ocean",
-			content: "SE Ocean (seocean.co.th) is the company that implements Paritsea concepts through the AgenSea platform — the first applied implementation of the ASLS-01 Standard. Paritsea as a doctrine remains independent from any commercial entity to preserve structural clarity and prevent conflicts of interest.",
+			title: "The Full Architecture",
+			content: "Paritsea is organised into five layers, each deriving from the one before it: (1) The Doctrine — the immutable foundational position from which everything proceeds (2) Protocols — structural requirements a system must satisfy to move forward (3) Standards — verifiable thresholds against which claims can be tested (4) The Method — an ongoing analytical registry applying the framework to real systems (5) Implementations — systems that enforce Paritsea logic in production environments. The Doctrine does not change; everything else evolves as context demands.",
 		},
 		{
-			title: "Connected Content",
-			content: "Video reflections on YouTube and short-form content on Instagram (IG Reels) and Threads exist within the same knowledge flow as The Method entries — different formats, the same analytical spine.",
+			title: "Relationship to SE Ocean and AgenSea",
+			content: "SE Ocean is the company that applies Paritsea concepts commercially through the AgenSea platform — the first documented implementation of the ASLS-01 Standard. However, Paritsea as a doctrine and reference framework remains structurally independent from any commercial entity. This separation preserves the framework's capacity for scrutiny, critique, and long-term credibility. It is not an afterthought — it is built into the architecture.",
+		},
+		{
+			title: "Content Across Platforms",
+			content: "Video reflections on YouTube and short-form content on Instagram and Threads exist within the same knowledge flow as The Method entries — different formats, but the same analytical spine. The short-form content is not simplified for its own sake; it is condensed from the same architectural layer. Readers of The Method will recognise the same structural patterns in the Reels and Threads.",
 		},
 	],
 	bio: "Founder of SE Ocean · Creator of the Paritsea Doctrine & AgenSea",
