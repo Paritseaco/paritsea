@@ -17,18 +17,28 @@ if (!KNOWN_PAGE_SLUGS.includes(slug)) {
 	return Astro.redirect("/404");
 }
 
-const { entry: rawPage, cacheHint } = await getEmDashEntry("pages", slug);
-
-if (!rawPage) {
-	return Astro.redirect("/404");
-}
-const page = localizeEntry(rawPage, "pages", locale);
-
-Astro.cache.set(cacheHint);
-
 const isLicensingPage = slug === "licensing";
 const isContactPage = slug === "contact";
 const isAboutPage = slug === "about";
+
+// About page content is fully hardcoded — skip CMS fetch
+let rawPage = null;
+let cacheHint = null;
+if (!isAboutPage) {
+	const result = await getEmDashEntry("pages", slug);
+	rawPage = result.entry;
+	cacheHint = result.cacheHint;
+}
+
+if (!isAboutPage && !rawPage) {
+	return Astro.redirect("/404");
+}
+
+const page = rawPage ? localizeEntry(rawPage, "pages", locale) : null;
+
+if (cacheHint) {
+	Astro.cache.set(cacheHint);
+}
 
 const copy = ui[locale];
 
@@ -229,13 +239,13 @@ const contactNotFor = locale === "th" ? [
 ---
 
 <Base
-	title={page.data.title}
+	title={isAboutPage ? aboutContent.title : page.data.title}
 	locale={locale}
-	content={{ collection: "pages", id: page.data.id, slug }}
+	content={isAboutPage ? undefined : { collection: "pages", id: page.data.id, slug }}
 >
 	<article class="page-article">
 		<header class="page-header">
-			<h1 class="page-title" {...page.edit.title}>{page.data.title}</h1>
+			<h1 class="page-title">{isAboutPage ? aboutContent.title : page.data.title}</h1>
 		</header>
 
 		{
