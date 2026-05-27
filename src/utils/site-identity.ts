@@ -13,7 +13,7 @@ export interface BlogSiteIdentitySettings {
 }
 
 const DEFAULT_SITE_TITLE = "Paritsea";
-const DEFAULT_SITE_TAGLINE = "A public reference framework for structural coherence, legitimacy, and applied judgment.";
+const DEFAULT_SITE_TAGLINE = "Paritsea integrates people, systems, structure, and ambiguity into clear working language — so complexity can be named, understood, and acted on.";
 const LEGACY_SITE_TAGLINE = "Structural Coherence and Legitimacy";
 
 export function resolveBlogSiteIdentity(settings?: BlogSiteIdentitySettings) {
