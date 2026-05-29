@@ -68,7 +68,6 @@ const methodFormatLabel = (format: unknown, cats: Array<{ label: string }>) => {
 	if (format === "video-reflection") return "Video Reflection";
 	if (format === "pattern-brief") return "Pattern Brief";
 	if (format === "decision-note") return "Decision Note";
-	if (format === "essay") return "Essay";
 	const labels = cats.map((cat) => cat.label.toLowerCase());
 	if (labels.some((label) => label.includes("video") || label.includes("วิดีโอ"))) {
 		return "Video Reflection";
@@ -76,7 +75,7 @@ const methodFormatLabel = (format: unknown, cats: Array<{ label: string }>) => {
 	if (labels.some((label) => label.includes("brief"))) {
 		return "Pattern Brief";
 	}
-	return "Essay";
+	return null;
 };
 
 const copy = locale === "th"
@@ -326,7 +325,9 @@ const copy = locale === "th"
 							<a href={localizedPath(`/the-method/${post.id}`, locale)} class="document-card">
 								<div class="document-card-index">{String(scopedPosts.length - i).padStart(2, "0")}</div>
 								<div class="document-card-body">
+									{methodFormatLabel(post.data.format, cats) && (
 									<div class="document-card-format">{methodFormatLabel(post.data.format, cats)}</div>
+								)}
 									{cats.length > 0 && (
 										<div class="document-card-tags">
 											{cats.map((c) => <span class="document-tag">{c.label}</span>)}

@@ -27,11 +27,6 @@ Astro.cache.set(cacheHint);
 
 // Specific landmark posts
 const doctrinePost = posts.find((p) => p.id === "doctrine");
-const stpPost = posts.find((p) => p.id === "stp");
-const aslsPost = posts.find((p) => p.id === "asls-01");
-const localizedDoctrinePost = doctrinePost ? localizeEntry(doctrinePost, "posts", locale) : null;
-const localizedStpPost = stpPost ? localizeEntry(stpPost, "posts", locale) : null;
-const localizedAslsPost = aslsPost ? localizeEntry(aslsPost, "posts", locale) : null;
 
 // The Method = recent analytical entries (exclude the 3 landmark posts)
 const landmarkIds = new Set(["doctrine", "stp", "asls-01"]);
@@ -112,68 +107,166 @@ try {
 
 const home = locale === "th"
 	? {
-			eyebrow: "กรอบอ้างอิงสาธารณะ",
-statement: "Paritsea คือพื้นที่ที่อ่านคนและระบบไปพร้อมกัน",
-definition:
-"เราแปลงความสับสนเป็นโครงสร้างที่ชัดเจนและนำไปปฏิบัติได้จริง",
-sub:
-"ผสานมุมมองที่หลากมิติและลึก เพื่ออ่านสถานการณ์ อ่านคน และช่วยอธิบายความซับซ้อน และสร้าง framework ที่ใช้ได้กับคน งาน และธุรกิจ",
-			startHere: "เริ่มตรงนี้",
-			startHereDesc: "ใหม่ต่อ Paritsea? เริ่มจากแก่นหลัก จากนั้นสำรวจบันทึกวิเคราะห์ หรือดูกระบบที่นำไปใช้จริง",
-			methodLabel: "วิธีคิดหลัก",
-			methodSummary: "Paritsea มองคน ระบบ โครงสร้าง และความคลุมเครือไปพร้อมกัน — แปลเป็นภาษาทำงานที่ชัดเจน ตั้งชื่อได้ เข้าใจได้ และลงมือทำได้",
-			methodDetail:
-				"จับสัญญาณที่ยังไม่มีภาษา → แยกโครงสร้างและ pattern → แปลงเป็นคำแนะนำและทิศทางที่ตัดสินใจได้",
+			// ── HERO ──
+			eyebrow: "Paritsea",
+			headlineLine1: "วิธีคิดที่เข้าใจ",
+			headlineLine2: "ทั้ง \"ความซับซ้อนของโลก\"",
+			headlineLine3: "และ \"ความรู้สึกของคน\"",
+			heroSub: "Paritsea คือแหล่งรวมแนวคิด มุมมอง และบทสนทนา\nสำหรับคนที่อยากเข้าใจชีวิต ธุรกิจ ผู้คน และตัวเองให้ลึกขึ้น\nไม่ใช่แค่ในเชิงทฤษฎี แต่ในแบบที่ใช้ได้จริงกับโลกจริง",
 			readDoctrine: "อ่านแก่น",
 			exploreMethod: "เปิดวิธีวิเคราะห์",
 			viewImplementations: "ดูการประยุกต์ใช้",
-			methodDesc:
-				"บันทึกวิเคราะห์ที่ระบุแรงตึงเชิงโครงสร้าง ก่อนมันจะแข็งตัวกลายเป็นบรรทัดฐาน",
-			implementationsDesc:
-				"ระบบที่นำตรรกะ Paritsea ไปใช้จริงในสภาพแวดล้อมการทำงาน AgenSea คือการประยุกต์ใช้แรกที่บันทึกไว้ภายใต้ ASLS-01",
+
+			// ── WHAT PARITSEA COVERS ──
+			topicsLabel: "สิ่งที่ Paritsea พูดถึง",
+			topicLife: "ชีวิต & ความหมาย",
+			topicLifeDesc: "เป้าหมาย ความสัมพันธ์ ความสุข ความโดดเดี่ยว ความคาดหวัง และการใช้ชีวิตอย่างมีสติ",
+			topicWork: "งาน & องค์กร",
+			topicWorkDesc: "Workflow การทำงาน การตัดสินใจ การจัดการทีม Burnout ความเป็นผู้นำ และระบบที่ดีต้องไม่ทำให้มนุษย์บางคนต้องแบกเงียบ ๆ แต่ไม่ถูกมองเห็น",
+			topicHuman: "มนุษย์ & จิตใจ",
+			topicHumanDesc: "การอ่านคน ความสัมพันธ์ ความซับซ้อนทางอารมณ์ Trauma ความกดดัน และธรรมชาติของมนุษย์จริง ๆ",
+			topicGrowth: "การเติบโต & การเปลี่ยนผ่าน",
+			topicGrowthDesc: "การพัฒนาตัวเอง การเริ่มต้นใหม่ การผ่านวิกฤต และการเติบโตที่ไม่ต้องฝืนตัวตน",
+
+			// ── WORLDVIEW ──
+			worldviewLabel: "Paritsea มองโลกแบบไหน",
+			worldviewHeadline: "เราไม่ได้แยก \"ระบบ\" ออกจาก \"มนุษย์\"",
+			worldviewBody1: "องค์กรที่พัง บางครั้งไม่ได้พังเพราะ strategy ไม่ดี แต่พังเพราะ workflow ที่ทำให้คน overload จน burnout เงียบ ๆ",
+			worldviewBody2: "Dashboard ที่ดี ไม่ได้เริ่มจากการออกแบบกราฟ แต่เริ่มจากการเข้าใจการทำงานจริงของคนในระบบ",
+			worldviewBody3: "ความสัมพันธ์ที่พัง หลายครั้งก็ไม่ได้เกิดจากใครเลว แต่เกิดจากบาดแผล ความกลัว และสิ่งที่ไม่เคยถูกเข้าใจ",
+			worldviewCoda: "Paritsea มองโลกในแบบที่เชื่อมทุกมิติพวกนี้เข้าด้วยกัน\nเพราะสุดท้ายแล้ว ทุกระบบมีมนุษย์อยู่ข้างในเสมอ",
+
+			// ── START HERE ──
+			startHere: "เริ่มตรงนี้",
+			startHereDesc: "ใหม่ต่อ Paritsea? เริ่มจากแก่นหลักเพื่อเข้าใจวิธีคิดที่เห็นทั้งคนและระบบ จากนั้นสำรวจบันทึกวิเคราะห์ หรือดูระบบที่นำไปใช้จริง",
+
+			// ── CONTENT BREADTH ──
+			contentBreadthLabel: "แนวคิดจาก Paritsea",
+			contentBreadthHeadline: "แนวคิดที่ไม่ได้หยุดแค่ Motivation",
+			contentBreadthBody: "เนื้อหาจาก Paritsea ครอบคลุมตั้งแต่ ชีวิตและความหมาย การทำงานและองค์กร จิตวิทยามนุษย์ การตัดสินใจ การเติบโตของตัวเอง ความสัมพันธ์ ธุรกิจและระบบ และวิธีคิดเชิงลึกที่เชื่อมหลายศาสตร์เข้าด้วยกัน",
+			contentBreadthExample1: "บางครั้งเราอาจกำลังพูดเรื่อง Dashboard\nแต่จริง ๆ กำลังพูดเรื่อง \"มนุษย์ในระบบ\"",
+			contentBreadthExample2: "บางครั้งเราอาจกำลังพูดเรื่องความสัมพันธ์\nแต่จริง ๆ กำลังพูดเรื่อง \"บาดแผลที่คนแบกมาตลอดชีวิต\"",
+
+			// ── REGISTRY ──
 			registry: "ทะเบียนวิเคราะห์",
 			openMethod: "เปิด The Method →",
-			followOn: "ติดตาม",
+
+			// ── SESSIONS ──
 			sessionsEyebrow: "Online Session",
-			sessionsTitle: "เข้าร่วมฟรี · พูดคุยสด",
-			sessionsDesc: "ทุกวัน 20:00 ICT เราจัด Live Chat ที่คุณสามารถพูดคุยปัญหา, ถามคำถาม, หรือเรียนรู้จากคนอื่น ๆ ในบรรยากาศปลอดภัยและเป็นความลับ ผ่าน WeGowhere (อาจเปลี่ยนช่องทางตามความเหมาะสม)",
-			sessionsCTA: "เข้าร่วม session ล่าสุด",
-			sessionsFuture: "ในอนาคตอาจปรับเป็นรายสัปดาห์ เปลี่ยนไปใช้ YouTube Live หรือ Google Meet — เพื่อให้คนใหม่ ๆ เข้ามาทำความรู้จักกันง่ายขึ้น ก่อนที่จะเริ่มใช้บริการ",
-			sessionsPurpose: "พื้นที่เชิญชวนให้คุณแบ่งปัน pain point และรับการอ่านและแบ่งปันมุมมองที่เป็นประโยชน์จาก Paritsea —  หากสนใจบริการ สามารถไปที่ SE Ocean →",
+			sessionsTitle: "ทุกวันเวลา 2 ทุ่ม\nพื้นที่สำหรับพูดคุยอย่างจริงใจ",
+			sessionsDesc: "เราเปิด Online Session ฟรีทุกวัน สำหรับคนที่อยากพูดคุยปัญหาชีวิต งาน หรือความสัมพันธ์ ถามคำถามที่ค้างอยู่ในใจ แลกเปลี่ยนมุมมองกับคนอื่น หรือแค่อยากอยู่ในพื้นที่ที่ไม่ต้องแบกทุกอย่างคนเดียว",
+			sessionsNote: "บรรยากาศเป็นกันเอง ปลอดภัย และเป็นความลับ ไม่มี pressure ว่าต้องเก่ง ต้องสำเร็จ หรือต้องดูโอเคตลอดเวลา",
+			sessionsCTA: "เข้าร่วม Session วันนี้ →",
+			sessionsSecondary: "ดูแนวคิดจาก Paritsea ก่อน",
+
+			// ── ABOUT ──
+			aboutLabel: "เกี่ยวกับ Paritsea",
+			aboutHeadline1: "ไม่ใช่แค่การแชร์ความรู้",
+			aboutHeadline2: "แต่คือการเข้าใจโลกอย่างลึกซึ้ง",
+			aboutBody: "Paritsea เกิดจากการผสมกันของ การมองเชิงระบบ ความเข้าใจมนุษย์ ประสบการณ์ชีวิตจริง ธุรกิจ องค์กร และการทำงานร่วมกับคน และการตั้งคำถามกับสิ่งที่คนส่วนใหญ่มองข้าม",
+			aboutInsight: "หลายเรื่องในโลกไม่ได้ซับซ้อนเพราะมันยาก แต่ซับซ้อนเพราะคนมองแค่บางมิติ Paritsea จึงพยายามเชื่อมสิ่งเหล่านั้นเข้าด้วยกัน เพื่อให้เราเข้าใจทั้งโลก และตัวเอง ได้ชัดขึ้น",
+
+			// ── ECOSYSTEM ──
+			ecosystemLabel: "ติดตามแนวคิดจาก Paritsea",
+			ecosystemYoutube: "YouTube",
+			ecosystemYoutubeDesc: "มุมมองเชิงลึกแบบเข้าใจง่ายทั้งภาษาไทยและอังกฤษ",
+			ecosystemThreads: "Threads",
+			ecosystemThreadsDesc: "มุมมองสั้น ๆ ที่คมและชวนคิด",
+			ecosystemInstagram: "Instagram",
+			ecosystemInstagramDesc: "สำหรับ international audience และ visual thoughts",
+			ecosystemLine: "LINE Group",
+			ecosystemLineDesc: "พูดคุย แลกเปลี่ยน และติดตาม session",
+			ecosystemParitsea: "Paritsea Website",
+			ecosystemParitseaDesc: "พื้นที่รวมแนวคิดและบทความ",
+			ecosystemSeocean: "SE Ocean",
+			ecosystemSeoceanDesc: "สถาบันที่แปลงแนวคิดให้เป็นบริการสำหรับผู้ที่สนใจ",
+
+			followOn: "ติดตาม",
+
+			// ── CLOSING ── / ── VIDEO / QUOTE ──
 			videoEyebrow: "วิดีโอล่าสุด",
 			videoCTA: "ดูช่อง YouTube →",
 			quote: "\"ปัญหาของปัญหาไม่ใช่เพราะแค่มันเป็นปัญหา\nแต่คือวิธีรับมือและจัดการกับปัญหานั้นต่างหาก\nที่ทำให้ทิศทางของปัญหานั้นต่างออกไป\"",
 			attr: "— Parit Ritchai, แก่น",
 		}
 	: {
-			eyebrow: "Public Reference Framework",
-statement: "Paritsea integrates people and systems into clear working language.",
-definition:
-"We translate ambiguity into actionable structures, names, and decisions.",
-sub:
-"Combining multidimensional depth with clarity — reading situations, reading people, explaining complexity, and building frameworks that work across people, work, and business.",
-			startHere: "Start Here",
-			startHereDesc: "New to Paritsea? Begin with the foundational position, then explore analytical entries, or see applied systems.",
-			methodLabel: "Core Method",
-			methodSummary: "Paritsea integrates people, systems, structure, and ambiguity into clear working language — so complexity can be named, understood, and acted on.",
-			methodDetail:
-				"Transform unarticulated tensions into actionable frameworks through structured observation, pattern recognition, and strategic synthesis.",
+			// ── HERO ──
+			eyebrow: "Paritsea",
+			headlineLine1: "A way of thinking",
+			headlineLine2: "that understands both",
+			headlineLine3: "the complexity of the world — and the depth of people",
+			heroSub: "Paritsea is a gathering of ideas, perspectives, and conversations for those who want to understand life, business, people, and themselves more deeply. Not just in theory. In ways that work in reality.",
 			readDoctrine: "Read the Doctrine",
 			exploreMethod: "Explore the Method",
 			viewImplementations: "View Implementations",
-			methodDesc:
-				"Analytical entries that identify structural tension before it hardens into normalized practice.",
-			implementationsDesc:
-				"Applied systems that enforce Paritsea logic in real operating environments. AgenSea is the first documented ASLS-01 implementation.",
+
+			// ── WHAT PARITSEA COVERS ──
+			topicsLabel: "What Paritsea Covers",
+			topicLife: "Life & Meaning",
+			topicLifeDesc: "Purpose, relationships, happiness, loneliness, expectations, and living with intention",
+			topicWork: "Work & Organizations",
+			topicWorkDesc: "Workflow, decision-making, team dynamics, burnout, leadership, and systems that don't destroy good people",
+			topicHuman: "People & Mind",
+			topicHumanDesc: "Reading people, relationships, emotional depth, trauma, pressure, and the real nature of being human",
+			topicGrowth: "Growth & Transition",
+			topicGrowthDesc: "Self-development, starting over, navigating crisis, and growing without losing yourself",
+
+			// ── WORLDVIEW ──
+			worldviewLabel: "How Paritsea Sees the World",
+			worldviewHeadline: "We don't separate \"systems\" from \"people\"",
+			worldviewBody1: "Organizations break not always because of bad strategy — but because workflows overload people into silent burnout.",
+			worldviewBody2: "A great dashboard doesn't start with chart design. It starts with understanding the real work people actually do.",
+			worldviewBody3: "Relationships fall apart not always because someone is bad — but because of unhealed wounds, fear, and things never understood.",
+			worldviewCoda: "Paritsea connects these dimensions together.\nBecause in the end, every system has people inside it.",
+
+			// ── START HERE ──
+			startHere: "Start Here",
+			startHereDesc: "New to Paritsea? Start with the foundational position to understand a method that reads people and systems together, then explore analytical entries or see applied systems.",
+
+			// ── CONTENT BREADTH ──
+			contentBreadthLabel: "Ideas from Paritsea",
+			contentBreadthHeadline: "Ideas that go beyond Motivation",
+			contentBreadthBody: "Paritsea covers life and meaning, work and organizations, human psychology, decision-making, self-growth, relationships, business and systems, and deep thinking that connects disciplines.",
+			contentBreadthExample1: "Sometimes we talk about dashboards.\nBut really we're talking about \"people inside systems.\"",
+			contentBreadthExample2: "Sometimes we talk about relationships.\nBut really we're talking about \"wounds people have carried their whole lives.\"",
+
+			// ── REGISTRY ──
 			registry: "Analytical Registry",
 			openMethod: "Open The Method →",
-			followOn: "Follow on",
+
+			// ── SESSIONS ──
 			sessionsEyebrow: "Online Sessions",
-			sessionsTitle: "Join Free · Live Talks",
-			sessionsDesc: "Every day at 8 PM ICT we host a live chat you can join to discuss challenges, ask questions, and learn from others, all in a safe, private setting. Join us on WeGowhere (platform may change).",
-			sessionsCTA: "Join the latest session",
-			sessionsFuture: "May shift to weekly, moving to YouTube Live or Google Meet — so new people can engage easily without needing to start as a client first.",
-			sessionsPurpose: "A welcoming, confidential space where you can share your challenges and get support from the Paritsea community — no sales pitch. If you’re curious about services, check out SE Ocean",
+			sessionsTitle: "Every day at 8 PM\nA space for honest conversation",
+			sessionsDesc: "We host free daily online sessions for anyone who wants to talk about life, work, or relationships — ask what's on your mind, share perspectives, or just be in a space where you don't have to carry everything alone.",
+			sessionsNote: "Safe, private, no-pressure. You don't need to be successful or have it all together. Just show up as you are.",
+			sessionsCTA: "Join Today's Session →",
+			sessionsSecondary: "Explore Paritsea first",
+
+			// ── ABOUT ──
+			aboutLabel: "About Paritsea",
+			aboutHeadline1: "Not just sharing knowledge",
+			aboutHeadline2: "But understanding the world more deeply",
+			aboutBody: "Paritsea is born from the combination of systems thinking, deep human understanding, real-life experience, business and organizations, working with people, and questioning what most people overlook.",
+			aboutInsight: "Many things aren't complex because they're hard — they're complex because people only look at one dimension. Paritsea tries to connect them, so we can understand both the world and ourselves more clearly.",
+
+			// ── ECOSYSTEM ──
+			ecosystemLabel: "Follow Paritsea Across Platforms",
+			ecosystemYoutube: "YouTube",
+			ecosystemYoutubeDesc: "Deep perspectives in both Thai and English",
+			ecosystemThreads: "Threads",
+			ecosystemThreadsDesc: "Short, sharp thoughts",
+			ecosystemInstagram: "Instagram",
+			ecosystemInstagramDesc: "For international audience and visual thoughts",
+			ecosystemLine: "LINE Group",
+			ecosystemLineDesc: "Chat, share, and follow sessions",
+			ecosystemParitsea: "Paritsea Website",
+			ecosystemParitseaDesc: "Hub for ideas and articles",
+			ecosystemSeocean: "SE Ocean",
+			ecosystemSeoceanDesc: "Institute turning ideas into services",
+
+			followOn: "Follow on",
+
+			// ── CLOSING ── / ── VIDEO / QUOTE ──
 			videoEyebrow: "Latest Videos",
 			videoCTA: "View YouTube Channel →",
 			quote: "\"The problem with problems isn't just that they are problems,\nbut how they are dealt with,\nthat's what makes them turn out differently.\"",
@@ -188,10 +281,13 @@ sub:
 		<section class="hero">
 			<div class="hero-content">
 				<p class="hero-eyebrow">{home.eyebrow}</p>
-				<h1 class="hero-statement">{home.statement.split("\n").map((line, index) => <>{index > 0 && <br />}{line}</>)}</h1>
-				<p class="hero-definition">{home.definition}</p>
-				<p class="hero-sub">{home.sub}</p>
-				
+				<h1 class="hero-statement">
+					{home.headlineLine1}<br />
+					{home.headlineLine2}<br />
+					{home.headlineLine3}
+				</h1>
+				<p class="hero-sub">{home.heroSub.split("\n").map((line, index) => <>{index > 0 && <br />}{line}</>)}</p>
+
 				<div class="hero-actions">
 					{doctrinePost && <a href={localizedPath("/the-doctrine", locale)} class="btn-primary">{home.readDoctrine}</a>}
 					<a href={localizedPath("/the-method", locale)} class="btn-secondary">{home.exploreMethod}</a>
@@ -215,10 +311,47 @@ sub:
 			</aside>
 		</section>
 
+		{/* ── WHAT PARITSEA COVERS (4 Topic Cards) ── */}
+		<section class="topics">
+			<p class="topics-eyebrow">{home.topicsLabel}</p>
+			<div class="topics-grid">
+				<div class="topic-card">
+					<h3 class="topic-card-title">{home.topicLife}</h3>
+					<p class="topic-card-desc">{home.topicLifeDesc}</p>
+				</div>
+				<div class="topic-card">
+					<h3 class="topic-card-title">{home.topicWork}</h3>
+					<p class="topic-card-desc">{home.topicWorkDesc}</p>
+				</div>
+				<div class="topic-card">
+					<h3 class="topic-card-title">{home.topicHuman}</h3>
+					<p class="topic-card-desc">{home.topicHumanDesc}</p>
+				</div>
+				<div class="topic-card">
+					<h3 class="topic-card-title">{home.topicGrowth}</h3>
+					<p class="topic-card-desc">{home.topicGrowthDesc}</p>
+				</div>
+			</div>
+		</section>
+
+		{/* ── WORLDVIEW (Paritsea มองโลกแบบไหน) ── */}
+		<section class="worldview">
+			<div class="worldview-content">
+				<p class="worldview-eyebrow">{home.worldviewLabel}</p>
+				<h2 class="worldview-headline">{home.worldviewHeadline}</h2>
+				<div class="worldview-body">
+					<p>{home.worldviewBody1}</p>
+					<p>{home.worldviewBody2}</p>
+					<p>{home.worldviewBody3}</p>
+				</div>
+				<p class="worldview-coda">{home.worldviewCoda.split("\n").map((line, index) => <>{index > 0 && <br />}{line}</>)}</p>
+			</div>
+		</section>
+
 		{/* ── START HERE / PATHWAY ── */}
 		<section class="pathway">
-			<p class="pathway-label">{copy.startHere}</p>
-			<p class="pathway-desc">{copy.startHereDesc}</p>
+			<p class="pathway-label">{home.startHere}</p>
+			<p class="pathway-desc">{home.startHereDesc}</p>
 			<div class="pathway-cards">
 				<a href={localizedPath("/the-doctrine", locale)} class="pathway-card">
 					<span class="pathway-card-num">01</span>
@@ -244,81 +377,16 @@ sub:
 			</div>
 		</section>
 
-		{/* ── METHOD STRIP ── */}
-		<section class="method-strip" aria-label={home.methodLabel}>
-			<p class="method-strip-label">{home.methodLabel}</p>
-			<p class="method-strip-summary">{home.methodSummary}</p>
-			<p class="method-strip-detail">{home.methodDetail}</p>
-		</section>
-
-		{/* ── SYSTEM PILLARS ── */}
-		<section class="pillars">
-			<header class="section-header">
-				<span class="section-eyebrow">{locale === "th" ? "สถาปัตยกรรมอ้างอิง" : "Reference Architecture"}</span>
-			</header>
-			<div class="pillars-grid">
-
-				{localizedDoctrinePost && (
-					<a href={localizedPath("/the-doctrine", locale)} class="pillar pillar--doctrine">
-						<div class="pillar-index">01</div>
-						<div class="pillar-body">
-							<h2 class="pillar-title">{navLabels["The Doctrine"]}</h2>
-							<p class="pillar-desc">
-								{localizedDoctrinePost.data.excerpt ?? "The foundational position from which the rest of the framework derives."}
-							</p>
-						</div>
-						<span class="pillar-arrow">→</span>
-					</a>
-				)}
-
-				{localizedStpPost && (
-					<a href={localizedPath("/protocols/stp", locale)} class="pillar">
-						<div class="pillar-index">02</div>
-						<div class="pillar-body">
-							<h2 class="pillar-title">STP Protocol</h2>
-							<p class="pillar-desc">
-								{localizedStpPost.data.excerpt ?? "A protocol for structural transition, accountability, and procedural visibility."}
-							</p>
-						</div>
-						<span class="pillar-arrow">→</span>
-					</a>
-				)}
-
-				{localizedAslsPost && (
-					<a href={localizedPath("/standards/asls-01", locale)} class="pillar">
-						<div class="pillar-index">03</div>
-						<div class="pillar-body">
-							<h2 class="pillar-title">ASLS-01 Standard</h2>
-							<p class="pillar-desc">
-								{localizedAslsPost.data.excerpt ?? "A verifiable standard for assessing structural legitimacy in agency and service-based systems."}
-							</p>
-						</div>
-						<span class="pillar-arrow">→</span>
-					</a>
-				)}
-
-				<a href={localizedPath("/the-method", locale)} class="pillar pillar--method">
-					<div class="pillar-index">04</div>
-					<div class="pillar-body">
-						<h2 class="pillar-title">{navLabels["The Method"]}</h2>
-						<p class="pillar-desc">
-							{home.methodDesc}
-						</p>
-					</div>
-					<span class="pillar-arrow">→</span>
-				</a>
-
-				<a href={localizedPath("/implementations", locale)} class="pillar">
-					<div class="pillar-index">05</div>
-					<div class="pillar-body">
-						<h2 class="pillar-title">{navLabels.Implementations}</h2>
-						<p class="pillar-desc">
-							{home.implementationsDesc}
-						</p>
-					</div>
-					<span class="pillar-arrow">→</span>
-				</a>
-
+		{/* ── CONTENT BREADTH (แนวคิดจาก Paritsea) ── */}
+		<section class="content-breadth">
+			<div class="breadth-content">
+				<p class="breadth-eyebrow">{home.contentBreadthLabel}</p>
+				<h2 class="breadth-title">{home.contentBreadthHeadline}</h2>
+				<p class="breadth-body">{home.contentBreadthBody}</p>
+				<div class="breadth-reflections">
+					<p class="breadth-reflection">{home.contentBreadthExample1.split("\n").map((line, index) => <>{index > 0 && <br />}{line}</>)}</p>
+					<p class="breadth-reflection">{home.contentBreadthExample2.split("\n").map((line, index) => <>{index > 0 && <br />}{line}</>)}</p>
+				</div>
 			</div>
 		</section>
 
@@ -395,32 +463,53 @@ sub:
 		<section class="sessions">
 			<p class="sessions-eyebrow">{home.sessionsEyebrow}</p>
 			<div class="sessions-content">
-				<h2 class="sessions-title">{home.sessionsTitle}</h2>
+				<h2 class="sessions-title">{home.sessionsTitle.split("\n").map((line, index) => <>{index > 0 && <br />}{line}</>)}</h2>
 				<p class="sessions-desc">{home.sessionsDesc}</p>
-				<a href="https://link.wegowhere.com/9edXFs85t3b" target="_blank" rel="noreferrer" class="btn-primary">{home.sessionsCTA}</a>
-				<div class="sessions-note">
-					<p>{home.sessionsPurpose.replace("→ SE Ocean", "")}<a href="https://seocean.co.th" target="_blank" rel="noreferrer" class="sessions-link">SE Ocean →</a></p>
-					<p class="sessions-note-future">{home.sessionsFuture}</p>
-				</div>
+				<p class="sessions-note">{home.sessionsNote}</p>
+				<a href="https://link.wegowhere.com/NmS37MxAx3b" target="_blank" rel="noreferrer" class="btn-primary">{home.sessionsCTA}</a>
 			</div>
 		</section>
 
-		{/* ── SOCIAL / FOLLOW ── */}
-		<section class="social-bridge">
-			<p class="social-bridge-eyebrow">{locale === "th" ? "เนื้อหาบนสื่ออื่น" : "Across Platforms"}</p>
-			<p class="social-bridge-text">{locale === "th" ? "วิดีโอสะท้อนคิดและเนื้อหาสั้นใน knowledge flow เดียวกัน — รูปแบบต่าง แก่นวิเคราะห์เดียวกัน" : "Video reflections and short-form content in the same knowledge flow — different formats, the same analytical spine."}</p>
-			<div class="social-bridge-links">
-				<a href="https://www.instagram.com/paritsea" target="_blank" rel="noreferrer" class="social-bridge-link">
-					Instagram
-					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+		{/* ── ABOUT PARITSEA ── */}
+		<section class="about-section">
+			<div class="about-content">
+				<p class="about-eyebrow">{home.aboutLabel}</p>
+				<h2 class="about-headline">
+					{home.aboutHeadline1}<br />
+					{home.aboutHeadline2}
+				</h2>
+				<p class="about-body">{home.aboutBody}</p>
+				<p class="about-insight">{home.aboutInsight}</p>
+			</div>
+		</section>
+
+		{/* ── ECOSYSTEM ── */}
+		<section class="ecosystem">
+			<p class="ecosystem-eyebrow">{home.ecosystemLabel}</p>
+			<div class="ecosystem-grid">
+				<a href="https://www.youtube.com/@paritsea" target="_blank" rel="noreferrer" class="ecosystem-card">
+					<h3 class="ecosystem-card-title">{home.ecosystemYoutube}</h3>
+					<p class="ecosystem-card-desc">{home.ecosystemYoutubeDesc}</p>
 				</a>
-				<a href="https://www.youtube.com/@paritsea" target="_blank" rel="noreferrer" class="social-bridge-link">
-					YouTube
-					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.94 2C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 8.25 15.5 12 9.75 15.75 9.75 8.25"/></svg>
+				<a href="https://www.threads.com/@paritsea" target="_blank" rel="noreferrer" class="ecosystem-card">
+					<h3 class="ecosystem-card-title">{home.ecosystemThreads}</h3>
+					<p class="ecosystem-card-desc">{home.ecosystemThreadsDesc}</p>
 				</a>
-				<a href="https://www.threads.net/@paritsea" target="_blank" rel="noreferrer" class="social-bridge-link">
-					Threads
-					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 12a4 4 0 0 0-8 0 4 4 0 0 0 8 0"/><path d="M12 8v8"/></svg>
+				<a href="https://www.instagram.com/paritsea" target="_blank" rel="noreferrer" class="ecosystem-card">
+					<h3 class="ecosystem-card-title">{home.ecosystemInstagram}</h3>
+					<p class="ecosystem-card-desc">{home.ecosystemInstagramDesc}</p>
+				</a>
+				<a href="https://line.me/ti/g2/Cx989g5gDxh4iLU7luRYVHBAJw4s5ykMqNsY9Q" target="_blank" rel="noreferrer" class="ecosystem-card">
+					<h3 class="ecosystem-card-title">{home.ecosystemLine}</h3>
+					<p class="ecosystem-card-desc">{home.ecosystemLineDesc}</p>
+				</a>
+				<a href="https://paritsea.co" target="_blank" rel="noreferrer" class="ecosystem-card">
+					<h3 class="ecosystem-card-title">{home.ecosystemParitsea}</h3>
+					<p class="ecosystem-card-desc">{home.ecosystemParitseaDesc}</p>
+				</a>
+				<a href="https://seocean.co.th" target="_blank" rel="noreferrer" class="ecosystem-card">
+					<h3 class="ecosystem-card-title">{home.ecosystemSeocean}</h3>
+					<p class="ecosystem-card-desc">{home.ecosystemSeoceanDesc}</p>
 				</a>
 			</div>
 		</section>
@@ -486,22 +575,20 @@ sub:
 		font-family: var(--font-serif);
 		font-size: clamp(2.25rem, 4.5vw, 3.75rem);
 		font-weight: 700;
-		line-height: 1.08;
+		line-height: 1.15;
 		letter-spacing: var(--tracking-tight);
 		color: var(--color-text);
 		margin: 0 0 var(--spacing-6);
 	}
 
-	.hero-definition {
-		font-size: var(--font-size-lg);
-		line-height: 1.7;
-		color: var(--color-text-secondary);
-		max-width: 640px;
-		margin: 0 0 var(--spacing-4);
+	.hero-statement br {
+		content: "";
+		display: block;
+		margin: 0.1em 0;
 	}
 
 	.hero-sub {
-		font-size: var(--font-size-base);
+		font-size: var(--font-size-lg);
 		line-height: 1.7;
 		color: var(--color-text-secondary);
 		max-width: 640px;
@@ -623,6 +710,143 @@ sub:
 
 	.hero-author-link--about:hover {
 		background: var(--color-accent-subtle);
+	}
+
+	/* ─── TOPICS ─── */
+	.topics {
+		padding: var(--spacing-10) 0 var(--spacing-10);
+		border-bottom: 1px solid var(--color-border-subtle);
+		margin-bottom: var(--spacing-10);
+	}
+
+	.topics-eyebrow {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		font-weight: 600;
+		letter-spacing: var(--tracking-widest);
+		text-transform: uppercase;
+		color: var(--color-accent);
+		margin: 0 0 var(--spacing-6);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.topics-eyebrow::before {
+		content: "◆";
+		font-size: 0.7em;
+		color: var(--color-accent);
+		opacity: 0.9;
+	}
+
+	.topics-grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: var(--spacing-5);
+	}
+
+	.topic-card {
+		padding: var(--spacing-6);
+		border: 1px solid var(--color-border-subtle);
+		background: var(--color-bg-subtle);
+		transition: border-color var(--transition-base), background var(--transition-base);
+	}
+
+	.topic-card:hover {
+		border-color: var(--color-accent);
+		background: var(--color-accent-subtle);
+	}
+
+	.topic-card-title {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-lg);
+		font-weight: 700;
+		color: var(--color-text);
+		margin: 0 0 var(--spacing-3);
+		line-height: 1.2;
+	}
+
+	.topic-card-desc {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin: 0;
+	}
+
+	/* ─── WORLDVIEW ─── */
+	.worldview {
+		padding: var(--spacing-12) 0;
+		border-bottom: 1px solid var(--color-border-subtle);
+		margin-bottom: var(--spacing-10);
+		position: relative;
+		background: linear-gradient(to right, var(--color-bg-subtle) 0%, transparent 20%);
+		padding-left: var(--spacing-8);
+		padding-right: var(--spacing-8);
+		margin-left: calc(-1 * var(--spacing-8));
+		margin-right: calc(-1 * var(--spacing-8));
+	}
+
+	.worldview-content {
+		max-width: 780px;
+	}
+
+	.worldview-eyebrow {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		font-weight: 600;
+		letter-spacing: var(--tracking-widest);
+		text-transform: uppercase;
+		color: var(--color-accent);
+		margin: 0 0 var(--spacing-5);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.worldview-eyebrow::before {
+		content: "◆";
+		font-size: 0.7em;
+		color: var(--color-accent);
+		opacity: 0.9;
+	}
+
+	.worldview-headline {
+		font-family: var(--font-serif);
+		font-size: clamp(var(--font-size-xl), 2.5vw, var(--font-size-2xl));
+		font-weight: 700;
+		line-height: 1.2;
+		color: var(--color-text);
+		margin: 0 0 var(--spacing-6);
+		letter-spacing: var(--tracking-tight);
+		max-width: 700px;
+	}
+
+	.worldview-body {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-4);
+		margin-bottom: var(--spacing-6);
+	}
+
+	.worldview-body p {
+		font-size: var(--font-size-base);
+		line-height: 1.7;
+		color: var(--color-text-secondary);
+		margin: 0;
+		max-width: 700px;
+	}
+
+	.worldview-coda {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-lg);
+		font-weight: 600;
+		line-height: 1.5;
+		color: var(--color-text);
+		margin: var(--spacing-6) 0 0;
+		padding-top: var(--spacing-5);
+		border-top: 1px solid var(--color-border-subtle);
+		max-width: 700px;
 	}
 
 	/* ─── PATHWAY ─── */
@@ -925,6 +1149,80 @@ sub:
 		color: var(--color-text-secondary);
 	}
 
+	/* ─── CONTENT BREADTH ─── */
+	.content-breadth {
+		padding: var(--spacing-12) 0;
+		border-top: 1px solid var(--color-border-subtle);
+		border-bottom: 1px solid var(--color-border-subtle);
+		margin-bottom: var(--spacing-14);
+		background: linear-gradient(to left, var(--color-bg-subtle) 0%, transparent 25%);
+		padding-left: var(--spacing-8);
+		padding-right: var(--spacing-8);
+		margin-left: calc(-1 * var(--spacing-8));
+		margin-right: calc(-1 * var(--spacing-8));
+	}
+
+	.breadth-content {
+		max-width: 740px;
+	}
+
+	.breadth-eyebrow {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		font-weight: 600;
+		letter-spacing: var(--tracking-widest);
+		text-transform: uppercase;
+		color: var(--color-accent);
+		margin: 0 0 var(--spacing-4);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.breadth-eyebrow::before {
+		content: "◆";
+		font-size: 0.7em;
+		color: var(--color-accent);
+		opacity: 0.9;
+	}
+
+	.breadth-title {
+		font-family: var(--font-serif);
+		font-size: clamp(var(--font-size-xl), 2.5vw, var(--font-size-2xl));
+		font-weight: 700;
+		line-height: 1.2;
+		color: var(--color-text);
+		margin: 0 0 var(--spacing-5);
+		letter-spacing: var(--tracking-tight);
+	}
+
+	.breadth-body {
+		font-size: var(--font-size-base);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin: 0 0 var(--spacing-6);
+		max-width: 640px;
+	}
+
+	.breadth-reflections {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-3);
+	}
+
+	.breadth-reflection {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-base);
+		font-style: italic;
+		line-height: 1.6;
+		color: var(--color-text);
+		margin: 0;
+		padding: var(--spacing-3) var(--spacing-5);
+		border-left: 3px solid var(--color-accent);
+		background: color-mix(in srgb, var(--color-accent) 6%, transparent);
+		max-width: 600px;
+	}
+
 	/* ─── RECORDS ─── */
 	.records {
 		margin-bottom: var(--spacing-14);
@@ -1162,6 +1460,17 @@ sub:
 		line-height: var(--leading-relaxed);
 		color: var(--color-text-secondary);
 		margin: 0;
+		max-width: 640px;
+	}
+
+	.sessions-note {
+		font-size: var(--font-size-sm);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin: 0;
+		padding: var(--spacing-4);
+		border-left: 2px solid var(--color-border);
+		background: color-mix(in srgb, var(--color-bg) 30%, transparent);
 		max-width: 600px;
 	}
 
@@ -1169,100 +1478,128 @@ sub:
 		align-self: flex-start;
 	}
 
-	.sessions-note {
-		margin-top: var(--spacing-2);
-		padding: var(--spacing-4);
-		border-left: 2px solid var(--color-border);
-		background: color-mix(in srgb, var(--color-bg) 30%, transparent);
-	}
-
-	.sessions-note p {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-sm);
-		line-height: var(--leading-relaxed);
-		color: var(--color-text-secondary);
-		margin: 0;
-	}
-
-	.sessions-link {
-		color: var(--color-accent);
-		text-decoration: none;
-		margin-left: 0.25rem;
-		white-space: nowrap;
-	}
-
-	.sessions-link:hover {
-		text-decoration: underline;
-	}
-
-	.sessions-note-future {
-		margin-top: var(--spacing-3);
-		padding-top: var(--spacing-3);
-		border-top: 1px solid var(--color-border-subtle);
-		color: var(--color-muted) !important;
-		font-style: italic;
-	}
-
-	/* ─── SOCIAL BRIDGE ─── */
-	.social-bridge {
-		padding: var(--spacing-10) 0;
-		border-top: 1px solid var(--color-border-subtle);
+	/* ─── ABOUT SECTION ─── */
+	.about-section {
+		padding: var(--spacing-12) 0;
+		border-bottom: 1px solid var(--color-border-subtle);
 		margin-bottom: var(--spacing-14);
-		display: grid;
-		grid-template-columns: 1fr auto;
-		gap: var(--spacing-6);
-		align-items: center;
 	}
 
-	.social-bridge-eyebrow {
+	.about-content {
+		max-width: 700px;
+	}
+
+	.about-eyebrow {
 		font-family: var(--font-sans);
 		font-size: var(--font-size-xs);
+		font-weight: 600;
 		letter-spacing: var(--tracking-widest);
 		text-transform: uppercase;
-		color: var(--color-muted);
-		margin: 0 0 var(--spacing-2);
-		grid-column: 1;
+		color: var(--color-accent);
+		margin: 0 0 var(--spacing-5);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
 	}
 
-	.social-bridge-text {
+	.about-eyebrow::before {
+		content: "◆";
+		font-size: 0.7em;
+		color: var(--color-accent);
+		opacity: 0.9;
+	}
+
+	.about-headline {
+		font-family: var(--font-serif);
+		font-size: clamp(var(--font-size-xl), 2.5vw, var(--font-size-2xl));
+		font-weight: 700;
+		line-height: 1.2;
+		color: var(--color-text);
+		margin: 0 0 var(--spacing-6);
+		letter-spacing: var(--tracking-tight);
+	}
+
+	.about-body {
+		font-size: var(--font-size-base);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin: 0 0 var(--spacing-5);
+	}
+
+	.about-insight {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-base);
+		font-style: italic;
+		line-height: 1.6;
+		color: var(--color-text);
+		margin: 0;
+		padding: var(--spacing-4) var(--spacing-6);
+		border-left: 3px solid var(--color-accent);
+		background: color-mix(in srgb, var(--color-accent) 6%, transparent);
+	}
+
+	/* ─── ECOSYSTEM ─── */
+	.ecosystem {
+		padding: var(--spacing-10) 0;
+		border-bottom: 1px solid var(--color-border-subtle);
+		margin-bottom: var(--spacing-14);
+	}
+
+	.ecosystem-eyebrow {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		font-weight: 600;
+		letter-spacing: var(--tracking-widest);
+		text-transform: uppercase;
+		color: var(--color-accent);
+		margin: 0 0 var(--spacing-6);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.ecosystem-eyebrow::before {
+		content: "◆";
+		font-size: 0.7em;
+		color: var(--color-accent);
+		opacity: 0.9;
+	}
+
+	.ecosystem-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: var(--spacing-5);
+	}
+
+	.ecosystem-card {
+		display: block;
+		padding: var(--spacing-6) var(--spacing-5);
+		border: 1px solid var(--color-border-subtle);
+		text-decoration: none;
+		color: inherit;
+		transition: border-color var(--transition-fast), background var(--transition-fast);
+	}
+
+	.ecosystem-card:hover {
+		border-color: var(--color-accent);
+		background: var(--color-accent-subtle);
+	}
+
+	.ecosystem-card-title {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-lg);
+		font-weight: 700;
+		color: var(--color-text);
+		margin: 0 0 var(--spacing-2);
+		line-height: 1.2;
+	}
+
+	.ecosystem-card-desc {
 		font-family: var(--font-sans);
 		font-size: var(--font-size-sm);
 		color: var(--color-text-secondary);
 		line-height: var(--leading-relaxed);
 		margin: 0;
-		grid-column: 1;
-		grid-row: 2;
-	}
-
-	.social-bridge-links {
-		display: flex;
-		gap: var(--spacing-3);
-		grid-column: 2;
-		grid-row: 1 / 3;
-		align-self: center;
-	}
-
-	.social-bridge-link {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--spacing-2);
-		padding: var(--spacing-2) var(--spacing-4);
-		border: 1px solid var(--color-border);
-		font-family: var(--font-sans);
-		font-size: var(--font-size-sm);
-		color: var(--color-text-secondary);
-		text-decoration: none;
-		transition: border-color var(--transition-fast), color var(--transition-fast);
-	}
-
-	.social-bridge-link:hover {
-		border-color: var(--color-accent);
-		color: var(--color-text);
-		opacity: 1;
-	}
-
-	.social-bridge-link svg {
-		flex-shrink: 0;
 	}
 
 	/* ─── CLOSING ─── */
@@ -1317,9 +1654,12 @@ sub:
 			font-size: clamp(1.75rem, 4vw, 2.5rem);
 		}
 
-		.hero-definition,
 		.hero-sub {
 			font-size: var(--font-size-base);
+		}
+
+		.topics-grid {
+			grid-template-columns: repeat(2, 1fr);
 		}
 
 		.pathway-cards {
@@ -1351,15 +1691,8 @@ sub:
 			padding: var(--spacing-8) 0;
 		}
 
-		.social-bridge {
-			grid-template-columns: 1fr;
-			gap: var(--spacing-4);
-		}
-
-		.social-bridge-links {
-			grid-column: 1;
-			grid-row: auto;
-			flex-wrap: wrap;
+		.ecosystem-grid {
+			grid-template-columns: repeat(2, 1fr);
 		}
 
 		.landing {
@@ -1409,6 +1742,10 @@ sub:
 			text-align: center;
 		}
 
+		.topics-grid {
+			grid-template-columns: 1fr;
+		}
+
 		.method-strip-summary {
 			font-size: var(--font-size-lg);
 		}
@@ -1421,12 +1758,12 @@ sub:
 			grid-template-columns: 1fr;
 		}
 
-		.closing {
-			display: none;
+		.ecosystem-grid {
+			grid-template-columns: 1fr;
 		}
 
-		.social-bridge {
-			padding: var(--spacing-6) 0;
+		.closing {
+			display: none;
 		}
 	}
 </style>

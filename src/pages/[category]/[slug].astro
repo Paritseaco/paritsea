@@ -17,7 +17,6 @@ import {
 import Base from "../../layouts/Base.astro";
 import PostCard from "../../components/PostCard.astro";
 import ArticleUtilityRail from "../../components/ArticleUtilityRail.astro";
-import UsageGuidance from "../../components/UsageGuidance.astro";
 import { getDirectPostBySlug } from "../../utils/direct-post";
 import {
 	isFrameworkPageSlug,
@@ -115,32 +114,16 @@ const isStandard = frameworkPage === "standards";
 const isDoctrine = frameworkPage === "the-doctrine";
 const isRecord = frameworkPage === "the-method";
 const isImplementation = frameworkPage === "implementations";
-const usageVariant = isProtocol
-	? "protocols"
-	: isStandard
-		? "standards"
-		: isRecord
-			? "the-method"
-			: isDoctrine
-				? "doctrine"
-				: isImplementation
-					? "implementations"
-					: null;
 const recordCategoryLabel = categories[0]?.label ? localizeTermLabel(categories[0].label, locale) : null;
 const contentFormat = typeof post.data.format === "string" ? post.data.format : null;
 const youtubeUrl = typeof post.data.youtube_url === "string" ? post.data.youtube_url : null;
-const formatLabel = (() => {
-	if (contentFormat === "video-reflection") {
-		return locale === "th" ? "Video Reflection" : "Video Reflection";
-	}
-	if (contentFormat === "pattern-brief") {
-		return locale === "th" ? "Pattern Brief" : "Pattern Brief";
-	}
-	if (contentFormat === "decision-note") {
-		return locale === "th" ? "Decision Note" : "Decision Note";
-	}
-	return locale === "th" ? "Essay" : "Essay";
-})();
+const formatLabel = contentFormat === "video-reflection"
+	? "Video Reflection"
+	: contentFormat === "pattern-brief"
+		? "Pattern Brief"
+		: contentFormat === "decision-note"
+			? "Decision Note"
+			: null;
 const docBadge = isRecord
 	? recordCategoryLabel ?? ui[locale].navLabels["The Method"]
 	: isProtocol
@@ -294,7 +277,7 @@ const lastUpdatedLabel = formatDateForLocale(lastUpdated, locale);
 							{isDoctrine ? 'Constitutional Doctrine' : docBadge}
 						</div>
 					)}
-					{isRecord && (
+					{isRecord && formatLabel && (
 						<div class="article-context-strip">
 							<span class="article-context-format">{formatLabel}</span>
 							{youtubeUrl && (
@@ -336,12 +319,25 @@ const lastUpdatedLabel = formatDateForLocale(lastUpdated, locale);
 							<p class="article-excerpt" {...post.edit.excerpt}>{post.data.excerpt}</p>
 						)
 					}
-					{usageVariant && <UsageGuidance variant={usageVariant} compact locale={locale} />}
-				</header>
+					</header>
 
 				<div class={`article-content ${post.data.excerpt ? 'has-excerpt' : ''}`}>
 					<PortableText value={post.data.content} />
 				</div>
+
+				{/* ── REFERENCE NOTE ── */}
+				{frameworkPage && (
+					<aside class="article-reference-note">
+						<p class="article-reference-note-text">
+							{locale === "th"
+								? "สามารถอ้างอิงและนำแนวคิดนี้ไปต่อยอดได้ เมื่อให้เครดิตและลิงก์กลับมายัง Paritsea"
+								: "You may reference, cite, and build on these ideas with attribution and a link back to Paritsea."}
+							<a href={localizedPath("/licensing", locale)} class="article-reference-note-link">
+								{locale === "th" ? "อ่านนโยบาย →" : "Read policy →"}
+							</a>
+						</p>
+					</aside>
+				)}
 
 				{/* ── VIDEO EMBED ── */}
 				{youtubeUrl && (
@@ -1305,6 +1301,35 @@ const lastUpdatedLabel = formatDateForLocale(lastUpdated, locale);
 		font-size: var(--font-size-xs);
 		color: var(--color-muted);
 		text-align: center;
+	}
+
+	/* ─── Reference Note ─── */
+	.article-reference-note {
+		margin: var(--spacing-8) 0;
+		padding: var(--spacing-3) var(--spacing-4);
+		border-left: 2px solid var(--color-border-subtle);
+		background: transparent;
+	}
+
+	.article-reference-note-text {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin: 0;
+	}
+
+	.article-reference-note-link {
+		color: var(--color-text-secondary);
+		text-decoration: none;
+		margin-left: 0.25rem;
+		white-space: nowrap;
+		transition: color var(--transition-fast);
+	}
+
+	.article-reference-note-link:hover {
+		color: var(--color-text);
+		opacity: 1;
 	}
 
 	/* ─── Author Card ─── */

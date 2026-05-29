@@ -54,7 +54,7 @@ const copy = ui[locale];
 const { siteTitle, siteTagline, siteLogo, siteFavicon } = resolveBlogSiteIdentity(await getSiteSettings());
 const brandWordmark = "/images/logo/paritsea-wordmark.svg";
 const brandMark = "/images/logo/paritsea-mark.svg";
-const brandFavicon = "/images/logo/paritsea-favicon.svg";
+const brandFavicon = "/images/logo/paritsea-mark.svg";
 const headerLogoSrc = siteLogo?.url ?? brandWordmark;
 const footerLogoSrc = siteLogo?.url ?? brandWordmark;
 const resolvedFavicon = siteFavicon ?? brandFavicon;
@@ -279,11 +279,9 @@ const isLoggedIn = !!Astro.locals.user;
 					</ul>
 				</div>
 				<div class="footer-nav">
-					<h4 class="footer-heading">{copy.socialFollow}</h4>
+					<h4 class="footer-heading">{locale === "th" ? "บริการ" : "Services"}</h4>
 					<ul class="footer-links">
-						<li><a href="https://www.instagram.com/paritsea" target="_blank" rel="noreferrer">{copy.socialInstagram}</a></li>
-						<li><a href="https://www.threads.net/@paritsea" target="_blank" rel="noreferrer">{copy.socialThreads}</a></li>
-						<li><a href="https://www.youtube.com/@paritsea" target="_blank" rel="noreferrer">{copy.socialYouTube}</a></li>
+						<li><a href="https://seocean.co.th" target="_blank" rel="noreferrer">{locale === "th" ? "สถาบันให้บริการของเรา →" : "Our service institute →"}</a></li>
 					</ul>
 				</div>
 				</div>

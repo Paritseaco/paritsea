@@ -13,7 +13,7 @@ export interface BlogSiteIdentitySettings {
 }
 
 const DEFAULT_SITE_TITLE = "Paritsea";
-const DEFAULT_SITE_TAGLINE = "Paritsea integrates people, systems, structure, and ambiguity into clear working language — so complexity can be named, understood, and acted on.";
+const DEFAULT_SITE_TAGLINE = "Where systems meet humanity — a way of thinking that understands both the complexity of the world and the depth of human experience.";
 const LEGACY_SITE_TAGLINE = "Structural Coherence and Legitimacy";
 
 export function resolveBlogSiteIdentity(settings?: BlogSiteIdentitySettings) {

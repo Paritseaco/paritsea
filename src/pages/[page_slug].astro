@@ -41,70 +41,59 @@ if (cacheHint) {
 }
 
 const copy = ui[locale];
-const authorRoleLines = copy.authorRole.split("·").map((s) => s.trim());
 
 const aboutContent = locale === "th" ? {
 	title: "เกี่ยวกับ Paritsea",
-	eyebrow: "กรอบอ้างอิงสาธารณะ",
-	summary: "Paritsea คือกรอบที่ใช้อ่านระบบ อ่านคน และอ่านความซับซ้อนไปพร้อมกัน — แปลความไม่ชัดเจนให้เป็นโครงสร้างที่เข้าใจ ตั้งชื่อได้ และใช้ประโยชน์ได้จริง",
+	eyebrow: "เบื้องหลังวิธีคิด",
+	heroHeadline: "วิธีคิดที่เข้าใจทั้ง \"ความซับซ้อนของโลก\"\nและความรู้สึกของคน\nไม่ได้เกิดจากทฤษฎี แต่เกิดจากชีวิตจริง",
+	heroBody: "Paritsea คือวิธีคิดที่อ่านคนและระบบไปพร้อมกัน\nเกิดจากประสบการณ์จริงข้ามธุรกิจ องค์กร และความสัมพันธ์ของมนุษย์\nไม่ใช่ abstract แต่เป็นวิธีที่ถอดโครงสร้างความซับซ้อนให้เห็นทั้งคน ระบบ และแรงตึงที่ซ่อนอยู่ โดยไม่ละสายตาจากมนุษย์ที่อยู่ข้างใน",
 	sections: [
 		{
-			title: "ที่มา",
-			content: "Paritsea เกิดจากคำถามที่ว่า \"เมื่อระบบซับซ้อน เราจะมั่นใจได้อย่างไรว่ากำลังมองเห็นภาพจริง\" — ในการทำงานกับองค์กร ทีม และคนจำนวนมาก สิ่งที่พบคือปัญหาไม่ได้อยู่ที่คนไม่เก่ง แต่อยู่ที่เราไม่มีภาษาที่ชัดพอที่จะนิยามความซับซ้อนนั้น Paritsea จึงเป็นมากกว่ากรอบคิด — มันคือภาษาทำงานที่ทำให้ความคลุมเครือกลายเป็นสิ่งที่จัดการได้",
+			title: "คำถามที่เริ่มต้นทุกอย่าง",
+			content: "Paritsea เริ่มจากคำถามเดิมที่วนเวียนอยู่ในการทำงานกับคนหลายบทบาท\nไม่ว่าจะเป็นองค์กร ทีม ความสัมพันธ์ หรือชีวิตส่วนตัว\n\nจากคนที่แบกทั้งองค์กรไว้บนบ่าโดยไม่มีใครเห็น\nไปจนถึงคนที่เก่งที่สุดในทีมแต่กำลังจะหมดไฟโดยที่ระบบไม่สนใจ\n\nจากองค์กรที่ strategy ดูดีแต่ทุกคนรู้ว่ามันใช้ไม่ได้จริง\nไปจนถึงความสัมพันธ์ที่พัง — ไม่ใช่เพราะใครเลว\nแต่เพราะไม่มีใครเข้าใจว่าอะไรเกิดขึ้นจริง\n\nจากคนที่เริ่มต้นใหม่แล้วกลัวซ้ำรอยเดิม\nไปจนถึงคนที่ประสบความสำเร็จแต่ไม่เข้าใจว่าทำไมยังว่างเปล่า\n\nคำถามเดิมที่กลับมาทุกครั้งคือ:\n\"ทำไมระบบถึงออกแบบมาเพื่อให้คนรับผิดชอบผลลัพธ์ แต่ไม่เคยรับผิดชอบมนุษย์ที่อยู่ข้างใน?\"\n\nParitsea คือความพยายามที่จะตอบคำถามนี้\nไม่ใช่ด้วยทฤษฎีใหม่ แต่ด้วยภาษาที่ทำให้สิ่งที่มองไม่เห็นถูกตั้งชื่อได้",
 		},
 		{
-			title: "ผู้เขียน",
-			content: "Parit Ritchai คือผู้ก่อตั้ง SE Ocean และผู้สร้าง Paritsea Doctrine และกรอบ AgenSea งานของเขาอยู่ที่รอยต่อระหว่างการวิเคราะห์เชิงโครงสร้าง การอ่านแบบแผนของมนุษย์ และการออกแบบทิศทางเชิงกลยุทธ์ — โดยมีเป้าหมายเพื่อสร้างภาษาที่ทำให้ความซับซ้อนเป็นสิ่งที่เข้าใจได้ ไม่ใช่แค่รู้สึกได้ Parit ไม่ได้มองว่าตัวเองเป็นนักวิชาการหรือที่ปรึกษาในความหมายดั้งเดิม แต่มองว่าสิ่งที่ทำคือการสร้างเครื่องมือสำหรับนำทาง",
+			title: "ชีวิต งาน ความสัมพันธ์ และการเติบโต ไม่เคยแยกจากกัน",
+			content: "สิ่งที่ไม่คาดคิดที่สุดในการสร้าง Paritsea คือการค้นพบว่า\nปัญหาในชีวิต งาน ความสัมพันธ์ และการเติบโต มีโครงสร้างเดียวกัน\n\nผู้นำที่ไม่ไว้ใจให้ใครตัดสินใจแทน\nคู่รักที่กลัวการเปิดใจเพราะเคยถูกทำร้าย\nคนที่เริ่มต้นใหม่แล้วกลัวซ้ำรอยเดิม\nและระบบที่ออกแบบมาให้พึ่งพามนุษย์คนเดียว\nคือปรากฏการณ์เดียวกัน แค่อยู่คนละ domain\n\nเมื่อเห็นแบบนี้แล้ว การแยก \"เรื่องงาน\" ออกจาก \"เรื่องชีวิต\"\nหรือแยก \"ระบบ\" ออกจาก \"มนุษย์\" จึงเป็นสิ่งที่ทำไม่ได้อีกต่อไป\n\nParitsea ไม่ได้แค่เชื่อมมิติเหล่านี้เข้าด้วยกัน\nแต่มันเปิดให้เห็นว่าทุกอย่างเชื่อมกันมาตลอด\nแค่เราไม่เคยมองเห็น",
 		},
 		{
-			title: "ทำไมต้องเป็นกรอบอ้างอิงสาธารณะ",
-			content: "แนวคิดที่แข็งแรงที่สุดคือแนวคิดที่ถูกทดสอบในที่แจ้ง Paritsea จึงถูกเผยแพร่เป็นกรอบอ้างอิงสาธารณะ เพื่อให้คนอื่นสามารถอ่าน ตรวจสอบ ดัดแปลง และนำไปใช้ได้โดยไม่ต้องรออนุญาต — ตราบเท่าที่ไม่กล่าวอ้าง endorsement หรือ official implementation ความโปร่งใสนี้คือกลไกตรวจสอบในตัวเอง: ถ้ากรอบอ่อนแอ มันจะถูกเปิดโปง ถ้ามันแข็งแรง มันจะถูกนำไปใช้โดยไม่ต้องบังคับ",
+			title: "คนที่มองเห็นก่อนใคร",
+			content: "Paritsea เกิดจาก Parit Ritchai คนเดียว\nไม่ใช่ collective ไม่ใช่ community project\nเป็นระบบความคิดที่เกิดจากคนคนเดียวที่ใช้เวลาหลายปี\nในการสังเกต สัมผัส และเชื่อมโยงสิ่งที่คนส่วนใหญ่มองข้าม\n\nเขาไม่ได้มองว่าตัวเองเป็น guru หรือ thought leader\nแต่มองว่าสิ่งที่ทำคือการ \"ตั้งชื่อ\" ให้กับสิ่งที่คนรู้สึกแต่พูดไม่ออก\n\nทำไมคนเก่งที่สุดในทีมถึงหมดไฟ\nทำไมองค์กรที่ดูดีจากข้างนอกถึงรู้สึกผิดจากข้างใน\nทำไมความสัมพันธ์ที่ดีถึงยังมีบางอย่างขาดอยู่\n\nคำถามเหล่านี้ไม่ได้มาจากห้องเรียน\nแต่มาจากห้องประชุม จากบทสนทนา จากความสัมพันธ์จริง\nที่เห็นว่า \"ระบบ\" กับ \"คน\" ไม่เคยแยกจากกัน\nแค่เราไม่เคยมีภาษาที่ชัดพอจะพูดเรื่องนี้ได้ตรง ๆ\n\nParitsea คือภาษานั้น\nสร้างขึ้นมาเพื่อให้สิ่งที่มองไม่เห็น ถูกตั้งชื่อได้\nและสิ่งที่ถูกตั้งชื่อแล้ว ถูกจัดการได้อย่างแท้จริง",
 		},
 		{
-			title: "สถาปัตยกรรมทั้งหมด",
-			content: "Paritsea ประกอบด้วย 5 ชั้นที่สืบทอดกัน: (1) แก่น — หลักการที่ไม่เปลี่ยนรูปซึ่งทุกอย่างเริ่มจากตรงนั้น (2) โปรโตคอล — ข้อกำหนดเชิงโครงสร้างที่ต้องมีเพื่อให้ระบบเดินหน้าได้ (3) มาตรฐาน — เกณฑ์ที่ตรวจสอบได้ว่าสิ่งที่อ้างเป็นจริงหรือไม่ (4) วิธีวิเคราะห์ — บันทึกประจำชั้นที่ใช้กรอบนี้ในการอ่านระบบจริง (5) การประยุกต์ใช้ — ระบบที่นำตรรกะ Paritsea ไปบังคับใช้ในสภาพแวดล้อมการทำงานจริง แก่นไม่เปลี่ยน ชั้นอื่นพัฒนาได้เมื่อบริบทเปลี่ยน",
-		},
-		{
-			title: "ความสัมพันธ์กับ SE Ocean และ AgenSea",
-			content: "SE Ocean คือบริษัทที่นำแนวคิดจาก Paritsea ไปประยุกต์ใช้เชิงพาณิชย์ผ่านแพลตฟอร์ม AgenSea — การ implementation ครั้งแรกของมาตรฐาน ASLS-01 แต่ Paritsea ในฐานะหลักคำสอนและกรอบอ้างอิง ถูกแยกออกจากผลประโยชน์ทางการค้าอย่างชัดเจน เพื่อรักษาความเป็นอิสระในการประเมิน ความเป็นไปได้ที่กรอบจะถูกวิพากษ์ และความน่าเชื่อถือในระยะยาว การแยกนี้คือส่วนหนึ่งของโครงสร้าง ไม่ใช่สิ่งที่ทำตามหลัง",
-		},
-		{
-			title: "เนื้อหาบนสื่ออื่น",
-			content: "วิดีโอสะท้อนคิดบน YouTube และเนื้อหาสั้นบน Instagram และ Threads อยู่ใน knowledge flow เดียวกับบทความใน The Method — รูปแบบต่างกัน แต่มีแก่นวิเคราะห์เดียวกัน เนื้อหาสั้นอาจถูกย่อยแล้ว แต่รากของมันมาจากชั้นสถาปัตยกรรมเดียวกัน ใครที่อ่าน The Method แล้วจะเห็น structural pattern เดียวกันใน Reel หรือ Thread ที่เผยแพร่",
+			title: "Paritsea ทำอะไรให้คุณ",
+			content: "Paritsea เปิดให้ทุกคนเข้าถึงได้\nเพราะความเชื่อว่าวิธีคิดที่แข็งแรงที่สุดคือวิธีคิดที่ถูกทดสอบในที่แจ้ง\n\nคุณไม่จำเป็นต้องเป็น CEO นักจิตวิทยา หรือนักปรัชญา\nเพื่อใช้ Paritsea คุณแค่ต้องการ\n— ความตั้งใจที่จะมองสิ่งที่คนส่วนใหญ่มองข้าม\n— ความกล้าที่จะตั้งคำถามกับสิ่งที่ถูกทำให้เป็นปกติ\n— และพื้นที่ในการสังเกต โดยไม่ต้องรีบตัดสิน",
 		},
 	],
-	bio: "ผู้ก่อตั้ง SE Ocean · ผู้สร้าง Paritsea Doctrine & AgenSea",
+	ctaDoctrine: "เริ่มจากแก่น",
+	ctaMethod: "หรือเริ่มจากบันทึกที่สะท้อนคุณมากที่สุด",
+	ctaContact: "หรือถ้าอยากคุยกัน เขียนหาเราที่ hello@paritsea.co",
 } : {
 	title: "About Paritsea",
-	eyebrow: "Public Reference Framework",
-	summary: "Paritsea is a framework for reading systems, people, and complexity simultaneously — converting ambiguity into structures that can be named, understood, and acted on.",
+	eyebrow: "Behind the Way of Thinking",
+	heroHeadline: "A way of thinking that understands both\nthe complexity of the world\nand the depth of people — born from life",
+	heroBody: "Paritsea is a way of thinking that reads people and systems together.\nBorn from real experience across business, organizations, and human relationships.\nNot abstract. A method that surfaces hidden structures, human costs, and the tension between them — without losing sight of the people inside.",
 	sections: [
 		{
-			title: "Origin",
-			content: "Paritsea began with a question: \"When systems get complex, how do we know we're seeing the whole picture?\" Working across organisations, teams, and people over many years revealed that the real problem isn't that people aren't capable — it's that we lack precise language to name what we're dealing with. Paritsea emerged as more than a framework: it became a working language for making ambiguity manageable. The name Paritsea itself is not a brand — it is a reference point.",
+			title: "The Question That Started It All",
+			content: "Paritsea began with a question that kept surfacing across contexts\n— no matter the industry, the team, or the relationship.\n\nFrom the person carrying an entire organization alone, unseen,\nto the most capable people in a team burning out while the system stayed silent.\n\nFrom organizations with perfect strategies that everyone knew wouldn't work,\nto relationships that fell apart — not because anyone was bad,\nbut because no one understood what was actually happening.\n\nFrom people starting over, afraid of repeating the same patterns,\nto people who succeeded but couldn't understand why they still felt empty.\n\nThe same question, every time:\n\"Why do systems make people responsible for outcomes,\nbut never responsible for the humans inside them?\"\n\nParitsea is the attempt to answer this.\nNot with a new theory.\nWith a language that lets what's invisible — finally be named.",
 		},
 		{
-			title: "Author",
-			content: "Parit Ritchai is the founder of SE Ocean and the creator of the Paritsea Doctrine and the AgenSea framework. His work sits at the intersection of structural analysis, human pattern reading, and strategic direction design — with the goal of building language that makes complexity legible rather than just felt. Parit does not position himself as an academic or a consultant in the traditional sense; he sees the work as building navigational tools for people who need to make decisions in systems that resist clarity.",
+			title: "Life, Work, Relationships, and Growth Were Never Separate",
+			content: "The most unexpected thing about building Paritsea was discovering that\nproblems in life, work, relationships, and growth share the same underlying structure.\n\nA leader who trusts no one to decide for them.\nA partner afraid to be vulnerable because they've been hurt before.\nSomeone starting over, afraid of repeating the same pattern.\nA system designed to depend on a single person.\nThese are the same phenomenon. Just in different domains.\n\nOnce you see this,\nseparating 'work' from 'life'\nor 'systems' from 'people'\nbecomes impossible.\n\nParitsea doesn't just connect these dimensions.\nIt reveals that they were connected all along.\nWe just never saw it.",
 		},
 		{
-			title: "Why a Public Reference Framework",
-			content: "The strongest ideas are those tested in the open. Paritsea is published as a public reference framework so that anyone can read, verify, adapt, and apply it without requiring permission — as long as they do not claim endorsement or official implementation status. This transparency acts as a self-correcting mechanism: if the framework is weak, it will be exposed; if it is strong, it will be adopted without needing enforcement.",
+			title: "The Person Who Saw This Before Anyone Else",
+			content: "Paritsea was born from one person — Parit Ritchai.\nNot a collective. Not a community project.\nA system of thinking that emerged from someone who spent years\nobserving, questioning, and connecting what most people overlook.\n\nHe doesn't see himself as a guru or a thought leader.\nHe sees himself as someone who gives names to what people feel but can't say.\n\nWhy do the most capable people burn out?\nWhy do well-run organizations still feel wrong from the inside?\nWhy do good relationships still carry something missing?\n\nThese questions didn't come from a classroom.\nThey came from meeting rooms, from real conversations, from relationships\nwhere he saw that 'systems' and 'people' were never separate —\nwe just never had clear language to say it directly.\n\nParitsea is that language.\nBuilt so that what was invisible can finally be named —\nand what is named can finally be addressed.",
 		},
 		{
-			title: "The Full Architecture",
-			content: "Paritsea is organised into five layers, each deriving from the one before it: (1) The Doctrine — the immutable foundational position from which everything proceeds (2) Protocols — structural requirements a system must satisfy to move forward (3) Standards — verifiable thresholds against which claims can be tested (4) The Method — an ongoing analytical registry applying the framework to real systems (5) Implementations — systems that enforce Paritsea logic in production environments. The Doctrine does not change; everything else evolves as context demands.",
-		},
-		{
-			title: "Relationship to SE Ocean and AgenSea",
-			content: "SE Ocean is the company that applies Paritsea concepts commercially through the AgenSea platform — the first documented implementation of the ASLS-01 Standard. However, Paritsea as a doctrine and reference framework remains structurally independent from any commercial entity. This separation preserves the framework's capacity for scrutiny, critique, and long-term credibility. It is not an afterthought — it is built into the architecture.",
-		},
-		{
-			title: "Content Across Platforms",
-			content: "Video reflections on YouTube and short-form content on Instagram and Threads exist within the same knowledge flow as The Method entries — different formats, but the same analytical spine. The short-form content is not simplified for its own sake; it is condensed from the same architectural layer. Readers of The Method will recognise the same structural patterns in the Reels and Threads.",
+			title: "What Paritsea Does for You",
+			content: "Paritsea is open to everyone —\nbecause the strongest way of thinking is one tested in the open.\n\nYou don't need to be a CEO, a psychologist, or a philosopher to use Paritsea. You only need the willingness to look at what most people overlook, the courage to question what's been normalized, and space to observe without rushing to judge.\n\nWherever you are in your life, Paritsea is open for you to read, understand, and adapt — in your own way.",
 		},
 	],
-	bio: "Founder of SE Ocean · Creator of the Paritsea Doctrine & AgenSea",
+	ctaDoctrine: "Start with the Doctrine",
+	ctaMethod: "Or start with the entry that resonates most",
+	ctaContact: "Or write to us at hello@paritsea.co",
 };
 
 const licensingSummary = locale === "th"
@@ -245,9 +234,11 @@ const contactNotFor = locale === "th" ? [
 	content={isAboutPage ? undefined : { collection: "pages", id: page.data.id, slug }}
 >
 	<article class="page-article">
-		<header class="page-header">
-			<h1 class="page-title">{isAboutPage ? aboutContent.title : page.data.title}</h1>
-		</header>
+		{!isAboutPage && (
+			<header class="page-header">
+				<h1 class="page-title">{page.data.title}</h1>
+			</header>
+		)}
 
 		{
 			isLicensingPage ? (
@@ -380,28 +371,57 @@ const contactNotFor = locale === "th" ? [
 				</>
 			) : isAboutPage ? (
 				<div class="about-page">
-					<div class="about-author">
-						<img src="/images/parit-profile.jpg" alt="Parit Ritchai" class="about-author-img" />
-						<div class="about-author-info">
-<h2 class="about-author-name">{copy.authorName}</h2>
-{authorRoleLines.length > 1 ? (
-  <p class="about-author-role">
-    {authorRoleLines.map((line, i) => (
-      <span>{line}{i < authorRoleLines.length - 1 ? <br /> : null}</span>
-    ))}
-  </p>
-) : (
-  <p class="about-author-role">{copy.authorRole}</p>
-)}
-						</div>
-					</div>
-					<p class="about-summary">{aboutContent.summary}</p>
+					{/* ── Hero ── */}
+					<header class="about-hero">
+						<p class="about-eyebrow">{aboutContent.eyebrow}</p>
+						<h1 class="about-hero-headline">
+							{aboutContent.heroHeadline.split("\n").map((line, index) => (
+								<>{index > 0 && <br />}{line}</>
+							))}
+						</h1>
+						<p class="about-hero-body">
+							{aboutContent.heroBody.split("\n").map((line, index) => (
+								<>{index > 0 && <br />}{line}</>
+							))}
+						</p>
+					</header>
+
+					{/* ── Sections ── */}
 					<div class="about-sections">
 						{aboutContent.sections.map((section) => (
 							<section class="about-section">
 								<h2 class="about-section-title">{section.title}</h2>
-								<p class="about-section-text">{section.content}</p>
+								<div class="about-section-text">
+									{section.content.split("\n\n").map((paragraph, index) => (
+										<p key={index}>
+											{paragraph.split("\n").map((line, lineIndex) => (
+												<>{lineIndex > 0 && <br />}{line}</>
+											))}
+										</p>
+									))}
+								</div>
 							</section>
+						))}
+					</div>
+
+					{/* ── CTA ── */}
+					<footer class="about-cta">
+						<p class="about-cta-lead">{locale === "th" ? "พร้อมที่จะเริ่มมองโลกแบบนี้หรือยัง" : "Ready to start seeing this way?"}</p>
+						<div class="about-cta-actions">
+							<a href={localizedPath("/the-doctrine", locale)} class="about-cta-btn about-cta-btn--primary">{aboutContent.ctaDoctrine}</a>
+							<a href={localizedPath("/the-method", locale)} class="about-cta-btn about-cta-btn--secondary">{aboutContent.ctaMethod}</a>
+						</div>
+						<p class="about-cta-contact">
+							{aboutContent.ctaContact.split("hello@paritsea.co").map((part, i) => (
+								<>{i > 0 && <a href="mailto:hello@paritsea.co">hello@paritsea.co</a>}{part}</>
+							))}
+						</p>
+					</footer>
+
+					{/* ── Bio (minimal) ── */}
+					<div class="about-bio">
+						{aboutContent.bio.split("\n").map((line, index) => (
+							<>{index > 0 && <br />}{line}</>
 						))}
 					</div>
 				</div>
@@ -613,51 +633,55 @@ const contactNotFor = locale === "th" ? [
 
 	/* ─── About Page ─── */
 	.about-page {
-		max-width: 640px;
+		max-width: 680px;
 	}
 
-	.about-author {
-		display: flex;
-		gap: var(--spacing-6);
-		align-items: center;
-		margin-bottom: var(--spacing-8);
-		padding-bottom: var(--spacing-8);
+	/* Hero */
+	.about-hero {
+		padding-bottom: var(--spacing-10);
 		border-bottom: 1px solid var(--color-border-subtle);
+		margin-bottom: var(--spacing-10);
 	}
 
-	.about-author-img {
-		width: 80px;
-		height: 80px;
-		border-radius: 50%;
-		object-fit: cover;
-		flex-shrink: 0;
-	}
-
-	.about-author-name {
-		font-family: var(--font-serif);
-		font-size: var(--font-size-xl);
-		font-weight: 700;
-		color: var(--color-text);
-		margin: 0 0 var(--spacing-1);
-	}
-
-	.about-author-role {
+	.about-eyebrow {
 		font-family: var(--font-sans);
-		font-size: var(--font-size-sm);
+		font-size: var(--font-size-xs);
+		font-weight: 600;
+		letter-spacing: var(--tracking-widest);
+		text-transform: uppercase;
+		color: var(--color-accent);
+		margin: 0 0 var(--spacing-6);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.about-eyebrow::before {
+		content: "◆";
+		font-size: 0.7em;
+		color: var(--color-accent);
+		opacity: 0.9;
+	}
+
+	.about-hero-headline {
+		font-family: var(--font-serif);
+		font-size: clamp(1.75rem, 4vw, 2.75rem);
+		font-weight: 700;
+		line-height: 1.2;
+		letter-spacing: var(--tracking-tight);
+		color: var(--color-text);
+		margin: 0 0 var(--spacing-6);
+	}
+
+	.about-hero-body {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-lg);
+		line-height: var(--leading-relaxed);
 		color: var(--color-text-secondary);
 		margin: 0;
 	}
 
-	.about-summary {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-lg);
-		line-height: var(--leading-relaxed);
-		color: var(--color-text);
-		margin-bottom: var(--spacing-10);
-		padding-bottom: var(--spacing-8);
-		border-bottom: 1px solid var(--color-border-subtle);
-	}
-
+	/* Sections */
 	.about-sections {
 		display: grid;
 		gap: var(--spacing-8);
@@ -670,10 +694,11 @@ const contactNotFor = locale === "th" ? [
 
 	.about-section-title {
 		font-family: var(--font-serif);
-		font-size: var(--font-size-lg);
+		font-size: var(--font-size-xl);
 		font-weight: 600;
 		color: var(--color-text);
-		margin: 0 0 var(--spacing-3);
+		margin: 0 0 var(--spacing-4);
+		letter-spacing: var(--tracking-snug);
 	}
 
 	.about-section-text {
@@ -681,19 +706,116 @@ const contactNotFor = locale === "th" ? [
 		font-size: var(--font-size-base);
 		line-height: var(--leading-relaxed);
 		color: var(--color-text-secondary);
+	}
+
+	.about-section-text p {
+		margin: 0 0 1.25em;
+	}
+
+	.about-section-text p:last-child {
+		margin-bottom: 0;
+	}
+
+	/* CTA */
+	.about-cta {
+		margin-top: var(--spacing-12);
+		padding-top: var(--spacing-8);
+		border-top: 1px solid var(--color-border-subtle);
+	}
+
+	.about-cta-lead {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-xl);
+		font-weight: 600;
+		color: var(--color-text);
+		margin: 0 0 var(--spacing-5);
+		letter-spacing: var(--tracking-snug);
+	}
+
+	.about-cta-actions {
+		display: flex;
+		gap: var(--spacing-4);
+		align-items: center;
+		margin-bottom: var(--spacing-5);
+	}
+
+	.about-cta-btn {
+		display: inline-block;
+		padding: var(--spacing-3) var(--spacing-7);
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		font-weight: 500;
+		letter-spacing: 0.02em;
+		text-decoration: none;
+		transition: all var(--transition-fast);
+	}
+
+	.about-cta-btn--primary {
+		background: var(--color-accent);
+		color: var(--color-on-accent);
+	}
+
+	.about-cta-btn--primary:hover {
+		background: var(--color-accent-hover);
+		transform: translateY(-1px);
+		opacity: 1;
+	}
+
+	.about-cta-btn--secondary {
+		border: 1px solid var(--color-border);
+		color: var(--color-text-secondary);
+	}
+
+	.about-cta-btn--secondary:hover {
+		border-color: var(--color-accent);
+		color: var(--color-text);
+		transform: translateY(-1px);
+		opacity: 1;
+	}
+
+	.about-cta-contact {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		color: var(--color-text-secondary);
 		margin: 0;
+	}
+
+	.about-cta-contact a {
+		color: var(--color-accent);
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
+
+	.about-cta-contact a:hover {
+		opacity: 1;
+	}
+
+	/* Bio (minimal, at bottom) */
+	.about-bio {
+		margin-top: var(--spacing-10);
+		padding-top: var(--spacing-6);
+		border-top: 1px solid var(--color-border-subtle);
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		line-height: var(--leading-relaxed);
+		color: var(--color-muted);
 	}
 
 	@media (max-width: 600px) {
 		.page-article {
 			padding: var(--spacing-8) var(--spacing-4) var(--spacing-12);
 		}
-		.about-author {
-			flex-direction: column;
-			text-align: center;
+
+		.about-hero-headline {
+			font-size: var(--font-size-xl);
 		}
-		.about-author-img {
-			width: 64px;
-			height: 64px;
+
+		.about-cta-actions {
+			flex-direction: column;
+			align-items: stretch;
+		}
+
+		.about-cta-btn {
+			text-align: center;
 		}
 	}
