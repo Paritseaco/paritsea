@@ -255,10 +255,7 @@ const isLoggedIn = !!Astro.locals.user;
 						<a href={localizedPath("/", locale)} class="footer-logo">
 							<img src={footerLogoSrc} alt={siteLogo?.alt || siteTitle} class="footer-logo-img" />
 						</a>
-						<p class="footer-tagline">
-							<span class="footer-tagline-full">{siteTagline}</span>
-							<span class="footer-tagline-short">{copy.footerTagline}</span>
-						</p>
+						<p class="footer-tagline">{copy.footerTagline}</p>
 					</div>
 					<div class="footer-nav">
 						<h4 class="footer-heading">{copy.frameworkLayers}</h4>
@@ -666,25 +663,16 @@ const isLoggedIn = !!Astro.locals.user;
 			}
 
 			.site-title {
-				font-family: var(--font-serif);
-				font-size: var(--font-size-lg);
-				font-weight: 400;
+				display: inline-flex;
+				align-items: center;
 				color: var(--color-text);
 				text-decoration: none;
-				letter-spacing: 0.01em;
-				text-transform: none;
-				transition: opacity var(--transition-fast), filter var(--transition-fast);
+				transition: opacity var(--transition-fast);
 				flex-shrink: 0;
-				padding: 0.35rem 0.6rem;
-				border: 1px solid color-mix(in srgb, var(--color-accent) 18%, transparent);
-				border-radius: var(--radius-sm);
-				background: color-mix(in srgb, var(--color-surface) 35%, transparent);
 			}
 
 			.site-title:hover {
-				opacity: 0.85;
-				filter: saturate(1.08);
-				transform: translateY(-1px);
+				opacity: 0.7;
 			}
 
 			.nav-toggle {
@@ -724,7 +712,7 @@ const isLoggedIn = !!Astro.locals.user;
 			}
 
 			.site-logo-img {
-				height: 34px;
+				height: 46px;
 				width: auto;
 				display: block;
 			}
@@ -963,7 +951,7 @@ const isLoggedIn = !!Astro.locals.user;
 			}
 
 			.footer-logo-img {
-				height: 24px;
+				height: 38px;
 				width: auto;
 			}
 
