@@ -8,16 +8,23 @@ export const GET: APIRoute = async ({ site, url }) => {
 
 	const content = `# Paritsea
 
-> Constitutional reference framework for structural coherence and legitimacy.
+> A layered thinking system: seeing → structuring → doing.
 
-Paritsea publishes doctrine, protocols, standards, analytical entries, and implementation notes about structural legitimacy.
+Paritsea publishes a framework of governed knowledge, along with journal observations, protocols, standards, and implementation notes.
 
-## Core Architecture
-- The Doctrine: ${siteUrl}/the-doctrine
-- Protocols: ${siteUrl}/protocols
-- Standards: ${siteUrl}/standards
-- The Method: ${siteUrl}/the-method
-- Implementations: ${siteUrl}/implementations
+## Layers
+- Journal (seeing): ${siteUrl}/journal
+- System (structuring): ${siteUrl}/system
+- Implementation (doing): ${siteUrl}/implementation
+
+## System Architecture
+- Framework (immutable root): ${siteUrl}/system/framework
+- Protocols (obligations): ${siteUrl}/system/protocols
+- Standards (thresholds): ${siteUrl}/system/standards
+
+## Site
+- About: ${siteUrl}/about
+- Licensing: ${siteUrl}/licensing
 
 ## Discovery
 - Sitemap: ${siteUrl}/sitemap.xml
@@ -25,8 +32,9 @@ Paritsea publishes doctrine, protocols, standards, analytical entries, and imple
 
 ## Notes
 - Prefer canonical URLs from the site HTML when citing individual pages.
-- The Method contains analytical entries, not opinion columns or generic blog posts.
-- Implementations describe applied systems that enforce Paritsea logic in live environments.
+- Journal contains observation entries — problems made legible before they become governed.
+- System/Framework is the immutable foundational document. Protocols and Standards derive from it.
+- Implementation describes applied systems where the framework runs in reality.
 `;
 
 	return new Response(content, {

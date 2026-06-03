@@ -44,56 +44,66 @@ const copy = ui[locale];
 
 const aboutContent = locale === "th" ? {
 	title: "เกี่ยวกับ Paritsea",
-	eyebrow: "เบื้องหลังวิธีคิด",
-	heroHeadline: "วิธีคิดที่เข้าใจทั้ง \"ความซับซ้อนของโลก\"\nและความรู้สึกของคน\nไม่ได้เกิดจากทฤษฎี แต่เกิดจากชีวิตจริง",
-	heroBody: "Paritsea คือวิธีคิดที่อ่านคนและระบบไปพร้อมกัน\nเกิดจากประสบการณ์จริงข้ามธุรกิจ องค์กร และความสัมพันธ์ของมนุษย์\nไม่ใช่ abstract แต่เป็นวิธีที่ถอดโครงสร้างความซับซ้อนให้เห็นทั้งคน ระบบ และแรงตึงที่ซ่อนอยู่ โดยไม่ละสายตาจากมนุษย์ที่อยู่ข้างใน",
+	eyebrow: "สายตานี้มาจากไหน",
+	heroHeadline: "สิ่งที่อยู่ใต้ผิวเผิน\nมักอธิบายทุกอย่างที่เราไม่เข้าใจ\nParitsea มองให้เห็นชั้นนั้น",
+	heroBody: "ไม่ใช่วิธีคิดที่เกิดจากทฤษฎี แต่จากการสังเกตผู้คนในสถานการณ์จริงอย่างละเอียดและหลายมิติ\nจนเห็นสิ่งที่คนอื่นมักผ่านไป",
+	bioSection: {
+		name: "ปาริศ ฤทธิ์ชัย",
+		title: "ผู้สร้างแนวคิด Paritsea",
+		body: "ฉันผสานมุมมองจากหลายมิติ — จิตวิทยา ระบบ องค์กร และความสัมพันธ์ของมนุษย์\nเพื่ออ่านสถานการณ์อย่างลึกและครบถ้วน\nสร้าง framework ที่ใช้ได้จริงกับคน งาน และธุรกิจ",
+	},
 	sections: [
 		{
-			title: "คำถามที่เริ่มต้นทุกอย่าง",
-			content: "Paritsea เริ่มจากคำถามเดิมที่วนเวียนอยู่ในการทำงานกับคนหลายบทบาท\nไม่ว่าจะเป็นองค์กร ทีม ความสัมพันธ์ หรือชีวิตส่วนตัว\n\nจากคนที่แบกทั้งองค์กรไว้บนบ่าโดยไม่มีใครเห็น\nไปจนถึงคนที่เก่งที่สุดในทีมแต่กำลังจะหมดไฟโดยที่ระบบไม่สนใจ\n\nจากองค์กรที่ strategy ดูดีแต่ทุกคนรู้ว่ามันใช้ไม่ได้จริง\nไปจนถึงความสัมพันธ์ที่พัง — ไม่ใช่เพราะใครเลว\nแต่เพราะไม่มีใครเข้าใจว่าอะไรเกิดขึ้นจริง\n\nจากคนที่เริ่มต้นใหม่แล้วกลัวซ้ำรอยเดิม\nไปจนถึงคนที่ประสบความสำเร็จแต่ไม่เข้าใจว่าทำไมยังว่างเปล่า\n\nคำถามเดิมที่กลับมาทุกครั้งคือ:\n\"ทำไมระบบถึงออกแบบมาเพื่อให้คนรับผิดชอบผลลัพธ์ แต่ไม่เคยรับผิดชอบมนุษย์ที่อยู่ข้างใน?\"\n\nParitsea คือความพยายามที่จะตอบคำถามนี้\nไม่ใช่ด้วยทฤษฎีใหม่ แต่ด้วยภาษาที่ทำให้สิ่งที่มองไม่เห็นถูกตั้งชื่อได้",
+			title: "สิ่งที่มักถูกมองข้าม",
+			content: "ทำไมคนเก่งถึงหมดไฟในองค์กรที่ดูดี ทำไมความสัมพันธ์ถึงพังโดยที่ไม่มีใครเป็นคนเลวจริง ๆ ทำไมสิ่งที่ดูถูกข้างนอกถึงรู้สึกผิดข้างใน\n\nคำตอบมักอยู่ที่ชั้นที่คนไม่ค่อยหยุดมอง",
 		},
 		{
-			title: "ชีวิต งาน ความสัมพันธ์ และการเติบโต ไม่เคยแยกจากกัน",
-			content: "สิ่งที่ไม่คาดคิดที่สุดในการสร้าง Paritsea คือการค้นพบว่า\nปัญหาในชีวิต งาน ความสัมพันธ์ และการเติบโต มีโครงสร้างเดียวกัน\n\nผู้นำที่ไม่ไว้ใจให้ใครตัดสินใจแทน\nคู่รักที่กลัวการเปิดใจเพราะเคยถูกทำร้าย\nคนที่เริ่มต้นใหม่แล้วกลัวซ้ำรอยเดิม\nและระบบที่ออกแบบมาให้พึ่งพามนุษย์คนเดียว\nคือปรากฏการณ์เดียวกัน แค่อยู่คนละ domain\n\nเมื่อเห็นแบบนี้แล้ว การแยก \"เรื่องงาน\" ออกจาก \"เรื่องชีวิต\"\nหรือแยก \"ระบบ\" ออกจาก \"มนุษย์\" จึงเป็นสิ่งที่ทำไม่ได้อีกต่อไป\n\nParitsea ไม่ได้แค่เชื่อมมิติเหล่านี้เข้าด้วยกัน\nแต่มันเปิดให้เห็นว่าทุกอย่างเชื่อมกันมาตลอด\nแค่เราไม่เคยมองเห็น",
+			title: "วิธีที่ Paritsea อ่าน",
+			content: "Paritsea ไม่อ่านแค่สิ่งที่เห็น แต่อ่านชั้นที่อยู่เบื้องหลัง — แรงจูงใจ ความกลัว บาดแผล และแรงตึงที่ซ่อนอยู่ในสถานการณ์\n\nไม่ใช่การตัดสิน แต่คือการทำความเข้าใจ เพื่อให้เห็นภาพที่ครบถ้วนกว่าที่ผิวเผินจะบอก",
 		},
 		{
-			title: "คนที่มองเห็นก่อนใคร",
-			content: "Paritsea เกิดจาก Parit Ritchai คนเดียว\nไม่ใช่ collective ไม่ใช่ community project\nเป็นระบบความคิดที่เกิดจากคนคนเดียวที่ใช้เวลาหลายปี\nในการสังเกต สัมผัส และเชื่อมโยงสิ่งที่คนส่วนใหญ่มองข้าม\n\nเขาไม่ได้มองว่าตัวเองเป็น guru หรือ thought leader\nแต่มองว่าสิ่งที่ทำคือการ \"ตั้งชื่อ\" ให้กับสิ่งที่คนรู้สึกแต่พูดไม่ออก\n\nทำไมคนเก่งที่สุดในทีมถึงหมดไฟ\nทำไมองค์กรที่ดูดีจากข้างนอกถึงรู้สึกผิดจากข้างใน\nทำไมความสัมพันธ์ที่ดีถึงยังมีบางอย่างขาดอยู่\n\nคำถามเหล่านี้ไม่ได้มาจากห้องเรียน\nแต่มาจากห้องประชุม จากบทสนทนา จากความสัมพันธ์จริง\nที่เห็นว่า \"ระบบ\" กับ \"คน\" ไม่เคยแยกจากกัน\nแค่เราไม่เคยมีภาษาที่ชัดพอจะพูดเรื่องนี้ได้ตรง ๆ\n\nParitsea คือภาษานั้น\nสร้างขึ้นมาเพื่อให้สิ่งที่มองไม่เห็น ถูกตั้งชื่อได้\nและสิ่งที่ถูกตั้งชื่อแล้ว ถูกจัดการได้อย่างแท้จริง",
-		},
-		{
-			title: "Paritsea ทำอะไรให้คุณ",
-			content: "Paritsea เปิดให้ทุกคนเข้าถึงได้\nเพราะความเชื่อว่าวิธีคิดที่แข็งแรงที่สุดคือวิธีคิดที่ถูกทดสอบในที่แจ้ง\n\nคุณไม่จำเป็นต้องเป็น CEO นักจิตวิทยา หรือนักปรัชญา\nเพื่อใช้ Paritsea คุณแค่ต้องการ\n— ความตั้งใจที่จะมองสิ่งที่คนส่วนใหญ่มองข้าม\n— ความกล้าที่จะตั้งคำถามกับสิ่งที่ถูกทำให้เป็นปกติ\n— และพื้นที่ในการสังเกต โดยไม่ต้องรีบตัดสิน",
+			title: "เปิดให้ใช้งานฟรี",
+			content: "แนวคิดและ framework ของ Paritsea เปิดให้ทุกคนอ่าน อ้างอิง และนำไปใช้ในชีวิตและงานได้โดยตรง\n\nมีเงื่อนไขบางประการสำหรับการนำไปใช้เชิงพาณิชย์",
+			linkText: "ดูเงื่อนไขการใช้งาน →",
+			linkUrl: "/licensing",
 		},
 	],
-	ctaDoctrine: "เริ่มจากแก่น",
-	ctaMethod: "หรือเริ่มจากบันทึกที่สะท้อนคุณมากที่สุด",
-	ctaContact: "หรือถ้าอยากคุยกัน เขียนหาเราที่ hello@paritsea.co",
+	ctaLead: "เริ่มจากที่ Paritsea เริ่ม",
+	ctaDoctrine: "อ่าน Framework",
+	ctaMethod: "หรือสำรวจ Journal",
+	ctaContact: "หรือถ้าอยากคุยกัน เขียนหาได้ที่ hello@paritsea.co",
+	bio: "ติดตาม @paritsea บน YouTube, Instagram และ Threads",
 } : {
 	title: "About Paritsea",
-	eyebrow: "Behind the Way of Thinking",
-	heroHeadline: "A way of thinking that understands both\nthe complexity of the world\nand the depth of people — born from life",
-	heroBody: "Paritsea is a way of thinking that reads people and systems together.\nBorn from real experience across business, organizations, and human relationships.\nNot abstract. A method that surfaces hidden structures, human costs, and the tension between them — without losing sight of the people inside.",
+	eyebrow: "Where this lens comes from",
+	heroHeadline: "What lies beneath the surface\nusually explains everything we don't understand.\nParitsea reads that layer.",
+	heroBody: "Not a perspective built from theory. But from observing people in real situations — closely, across many dimensions — until what others walk past becomes visible.",
+	bioSection: {
+		name: "Parit Ritchai",
+		title: "Creator of Paritsea",
+		body: "I draw on perspectives across multiple dimensions — psychology, systems, organizations, and human relationships — to read situations with depth and precision. Building frameworks that work for people, work, and business.",
+	},
 	sections: [
 		{
-			title: "The Question That Started It All",
-			content: "Paritsea began with a question that kept surfacing across contexts\n— no matter the industry, the team, or the relationship.\n\nFrom the person carrying an entire organization alone, unseen,\nto the most capable people in a team burning out while the system stayed silent.\n\nFrom organizations with perfect strategies that everyone knew wouldn't work,\nto relationships that fell apart — not because anyone was bad,\nbut because no one understood what was actually happening.\n\nFrom people starting over, afraid of repeating the same patterns,\nto people who succeeded but couldn't understand why they still felt empty.\n\nThe same question, every time:\n\"Why do systems make people responsible for outcomes,\nbut never responsible for the humans inside them?\"\n\nParitsea is the attempt to answer this.\nNot with a new theory.\nWith a language that lets what's invisible — finally be named.",
+			title: "What often goes unseen",
+			content: "Why do capable people burn out in organizations that look fine. Why do relationships fall apart when no one is actually bad. Why do things that look right feel wrong from the inside.\n\nThe answers tend to live in the layer people don't often stop to look at.",
 		},
 		{
-			title: "Life, Work, Relationships, and Growth Were Never Separate",
-			content: "The most unexpected thing about building Paritsea was discovering that\nproblems in life, work, relationships, and growth share the same underlying structure.\n\nA leader who trusts no one to decide for them.\nA partner afraid to be vulnerable because they've been hurt before.\nSomeone starting over, afraid of repeating the same pattern.\nA system designed to depend on a single person.\nThese are the same phenomenon. Just in different domains.\n\nOnce you see this,\nseparating 'work' from 'life'\nor 'systems' from 'people'\nbecomes impossible.\n\nParitsea doesn't just connect these dimensions.\nIt reveals that they were connected all along.\nWe just never saw it.",
+			title: "How Paritsea reads",
+			content: "Paritsea doesn't read what's visible. It reads what's behind it — motivation, fear, wounds, and the tensions hidden inside a situation.\n\nNot judgment. Understanding. To see a fuller picture than the surface ever shows.",
 		},
 		{
-			title: "The Person Who Saw This Before Anyone Else",
-			content: "Paritsea was born from one person — Parit Ritchai.\nNot a collective. Not a community project.\nA system of thinking that emerged from someone who spent years\nobserving, questioning, and connecting what most people overlook.\n\nHe doesn't see himself as a guru or a thought leader.\nHe sees himself as someone who gives names to what people feel but can't say.\n\nWhy do the most capable people burn out?\nWhy do well-run organizations still feel wrong from the inside?\nWhy do good relationships still carry something missing?\n\nThese questions didn't come from a classroom.\nThey came from meeting rooms, from real conversations, from relationships\nwhere he saw that 'systems' and 'people' were never separate —\nwe just never had clear language to say it directly.\n\nParitsea is that language.\nBuilt so that what was invisible can finally be named —\nand what is named can finally be addressed.",
-		},
-		{
-			title: "What Paritsea Does for You",
-			content: "Paritsea is open to everyone —\nbecause the strongest way of thinking is one tested in the open.\n\nYou don't need to be a CEO, a psychologist, or a philosopher to use Paritsea. You only need the willingness to look at what most people overlook, the courage to question what's been normalized, and space to observe without rushing to judge.\n\nWherever you are in your life, Paritsea is open for you to read, understand, and adapt — in your own way.",
+			title: "Open to use",
+			content: "Paritsea's ideas and frameworks are open for everyone to read, reference, and apply in life and work — freely.\n\nSome conditions apply for commercial use.",
+			linkText: "View licensing terms →",
+			linkUrl: "/licensing",
 		},
 	],
-	ctaDoctrine: "Start with the Doctrine",
-	ctaMethod: "Or start with the entry that resonates most",
+	ctaLead: "Start where Paritsea starts",
+	ctaDoctrine: "Read Framework",
+	ctaMethod: "Or Explore Journal",
 	ctaContact: "Or write to us at hello@paritsea.co",
+	bio: "Follow @paritsea on YouTube, Instagram and Threads",
 };
 
 const licensingSummary = locale === "th"
@@ -229,14 +239,14 @@ const contactNotFor = locale === "th" ? [
 ---
 
 <Base
-	title={isAboutPage ? aboutContent.title : page.data.title}
+	title={isAboutPage ? aboutContent.title : page!.data.title}
 	locale={locale}
-	content={isAboutPage ? undefined : { collection: "pages", id: page.data.id, slug }}
+	content={isAboutPage ? undefined : { collection: "pages", id: page!.data.id, slug }}
 >
 	<article class="page-article">
 		{!isAboutPage && (
 			<header class="page-header">
-				<h1 class="page-title">{page.data.title}</h1>
+				<h1 class="page-title">{page!.data.title}</h1>
 			</header>
 		)}
 
@@ -317,7 +327,7 @@ const contactNotFor = locale === "th" ? [
 
 						<section class="policy-section policy-section--full">
 							<h2>{locale === "th" ? "นโยบายอย่างเป็นทางการ" : "Formal Policy"}</h2>
-							<PortableText value={page.data.content} />
+							<PortableText value={page!.data.content} />
 						</section>
 					</div>
 				</>
@@ -365,7 +375,7 @@ const contactNotFor = locale === "th" ? [
 
 						<section class="policy-section policy-section--full">
 							<h2>{locale === "th" ? "บันทึกการติดต่อที่เผยแพร่" : "Published Contact Note"}</h2>
-							<PortableText value={page.data.content} />
+							<PortableText value={page!.data.content} />
 						</section>
 					</div>
 				</>
@@ -386,6 +396,20 @@ const contactNotFor = locale === "th" ? [
 						</p>
 					</header>
 
+					{/* ── Founder Bio ── */}
+					<div class="about-founder">
+						<img src="/images/parit-profile.jpg" alt={aboutContent.bioSection.name} class="about-founder-img" />
+						<div class="about-founder-body">
+							<p class="about-founder-name">{aboutContent.bioSection.name}</p>
+							<p class="about-founder-title">{aboutContent.bioSection.title}</p>
+							<p class="about-founder-text">
+								{aboutContent.bioSection.body.split("\n").map((line, i) => (
+									<>{i > 0 && <br />}{line}</>
+								))}
+							</p>
+						</div>
+					</div>
+
 					{/* ── Sections ── */}
 					<div class="about-sections">
 						{aboutContent.sections.map((section) => (
@@ -393,23 +417,28 @@ const contactNotFor = locale === "th" ? [
 								<h2 class="about-section-title">{section.title}</h2>
 								<div class="about-section-text">
 									{section.content.split("\n\n").map((paragraph, index) => (
-										<p key={index}>
+										<p>
 											{paragraph.split("\n").map((line, lineIndex) => (
 												<>{lineIndex > 0 && <br />}{line}</>
 											))}
 										</p>
 									))}
 								</div>
+								{section.linkText && section.linkUrl && (
+									<a href={localizedPath(section.linkUrl, locale)} class="about-section-link">
+										{section.linkText}
+									</a>
+								)}
 							</section>
 						))}
 					</div>
 
 					{/* ── CTA ── */}
 					<footer class="about-cta">
-						<p class="about-cta-lead">{locale === "th" ? "พร้อมที่จะเริ่มมองโลกแบบนี้หรือยัง" : "Ready to start seeing this way?"}</p>
+						<p class="about-cta-lead">{aboutContent.ctaLead}</p>
 						<div class="about-cta-actions">
-							<a href={localizedPath("/the-doctrine", locale)} class="about-cta-btn about-cta-btn--primary">{aboutContent.ctaDoctrine}</a>
-							<a href={localizedPath("/the-method", locale)} class="about-cta-btn about-cta-btn--secondary">{aboutContent.ctaMethod}</a>
+							<a href={localizedPath("/system/framework", locale)} class="about-cta-btn about-cta-btn--primary">{aboutContent.ctaDoctrine}</a>
+							<a href={localizedPath("/journal", locale)} class="about-cta-btn about-cta-btn--secondary">{aboutContent.ctaMethod}</a>
 						</div>
 						<p class="about-cta-contact">
 							{aboutContent.ctaContact.split("hello@paritsea.co").map((part, i) => (
@@ -418,16 +447,12 @@ const contactNotFor = locale === "th" ? [
 						</p>
 					</footer>
 
-					{/* ── Bio (minimal) ── */}
-					<div class="about-bio">
-						{aboutContent.bio.split("\n").map((line, index) => (
-							<>{index > 0 && <br />}{line}</>
-						))}
-					</div>
+					{/* ── Social links ── */}
+					<p class="about-social">{aboutContent.bio}</p>
 				</div>
 			) : (
 				<div class="page-content">
-					<PortableText value={page.data.content} />
+					<PortableText value={page!.data.content} />
 				</div>
 			)
 		}
@@ -790,14 +815,78 @@ const contactNotFor = locale === "th" ? [
 		opacity: 1;
 	}
 
-	/* Bio (minimal, at bottom) */
-	.about-bio {
-		margin-top: var(--spacing-10);
-		padding-top: var(--spacing-6);
-		border-top: 1px solid var(--color-border-subtle);
+	/* Founder Bio */
+	.about-founder {
+		display: flex;
+		gap: var(--spacing-6);
+		align-items: flex-start;
+		padding: var(--spacing-8) 0;
+		border-bottom: 1px solid var(--color-border-subtle);
+		margin-bottom: var(--spacing-10);
+	}
+
+	.about-founder-img {
+		width: 80px;
+		height: 80px;
+		border-radius: 50%;
+		object-fit: cover;
+		flex-shrink: 0;
+	}
+
+	.about-founder-body {
+		flex: 1;
+	}
+
+	.about-founder-name {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-xl);
+		font-weight: 700;
+		color: var(--color-text);
+		margin: 0 0 var(--spacing-1);
+	}
+
+	.about-founder-title {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		color: var(--color-accent);
+		font-weight: 500;
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+		margin: 0 0 var(--spacing-4);
+	}
+
+	.about-founder-text {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-base);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin: 0;
+	}
+
+	/* Section link */
+	.about-section-link {
+		display: inline-block;
+		margin-top: var(--spacing-4);
 		font-family: var(--font-sans);
 		font-size: var(--font-size-sm);
-		line-height: var(--leading-relaxed);
+		color: var(--color-accent);
+		text-decoration: none;
+		letter-spacing: 0.01em;
+	}
+
+	.about-section-link:hover {
+		text-decoration: underline;
+		text-underline-offset: 2px;
+		opacity: 1;
+	}
+
+	/* Social footer */
+	.about-social {
+		margin-top: var(--spacing-8);
+		padding-top: var(--spacing-5);
+		border-top: 1px solid var(--color-border-subtle);
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
 		color: var(--color-muted);
 	}
 
@@ -808,6 +897,11 @@ const contactNotFor = locale === "th" ? [
 
 		.about-hero-headline {
 			font-size: var(--font-size-xl);
+		}
+
+		.about-founder {
+			flex-direction: column;
+			gap: var(--spacing-4);
 		}
 
 		.about-cta-actions {

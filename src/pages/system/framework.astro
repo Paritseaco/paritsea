@@ -15,18 +15,18 @@ import {
 	CommentForm,
 	WidgetArea,
 } from "emdash/ui";
-import Base from "../layouts/Base.astro";
-import PostCard from "../components/PostCard.astro";
-import ArticleUtilityRail from "../components/ArticleUtilityRail.astro";
-import UsageGuidance from "../components/UsageGuidance.astro";
+import Base from "../../layouts/Base.astro";
+import PostCard from "../../components/PostCard.astro";
+import ArticleUtilityRail from "../../components/ArticleUtilityRail.astro";
+import UsageGuidance from "../../components/UsageGuidance.astro";
 import {
 	isFrameworkPageSlug,
 	resolveFrameworkPage,
 	resolvePostPath,
-} from "../utils/public-paths";
-import { getReadingTime } from "../utils/reading-time";
-import { resolveBlogSiteIdentity } from "../utils/site-identity";
-import { incrementPostViews } from "../utils/view-count";
+} from "../../utils/public-paths";
+import { getReadingTime } from "../../utils/reading-time";
+import { resolveBlogSiteIdentity } from "../../utils/site-identity";
+import { incrementPostViews } from "../../utils/view-count";
 import {
 	formatDateForLocale,
 	getAstroLocale,
@@ -34,7 +34,7 @@ import {
 	localizeTermLabel,
 	localizedPath,
 	ui,
-} from "../utils/i18n";
+} from "../../utils/i18n";
 
 const slug = "doctrine";
 const locale = getAstroLocale(Astro);
@@ -62,7 +62,7 @@ const { siteTitle } = resolveBlogSiteIdentity(await getSiteSettings());
 const seo = getSeoMeta(post, {
 	siteTitle,
 	siteUrl: Astro.url.origin,
-	path: localizedPath("/the-doctrine", locale),
+	path: localizedPath("/system/framework", locale),
 	defaultOgImage: featuredImageUrl,
 });
 
@@ -86,7 +86,7 @@ const otherPostsWithTags = await Promise.all(
 		const visibleCategories = cats.filter((term) => !isFrameworkPageSlug(term.slug));
 		const href =
 			resolvePostPath(p.id, relatedFrameworkPage, null) ??
-			`/the-method/${p.id}`;
+			`/journal/${p.id}`;
 		const postBylines = p.data.bylines ?? [];
 		return {
 			post: localizedPost,

@@ -10,26 +10,26 @@ const copy = locale === "th"
 	? {
 			title: navLabels.Implementations,
 			description:
-				"การประยุกต์ใช้คือชั้นปฏิบัติของ Paritsea: ระบบที่บันทึกไว้ ซึ่งทำให้หลักการ โปรโตคอล และมาตรฐานกลายเป็นพฤติกรรมจริงในการทำงาน",
+				"การนำไปปรับใช้จริงคือชั้นปฏิบัติของ Paritsea: ระบบที่บันทึกไว้ ซึ่งทำให้หลักการ โปรโตคอล และมาตรฐานกลายเป็นพฤติกรรมจริงในการทำงาน",
 			eyebrow: "ชั้นอ้างอิงเชิงปฏิบัติ",
 			intro:
-				"Paritsea ถูกออกแบบให้เดินทางออกจากข้อความ การประยุกต์ใช้คือระบบ ผลิตภัณฑ์ และสภาพแวดล้อมการทำงาน ที่ทำให้หลักการ โปรโตคอล และมาตรฐานกลายเป็นพฤติกรรมที่สังเกตได้จริง",
+				"Paritsea ถูกออกแบบให้เดินทางออกจากข้อความ การนำไปปรับใช้จริงคือระบบ ผลิตภัณฑ์ และสภาพแวดล้อมการทำงาน ที่ทำให้หลักการ โปรโตคอล และมาตรฐานกลายเป็นพฤติกรรมที่สังเกตได้จริง",
 			secondary:
-				"การประยุกต์ใช้จะนับว่าผ่าน เมื่อใช้ Paritsea อย่างซื่อตรงพอที่ยังอ่านออกว่าเป็นวัตถุอ้างอิง ไม่ใช่แค่ภาษาการตลาดหรือ compliance เชิงภาพลักษณ์",
+				"การนำไปปรับใช้จริงจะนับว่าผ่าน เมื่อใช้ Paritsea อย่างซื่อตรงพอที่ยังอ่านออกว่าเป็นวัตถุอ้างอิง ไม่ใช่แค่ภาษาการตลาดหรือ compliance เชิงภาพลักษณ์",
 			integrationNote:
 				"ชั้นนี้เชื่อมกลับไปยัง The Method และ YouTube: สิ่งที่สังเกตในภาควิเคราะห์ จะถูกแปลงเป็นโครงสร้างปฏิบัติในภาค implementation",
 			publiclyDocumented: "เผยแพร่แล้ว",
-			open: "เปิดดูการประยุกต์ใช้ →",
+			open: "เปิดดูการนำไปปรับใช้จริง →",
 			methodLink: "เปิด The Method",
 			youtubeLink: "ดู YouTube Reflections",
 			qualification: "เกณฑ์การนับ",
 			qualificationText:
-				"การประยุกต์ใช้ต้องนำ Paritsea ไปใช้ในเชิงโครงสร้าง ไม่ใช่เชิงตกแต่ง กรอบอ้างอิงต้องกำหนดพฤติกรรมของผลิตภัณฑ์ ตรรกะความรับผิด และ trust surface ที่ผู้อ่านตรวจสอบได้อย่างมีความหมาย",
+				"การนำไปปรับใช้จริงต้องนำ Paritsea ไปใช้ในเชิงโครงสร้าง ไม่ใช่เชิงตกแต่ง กรอบอ้างอิงต้องกำหนดพฤติกรรมของผลิตภัณฑ์ ตรรกะความรับผิด และ trust surface ที่ผู้อ่านตรวจสอบได้อย่างมีความหมาย",
 			integrity: "ความสมบูรณ์ของการอ้างอิง",
 			integrityText:
-				"การประยุกต์ใช้ต้องไม่แปลงมาตรฐานให้กลายเป็นระบบรีวิว star rating leaderboard sponsored discovery หรือการเปิด raw score การนำไปใช้ต้องรักษาความหมายเชิงโครงสร้าง ไม่ใช่จำลองภาพของมัน",
+				"การนำไปปรับใช้จริงต้องไม่แปลงมาตรฐานให้กลายเป็นระบบรีวิว star rating leaderboard sponsored discovery หรือการเปิด raw score การนำไปใช้ต้องรักษาความหมายเชิงโครงสร้าง ไม่ใช่จำลองภาพของมัน",
 			current: "สถานะปัจจุบัน",
-			currentTextBefore: "AgenSea คือการประยุกต์ใช้แรกที่บันทึกไว้ และปัจจุบันนำ",
+			currentTextBefore: "AgenSea คือการนำไปปรับใช้จริงแรกที่บันทึกไว้ และปัจจุบันนำ",
 			currentTextAfter: "ไปใช้ภายในโมเดลผลิตภัณฑ์ MVP",
 			items: [
 				{
@@ -110,7 +110,7 @@ const copy = locale === "th"
 				</p>
 				<p class="page-description-secondary">{copy.integrationNote}</p>
 				<div class="page-cross-links">
-					<a href={localizedPath("/the-method", locale)} class="page-cross-link">{copy.methodLink} →</a>
+					<a href={localizedPath("/journal", locale)} class="page-cross-link">{copy.methodLink} →</a>
 					<a href="https://www.youtube.com/@paritsea" target="_blank" rel="noreferrer" class="page-cross-link">{copy.youtubeLink} →</a>
 				</div>
 				<UsageGuidance variant="implementations" compact locale={locale} />
@@ -162,7 +162,7 @@ const copy = locale === "th"
 			<div class="aside-block">
 				<h2 class="aside-heading">{copy.current}</h2>
 				<p class="aside-text">
-					{copy.currentTextBefore} <a href={localizedPath("/standards/asls-01", locale)} class="aside-link">ASLS-01</a> {copy.currentTextAfter}
+					{copy.currentTextBefore} <a href={localizedPath("/system/standards/asls-01", locale)} class="aside-link">ASLS-01</a> {copy.currentTextAfter}
 				</p>
 			</div>
 		</aside>

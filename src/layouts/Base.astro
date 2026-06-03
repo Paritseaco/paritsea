@@ -74,34 +74,43 @@ const enAlternateUrl = new URL(localizedPath(canonicalPath, "en"), Astro.url.ori
 
 // Fetch primary menu defined in seed
 const menu = await getMenu("primary");
-const navItems = menu?.items.map((item) => ({
-	...item,
-	label: copy.navLabels[item.label as keyof typeof copy.navLabels] ?? item.label,
-	url:
-		item.label === "The Doctrine"
-			? localizedPath("/the-doctrine", locale)
-			: item.label === "Protocols"
-				? localizedPath("/protocols", locale)
-				: item.label === "Standards"
-					? localizedPath("/standards", locale)
-						: item.label === "The Method"
-							? localizedPath("/the-method", locale)
-							: item.label === "Implementations"
-								? localizedPath("/implementations", locale)
-								: localizedPath(item.url, locale),
-}));
+
+// Helper: resolve one menu item's label + URL (used recursively for children).
+// Return type is explicit to avoid ts(7023)/ts(7024) implicit-any on recursive call.
+type ResolvedMenuItem = {
+	label: string;
+	url: string;
+	children: ResolvedMenuItem[];
+	[k: string]: unknown;
+};
+
+function resolveMenuItem(item: { label?: string; url?: string; children?: unknown[]; [k: string]: unknown }): ResolvedMenuItem {
+	return {
+		...item,
+		label: copy.navLabels[item.label as keyof typeof copy.navLabels] ?? item.label ?? "",
+		url: localizedPath(item.url ?? "/", locale),
+		children: (item.children ?? []).map((child) =>
+			resolveMenuItem(child as typeof item)
+		),
+	};
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const navItems: ResolvedMenuItem[] = (menu?.items ?? []).map((item) => resolveMenuItem(item as any));
+
 const resolvedNavItems = (() => {
-	const items = navItems ? [...navItems] : [];
-	if (!items.some((item) => stripLocalePrefix(item.url) === "/implementations")) {
+	const items = [...navItems];
+	// Safety: inject Implementation if seed omits it
+	if (!items.some((item) => stripLocalePrefix(item.url) === "/implementation")) {
 		items.push({
-			id: "implementations",
-			label: copy.navLabels.Implementations,
-			url: localizedPath("/implementations", locale),
+			id: "implementation",
+			label: copy.navLabels.Implementation ?? "Implementation",
+			url: localizedPath("/implementation", locale),
 			target: undefined,
 			children: [],
 		});
 	}
-	// Add About link if not present
+	// Always inject About (not in seed, managed by code)
 	if (!items.some((item) => stripLocalePrefix(item.url) === "/about")) {
 		items.push({
 			id: "about",
@@ -113,6 +122,9 @@ const resolvedNavItems = (() => {
 	}
 	return items;
 })();
+
+// Active-state helper: used to apply nav-framework and system dropdown is-active classes
+const currentPath = stripLocalePrefix(Astro.url.pathname);
 
 // Build public page context for plugin contributions
 // SEO data is passed here and rendered securely by EmDashHead
@@ -212,17 +224,44 @@ const isLoggedIn = !!Astro.locals.user;
 						collections={["posts", "pages"]}
 					/>
 					<div class="nav-links">
-						{
-							resolvedNavItems.map((item) => (
-								<a
-									href={item.url}
-									target={item.target}
-									class={stripLocalePrefix(item.url) === "/the-doctrine" ? "nav-doctrine" : undefined}
+						{resolvedNavItems.map((item) =>
+							item.children && item.children.length > 0 ? (
+								<div
+									class:list={[
+										"nav-dropdown",
+										{
+											"is-active":
+												currentPath === stripLocalePrefix(item.url) ||
+												currentPath.startsWith(stripLocalePrefix(item.url) + "/"),
+										},
+									]}
 								>
+									<button class="nav-dropdown-btn" aria-expanded="false" aria-haspopup="true">
+										{item.label}
+										<span class="nav-dropdown-chevron" aria-hidden="true">▾</span>
+									</button>
+									<div class="nav-dropdown-panel" role="menu">
+										{item.children.map((child) => (
+											<a
+												href={child.url}
+												role="menuitem"
+												class:list={[
+													"nav-dropdown-item",
+													{ "nav-framework": stripLocalePrefix(child.url) === "/system/framework" },
+													{ "is-active": currentPath === stripLocalePrefix(child.url) },
+												]}
+											>
+												{child.label}
+											</a>
+										))}
+									</div>
+								</div>
+							) : (
+								<a href={item.url} target={item.target as "_blank" | "_self" | "_parent" | "_top" | undefined}>
 									{item.label}
 								</a>
-							))
-						}
+							)
+						)}
 					</div>
 					{
 						isLoggedIn && (
@@ -260,11 +299,11 @@ const isLoggedIn = !!Astro.locals.user;
 					<div class="footer-nav">
 						<h4 class="footer-heading">{copy.frameworkLayers}</h4>
 						<ul class="footer-links">
-							<li><a href={localizedPath("/the-doctrine", locale)}>{copy.navLabels["The Doctrine"]}</a></li>
-							<li><a href={localizedPath("/protocols", locale)}>{copy.navLabels.Protocols}</a></li>
-							<li><a href={localizedPath("/standards", locale)}>{copy.navLabels.Standards}</a></li>
-							<li><a href={localizedPath("/the-method", locale)}>{copy.navLabels["The Method"]}</a></li>
-							<li><a href={localizedPath("/implementations", locale)}>{copy.navLabels.Implementations}</a></li>
+							<li><a href={localizedPath("/system/framework", locale)}>{copy.navLabels.Framework}</a></li>
+							<li><a href={localizedPath("/system/protocols", locale)}>{copy.navLabels.Protocols}</a></li>
+							<li><a href={localizedPath("/system/standards", locale)}>{copy.navLabels.Standards}</a></li>
+							<li><a href={localizedPath("/journal", locale)}>{copy.navLabels.Journal}</a></li>
+							<li><a href={localizedPath("/implementation", locale)}>{copy.navLabels.Implementation}</a></li>
 						</ul>
 					</div>
 				<div class="footer-nav">
@@ -751,14 +790,103 @@ const isLoggedIn = !!Astro.locals.user;
 				opacity: 1;
 			}
 
-			.nav-links a.nav-doctrine {
-				color: var(--color-text);
+			/* Framework child — bold treatment (renamed from nav-doctrine, D-024) */
+			.nav-framework {
+				color: var(--color-text) !important;
 				font-weight: 500;
 				letter-spacing: 0.01em;
 			}
 
-			.nav-links a.nav-doctrine:hover {
-				color: var(--color-accent);
+			.nav-framework:hover {
+				color: var(--color-accent) !important;
+			}
+
+			/* ─── System Dropdown ─── */
+			.nav-dropdown {
+				position: relative;
+			}
+
+			.nav-dropdown-btn {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.25em;
+				font-family: var(--font-sans);
+				font-size: var(--font-size-sm);
+				font-weight: 450;
+				letter-spacing: 0.01em;
+				color: var(--color-text-secondary);
+				background: none;
+				border: 1px solid transparent;
+				border-radius: var(--radius-sm);
+				padding: 0.35rem 0.55rem;
+				cursor: pointer;
+				transition: color var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
+			}
+
+			.nav-dropdown-btn:hover,
+			.nav-dropdown.is-active .nav-dropdown-btn {
+				color: var(--color-text);
+				background: color-mix(in srgb, var(--color-surface) 68%, transparent);
+				border-color: color-mix(in srgb, var(--color-accent) 28%, transparent);
+			}
+
+			.nav-dropdown-chevron {
+				font-size: 0.7em;
+				line-height: 1;
+				transition: transform var(--transition-fast);
+			}
+
+			.nav-dropdown:hover .nav-dropdown-chevron,
+			.nav-dropdown:focus-within .nav-dropdown-chevron {
+				transform: rotate(180deg);
+			}
+
+			.nav-dropdown-panel {
+				position: absolute;
+				top: calc(100% + var(--spacing-2));
+				left: 0;
+				min-width: 160px;
+				background: var(--color-bg);
+				border: 1px solid var(--color-border);
+				border-radius: var(--radius-md);
+				box-shadow: var(--shadow-dropdown);
+				padding: var(--spacing-1);
+				opacity: 0;
+				visibility: hidden;
+				pointer-events: none;
+				transform: translateY(-6px);
+				transition:
+					opacity var(--transition-fast),
+					transform var(--transition-fast),
+					visibility var(--transition-fast);
+				z-index: 200;
+			}
+
+			.nav-dropdown:hover .nav-dropdown-panel,
+			.nav-dropdown:focus-within .nav-dropdown-panel {
+				opacity: 1;
+				visibility: visible;
+				pointer-events: auto;
+				transform: translateY(0);
+			}
+
+			.nav-dropdown-item {
+				display: block;
+				padding: var(--spacing-2) var(--spacing-3);
+				text-decoration: none;
+				color: var(--color-text-secondary);
+				border-radius: var(--radius-sm);
+				font-family: var(--font-sans);
+				font-size: var(--font-size-sm);
+				font-weight: 450;
+				transition: color var(--transition-fast), background var(--transition-fast);
+			}
+
+			.nav-dropdown-item:hover,
+			.nav-dropdown-item.is-active {
+				background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+				color: var(--color-text);
+				opacity: 1;
 			}
 
 			.nav-admin {
@@ -1170,6 +1298,54 @@ const isLoggedIn = !!Astro.locals.user;
 					border-bottom: 1px solid var(--color-border-subtle);
 				}
 
+				/* Mobile accordion — System dropdown */
+				.nav-dropdown {
+					width: 100%;
+				}
+
+				.nav-dropdown-btn {
+					width: 100%;
+					justify-content: space-between;
+					font-size: var(--font-size-lg);
+					letter-spacing: 0.005em;
+					padding: var(--spacing-4) 0;
+					border-radius: 0;
+					border-bottom: 1px solid var(--color-border-subtle);
+					border-top: none;
+					border-left: none;
+					border-right: none;
+					border-color: transparent transparent var(--color-border-subtle) transparent;
+				}
+
+				.nav-dropdown-panel {
+					position: static;
+					opacity: 1;
+					visibility: visible;
+					pointer-events: none;
+					transform: none;
+					box-shadow: none;
+					border: none;
+					border-radius: 0;
+					padding: 0;
+					background: transparent;
+					max-height: 0;
+					overflow: hidden;
+					transition: max-height var(--transition-base);
+				}
+
+				.nav-dropdown.is-open .nav-dropdown-panel {
+					pointer-events: auto;
+					max-height: 400px;
+				}
+
+				.nav-dropdown-item {
+					font-size: var(--font-size-lg);
+					letter-spacing: 0.005em;
+					padding: var(--spacing-3) var(--spacing-4);
+					border-bottom: 1px solid var(--color-border-subtle);
+					border-radius: 0;
+				}
+
 				.nav-admin {
 					padding-top: var(--spacing-1);
 				}
@@ -1308,6 +1484,44 @@ const isLoggedIn = !!Astro.locals.user;
 			mobileBreakpoint.addEventListener("change", (event) => {
 				if (!event.matches) closeMenu();
 			});
+
+			// ─── Mobile accordion for System dropdown ────────────────────────────
+			// On mobile, tapping the System button expands/collapses children inline.
+			// On desktop, the dropdown is CSS hover/focus-within — no JS needed.
+			const dropdownBtns = document.querySelectorAll<HTMLButtonElement>(".nav-dropdown-btn");
+
+			dropdownBtns.forEach((btn) => {
+				btn.addEventListener("click", () => {
+					const dropdown = btn.closest<HTMLElement>(".nav-dropdown");
+					if (!dropdown) return;
+					const isOpen = dropdown.classList.toggle("is-open");
+					btn.setAttribute("aria-expanded", String(isOpen));
+					// Close any other open dropdowns
+					dropdownBtns.forEach((otherBtn) => {
+						if (otherBtn !== btn) {
+							const other = otherBtn.closest<HTMLElement>(".nav-dropdown");
+							if (other?.classList.contains("is-open")) {
+								other.classList.remove("is-open");
+								otherBtn.setAttribute("aria-expanded", "false");
+							}
+						}
+					});
+				});
+			});
+
+			// Close all dropdowns when the mobile menu closes
+			const origCloseMenu = closeMenu;
+			const closeMenuWithDropdowns = () => {
+				origCloseMenu();
+				dropdownBtns.forEach((btn) => {
+					btn.closest<HTMLElement>(".nav-dropdown")?.classList.remove("is-open");
+					btn.setAttribute("aria-expanded", "false");
+				});
+			};
+
+			navBackdrop?.removeEventListener("click", closeMenu);
+			navBackdrop?.addEventListener("click", closeMenuWithDropdowns);
+			// ─────────────────────────────────────────────────────────────────────
 		</script>
 		<EmDashBodyEnd page={pageCtx} />
 	</body>

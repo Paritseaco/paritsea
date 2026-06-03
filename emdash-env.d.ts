@@ -26,6 +26,8 @@ export interface Entry {
   content?: PortableTextBlock[];
   excerpt?: string;
   framework_page: "the-doctrine" | "protocols" | "standards" | "the-method" | "implementations";
+  format?: "essay" | "video-reflection" | "pattern-brief" | "decision-note";
+  youtube_url?: string;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;

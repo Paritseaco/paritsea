@@ -39,25 +39,33 @@ export const GET: APIRoute = async ({ site }) => {
 		})
 	).then((results) => results.flat().filter(Boolean) as Array<{ url: string; lastmod: string }>);
 
-	// Static pages and structural indexes. Omit lastmod when we do not have a trustworthy
-	// modification timestamp rather than emitting an inaccurate date.
+	// Static pages and structural indexes (Phase 1 IA restructure — new URL vocabulary).
+	// Omit lastmod when we do not have a trustworthy modification timestamp.
 	type SitemapEntry = { url: string; lastmod?: string };
 
 	const staticPages: SitemapEntry[] = [
+		// Root
 		{ url: `${siteUrl}/` },
-		{ url: `${siteUrl}/the-doctrine` },
-		{ url: `${siteUrl}/protocols` },
-		{ url: `${siteUrl}/standards` },
-		{ url: `${siteUrl}/the-method` },
-		{ url: `${siteUrl}/implementations` },
+		// Layer index pages
+		{ url: `${siteUrl}/journal` },
+		{ url: `${siteUrl}/system` },
+		{ url: `${siteUrl}/system/framework` },
+		{ url: `${siteUrl}/system/protocols` },
+		{ url: `${siteUrl}/system/standards` },
+		{ url: `${siteUrl}/implementation` },
+		// Supporting pages
+		{ url: `${siteUrl}/about` },
 		{ url: `${siteUrl}/licensing` },
 		{ url: `${siteUrl}/contact` },
+		// Thai locale equivalents
 		{ url: `${siteUrl}/th` },
-		{ url: `${siteUrl}/th/the-doctrine` },
-		{ url: `${siteUrl}/th/protocols` },
-		{ url: `${siteUrl}/th/standards` },
-		{ url: `${siteUrl}/th/the-method` },
-		{ url: `${siteUrl}/th/implementations` },
+		{ url: `${siteUrl}/th/journal` },
+		{ url: `${siteUrl}/th/system` },
+		{ url: `${siteUrl}/th/system/framework` },
+		{ url: `${siteUrl}/th/system/protocols` },
+		{ url: `${siteUrl}/th/system/standards` },
+		{ url: `${siteUrl}/th/implementation` },
+		{ url: `${siteUrl}/th/about` },
 		{ url: `${siteUrl}/th/licensing` },
 		{ url: `${siteUrl}/th/contact` },
 	];

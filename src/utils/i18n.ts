@@ -69,18 +69,24 @@ export const ui = {
     authorName: "Parit Ritchai",
     authorRole: "Philosophy Architecture of Paritsea · Authority Director of SE Ocean",
     authorBio: "Paritsea is a way of thinking that reads people and systems together — systematically, deeply, distinctly. Not abstract. A method that surfaces hidden structures, human costs, and the tension between them, without losing sight of the people inside. Born from real experience across business, organizations, and human relationships.",
-    readDoctrine: "Read the Doctrine",
-    exploreMethod: "Explore the Method",
+    readDoctrine: "Read Framework",
+    exploreMethod: "Explore Journal",
     viewImplementations: "View Implementations",
     startHere: "Start here",
     startHereDesc: "New to Paritsea? Begin with the foundational position, then explore analytical entries, or see applied systems.",
     followOn: "Follow on",
     navLabels: {
-      "The Doctrine": "The Doctrine",
+      // Phase 2 vocabulary — matches new seed menu labels
+      Journal: "Journal",
+      System: "System",
+      Framework: "Framework",
       Protocols: "Protocols",
       Standards: "Standards",
-      "The Method": "The Method",
-      Implementations: "Implementations",
+      Implementation: "Implementation",
+      // Legacy keys kept for fallback safety
+      "The Doctrine": "Framework",
+      "The Method": "Journal",
+      Implementations: "Implementation",
     },
     labels: {
       author: "Author",
@@ -128,18 +134,25 @@ export const ui = {
     authorName: "Parit Ritchai",
     authorRole: "Philosophy Architecture of Paritsea · Authority Director of SE Ocean",
     authorBio: "Paritsea คือวิธีคิดที่อ่านคนและระบบไปพร้อมกัน — อย่างเป็นระบบ ลึกซึ้ง และแตกต่าง ไม่ใช่ abstract แต่เป็นวิธีที่ถอดโครงสร้างความซับซ้อน ให้เห็นทั้งคน ระบบ และแรงตึงที่ซ่อนอยู่ โดยไม่ละสายตาจากมนุษย์ที่อยู่ข้างใน เกิดจากประสบการณ์จริงข้ามธุรกิจ องค์กร และความสัมพันธ์ของมนุษย์",
-    readDoctrine: "อ่านแก่น",
-    exploreMethod: "เปิดวิธีวิเคราะห์",
-    viewImplementations: "ดูการประยุกต์ใช้",
+    readDoctrine: "อ่าน Framework",
+    exploreMethod: "สำรวจ Journal",
+    viewImplementations: "ดูการนำไปปรับใช้จริง",
     startHere: "เริ่มตรงนี้",
-    startHereDesc: "ใหม่กับ Paritsea? เริ่มจากแก่นหลัก แล้วค่อยสำรวจบันทึกวิเคราะห์ หรือดูระบบที่นำไปใช้จริง",
+    startHereDesc: "ใหม่กับ Paritsea? เริ่มจาก Framework แล้วค่อยสำรวจ Journal หรือดู Implementation",
     followOn: "ติดตาม",
     navLabels: {
-      "The Doctrine": "แก่น",
-      Protocols: "โปรโตคอล",
-      Standards: "มาตรฐาน",
-      "The Method": "วิธีวิเคราะห์",
-      Implementations: "การประยุกต์ใช้",
+      // Navigation is FULLY ENGLISH in TH + EN (D-029). No Thai nav terms.
+      // แก่น is NEVER used. การประยุกต์ใช้ is deprecated.
+      Journal: "Journal",
+      System: "System",
+      Framework: "Framework",
+      Protocols: "Protocols",
+      Standards: "Standards",
+      Implementation: "Implementation",
+      // Legacy keys kept for fallback safety
+      "The Doctrine": "Framework",
+      "The Method": "Journal",
+      Implementations: "Implementation",
     },
     labels: {
       author: "ผู้เขียน",
@@ -154,14 +167,14 @@ export const ui = {
       reads: "ครั้ง",
       onThisPage: "ในหน้านี้",
       continueReading: "อ่านต่อ",
-      constitutionalDocument: "เอกสารแก่น",
+      constitutionalDocument: "เอกสาร Framework",
       doctrineNotice:
         "เอกสารนี้เป็นฐานรากของโปรโตคอลและมาตรฐานทั้งหมดของ Paritsea — ไม่เปลี่ยนรูป",
-      constitutionalDoctrine: "แก่น Paritsea",
+      constitutionalDoctrine: "Paritsea Framework",
       protocol: "Protocol",
       standard: "มาตรฐาน",
-      implementation: "การประยุกต์ใช้",
-      doctrine: "แก่น",
+      implementation: "การนำไปปรับใช้จริง",
+      doctrine: "Framework",
     },
   },
 } as const;
@@ -176,10 +189,10 @@ const categoryLabels: Record<string, string> = {
 
 const postTranslations: Record<string, { title: string; excerpt?: string; content: Record<string, string> }> = {
 	doctrine: {
-		title: "แก่น Paritsea ว่าด้วยความสอดคล้องเชิงโครงสร้างและความชอบธรรม",
+		title: "Paritsea Framework ว่าด้วยความสอดคล้องเชิงโครงสร้างและความชอบธรรม",
 		excerpt: "Paritsea วางความสอดคล้องเชิงโครงสร้างไว้เป็นเงื่อนไขพื้นฐานของความชอบธรรมในทุกระบบที่จัดระเบียบ",
 		content: {
-			"Constitutional Foundation — Immutable": "ฐานแก่น — ไม่เปลี่ยนรูป",
+			"Constitutional Foundation — Immutable": "ฐาน Framework — ไม่เปลี่ยนรูป",
 			"Section I — Foundational Premise": "หมวด I — ข้อตั้งต้น",
 			"Paritsea establishes structural coherence as a prerequisite for legitimacy in any organised system.":
 				"Paritsea วางความสอดคล้องเชิงโครงสร้างไว้เป็นเงื่อนไขพื้นฐานของความชอบธรรมในทุกระบบที่จัดระเบียบ",
@@ -208,10 +221,10 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 				"กรอบนี้ไม่ประเมิน:\n— คุณค่าทางศีลธรรม\n— อุดมการณ์ทางการเมือง\n— ความชอบทางวัฒนธรรม\n— ขนาดทางการเงิน\n— ความนิยมจากสาธารณะ\n— ความสำเร็จเชิงกลยุทธ์",
 			"Section VI — Immutability": "หมวด VI — ความไม่เปลี่ยนรูป",
 			"The Paritsea Doctrine is immutable. It forms the constitutional foundation for all derived protocols and standards. Derived instruments may evolve, provided they do not contradict the doctrine.":
-				"แก่น Paritsea ไม่เปลี่ยนรูป มันเป็นรากฐานของโปรโตคอลและมาตรฐานทุกฉบับที่สืบเนื่องมา เครื่องมือที่สืบเนื่องสามารถพัฒนาได้ ตราบเท่าที่ไม่ขัดต่อแก่น",
+				"Paritsea Framework ไม่เปลี่ยนรูป มันเป็นรากฐานของโปรโตคอลและมาตรฐานทุกฉบับที่สืบเนื่องมา เครื่องมือที่สืบเนื่องสามารถพัฒนาได้ ตราบเท่าที่ไม่ขัดต่อ Framework",
 			"Paritsea is a constitutional reference framework. It does not function as a regulator, certifier, or enforcement body.":
 				"Paritsea คือกรอบอ้างอิงเชิงรัฐธรรมนูญ ไม่ใช่ผู้กำกับดูแล ผู้รับรอง หรือหน่วยงานบังคับใช้",
-			"Doctrine Version: 1.0 — Constitutional Text": "แก่น เวอร์ชัน 1.0 — ข้อความรากฐาน",
+			"Doctrine Version: 1.0 — Constitutional Text": "Framework เวอร์ชัน 1.0 — ข้อความรากฐาน",
 		},
 	},
 	stp: {

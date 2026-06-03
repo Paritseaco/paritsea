@@ -1,0 +1,109 @@
+---
+/**
+ * /system — Structuring layer hub.
+ *
+ * Phase 1 shell: structural HTML only, no final copy.
+ * Phase 4 will replace placeholder headings with copy per ux-blueprint.md:
+ *   - Layer definition (what "structuring" means)
+ *   - Framework card (immutable root, one-line role)
+ *   - Protocols card (obligations, one-line role)
+ *   - Standards card (thresholds, one-line role)
+ *   - Derivation order made explicit
+ */
+import Base from "../../layouts/Base.astro";
+import { getSiteSettings } from "emdash";
+import { getAstroLocale, localizedPath } from "../../utils/i18n";
+import { resolveBlogSiteIdentity } from "../../utils/site-identity";
+
+const locale = getAstroLocale(Astro);
+const { siteTitle } = resolveBlogSiteIdentity(await getSiteSettings());
+const title = `System — ${siteTitle}`;
+---
+
+<Base title={title} locale={locale}>
+	<div class="system-hub">
+
+		<header class="system-hub-header">
+			<!-- Phase 4 copy: layer definition — what structuring means -->
+			<h1 class="system-hub-title">System</h1>
+		</header>
+
+		<nav class="system-hub-cards" aria-label="System layers">
+			<a href={localizedPath("/system/framework", locale)} class="system-hub-card">
+				<!-- Phase 4 copy: Framework card — immutable root, one-line role -->
+				<h2 class="system-hub-card-title">Framework</h2>
+			</a>
+
+			<a href={localizedPath("/system/protocols", locale)} class="system-hub-card">
+				<!-- Phase 4 copy: Protocols card — obligations, one-line role -->
+				<h2 class="system-hub-card-title">Protocols</h2>
+			</a>
+
+			<a href={localizedPath("/system/standards", locale)} class="system-hub-card">
+				<!-- Phase 4 copy: Standards card — thresholds, one-line role -->
+				<h2 class="system-hub-card-title">Standards</h2>
+			</a>
+		</nav>
+
+	</div>
+</Base>
+
+<style>
+	.system-hub {
+		max-width: 720px;
+		margin: 0 auto;
+		padding: var(--spacing-16) var(--spacing-6) var(--spacing-20);
+	}
+
+	.system-hub-header {
+		margin-bottom: var(--spacing-10);
+		padding-bottom: var(--spacing-8);
+		border-bottom: 1px solid var(--color-border-subtle);
+	}
+
+	.system-hub-title {
+		font-family: var(--font-serif);
+		font-size: clamp(var(--font-size-2xl), 4vw, var(--font-size-3xl));
+		font-weight: 700;
+		color: var(--color-text);
+		margin: 0;
+		letter-spacing: var(--tracking-tight);
+	}
+
+	.system-hub-cards {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: var(--spacing-5);
+	}
+
+	.system-hub-card {
+		display: block;
+		padding: var(--spacing-8) var(--spacing-6);
+		border: 1px solid var(--color-border);
+		text-decoration: none;
+		color: inherit;
+		transition: border-color var(--transition-base), background var(--transition-base),
+			transform var(--transition-base);
+	}
+
+	.system-hub-card:hover {
+		border-color: var(--color-accent);
+		background: var(--color-accent-subtle);
+		transform: translateY(-2px);
+		opacity: 1;
+	}
+
+	.system-hub-card-title {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-xl);
+		font-weight: 700;
+		color: var(--color-text);
+		margin: 0;
+	}
+
+	@media (max-width: 640px) {
+		.system-hub-cards {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

@@ -104,7 +104,7 @@ const copy = locale === "th"
 				"โปรโตคอลแต่ละฉบับคือเครื่องมือเชิงโครงสร้างสาธารณะ ไม่ใช่คำแนะนำหรือ best practice แต่นิยามข้อกำหนดที่ระบบต้องผ่านหากต้องการกล่าวอ้างความสอดคล้องภายใต้กรอบ Paritsea",
 			derivedFrom: "สืบเนื่องจาก",
 			derivedFromText: "โปรโตคอลทั้งหมดรับอำนาจจาก",
-			doctrineLink: "แก่น Paritsea",
+			doctrineLink: "Paritsea Framework",
 			noContradiction: "และไม่มีโปรโตคอลใดขัดกับหลักการฐานรากได้",
 			aboutStandards: "เกี่ยวกับมาตรฐาน",
 			aboutStandardsText:
@@ -145,7 +145,7 @@ const copy = locale === "th"
 				"Each protocol is a public structural instrument. Protocols are not tips, best practices, or style recommendations. They define the requirements a system must satisfy if it is to claim coherence under the Paritsea framework.",
 			derivedFrom: "Derived From",
 			derivedFromText: "All protocols derive authority from",
-			doctrineLink: "The Paritsea Doctrine",
+			doctrineLink: "Paritsea Framework",
 			noContradiction: "No protocol may contradict the foundational doctrine.",
 			aboutStandards: "About Standards",
 			aboutStandardsText:
@@ -195,7 +195,7 @@ const copy = locale === "th"
 						<div class="aside-block">
 							<h3 class="aside-heading">{copy.derivedFrom}</h3>
 							<p class="aside-text">
-								{copy.derivedFromText} <a href={localizedPath("/the-doctrine", locale)} class="aside-link">{copy.doctrineLink}</a>. {copy.noContradiction}
+								{copy.derivedFromText} <a href={localizedPath("/system/framework", locale)} class="aside-link">{copy.doctrineLink}</a>. {copy.noContradiction}
 							</p>
 						</div>
 					</div>
@@ -209,7 +209,7 @@ const copy = locale === "th"
 				) : (
 					<div class="document-list">
 						{scopedPosts.map(({ post, cats }, i) => (
-							<a href={localizedPath(`/protocols/${post.id}`, locale)} class="document-card">
+							<a href={localizedPath(`/system/protocols/${post.id}`, locale)} class="document-card">
 								<div class="document-card-index">{String(i + 1).padStart(2, "0")}</div>
 								<div class="document-card-body">
 									{cats.length > 0 && (
@@ -265,7 +265,7 @@ const copy = locale === "th"
 				) : (
 					<div class="document-list">
 						{scopedPosts.map(({ post, cats }, i) => (
-							<a href={localizedPath(`/standards/${post.id}`, locale)} class="document-card">
+							<a href={localizedPath(`/system/standards/${post.id}`, locale)} class="document-card">
 								<div class="document-card-index">{String(i + 1).padStart(2, "0")}</div>
 								<div class="document-card-body">
 									{cats.length > 0 && (
@@ -322,7 +322,7 @@ const copy = locale === "th"
 				) : (
 					<div class="document-list">
 						{scopedPosts.map(({ post, cats }, i) => (
-							<a href={localizedPath(`/the-method/${post.id}`, locale)} class="document-card">
+							<a href={localizedPath(`/journal/${post.id}`, locale)} class="document-card">
 								<div class="document-card-index">{String(scopedPosts.length - i).padStart(2, "0")}</div>
 								<div class="document-card-body">
 									{methodFormatLabel(post.data.format, cats) && (

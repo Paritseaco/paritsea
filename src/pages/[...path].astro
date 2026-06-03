@@ -14,18 +14,19 @@ import {
 	CommentForm,
 	WidgetArea,
 } from "emdash/ui";
-import Base from "../../layouts/Base.astro";
-import PostCard from "../../components/PostCard.astro";
-import ArticleUtilityRail from "../../components/ArticleUtilityRail.astro";
-import { getDirectPostBySlug } from "../../utils/direct-post";
+import Base from "../layouts/Base.astro";
+import PostCard from "../components/PostCard.astro";
+import ArticleUtilityRail from "../components/ArticleUtilityRail.astro";
+import { getDirectPostBySlug } from "../utils/direct-post";
 import {
+	frameworkPageFromSegment,
 	isFrameworkPageSlug,
 	resolveFrameworkPage,
 	resolvePostPath,
-} from "../../utils/public-paths";
-import { getReadingTime } from "../../utils/reading-time";
-import { resolveBlogSiteIdentity } from "../../utils/site-identity";
-import { incrementPostViews } from "../../utils/view-count";
+} from "../utils/public-paths";
+import { getReadingTime } from "../utils/reading-time";
+import { resolveBlogSiteIdentity } from "../utils/site-identity";
+import { incrementPostViews } from "../utils/view-count";
 import {
 	formatDateForLocale,
 	getAstroLocale,
@@ -33,25 +34,22 @@ import {
 	localizeTermLabel,
 	localizedPath,
 	ui,
-} from "../../utils/i18n";
+} from "../utils/i18n";
 
 const locale = getAstroLocale(Astro);
 const copy = ui[locale];
 const labels = ui[locale].labels;
 
-// Map URL segment → taxonomy slug (the-doctrine is a standalone page, not /the-doctrine/slug)
-const CATEGORY_MAP: Record<string, string> = {
-	"protocols": "protocols",
-	"standards": "standards",
-	"the-method": "the-method",
-	"implementations": "implementations",
-};
+// Catch-all: last path segment is the post slug; the leading segment(s) are the
+// public URL prefix (e.g. "journal", "system/protocols") → reverse-map to taxonomy key.
+const pathParam = Astro.params.path ?? "";
+const segments = pathParam.split("/").filter(Boolean);
+const rawSlug = segments.pop() ?? "";
+const publicSegment = segments.join("/");
+const taxonomySlug = frameworkPageFromSegment(publicSegment);
+if (!taxonomySlug || taxonomySlug === "the-doctrine") return Astro.redirect("/404");
 
-const categoryParam = Astro.params.category ?? "";
-const taxonomySlug = CATEGORY_MAP[categoryParam];
-if (!taxonomySlug) return Astro.redirect("/404");
-
-const slug = decodeSlug(Astro.params.slug);
+const slug = decodeSlug(rawSlug);
 if (!slug) return Astro.redirect("/404");
 
 const { entry: emdashPost, cacheHint } = await getEmDashEntry("posts", slug);
@@ -102,7 +100,7 @@ const { siteTitle } = resolveBlogSiteIdentity(await getSiteSettings());
 const seo = getSeoMeta(post, {
 	siteTitle,
 	siteUrl: Astro.url.origin,
-	path: localizedPath(resolvePostPath(slug, post.data.framework_page, taxonomySlug) ?? `/${categoryParam}/${slug}`, locale),
+	path: localizedPath(resolvePostPath(slug, post.data.framework_page, taxonomySlug) ?? `/${publicSegment}/${slug}`, locale),
 	defaultOgImage: featuredImageUrl,
 });
 
@@ -164,7 +162,7 @@ const otherPostsWithTags = await Promise.all(
 		const postBylines = p.data.bylines ?? [];
 		const href =
 			resolvePostPath(p.id, relatedFrameworkPage, null) ??
-			`/the-method/${p.id}`;
+			`/journal/${p.id}`;
 		return {
 			post: localizedPost,
 			cats: (visibleCategories.length > 0 ? visibleCategories : postCategories).map((term) => ({

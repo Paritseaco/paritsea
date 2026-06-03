@@ -61,7 +61,7 @@ const methodEntriesWithTags = await Promise.all(
 			: await getEntryTerms("posts", post.data.id, "category");
 		const href =
 			resolvePostPath(post.id, frameworkPage, null) ??
-			`/the-method/${post.id}`;
+			`/journal/${post.id}`;
 		return {
 			post: localizeEntry(post, "posts", locale),
 			youtubeUrl: typeof post.data.youtube_url === "string" ? post.data.youtube_url : null,
@@ -113,9 +113,9 @@ const home = locale === "th"
 			headlineLine2: "ทั้ง \"ความซับซ้อนของโลก\"",
 			headlineLine3: "และ \"ความรู้สึกของคน\"",
 			heroSub: "Paritsea คือแหล่งรวมแนวคิด มุมมอง และบทสนทนา\nสำหรับคนที่อยากเข้าใจชีวิต ธุรกิจ ผู้คน และตัวเองให้ลึกขึ้น\nไม่ใช่แค่ในเชิงทฤษฎี แต่ในแบบที่ใช้ได้จริงกับโลกจริง",
-			readDoctrine: "อ่านแก่น",
-			exploreMethod: "เปิดวิธีวิเคราะห์",
-			viewImplementations: "ดูการประยุกต์ใช้",
+			readDoctrine: "อ่าน Framework",
+			exploreMethod: "สำรวจ Journal",
+			viewImplementations: "ดูการนำไปปรับใช้จริง",
 
 			// ── WHAT PARITSEA COVERS ──
 			topicsLabel: "สิ่งที่ Paritsea พูดถึง",
@@ -138,7 +138,7 @@ const home = locale === "th"
 
 			// ── START HERE ──
 			startHere: "เริ่มตรงนี้",
-			startHereDesc: "ใหม่ต่อ Paritsea? เริ่มจากแก่นหลักเพื่อเข้าใจวิธีคิดที่เห็นทั้งคนและระบบ จากนั้นสำรวจบันทึกวิเคราะห์ หรือดูระบบที่นำไปใช้จริง",
+			startHereDesc: "ใหม่ต่อ Paritsea? เริ่มจาก Framework เพื่อเข้าใจวิธีคิดที่เห็นทั้งคนและระบบ จากนั้นสำรวจ Journal หรือดู Implementation",
 
 			// ── CONTENT BREADTH ──
 			contentBreadthLabel: "แนวคิดจาก Paritsea",
@@ -148,8 +148,8 @@ const home = locale === "th"
 			contentBreadthExample2: "บางครั้งเราอาจกำลังพูดเรื่องความสัมพันธ์\nแต่จริง ๆ กำลังพูดเรื่อง \"บาดแผลที่คนแบกมาตลอดชีวิต\"",
 
 			// ── REGISTRY ──
-			registry: "ทะเบียนวิเคราะห์",
-			openMethod: "เปิด The Method →",
+			registry: "Journal",
+			openMethod: "สำรวจ Journal →",
 
 			// ── SESSIONS ──
 			sessionsEyebrow: "Online Session",
@@ -178,8 +178,8 @@ const home = locale === "th"
 			ecosystemFacebookDesc: "อัปเดต บทความ และความคิดเห็นจาก Paritsea",
 			ecosystemLine: "LINE Group",
 			ecosystemLineDesc: "พูดคุย แลกเปลี่ยน และติดตาม session",
-			ecosystemSession: "Online Session",
-			ecosystemSessionDesc: "ฟรีทุกวัน เวลา 2 ทุ่ม พื้นที่พูดคุยอย่างจริงใจ",
+			ecosystemSession: "Linkedin",
+			ecosystemSessionDesc: "ติดตามแนวคิดและมุมมองจาก Paritsea",
 
 			followOn: "ติดตาม",
 
@@ -187,7 +187,7 @@ const home = locale === "th"
 			videoEyebrow: "วิดีโอล่าสุด",
 			videoCTA: "ดูช่อง YouTube →",
 			quote: "\"ปัญหาของปัญหาไม่ใช่เพราะแค่มันเป็นปัญหา\nแต่คือวิธีรับมือและจัดการกับปัญหานั้นต่างหาก\nที่ทำให้ทิศทางของปัญหานั้นต่างออกไป\"",
-			attr: "— Parit Ritchai, แก่น",
+			attr: "— ปาริศ ฤทธิ์ชัย",
 		}
 	: {
 			// ── HERO ──
@@ -196,8 +196,8 @@ const home = locale === "th"
 			headlineLine2: "that understands both",
 			headlineLine3: "the complexity of the world — and the depth of people",
 			heroSub: "Paritsea is a gathering of ideas, perspectives, and conversations for those who want to understand life, business, people, and themselves more deeply. Not just in theory. In ways that work in reality.",
-			readDoctrine: "Read the Doctrine",
-			exploreMethod: "Explore the Method",
+			readDoctrine: "Read Framework",
+			exploreMethod: "Explore Journal",
 			viewImplementations: "View Implementations",
 
 			// ── WHAT PARITSEA COVERS ──
@@ -231,8 +231,8 @@ const home = locale === "th"
 			contentBreadthExample2: "Sometimes we talk about relationships.\nBut really we're talking about \"wounds people have carried their whole lives.\"",
 
 			// ── REGISTRY ──
-			registry: "Analytical Registry",
-			openMethod: "Open The Method →",
+			registry: "Journal",
+			openMethod: "Explore Journal →",
 
 			// ── SESSIONS ──
 			sessionsEyebrow: "Online Sessions",
@@ -261,8 +261,8 @@ const home = locale === "th"
 			ecosystemFacebookDesc: "Updates, posts, and ideas from Paritsea",
 			ecosystemLine: "LINE Group",
 			ecosystemLineDesc: "Chat, share, and follow sessions",
-			ecosystemSession: "Online Sessions",
-			ecosystemSessionDesc: "Free daily at 8 PM. A space for honest conversation.",
+			ecosystemSession: "Linkedin",
+			ecosystemSessionDesc: "Follow ideas and perspectives from Paritsea",
 
 			followOn: "Follow on",
 
@@ -270,7 +270,7 @@ const home = locale === "th"
 			videoEyebrow: "Latest Videos",
 			videoCTA: "View YouTube Channel →",
 			quote: "\"The problem with problems isn't just that they are problems,\nbut how they are dealt with,\nthat's what makes them turn out differently.\"",
-			attr: "— Parit Ritchai, The Doctrine",
+			attr: "— Parit Ritchai",
 		};
 ---
 
@@ -289,8 +289,8 @@ const home = locale === "th"
 				<p class="hero-sub">{home.heroSub.split("\n").map((line, index) => <>{index > 0 && <br />}{line}</>)}</p>
 
 				<div class="hero-actions">
-					{doctrinePost && <a href={localizedPath("/the-doctrine", locale)} class="btn-primary">{home.readDoctrine}</a>}
-					<a href={localizedPath("/the-method", locale)} class="btn-secondary">{home.exploreMethod}</a>
+					{doctrinePost && <a href={localizedPath("/system/framework", locale)} class="btn-primary">{home.readDoctrine}</a>}
+					<a href={localizedPath("/journal", locale)} class="btn-secondary">{home.exploreMethod}</a>
 				</div>
 
 				<div class="hero-credit">
@@ -305,21 +305,21 @@ const home = locale === "th"
 				<p class="hero-map-label">{locale === "th" ? "กรอบอ้างอิง" : "The Framework"}</p>
 				<ul class="hero-map-list">
 					<li class="hero-map-item">
-						<a href={localizedPath("/the-doctrine", locale)} class="hero-map-link">
+						<a href={localizedPath("/system/framework", locale)} class="hero-map-link">
 							<span class="hero-map-num">01</span>
-							<span class="hero-map-name">{navLabels["The Doctrine"]}</span>
+							<span class="hero-map-name">{navLabels.Framework}</span>
 						</a>
 					</li>
 					<li class="hero-map-item">
-						<a href={localizedPath("/the-method", locale)} class="hero-map-link">
+						<a href={localizedPath("/journal", locale)} class="hero-map-link">
 							<span class="hero-map-num">02</span>
-							<span class="hero-map-name">{navLabels["The Method"]}</span>
+							<span class="hero-map-name">{navLabels.Journal}</span>
 						</a>
 					</li>
 					<li class="hero-map-item">
-						<a href={localizedPath("/implementations", locale)} class="hero-map-link">
+						<a href={localizedPath("/implementation", locale)} class="hero-map-link">
 							<span class="hero-map-num">03</span>
-							<span class="hero-map-name">{navLabels.Implementations}</span>
+							<span class="hero-map-name">{navLabels.Implementation}</span>
 						</a>
 					</li>
 				</ul>
@@ -368,7 +368,7 @@ const home = locale === "th"
 			<section class="records">
 				<header class="section-header">
 					<span class="section-eyebrow">{home.registry}</span>
-					<a href={localizedPath("/the-method", locale)} class="section-more">{home.openMethod}</a>
+					<a href={localizedPath("/journal", locale)} class="section-more">{home.openMethod}</a>
 				</header>
 				<div class="records-list">
 					{methodEntriesWithTags.map(({ post, youtubeUrl, categories, href }, i) => (
@@ -456,10 +456,10 @@ const home = locale === "th"
 					<h3 class="ecosystem-card-title">{home.ecosystemLine}</h3>
 					<p class="ecosystem-card-desc">{home.ecosystemLineDesc}</p>
 				</a>
-				<a href="https://link.wegowhere.com/NmS37MxAx3b" target="_blank" rel="noreferrer" class="ecosystem-card">
-					<h3 class="ecosystem-card-title">{home.ecosystemSession}</h3>
-					<p class="ecosystem-card-desc">{home.ecosystemSessionDesc}</p>
-				</a>
+			<a href="https://www.linkedin.com/company/paritsea/" target="_blank" rel="noreferrer" class="ecosystem-card">
+				<h3 class="ecosystem-card-title">{home.ecosystemSession}</h3>
+				<p class="ecosystem-card-desc">{home.ecosystemSessionDesc}</p>
+			</a>
 			</div>
 		</section>
 
