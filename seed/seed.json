@@ -83,6 +83,20 @@
           "type": "string",
           "required": false,
           "translatable": false
+        },
+        {
+          "slug": "system_bridge_url",
+          "label": "System Bridge URL",
+          "type": "string",
+          "required": false,
+          "translatable": false
+        },
+        {
+          "slug": "protocol_url",
+          "label": "Protocol URL",
+          "type": "string",
+          "required": false,
+          "translatable": false
         }
       ]
     },
