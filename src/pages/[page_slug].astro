@@ -407,6 +407,14 @@ const contactNotFor = locale === "th" ? [
 									<>{i > 0 && <br />}{line}</>
 								))}
 							</p>
+							<div class="about-founder-linkedin">
+								<div class="badge-base LI-profile-badge about-founder-li-light" data-locale="th_TH" data-size="medium" data-theme="light" data-type="HORIZONTAL" data-vanity="parit-ritchai" data-version="v1">
+									<a class="badge-base__link LI-simple-link" href="https://th.linkedin.com/in/parit-ritchai?trk=profile-badge">Parit Ritchai</a>
+								</div>
+								<div class="badge-base LI-profile-badge about-founder-li-dark" data-locale="th_TH" data-size="medium" data-theme="dark" data-type="HORIZONTAL" data-vanity="parit-ritchai" data-version="v1">
+									<a class="badge-base__link LI-simple-link" href="https://th.linkedin.com/in/parit-ritchai?trk=profile-badge">Parit Ritchai</a>
+								</div>
+							</div>
 						</div>
 					</div>
 
@@ -458,6 +466,10 @@ const contactNotFor = locale === "th" ? [
 		}
 	</article>
 </Base>
+
+{isAboutPage && (
+	<script is:inline src="https://platform.linkedin.com/badges/js/profile.js" async defer></script>
+)}
 
 <style>
 	.page-article {
@@ -878,6 +890,23 @@ const contactNotFor = locale === "th" ? [
 		text-decoration: underline;
 		text-underline-offset: 2px;
 		opacity: 1;
+	}
+
+	/* LinkedIn badge */
+	.about-founder-linkedin {
+		margin-top: var(--spacing-5);
+	}
+
+	.about-founder-li-dark {
+		display: none;
+	}
+
+	:root.dark .about-founder-li-light {
+		display: none;
+	}
+
+	:root.dark .about-founder-li-dark {
+		display: block;
 	}
 
 	/* Social footer */
