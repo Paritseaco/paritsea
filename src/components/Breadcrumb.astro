@@ -1,0 +1,89 @@
+---
+/**
+ * Breadcrumb — System sub-page orientation indicator.
+ *
+ * D-018: Required on /system/framework, /system/protocols, /system/standards.
+ * Never rendered on Journal, Implementation, About, or support pages.
+ *
+ * Usage:
+ *   <Breadcrumb crumbs={[{ label: "System", href: "/system" }, { label: "Framework" }]} />
+ */
+
+export interface Crumb {
+	label: string;
+	href?: string;
+}
+
+interface Props {
+	crumbs: Crumb[];
+}
+
+const { crumbs } = Astro.props;
+---
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+	<ol class="breadcrumb-list">
+		{crumbs.map((crumb, i) => (
+			<li class="breadcrumb-item">
+				{i > 0 && <span class="breadcrumb-sep" aria-hidden="true">/</span>}
+				{crumb.href
+					? <a href={crumb.href} class="breadcrumb-link">{crumb.label}</a>
+					: <span class="breadcrumb-current" aria-current="page">{crumb.label}</span>
+				}
+			</li>
+		))}
+	</ol>
+</nav>
+
+<style>
+	.breadcrumb {
+		margin-bottom: var(--spacing-6);
+	}
+
+	.breadcrumb-list {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-2);
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		flex-wrap: wrap;
+	}
+
+	.breadcrumb-item {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-2);
+	}
+
+	.breadcrumb-sep {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		color: var(--color-border);
+		user-select: none;
+	}
+
+	.breadcrumb-link {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		font-weight: 500;
+		color: var(--color-muted);
+		text-decoration: none;
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+		transition: color 0.15s;
+	}
+
+	.breadcrumb-link:hover {
+		color: var(--color-accent);
+	}
+
+	.breadcrumb-current {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		font-weight: 600;
+		color: var(--color-text-secondary);
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+	}
+</style>

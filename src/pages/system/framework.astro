@@ -16,6 +16,7 @@ import {
 	WidgetArea,
 } from "emdash/ui";
 import Base from "../../layouts/Base.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
 import PostCard from "../../components/PostCard.astro";
 import ArticleUtilityRail from "../../components/ArticleUtilityRail.astro";
 import UsageGuidance from "../../components/UsageGuidance.astro";
@@ -117,6 +118,10 @@ const lastUpdatedLabel = formatDateForLocale(lastUpdated, locale);
 	locale={locale}
 	content={{ collection: "posts", id: post.data.id, slug }}
 >
+	<Breadcrumb crumbs={[
+		{ label: "System", href: localizedPath("/system", locale) },
+		{ label: "Framework" }
+	]} />
 	<article class="article">
 		<div class="article-hero">
 			{post.data.featured_image ? (
