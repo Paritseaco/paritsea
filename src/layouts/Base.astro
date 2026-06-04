@@ -111,10 +111,11 @@ const resolvedNavItems = (() => {
 		});
 	}
 	// Always inject About (not in seed, managed by code)
+	// D-029: main nav is always English regardless of locale
 	if (!items.some((item) => stripLocalePrefix(item.url) === "/about")) {
 		items.push({
 			id: "about",
-			label: copy.aboutShort,
+			label: "About",
 			url: localizedPath("/about", locale),
 			target: undefined,
 			children: [],
