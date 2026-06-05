@@ -68,6 +68,9 @@ const resolvedCanonical =
 		requestPath,
 		(typeof Astro.site === "string" ? Astro.site : Astro.site?.toString()) ?? Astro.url.origin,
 	).toString();
+// SEO-03: fallback OG image for pages without a dedicated featured image
+const siteOrigin = (typeof Astro.site === "string" ? Astro.site : Astro.site?.toString())?.replace(/\/$/, "") ?? Astro.url.origin;
+const resolvedOgImage = image ?? `${siteOrigin}/images/logo.jpg`;
 const languageAlternatePath = alternatePath(requestPath, locale);
 const thAlternateUrl = new URL(localizedPath(canonicalPath, "th"), Astro.url.origin).toString();
 const enAlternateUrl = new URL(localizedPath(canonicalPath, "en"), Astro.url.origin).toString();
@@ -137,9 +140,9 @@ const pageCtx = createPublicPageContext({
 	pageTitle: pageTitle ?? title,
 	description,
 	canonical: resolvedCanonical,
-	image,
+	image: resolvedOgImage,
 	content,
-	seo: { ogImage: image, robots },
+	seo: { ogImage: resolvedOgImage, robots },
 	articleMeta: { publishedTime, modifiedTime, author },
 	siteName: siteTitle,
 });

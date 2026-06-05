@@ -29,6 +29,8 @@ export const GET: APIRoute = async ({ site, url }) => {
 				post.data.framework_page,
 				legacyTerms.find((term) => isFrameworkPageSlug(term.slug))?.slug,
 			);
+			// SEO-02: RSS = Journal layer only (the-method). Exclude Framework, Protocols, Standards, Implementation.
+			if (frameworkPage !== "the-method") return null;
 			const postPath = resolvePostPath(post.id, frameworkPage, null);
 			if (!postPath) return null;
 			const localizedPost = localizeEntry(post, "posts", "th");

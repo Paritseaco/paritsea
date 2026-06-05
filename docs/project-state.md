@@ -7,16 +7,14 @@
 
 ## Current phase
 
-**Phase 6 — SEO Audit & Verification** (starting)
+**Phase 7 — Production Deploy** (starting)
 
-Phase 5 is complete and approved. All breadcrumbs, contextual navigation tails, and navigation debt (F-01/F-02) are resolved and deployed.
+Phase 6 is complete and approved. All SEO requirements verified. Canonical bug fixed. RSS scoped. OG fallback active.
 
 **Active priorities:**
-1. Full 301 crawl — every old URL confirmed redirecting correctly
-2. Sitemap audit — only new URL patterns present
-3. Canonical tags + hreflang verified on all dynamic routes
-4. `llms.txt` path audit
-5. Search Console new sitemap submission
+1. `npm run deploy` on paritsea.co production domain
+2. Post-deploy crawl validation (301s + sitemap on production domain)
+3. Search Console new sitemap submission at `https://paritsea.co/sitemap.xml`
 
 ---
 
@@ -31,6 +29,7 @@ Phase 5 is complete and approved. All breadcrumbs, contextual navigation tails, 
 | Phase 3 | Home Labels | ✅ 2026-06 | Hero CTA labels + hrefs; hero-map labels + hrefs; records eyebrow + link; closing attr; B-01 TS fix |
 | Phase 4 | UX Copy | ✅ 2026-06 | D-028/D-029 language system applied; all nav English; Thai body terms updated; LinkedIn link on About; TypeScript fixes |
 | Phase 5 | Breadcrumbs & Contextual Nav | ✅ 2026-06 | System sub-page breadcrumbs (D-018); Journal lateral + System bridge tail; Implementation protocol tail; F-01/F-02 nav fixes |
+| Phase 6 | SEO Audit & Verification | ✅ 2026-06 | All 301s verified; sitemap clean; canonical bug fixed (Astro.site.origin); RSS Journal-only; OG fallback image; hreflang verified |
 
 ---
 

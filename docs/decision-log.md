@@ -1,7 +1,7 @@
 # Paritsea — Decision Log
 **Document type:** Chronological record of approved architectural and strategic decisions.
 **Purpose:** Long-term memory layer. Every major decision is logged here. Future sessions, contributors, and governance reviews begin here.
-**Last updated:** 2026-06 (Phase 2 complete; D-025, D-026 added)
+**Last updated:** 2026-06 (Phase 6 SEO audit complete; D-030–D-033 added)
 
 ---
 
@@ -49,6 +49,8 @@
 | D-029 | 2026-06 | Thai Implementation body term = การนำไปปรับใช้จริง; nav fully English | ✅ Active |
 | D-030 | 2026-06 | Plain nav items use aria-current="page" for active state (F-01) | ✅ Active |
 | D-031 | 2026-06 | Mobile breakpoint unified to 960px across CSS and JS (F-02) | ✅ Active |
+| D-032 | 2026-06 | RSS feed scoped to Journal layer only (SEO-02) | ✅ Active |
+| D-033 | 2026-06 | Site-wide OG image fallback: /images/logo.jpg (SEO-03) | ✅ Active |
 
 ---
 
@@ -629,6 +631,42 @@ The two are orthogonal: Model A says *where*; Model B says *how heavy the words 
 **Rationale:** Previously the JS "close menu on link click" logic fired only at ≤760px, but the CSS hamburger was visible up to 960px. On viewports 761–960px (tablet landscape, small laptop), clicking a nav link navigated correctly but left the hamburger menu open — a confusing UX gap. Unifying to 960px eliminates the dead zone.
 
 **Related documents:** `src/layouts/Base.astro` (CSS `@media (max-width: 960px)` + JS `mobileBreakpoint`)
+
+---
+
+### D-032 — RSS feed scoped to Journal layer only (SEO-02)
+
+| Field | Value |
+|-------|-------|
+| **Date** | 2026-06 |
+| **Status** | ✅ Active |
+| **Type** | SEO / Content |
+| **Resolves** | SEO-02 (Phase 6 open item) |
+| **Supersedes** | N/A |
+
+**Decision:** The RSS feed at `/rss.xml` includes only Journal entries (`framework_page: the-method`). Framework, Protocols, Standards, and Implementation entries are excluded.
+
+**Rationale:** RSS is a content stream signal — it represents the live observation layer (Journal/seeing). Governed knowledge artifacts (Framework, Protocols, Standards) are not time-bound content; they belong to the structured knowledge registry, not the feed. Including them would misrepresent the nature of the feed to subscribers and RSS readers.
+
+**Related documents:** `src/pages/rss.xml.ts`
+
+---
+
+### D-033 — Site-wide OG image fallback: /images/logo.jpg (SEO-03)
+
+| Field | Value |
+|-------|-------|
+| **Date** | 2026-06 |
+| **Status** | ✅ Active |
+| **Type** | SEO / Brand |
+| **Resolves** | SEO-03 (Phase 6 open item) |
+| **Supersedes** | N/A |
+
+**Decision:** Static and hub pages without a dedicated featured image (including `/system`, `/system/framework`, `/system/protocols`, `/system/standards`, `/about`, `/licensing`) use `/images/logo.jpg` (1254×1254 branded JPEG) as the `og:image` fallback. Applied in `Base.astro` via `resolvedOgImage`.
+
+**Rationale:** Pages without an OG image appear as link-preview blanks when shared on social platforms, undermining brand presence. A consistent branded fallback maintains visual identity without requiring per-page image creation. Post and content pages retain their featured image as the primary OG image.
+
+**Related documents:** `src/layouts/Base.astro` (`resolvedOgImage`), `public/images/logo.jpg`
 
 ---
 
