@@ -2,7 +2,7 @@
 **Status:** Active planning document.
 **Last reviewed:** 2026-06-03
 **Architecture locked:** Yes — do not modify structure without a new IA decision record.
-**Current phase:** Phase 4 — UX Copy (Language System sync applied)
+**Current phase:** Phase 8 — Content Activation (POST-LAUNCH)
 
 ---
 
@@ -31,6 +31,10 @@ Pipeline terms (Journal / System / Implementation / Framework) are **Entry-layer
 | Phase 1 | Routing & Redirects | ✅ 2026-06 | All 9 redirect patterns; `/system` hub route; sitemap + RSS + llms.txt verified |
 | Phase 2 | Navigation | ✅ 2026-06 | Seed menu restructure; System dropdown + mobile accordion; navLabels updated; footer nav; `nav-doctrine` → `nav-framework`; active states |
 | Phase 3 | Home Labels | ✅ 2026-06 | Hero CTA labels + hrefs; hero-map labels + hrefs; records eyebrow + link; closing attribution; B-01 TypeScript fix |
+| Phase 4 | UX Copy | ✅ 2026-06 | Language system (D-028/D-029) applied; nav fully English; Thai terms updated; LinkedIn link on About; TS fixes |
+| Phase 5 | Breadcrumbs & Contextual Nav | ✅ 2026-06 | System breadcrumbs (D-018); Journal/Implementation tails; F-01 aria-current; F-02 breakpoint fix |
+| Phase 6 | SEO Audit & Verification | ✅ 2026-06 | All 301s verified; canonical bug fixed; RSS Journal-only; OG fallback; /system hub fully implemented |
+| Phase 7 | Production Deploy | ✅ 2026-06 | paritsea.co live; all URLs 200; all 301s confirmed on production domain |
 
 ---
 
