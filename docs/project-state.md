@@ -7,14 +7,18 @@
 
 ## Current phase
 
-**Phase 7 — Production Deploy** (starting)
+**Phase 8 — Content Activation** (complete — soft gate passed)
 
 Phase 6 is complete and approved. All SEO requirements verified. Canonical bug fixed. RSS scoped. OG fallback active.
 
 **Active priorities:**
-1. `npm run deploy` on paritsea.co production domain
-2. Post-deploy crawl validation (301s + sitemap on production domain)
-3. Search Console new sitemap submission at `https://paritsea.co/sitemap.xml`
+1. ✅ Altitude check passed on all published content
+2. ✅ CG-01 versioning governance defined (D-035)
+3. ✅ CG-02 mixed-language rule defined (D-036)
+4. ⚠️ Implementation layer empty (optional — soft gate permits this)
+5. 🔲 Search Console sitemap submission (manual action)
+
+**Next: Phase 9 — Annual Drift Audit** (recurring, first audit in 2027)
 
 ---
 

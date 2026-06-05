@@ -216,6 +216,70 @@ Every page sits at one **altitude** on the seeing → structuring → doing spin
 
 ---
 
+## Protocol and Standard versioning governance (CG-01)
+
+**Resolved 2026-06.**
+
+### Version format
+
+`v[major].[minor]` — e.g. `v1.0`, `v1.1`, `v2.0`
+
+- **Major** increment: structural obligation or threshold changed
+- **Minor** increment: wording clarified, examples added, no structural change
+
+### Statuses
+
+| Type | Allowed statuses |
+|------|-----------------|
+| Protocol | `Foundational` · `Active` · `Deprecated` |
+| Standard | `Active` · `Deprecated` |
+| Framework | *(not versioned — immutable)* |
+
+### Rules
+
+1. Every published Protocol must declare its version and status in its header.
+2. Every published Standard must declare version, status, and the Protocol it derives from.
+3. Deprecated artifacts are not deleted — they remain with a `Deprecated` status notice and a pointer to the replacement.
+4. Version increments are the author's decision; no version committee exists.
+5. Framework does not carry version info. Appearance of version numbers on Framework is a governance violation.
+
+---
+
+## Mixed-language content handling (CG-02)
+
+**Resolved 2026-06.**
+
+### Language model
+
+Content lives in one entry with two language surfaces:
+- `/journal/[slug]` → English surface
+- `/th/journal/[slug]` → Thai surface
+
+Same slug, same database entry, different locale rendering.
+
+### Publication rule
+
+**A post may only be published when both language surfaces are complete.**
+
+A Thai title with English body, or an English title with no Thai translation, is not a complete entry. Hold it as draft until both surfaces are authored.
+
+### Language parity rule
+
+Thai and English versions must carry:
+- Identical altitude (same layer, same altitude register)
+- Identical meaning (translation may adapt phrasing, not intent)
+- No register upgrade/downgrade between languages
+
+A Thai version may not philosophize where the English version is functional, and vice versa.
+
+### Mixed-language within a post
+
+Posts in a single language that quote or reference the other language (e.g. English quote in a Thai post) are permitted as long as:
+- The quoted term is a proper noun or Paritsea-specific vocabulary (e.g. "Journal", "Protocol")
+- The surrounding text remains at the correct altitude
+
+---
+
 ## Future content classification rules
 
 When new content appears, route it by asking, in order:

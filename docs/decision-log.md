@@ -52,6 +52,8 @@
 | D-032 | 2026-06 | RSS feed scoped to Journal layer only (SEO-02) | ✅ Active |
 | D-033 | 2026-06 | Site-wide OG image fallback: /images/logo.jpg (SEO-03) | ✅ Active |
 | D-034 | 2026-06 | /system hub fully implemented — all 5 blueprint sections complete | ✅ Active |
+| D-035 | 2026-06 | Protocol/Standard versioning: v[major].[minor] + status enum (CG-01) | ✅ Active |
+| D-036 | 2026-06 | Mixed-language rule: both surfaces required before publish (CG-02) | ✅ Active |
 
 ---
 
