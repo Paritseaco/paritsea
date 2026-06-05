@@ -55,6 +55,7 @@
 | D-035 | 2026-06 | Protocol/Standard versioning: v[major].[minor] + status enum (CG-01) | ✅ Active |
 | D-036 | 2026-06 | Mixed-language rule: both surfaces required before publish (CG-02) | ✅ Active |
 | D-037 | 2026-06 | Language system document created — editorial governance for all Paritsea copy | ✅ Active |
+| D-038 | 2026-06 | Content audit completed — 10 pages scored; 4 high-priority; About requires full rewrite | ✅ Active |
 
 ---
 
