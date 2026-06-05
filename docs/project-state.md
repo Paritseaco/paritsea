@@ -30,6 +30,7 @@ Phase 6 is complete and approved. All SEO requirements verified. Canonical bug f
 | Phase 4 | UX Copy | ✅ 2026-06 | D-028/D-029 language system applied; all nav English; Thai body terms updated; LinkedIn link on About; TypeScript fixes |
 | Phase 5 | Breadcrumbs & Contextual Nav | ✅ 2026-06 | System sub-page breadcrumbs (D-018); Journal lateral + System bridge tail; Implementation protocol tail; F-01/F-02 nav fixes |
 | Phase 6 | SEO Audit & Verification | ✅ 2026-06 | All 301s verified; sitemap clean; canonical bug fixed (Astro.site.origin); RSS Journal-only; OG fallback image; hreflang verified |
+| Architecture | /system Hub | ✅ 2026-06 | Full hub page: 5 blueprint sections + bilingual copy + derivation chain + layer spine; D-034 |
 
 ---
 

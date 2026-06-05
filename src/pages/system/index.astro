@@ -2,48 +2,167 @@
 /**
  * /system — Structuring layer hub.
  *
- * Phase 1 shell: structural HTML only, no final copy.
- * Phase 4 will replace placeholder headings with copy per ux-blueprint.md:
- *   - Layer definition (what "structuring" means)
- *   - Framework card (immutable root, one-line role)
- *   - Protocols card (obligations, one-line role)
- *   - Standards card (thresholds, one-line role)
- *   - Derivation order made explicit
+ * Architecture: Journal (seeing) → System (structuring) → Implementation (doing)
+ * System holds what has been observed in Journal and formalized into governed
+ * knowledge — Framework, Protocols, and Standards.
+ *
+ * ux-blueprint.md §4 required sections (in order):
+ * 1. Layer definition — what "structuring" means
+ * 2. Framework card — immutable root, one-line role
+ * 3. Protocols card — obligations, one-line role
+ * 4. Standards card — thresholds, one-line role
+ * 5. Derivation order made explicit
  */
 import Base from "../../layouts/Base.astro";
 import { getSiteSettings } from "emdash";
-import { getAstroLocale, localizedPath } from "../../utils/i18n";
+import { getAstroLocale, localizedPath, ui } from "../../utils/i18n";
 import { resolveBlogSiteIdentity } from "../../utils/site-identity";
 
 const locale = getAstroLocale(Astro);
 const { siteTitle } = resolveBlogSiteIdentity(await getSiteSettings());
-const title = `System — ${siteTitle}`;
+
+const copy = locale === "th" ? {
+	title: `System — ${siteTitle}`,
+	description: "System คือชั้นของการจัดโครงสร้าง — การสังเกตจาก Journal ที่ถูกกำหนดเป็นความรู้ที่มีกฎกำกับ ประกอบด้วย Framework, Protocols และ Standards",
+	eyebrow: "STRUCTURING",
+	intro: "เมื่อการสังเกตในชั้น Journal กลายเป็นรูปแบบที่ซ้ำพอจะกำหนดได้ มันจะถูกนำมาจัดโครงสร้างที่นี่",
+	introSub: "System คือชั้นที่ความรู้ที่ผ่านการทดสอบแล้วถูกทำให้เป็นสิ่งที่ใช้ได้จริงและสม่ำเสมอ — ไม่ใช่ความเห็น แต่เป็นโครงสร้างที่มีกฎกำกับ",
+	cardsLabel: "เลือกชั้นที่คุณต้องการ",
+	framework: {
+		name: "Framework",
+		role: "รากฐานที่ไม่เปลี่ยน",
+		desc: "ทุก Protocol และ Standard มาจากที่นี่ Framework คือสิ่งที่ตายตัว — ไม่มีการแก้ไข มีแต่การอ้างอิง",
+	},
+	protocols: {
+		name: "Protocols",
+		role: "ข้อกำหนดที่ปฏิบัติได้",
+		desc: "สิ่งที่ต้องคงอยู่ในทางปฏิบัติ Protocol มาจาก Framework และกำหนดสิ่งที่ต้องเป็น",
+	},
+	standards: {
+		name: "Standards",
+		role: "เกณฑ์ที่วัดได้",
+		desc: "วิธีตรวจสอบว่าข้อกำหนดของ Protocol เป็นจริง Standard อยู่ใต้ Protocol และวางเกณฑ์ที่ชัดเจน",
+	},
+	derivationHeading: "ลำดับที่มา",
+	derivationText: "Framework ไม่ได้มาจากสิ่งใด มันคือรากฐาน Protocols มาจาก Framework — เป็นสิ่งที่ต้องคงอยู่ Standards มาจาก Protocols — เป็นสิ่งที่วัดได้ว่าข้อกำหนดนั้นเป็นจริง",
+	layerHeading: "System อยู่ในระบบนี้",
+	layerJournal: "Journal",
+	layerJournalRole: "การสังเกต — ปัญหาที่ถูกตั้งชื่อก่อนจะมีกฎกำกับ",
+	layerSystem: "System",
+	layerSystemRole: "การจัดโครงสร้าง — การสังเกตที่ถูกกำหนดเป็นความรู้ที่มีกฎกำกับ",
+	layerImpl: "Implementation",
+	layerImplRole: "การนำไปปรับใช้จริง — ความรู้ที่มีกฎกำกับถูกนำไปใช้ในความจริง",
+	notDesc: "System ไม่ใช่แหล่งรวบรวมความเห็น และไม่ใช่ Implementation — มันคือโครงสร้างที่ทำให้ความเห็นกลายเป็นสิ่งที่อ้างอิงได้",
+} : {
+	title: `System — ${siteTitle}`,
+	description: "System is the structuring layer — observations from Journal formalized into governed knowledge: Framework, Protocols, and Standards.",
+	eyebrow: "STRUCTURING",
+	intro: "When observations in the Journal layer become patterns consistent enough to govern, they are formalized here.",
+	introSub: "System is the layer where tested knowledge is made consistent and usable — not opinion, but governed structure.",
+	cardsLabel: "Choose a layer",
+	framework: {
+		name: "Framework",
+		role: "The immutable root",
+		desc: "Every Protocol and Standard derives from here. The Framework is fixed — it is referenced, not revised.",
+	},
+	protocols: {
+		name: "Protocols",
+		role: "Actionable obligations",
+		desc: "What must hold in practice. Protocols derive from the Framework and define what must be true.",
+	},
+	standards: {
+		name: "Standards",
+		role: "Measurable thresholds",
+		desc: "How Protocol obligations are verified. Standards sit beneath Protocols and set concrete criteria.",
+	},
+	derivationHeading: "Derivation order",
+	derivationText: "Framework derives from nothing. It is the root. Protocols derive from Framework — they are obligations. Standards derive from Protocols — they define when an obligation is verifiably met.",
+	layerHeading: "System within the spine",
+	layerJournal: "Journal",
+	layerJournalRole: "Observation — problems named before they are governed",
+	layerSystem: "System",
+	layerSystemRole: "Structuring — observation formalized into governed knowledge",
+	layerImpl: "Implementation",
+	layerImplRole: "Doing — governed knowledge applied in reality",
+	notDesc: "System is not an opinion archive. And it is not Implementation. It is the structure that makes observation citable.",
+};
 ---
 
-<Base title={title} locale={locale}>
+<Base title={copy.title} description={copy.description} locale={locale}>
 	<div class="system-hub">
 
+		{/* ── Layer definition ── */}
 		<header class="system-hub-header">
-			<!-- Phase 4 copy: layer definition — what structuring means -->
+			<p class="system-hub-eyebrow">{copy.eyebrow}</p>
 			<h1 class="system-hub-title">System</h1>
+			<p class="system-hub-intro">{copy.intro}</p>
+			<p class="system-hub-intro-sub">{copy.introSub}</p>
 		</header>
 
-		<nav class="system-hub-cards" aria-label="System layers">
-			<a href={localizedPath("/system/framework", locale)} class="system-hub-card">
-				<!-- Phase 4 copy: Framework card — immutable root, one-line role -->
-				<h2 class="system-hub-card-title">Framework</h2>
+		{/* ── Three destination cards ── */}
+		<nav class="system-hub-cards" aria-label={copy.cardsLabel}>
+			<a href={localizedPath("/system/framework", locale)} class="system-hub-card system-hub-card--framework">
+				<p class="system-hub-card-role">{copy.framework.role}</p>
+				<h2 class="system-hub-card-title">{copy.framework.name}</h2>
+				<p class="system-hub-card-desc">{copy.framework.desc}</p>
 			</a>
 
 			<a href={localizedPath("/system/protocols", locale)} class="system-hub-card">
-				<!-- Phase 4 copy: Protocols card — obligations, one-line role -->
-				<h2 class="system-hub-card-title">Protocols</h2>
+				<p class="system-hub-card-role">{copy.protocols.role}</p>
+				<h2 class="system-hub-card-title">{copy.protocols.name}</h2>
+				<p class="system-hub-card-desc">{copy.protocols.desc}</p>
 			</a>
 
 			<a href={localizedPath("/system/standards", locale)} class="system-hub-card">
-				<!-- Phase 4 copy: Standards card — thresholds, one-line role -->
-				<h2 class="system-hub-card-title">Standards</h2>
+				<p class="system-hub-card-role">{copy.standards.role}</p>
+				<h2 class="system-hub-card-title">{copy.standards.name}</h2>
+				<p class="system-hub-card-desc">{copy.standards.desc}</p>
 			</a>
 		</nav>
+
+		{/* ── Derivation order ── */}
+		<section class="system-hub-derivation">
+			<h3 class="system-hub-section-heading">{copy.derivationHeading}</h3>
+			<div class="system-hub-derivation-chain">
+				<div class="derivation-node derivation-node--root">
+					<span class="derivation-label">Framework</span>
+					<span class="derivation-tag">{locale === "th" ? "รากฐาน · ไม่เปลี่ยน" : "root · immutable"}</span>
+				</div>
+				<div class="derivation-arrow" aria-hidden="true">↓</div>
+				<div class="derivation-node">
+					<span class="derivation-label">Protocols</span>
+					<span class="derivation-tag">{locale === "th" ? "ข้อกำหนด · มาจาก Framework" : "obligations · from Framework"}</span>
+				</div>
+				<div class="derivation-arrow" aria-hidden="true">↓</div>
+				<div class="derivation-node">
+					<span class="derivation-label">Standards</span>
+					<span class="derivation-tag">{locale === "th" ? "เกณฑ์ · มาจาก Protocols" : "thresholds · from Protocols"}</span>
+				</div>
+			</div>
+			<p class="system-hub-derivation-text">{copy.derivationText}</p>
+		</section>
+
+		{/* ── Layer relationship ── */}
+		<section class="system-hub-spine">
+			<h3 class="system-hub-section-heading">{copy.layerHeading}</h3>
+			<div class="spine-layers">
+				<a href={localizedPath("/journal", locale)} class="spine-layer">
+					<span class="spine-layer-name">{copy.layerJournal}</span>
+					<span class="spine-layer-role">{copy.layerJournalRole}</span>
+				</a>
+				<div class="spine-arrow" aria-hidden="true">↓</div>
+				<div class="spine-layer spine-layer--current">
+					<span class="spine-layer-name">{copy.layerSystem}</span>
+					<span class="spine-layer-role">{copy.layerSystemRole}</span>
+				</div>
+				<div class="spine-arrow" aria-hidden="true">↓</div>
+				<a href={localizedPath("/implementation", locale)} class="spine-layer">
+					<span class="spine-layer-name">{copy.layerImpl}</span>
+					<span class="spine-layer-role">{copy.layerImplRole}</span>
+				</a>
+			</div>
+			<p class="system-hub-not">{copy.notDesc}</p>
+		</section>
 
 	</div>
 </Base>
@@ -52,38 +171,68 @@ const title = `System — ${siteTitle}`;
 	.system-hub {
 		max-width: 720px;
 		margin: 0 auto;
-		padding: var(--spacing-16) var(--spacing-6) var(--spacing-20);
+		padding: var(--spacing-16) var(--spacing-6) var(--spacing-24);
 	}
 
+	/* ── Header ── */
 	.system-hub-header {
-		margin-bottom: var(--spacing-10);
-		padding-bottom: var(--spacing-8);
+		margin-bottom: var(--spacing-12);
+		padding-bottom: var(--spacing-10);
 		border-bottom: 1px solid var(--color-border-subtle);
+	}
+
+	.system-hub-eyebrow {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		font-weight: 500;
+		color: var(--color-accent);
+		letter-spacing: var(--tracking-wider);
+		text-transform: uppercase;
+		margin: 0 0 var(--spacing-3);
 	}
 
 	.system-hub-title {
 		font-family: var(--font-serif);
-		font-size: clamp(var(--font-size-2xl), 4vw, var(--font-size-3xl));
+		font-size: clamp(var(--font-size-2xl), 5vw, var(--font-size-3xl));
 		font-weight: 700;
 		color: var(--color-text);
-		margin: 0;
+		margin: 0 0 var(--spacing-5);
 		letter-spacing: var(--tracking-tight);
 	}
 
+	.system-hub-intro {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-lg);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text);
+		margin: 0 0 var(--spacing-3);
+	}
+
+	.system-hub-intro-sub {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-base);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin: 0;
+	}
+
+	/* ── Cards ── */
 	.system-hub-cards {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-		gap: var(--spacing-5);
+		gap: var(--spacing-4);
+		margin-bottom: var(--spacing-14);
 	}
 
 	.system-hub-card {
-		display: block;
-		padding: var(--spacing-8) var(--spacing-6);
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-2);
+		padding: var(--spacing-6) var(--spacing-5);
 		border: 1px solid var(--color-border);
 		text-decoration: none;
 		color: inherit;
-		transition: border-color var(--transition-base), background var(--transition-base),
-			transform var(--transition-base);
+		transition: border-color 0.15s, background 0.15s, transform 0.15s;
 	}
 
 	.system-hub-card:hover {
@@ -93,17 +242,183 @@ const title = `System — ${siteTitle}`;
 		opacity: 1;
 	}
 
+	.system-hub-card--framework {
+		border-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+	}
+
+	.system-hub-card-role {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		font-weight: 500;
+		color: var(--color-accent);
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+		margin: 0;
+	}
+
 	.system-hub-card-title {
 		font-family: var(--font-serif);
 		font-size: var(--font-size-xl);
 		font-weight: 700;
 		color: var(--color-text);
 		margin: 0;
+		letter-spacing: var(--tracking-tight);
 	}
 
+	.system-hub-card-desc {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin: var(--spacing-1) 0 0;
+	}
+
+	/* ── Section heading ── */
+	.system-hub-section-heading {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		font-weight: 600;
+		color: var(--color-muted);
+		letter-spacing: var(--tracking-wider);
+		text-transform: uppercase;
+		margin: 0 0 var(--spacing-5);
+	}
+
+	/* ── Derivation ── */
+	.system-hub-derivation {
+		margin-bottom: var(--spacing-14);
+		padding-bottom: var(--spacing-10);
+		border-bottom: 1px solid var(--color-border-subtle);
+	}
+
+	.system-hub-derivation-chain {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-1);
+		margin-bottom: var(--spacing-5);
+	}
+
+	.derivation-node {
+		display: flex;
+		align-items: baseline;
+		gap: var(--spacing-3);
+		padding: var(--spacing-3) var(--spacing-4);
+		border-left: 2px solid var(--color-border);
+	}
+
+	.derivation-node--root {
+		border-left-color: var(--color-accent);
+	}
+
+	.derivation-label {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-base);
+		font-weight: 600;
+		color: var(--color-text);
+	}
+
+	.derivation-tag {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		color: var(--color-muted);
+		letter-spacing: var(--tracking-wide);
+	}
+
+	.derivation-arrow {
+		font-size: var(--font-size-sm);
+		color: var(--color-border);
+		padding-left: var(--spacing-4);
+		line-height: 1;
+	}
+
+	.system-hub-derivation-text {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin: 0;
+	}
+
+	/* ── Layer spine ── */
+	.system-hub-spine {
+		margin-bottom: var(--spacing-10);
+	}
+
+	.spine-layers {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-1);
+		margin-bottom: var(--spacing-5);
+	}
+
+	.spine-layer {
+		display: flex;
+		align-items: baseline;
+		gap: var(--spacing-4);
+		padding: var(--spacing-3) var(--spacing-4);
+		border: 1px solid var(--color-border-subtle);
+		text-decoration: none;
+		color: inherit;
+		transition: border-color 0.15s, background 0.15s;
+	}
+
+	.spine-layer:hover {
+		border-color: var(--color-accent);
+		background: var(--color-accent-subtle);
+		opacity: 1;
+	}
+
+	.spine-layer--current {
+		border-color: var(--color-accent);
+		background: var(--color-accent-subtle);
+		cursor: default;
+	}
+
+	.spine-layer-name {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-base);
+		font-weight: 600;
+		color: var(--color-text);
+		min-width: 120px;
+		flex-shrink: 0;
+	}
+
+	.spine-layer-role {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		color: var(--color-text-secondary);
+		line-height: var(--leading-snug);
+	}
+
+	.spine-arrow {
+		font-size: var(--font-size-sm);
+		color: var(--color-border);
+		padding-left: var(--spacing-4);
+		line-height: 1;
+	}
+
+	.system-hub-not {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		line-height: var(--leading-relaxed);
+		color: var(--color-muted);
+		margin: 0;
+		font-style: italic;
+	}
+
+	/* ── Responsive ── */
 	@media (max-width: 640px) {
 		.system-hub-cards {
 			grid-template-columns: 1fr;
+		}
+
+		.spine-layer {
+			flex-direction: column;
+			gap: var(--spacing-1);
+		}
+
+		.spine-layer-name {
+			min-width: unset;
 		}
 	}
 </style>

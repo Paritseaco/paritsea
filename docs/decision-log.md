@@ -51,6 +51,7 @@
 | D-031 | 2026-06 | Mobile breakpoint unified to 960px across CSS and JS (F-02) | ✅ Active |
 | D-032 | 2026-06 | RSS feed scoped to Journal layer only (SEO-02) | ✅ Active |
 | D-033 | 2026-06 | Site-wide OG image fallback: /images/logo.jpg (SEO-03) | ✅ Active |
+| D-034 | 2026-06 | /system hub fully implemented — all 5 blueprint sections complete | ✅ Active |
 
 ---
 
@@ -667,6 +668,24 @@ The two are orthogonal: Model A says *where*; Model B says *how heavy the words 
 **Rationale:** Pages without an OG image appear as link-preview blanks when shared on social platforms, undermining brand presence. A consistent branded fallback maintains visual identity without requiring per-page image creation. Post and content pages retain their featured image as the primary OG image.
 
 **Related documents:** `src/layouts/Base.astro` (`resolvedOgImage`), `public/images/logo.jpg`
+
+---
+
+### D-034 — /system hub fully implemented per ux-blueprint.md
+
+| Field | Value |
+|-------|-------|
+| **Date** | 2026-06 |
+| **Status** | ✅ Active |
+| **Type** | Architecture / UX |
+| **Resolves** | Phase 1 shell at /system (placeholder since Phase 1) |
+| **Supersedes** | N/A |
+
+**Decision:** The `/system` hub page is fully implemented with all five sections required by `ux-blueprint.md §4`: (1) layer definition, (2) Framework card, (3) Protocols card, (4) Standards card, (5) derivation order. Additionally includes a layer spine section (Journal → System → Implementation) per architecture requirements.
+
+**Content:** Bilingual (EN + TH). Tone is authoritative and sparse per the structuring-layer register in `paritsea-principles.md`. Navigation cards are equal-weight — no dominant CTA (junction, not funnel). System nav dropdown remains unchanged; hub is accessible via breadcrumbs from all sub-pages and direct URL.
+
+**Related documents:** `src/pages/system/index.astro`, `docs/ux-blueprint.md §4`, `docs/architecture.md`
 
 ---
 
