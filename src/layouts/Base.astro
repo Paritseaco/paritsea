@@ -240,10 +240,28 @@ const isLoggedIn = !!Astro.locals.user;
 										},
 									]}
 								>
-									<button class="nav-dropdown-btn" aria-expanded="false" aria-haspopup="true">
-										{item.label}
-										<span class="nav-dropdown-chevron" aria-hidden="true">▾</span>
-									</button>
+									<div class="nav-dropdown-btn">
+										<a
+											href={item.url}
+											class="nav-dropdown-label"
+											aria-current={
+												currentPath === stripLocalePrefix(item.url) ||
+												currentPath.startsWith(stripLocalePrefix(item.url) + "/")
+													? "page"
+													: undefined
+											}
+										>
+											{item.label}
+										</a>
+										<button
+											class="nav-dropdown-chevron-btn"
+											aria-expanded="false"
+											aria-haspopup="true"
+											aria-label={`${item.label} — sub-pages`}
+										>
+											<span class="nav-dropdown-chevron" aria-hidden="true">▾</span>
+										</button>
+									</div>
 									<div class="nav-dropdown-panel" role="menu">
 										{item.children.map((child) => (
 											<a
@@ -819,28 +837,56 @@ const isLoggedIn = !!Astro.locals.user;
 				position: relative;
 			}
 
+			/* Wrapper — flex container for label + chevron */
 			.nav-dropdown-btn {
 				display: inline-flex;
+				align-items: stretch;
+				border: 1px solid transparent;
+				border-radius: var(--radius-sm);
+				transition: border-color var(--transition-fast), background var(--transition-fast);
+			}
+
+			.nav-dropdown:hover .nav-dropdown-btn,
+			.nav-dropdown:focus-within .nav-dropdown-btn,
+			.nav-dropdown.is-active .nav-dropdown-btn {
+				background: color-mix(in srgb, var(--color-surface) 68%, transparent);
+				border-color: color-mix(in srgb, var(--color-accent) 28%, transparent);
+			}
+
+			/* Label link — navigates to /system */
+			.nav-dropdown-label {
+				display: inline-flex;
 				align-items: center;
-				gap: 0.25em;
+				padding: 0.35rem 0.4rem 0.35rem 0.55rem;
 				font-family: var(--font-sans);
 				font-size: var(--font-size-sm);
 				font-weight: 450;
 				letter-spacing: 0.01em;
 				color: var(--color-text-secondary);
-				background: none;
-				border: 1px solid transparent;
-				border-radius: var(--radius-sm);
-				padding: 0.35rem 0.55rem;
-				cursor: pointer;
-				transition: color var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
+				text-decoration: none;
+				transition: color var(--transition-fast);
 			}
 
-			.nav-dropdown-btn:hover,
-			.nav-dropdown.is-active .nav-dropdown-btn {
+			.nav-dropdown-label:hover,
+			.nav-dropdown-label[aria-current="page"] {
 				color: var(--color-text);
-				background: color-mix(in srgb, var(--color-surface) 68%, transparent);
-				border-color: color-mix(in srgb, var(--color-accent) 28%, transparent);
+				opacity: 1;
+			}
+
+			/* Chevron button — toggles dropdown only */
+			.nav-dropdown-chevron-btn {
+				display: inline-flex;
+				align-items: center;
+				padding: 0.35rem 0.45rem 0.35rem 0.2rem;
+				background: none;
+				border: none;
+				cursor: pointer;
+				color: var(--color-text-secondary);
+				transition: color var(--transition-fast);
+			}
+
+			.nav-dropdown-chevron-btn:hover {
+				color: var(--color-text);
 			}
 
 			.nav-dropdown-chevron {
@@ -1316,18 +1362,35 @@ const isLoggedIn = !!Astro.locals.user;
 					width: 100%;
 				}
 
+				/* Mobile: wrapper spans full row, no border/bg of its own */
 				.nav-dropdown-btn {
 					width: 100%;
-					justify-content: space-between;
+					background: none;
+					border-radius: 0;
+					border-color: transparent transparent var(--color-border-subtle) transparent;
+					border-width: 0 0 1px 0;
+				}
+
+				.nav-dropdown:hover .nav-dropdown-btn,
+				.nav-dropdown:focus-within .nav-dropdown-btn,
+				.nav-dropdown.is-active .nav-dropdown-btn {
+					background: none;
+					border-color: transparent transparent var(--color-border-subtle) transparent;
+				}
+
+				/* Mobile: label takes all available width, chevron at right */
+				.nav-dropdown-label {
+					flex: 1;
 					font-size: var(--font-size-lg);
 					letter-spacing: 0.005em;
 					padding: var(--spacing-4) 0;
-					border-radius: 0;
-					border-bottom: 1px solid var(--color-border-subtle);
-					border-top: none;
-					border-left: none;
-					border-right: none;
-					border-color: transparent transparent var(--color-border-subtle) transparent;
+					color: var(--color-text-secondary);
+				}
+
+				/* Mobile: chevron button right-side, full height of row */
+				.nav-dropdown-chevron-btn {
+					padding: var(--spacing-4) var(--spacing-2);
+					color: var(--color-text-secondary);
 				}
 
 				.nav-dropdown-panel {
@@ -1459,7 +1522,8 @@ const isLoggedIn = !!Astro.locals.user;
 			const body = document.body;
 			const navToggle = document.querySelector(".nav-toggle");
 			const navBackdrop = document.querySelector(".nav-backdrop");
-			const mobileNavLinks = document.querySelectorAll(".nav-links a, .nav-admin");
+			// Include dropdown labels (nav-dropdown-label) so they close menu on mobile click
+			const mobileNavLinks = document.querySelectorAll(".nav-links a, .nav-dropdown-label, .nav-admin");
 			const mobileBreakpoint = window.matchMedia("(max-width: 960px)");
 
 			const closeMenu = () => {
@@ -1499,18 +1563,19 @@ const isLoggedIn = !!Astro.locals.user;
 			});
 
 			// ─── Mobile accordion for System dropdown ────────────────────────────
-			// On mobile, tapping the System button expands/collapses children inline.
-			// On desktop, the dropdown is CSS hover/focus-within — no JS needed.
-			const dropdownBtns = document.querySelectorAll<HTMLButtonElement>(".nav-dropdown-btn");
+			// Chevron button (▾) toggles the accordion on mobile.
+			// Label link navigates to /system and closes menu (handled by mobileNavLinks above).
+			// On desktop, the dropdown panel is CSS hover/focus-within — no JS needed.
+			const chevronBtns = document.querySelectorAll<HTMLButtonElement>(".nav-dropdown-chevron-btn");
 
-			dropdownBtns.forEach((btn) => {
+			chevronBtns.forEach((btn) => {
 				btn.addEventListener("click", () => {
 					const dropdown = btn.closest<HTMLElement>(".nav-dropdown");
 					if (!dropdown) return;
 					const isOpen = dropdown.classList.toggle("is-open");
 					btn.setAttribute("aria-expanded", String(isOpen));
 					// Close any other open dropdowns
-					dropdownBtns.forEach((otherBtn) => {
+					chevronBtns.forEach((otherBtn) => {
 						if (otherBtn !== btn) {
 							const other = otherBtn.closest<HTMLElement>(".nav-dropdown");
 							if (other?.classList.contains("is-open")) {
@@ -1526,7 +1591,7 @@ const isLoggedIn = !!Astro.locals.user;
 			const origCloseMenu = closeMenu;
 			const closeMenuWithDropdowns = () => {
 				origCloseMenu();
-				dropdownBtns.forEach((btn) => {
+				chevronBtns.forEach((btn) => {
 					btn.closest<HTMLElement>(".nav-dropdown")?.classList.remove("is-open");
 					btn.setAttribute("aria-expanded", "false");
 				});
@@ -1534,6 +1599,18 @@ const isLoggedIn = !!Astro.locals.user;
 
 			navBackdrop?.removeEventListener("click", closeMenu);
 			navBackdrop?.addEventListener("click", closeMenuWithDropdowns);
+
+			// On mobile: if user taps the System label link, also collapse the accordion
+			document.querySelectorAll(".nav-dropdown-label").forEach((label) => {
+				label.addEventListener("click", () => {
+					const dropdown = label.closest<HTMLElement>(".nav-dropdown");
+					if (dropdown && mobileBreakpoint.matches) {
+						dropdown.classList.remove("is-open");
+						const chevron = dropdown.querySelector<HTMLButtonElement>(".nav-dropdown-chevron-btn");
+						chevron?.setAttribute("aria-expanded", "false");
+					}
+				});
+			});
 			// ─────────────────────────────────────────────────────────────────────
 		</script>
 		<EmDashBodyEnd page={pageCtx} />
