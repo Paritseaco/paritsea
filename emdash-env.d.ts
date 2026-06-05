@@ -28,6 +28,8 @@ export interface Entry {
   framework_page: "the-doctrine" | "protocols" | "standards" | "the-method" | "implementations";
   format?: "essay" | "video-reflection" | "pattern-brief" | "decision-note";
   youtube_url?: string;
+  system_bridge_url?: string;
+  protocol_url?: string;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
