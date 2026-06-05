@@ -1,21 +1,22 @@
 # Paritsea — Project State
 **Document type:** Operational snapshot. Update after every approved phase.
 **Last updated:** 2026-06
-**Updated by:** Language System sync — Model A/B reconciliation + nav/Implementation terminology rulings
+**Updated by:** Phase 5 complete — Breadcrumbs, contextual tails, F-01/F-02 navigation fixes
 
 ---
 
 ## Current phase
 
-**Phase 4 — UX Copy** (Language System sync applied)
+**Phase 6 — SEO Audit & Verification** (starting)
 
-Paritsea is a cognitive language system built on **Model A** (structural IA) with **Model B** (language-exposure overlay) governing vocabulary depth. Both are now reconciled — see decision-log D-028.
+Phase 5 is complete and approved. All breadcrumbs, contextual navigation tails, and navigation debt (F-01/F-02) are resolved and deployed.
 
 **Active priorities:**
-1. Apply the two-model language system to all UX copy (Model A = structure, Model B = vocabulary exposure)
-2. Fully English navigation (no Thai nav terms)
-3. Thai Implementation body content uses "การนำไปปรับใช้จริง"; legacy "การประยุกต์ใช้" removed
-4. Per-page intros and System hub copy per ux-blueprint.md
+1. Full 301 crawl — every old URL confirmed redirecting correctly
+2. Sitemap audit — only new URL patterns present
+3. Canonical tags + hreflang verified on all dynamic routes
+4. `llms.txt` path audit
+5. Search Console new sitemap submission
 
 ---
 
@@ -28,6 +29,8 @@ Paritsea is a cognitive language system built on **Model A** (structural IA) wit
 | Phase 1 | Routing & Redirects | ✅ 2026-06 | All 9 redirect patterns verified; /system hub live; sitemap + RSS + llms.txt updated |
 | Phase 2 | Navigation | ✅ 2026-06 | Seed menu updated; System dropdown + mobile accordion; navLabels; footer links; nav-doctrine→nav-framework; active states |
 | Phase 3 | Home Labels | ✅ 2026-06 | Hero CTA labels + hrefs; hero-map labels + hrefs; records eyebrow + link; closing attr; B-01 TS fix |
+| Phase 4 | UX Copy | ✅ 2026-06 | D-028/D-029 language system applied; all nav English; Thai body terms updated; LinkedIn link on About; TypeScript fixes |
+| Phase 5 | Breadcrumbs & Contextual Nav | ✅ 2026-06 | System sub-page breadcrumbs (D-018); Journal lateral + System bridge tail; Implementation protocol tail; F-01/F-02 nav fixes |
 
 ---
 

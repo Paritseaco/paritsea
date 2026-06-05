@@ -258,7 +258,16 @@ const isLoggedIn = !!Astro.locals.user;
 									</div>
 								</div>
 							) : (
-								<a href={item.url} target={item.target as "_blank" | "_self" | "_parent" | "_top" | undefined}>
+								<a
+									href={item.url}
+									target={item.target as "_blank" | "_self" | "_parent" | "_top" | undefined}
+									aria-current={
+										currentPath === stripLocalePrefix(item.url) ||
+										currentPath.startsWith(stripLocalePrefix(item.url) + "/")
+											? "page"
+											: undefined
+									}
+								>
 									{item.label}
 								</a>
 							)
@@ -1448,7 +1457,7 @@ const isLoggedIn = !!Astro.locals.user;
 			const navToggle = document.querySelector(".nav-toggle");
 			const navBackdrop = document.querySelector(".nav-backdrop");
 			const mobileNavLinks = document.querySelectorAll(".nav-links a, .nav-admin");
-			const mobileBreakpoint = window.matchMedia("(max-width: 760px)");
+			const mobileBreakpoint = window.matchMedia("(max-width: 960px)");
 
 			const closeMenu = () => {
 				body.removeAttribute("data-menu-open");

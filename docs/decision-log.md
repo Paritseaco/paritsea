@@ -47,6 +47,8 @@
 | D-027 | 2026-06 | Language governance: layer names use English in TH+EN; แก่น is banned | ✅ Active |
 | D-028 | 2026-06 | Two-model language system: Model A (IA) + Model B (exposure overlay) | ✅ Active |
 | D-029 | 2026-06 | Thai Implementation body term = การนำไปปรับใช้จริง; nav fully English | ✅ Active |
+| D-030 | 2026-06 | Plain nav items use aria-current="page" for active state (F-01) | ✅ Active |
+| D-031 | 2026-06 | Mobile breakpoint unified to 960px across CSS and JS (F-02) | ✅ Active |
 
 ---
 
@@ -591,6 +593,42 @@ The two are orthogonal: Model A says *where*; Model B says *how heavy the words 
 **Rationale:** "การประยุกต์ใช้" is functional but flat; "การนำไปปรับใช้จริง" ("putting into real applied use") better carries the *doing/applied-in-reality* altitude of the Implementation layer for Thai readers. Navigation stays English for cross-lingual consistency with the rest of the pipeline vocabulary.
 
 **Related documents:** `paritsea-principles.md` (Language and terminology governance), `src/utils/i18n.ts`, `src/pages/implementation.astro`, `src/components/UsageGuidance.astro`
+
+---
+
+### D-030 — Plain nav items use aria-current="page" for active state (F-01)
+
+| Field | Value |
+|-------|-------|
+| **Date** | 2026-06 |
+| **Status** | ✅ Active |
+| **Type** | Engineering / Accessibility |
+| **Resolves** | F-01 (Phase 5 tech debt) |
+| **Supersedes** | N/A |
+
+**Decision:** Non-dropdown navigation links (Journal, Implementation, About) inject `aria-current="page"` server-side when the current path matches the link URL or a sub-path thereof. The existing `.nav-links a[aria-current="page"]` CSS selector provides visual highlighting. Dropdown items (System sub-pages) continue to use the `is-active` CSS class approach.
+
+**Rationale:** The dropdown items had server-side active state via `is-active` class but plain links had no active indication — no visual highlight and no semantic signal for assistive technology. Adding `aria-current="page"` resolves the WCAG 2.4.4 gap and makes active-state behavior consistent across all nav item types without touching visual design.
+
+**Related documents:** `src/layouts/Base.astro` (line ~264 — plain nav link render)
+
+---
+
+### D-031 — Mobile breakpoint unified to 960px across CSS and JS (F-02)
+
+| Field | Value |
+|-------|-------|
+| **Date** | 2026-06 |
+| **Status** | ✅ Active |
+| **Type** | Engineering |
+| **Resolves** | F-02 (Phase 5 tech debt) |
+| **Supersedes** | N/A |
+
+**Decision:** The JavaScript `mobileBreakpoint` query is changed from `(max-width: 760px)` to `(max-width: 960px)` to match the CSS hamburger breakpoint. This establishes 960px as the single source of truth for mobile/desktop nav switching.
+
+**Rationale:** Previously the JS "close menu on link click" logic fired only at ≤760px, but the CSS hamburger was visible up to 960px. On viewports 761–960px (tablet landscape, small laptop), clicking a nav link navigated correctly but left the hamburger menu open — a confusing UX gap. Unifying to 960px eliminates the dead zone.
+
+**Related documents:** `src/layouts/Base.astro` (CSS `@media (max-width: 960px)` + JS `mobileBreakpoint`)
 
 ---
 
