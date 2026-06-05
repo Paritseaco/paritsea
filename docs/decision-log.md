@@ -54,6 +54,7 @@
 | D-034 | 2026-06 | /system hub fully implemented — all 5 blueprint sections complete | ✅ Active |
 | D-035 | 2026-06 | Protocol/Standard versioning: v[major].[minor] + status enum (CG-01) | ✅ Active |
 | D-036 | 2026-06 | Mixed-language rule: both surfaces required before publish (CG-02) | ✅ Active |
+| D-037 | 2026-06 | Language system document created — editorial governance for all Paritsea copy | ✅ Active |
 
 ---
 
@@ -670,6 +671,26 @@ The two are orthogonal: Model A says *where*; Model B says *how heavy the words 
 **Rationale:** Pages without an OG image appear as link-preview blanks when shared on social platforms, undermining brand presence. A consistent branded fallback maintains visual identity without requiring per-page image creation. Post and content pages retain their featured image as the primary OG image.
 
 **Related documents:** `src/layouts/Base.astro` (`resolvedOgImage`), `public/images/logo.jpg`
+
+---
+
+### D-037 — Language system document created
+
+| Field | Value |
+|-------|-------|
+| **Date** | 2026-06 |
+| **Status** | ✅ Active |
+| **Type** | Governance / Editorial |
+| **Resolves** | Absence of a formal writing system for future copy decisions |
+| **Supersedes** | N/A |
+
+**Decision:** `docs/language-system.md` is created as the permanent editorial governance document for all Paritsea copy. It is derived entirely from existing published content — Home page, About page, Journal entries, Framework, paritsea-principles.md — and codifies the patterns already present rather than inventing new ones.
+
+**Scope:** All future website copy, Journal entries, Framework/Protocol/Standard documents, Implementation pages, social content, and AI-generated copy must pass the 10-section checklist in this document before approval.
+
+**Rationale:** Without a language system, copy revisions risk drift in register, vocabulary, or altitude. The document makes the implicit explicit — ensuring that future AI editors, contributors, or the author working across sessions can reproduce the same writing system reliably.
+
+**Related documents:** `docs/language-system.md`, `docs/paritsea-principles.md`, `docs/content-governance.md`
 
 ---
 

@@ -45,6 +45,7 @@ All files in `docs/` are production-locked source-of-truth documents.
 | File | Status | Purpose |
 |------|--------|---------|
 | `docs/architecture.md` | ✅ Approved | Site structure, URL map, taxonomy keys, homepage protection |
+| `docs/language-system.md` | ✅ Approved | Editorial and language governance — all future copy must pass this system |
 | `docs/navigation-model.md` | ✅ Approved | Intent mapping, nav behavior rules, cross-layer flows |
 | `docs/ux-blueprint.md` | ✅ Approved | Per-page section structure, CTAs, linking rules |
 | `docs/content-governance.md` | ✅ Approved | Content altitude law, anti-drift rules, classification tree |
