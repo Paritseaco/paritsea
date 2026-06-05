@@ -99,7 +99,7 @@ const { siteTitle } = resolveBlogSiteIdentity(await getSiteSettings());
 // Generate SEO meta from content
 const seo = getSeoMeta(post, {
 	siteTitle,
-	siteUrl: Astro.url.origin,
+	siteUrl: Astro.site?.origin ?? Astro.url.origin,
 	path: localizedPath(resolvePostPath(slug, post.data.framework_page, taxonomySlug) ?? `/${publicSegment}/${slug}`, locale),
 	defaultOgImage: featuredImageUrl,
 });
