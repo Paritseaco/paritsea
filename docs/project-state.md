@@ -1,7 +1,7 @@
 # Paritsea — Project State
 **Document type:** Operational snapshot. Update after every approved phase.
 **Last updated:** 2026-06
-**Updated by:** Phase 8 — 5 editorial decisions locked (D-040); B-03 open; Section A + B-01/B-02/B-04/B-05/B-06 ready to implement
+**Updated by:** All 6 B-decisions locked (D-040, D-041); rewrite-plan.md created (D-042); Track B ready to implement
 
 ---
 
@@ -22,10 +22,12 @@ Phase 6 is complete and approved. All SEO requirements verified. Canonical bug f
 8. ✅ 5 editorial decisions locked — B-01/B-02/B-04/B-05/B-06 approved (D-040)
 9. 🔲 **Section A (11 terminology fixes) — READY TO IMPLEMENT** — no prerequisites remain
 10. 🔲 **B-01/B-02/B-04/B-05/B-06 — READY TO IMPLEMENT** — no prerequisites remain
-11. 🔲 B-03 (STP full document) — OPEN — author selects Option A (split) / Option B (remove) / Option C (retain)
-12. 🔲 C-01 (About origin narrative) — BLOCKED — author interview responses required
-13. 🔲 C-02 (AgenSea evidence) — BLOCKED — author knowledge required
-14. 🔲 Search Console sitemap submission (manual action)
+11. ✅ B-03 (STP full document) — LOCKED (Option A: Split) — new Journal entry to be created; STP cleaned to Protocol-only; rhetorical/advisory removed (D-041)
+12. ✅ Rewrite plan created — 10-phase editorial roadmap with dependency map and critical path (D-042)
+13. 🔲 **Phase 4 (System Rewrite Planning) — NEXT** — define new Journal entry slug and STP edit list
+14. 🔲 C-01 (About origin narrative) — BLOCKED — author interview responses required
+15. 🔲 C-02 (AgenSea evidence) — BLOCKED — author knowledge required
+16. 🔲 Search Console sitemap submission (manual action)
 
 **Next: Phase 9 — Annual Drift Audit** (recurring, first audit in 2027)
 
@@ -56,7 +58,8 @@ All files in `docs/` are production-locked source-of-truth documents.
 | `docs/architecture.md` | ✅ Approved | Site structure, URL map, taxonomy keys, homepage protection |
 | `docs/language-system.md` | ✅ Approved | Editorial and language governance — all future copy must pass this system |
 | `docs/content-audit.md` | ✅ Approved | Full content audit — 10 pages + 5 collections + 7 UX copy categories; 3-priority rewrite plan; overall 7.0/10 |
-| `docs/editorial-decisions.md` | ✅ Active | Pre-rewrite decision register — 11 approved terminology fixes (Section A); B-01/B-02/B-04/B-05/B-06 locked; B-03 open; About interview questionnaire (Section C) |
+| `docs/editorial-decisions.md` | ✅ Active | Pre-rewrite decision register — 11 approved terminology fixes (Section A); ALL B-decisions locked (B-01 through B-06); About interview questionnaire (Section C) |
+| `docs/rewrite-plan.md` | ✅ Active | 10-phase editorial roadmap — Phase 0 (complete) through Phase 10 (QA); dependency map; critical path |
 | `docs/navigation-model.md` | ✅ Approved | Intent mapping, nav behavior rules, cross-layer flows |
 | `docs/ux-blueprint.md` | ✅ Approved | Per-page section structure, CTAs, linking rules |
 | `docs/content-governance.md` | ✅ Approved | Content altitude law, anti-drift rules, classification tree |

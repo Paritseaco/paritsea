@@ -18,15 +18,10 @@
 |----|---------|--------------|
 | **B-01** | Home Sessions block | **Option 3** — Remove entirely. Sessions are a commercial service belonging to SE Ocean, not to the Paritsea architecture. |
 | **B-02** | Home comparative framing heading | **Option 1** — Replace with blueprint-approved label. Do not position Paritsea against any category. |
+| **B-03** | STP Protocol full document | **Option A** — Split. Extract Journal-altitude sentences to a new Journal entry. Retain Protocol-altitude content. Remove rhetorical/advisory content (the three "They promise..." sentences; the business case pro/con paragraph). |
 | **B-04** | Implementation integrationNote | **Option 3** — Replace with concise upward reference only. Implementation pages demonstrate application; they do not explain architecture. |
 | **B-05** | Protocols + Standards position notes | **Option 1** — Add approved position notes to primary column. Aside retained. |
 | **B-06** | Framework authority statement | **Option 1** — Elevate to distinct structural section above document body. Framework remains highest authority layer inside System. |
-
-### OPEN — pending author decision
-
-| ID | Decision | Status |
-|----|---------|--------|
-| **B-03** | STP Protocol preamble and post-body sections | Scope clarification: altitude violation extends beyond the two preamble sections to "The Economic Reality" and "The Industry Challenge" (post-body). Full analysis below. Awaiting author decision. |
 
 ---
 
@@ -294,7 +289,9 @@ What should the content breadth section heading say, or should it be removed?
 
 ### B-03 — STP Protocol: Full Document Altitude Review
 
-**Status: OPEN — awaiting author decision**
+**Status: LOCKED — Option A: Split**
+
+**Rationale:** The observation-naming passages belong to Journal. The protocol declarations belong to System→Protocol. The rhetorical/advisory passages belong nowhere in the approved architecture and are removed. This preserves the seeing→structuring relationship without mixing altitudes. The extracted Journal entry becomes an explicit traceable precursor to STP. Flow: Journal Observation → STP Protocol → Implementation.
 
 ---
 
@@ -390,11 +387,6 @@ No structural change.
 **Recommended option: Option A (Split)**
 
 The observational content is some of the strongest writing in the Paritsea system. "Clients are sold clarity. What they receive is structure." / "The question is whether opacity is sustainable." / "The industry will not reform through better language." — these are exemplary below-the-surface naming moves. They should exist somewhere in the architecture. Option A preserves them at their correct altitude while making the Protocol architecturally clean. Option B resolves the violation by deleting content the system should keep. Option C accepts the violation.
-
-**Decision required from author:**
-- **Option A** — Split: extract Journal content to a new entry, remove rhetorical/advisory, retain Protocol content
-- **Option B** — Remove all non-Protocol content; lose the observational sentences
-- **Option C** — Retain as-is; accept the altitude violation on record
 
 ---
 
@@ -695,7 +687,7 @@ The current entry notes `"MVP in development"` — which means the system is not
 | **A — Terminology fixes (11 items)** | ✅ READY | No prerequisites — ready to implement |
 | **B-01 — Sessions block** | ✅ LOCKED (Option 3) | Remove entirely; no new page; no prerequisites |
 | **B-02 — Comparative heading** | ✅ LOCKED (Option 1) | Replace with blueprint-approved "What Paritsea Covers" |
-| **B-03 — STP full document** | 🔲 OPEN | Author selects Option A (split) / Option B (remove) / Option C (retain) |
+| **B-03 — STP full document** | ✅ LOCKED (Option A) | Create new Journal entry (Journal-altitude sentences); clean STP to Protocol-only; remove rhetorical/advisory content |
 | **B-04 — integrationNote** | ✅ LOCKED (Option 3) | Replace with one-line upward reference |
 | **B-05 — Position notes** | ✅ LOCKED (Option 1) | Proposed wording approved; add to primary column |
 | **B-06 — Framework prominence** | ✅ LOCKED (Option 1) | Elevate doctrineNotice to distinct structural section |
@@ -703,14 +695,13 @@ The current entry notes `"MVP in development"` — which means the system is not
 | **C-02 — AgenSea evidence** | 🔲 BLOCKED | Author provides observable evidence sentence + active/provisional decision |
 
 **Ready to implement now (no further decisions needed):**
-Section A (11 terminology fixes) + B-01 + B-02 + B-04 + B-05 + B-06
+Section A (11 terminology fixes) + B-01 + B-02 + B-03 + B-04 + B-05 + B-06
 
 **Still blocked:**
-B-03 (STP full document — author decision on split/remove/retain)
 C-01 (About origin narrative — author interview responses)
 C-02 (AgenSea evidence — author knowledge)
 
 ---
 
-*Document created from content-audit.md (2026-06). Updated 2026-06 with locked decisions (B-01, B-02, B-04, B-05, B-06) and B-03 scope correction.*
+*Document created from content-audit.md (2026-06). Updated 2026-06 with locked decisions (B-01, B-02, B-04, B-05, B-06) and B-03 scope correction. Updated 2026-06 with B-03 locked (Option A: Split) — all B-decisions now closed.*
 *No content has been modified. No pages have been changed.*

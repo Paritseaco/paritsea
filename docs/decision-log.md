@@ -58,6 +58,8 @@
 | D-038 | 2026-06 | Content audit completed — 10 pages scored; 4 high-priority; About requires full rewrite | ✅ Active |
 | D-039 | 2026-06 | Editorial decisions document created — separates approved fixes from author decisions before any rewrite | ✅ Active |
 | D-040 | 2026-06 | Five editorial decisions locked: B-01/B-02/B-04/B-05/B-06 — Sessions off-site; no comparative framing; upward references only; position notes approved; Framework authority elevated | ✅ Active |
+| D-041 | 2026-06 | B-03 locked — STP split: extract Journal entry, clean Protocol to obligation-only, remove rhetorical/advisory content | ✅ Active |
+| D-042 | 2026-06 | Rewrite plan created — 10-phase editorial roadmap with dependency map and critical path | ✅ Active |
 
 ---
 
@@ -789,6 +791,66 @@ The two are orthogonal: Model A says *where*; Model B says *how heavy the words 
 **B-03 remains open.** The STP decision requires additional author judgment. See `docs/editorial-decisions.md §B-03` for the full sentence-level classification and three options.
 
 **Related documents:** `docs/editorial-decisions.md`, `docs/language-system.md`, `docs/ux-blueprint.md`, `docs/paritsea-principles.md`
+
+---
+
+### D-041 — B-03 locked — STP Protocol split treatment approved
+
+| Field | Value |
+|-------|-------|
+| **Date** | 2026-06 |
+| **Status** | ✅ Active |
+| **Type** | Governance / Editorial |
+| **Resolves** | B-03 in `docs/editorial-decisions.md` |
+| **Supersedes** | N/A |
+
+**Decision:** B-03 (STP Protocol full document altitude review) is resolved via Option A — Split.
+
+The document contains three distinct registers: Protocol (declarations, obligation statements, the Five Structural Exposures), Journal (observation-naming sentences), and rhetorical/advisory (persuasion and business case — which belongs nowhere in this architecture). Treatment:
+
+- **Protocol-altitude content:** Retained in STP as-is. Includes the Five Structural Exposures (I–V), all obligation declarations, boundary statements, and closing declarations.
+- **Journal-altitude content:** Extracted and formed into a new Journal entry. The extracted sentences are the observation-naming passages that name what the Protocol was built to address. The new entry becomes an explicit traceable precursor to STP — demonstrating the seeing→structuring pipeline as a cross-layer link.
+- **Rhetorical/advisory content:** Removed entirely. The three "They promise efficiency. They promise optimisation. They promise measurable results." sentences (persuasion register) and the business case pro/con paragraph ("Agencies that adopt this protocol will likely...") have no altitude in this system and are not recoverable by relocation.
+
+**Rationale:** Option A preserves the strongest writing in the Paritsea system at its correct altitude (Journal), makes the Protocol architecturally clean (Protocol-only throughout), and demonstrates the seeing→structuring pipeline as a traceable cross-layer link rather than a single mixed document. Option B would permanently lose observational content worth keeping. Option C accepts the altitude violation.
+
+**Related documents:** `docs/editorial-decisions.md §B-03`, `docs/content-governance.md` (D-016 altitude law), `docs/paritsea-principles.md` (seeing→structuring pipeline)
+
+---
+
+### D-042 — Rewrite plan created — 10-phase editorial roadmap
+
+| Field | Value |
+|-------|-------|
+| **Date** | 2026-06 |
+| **Status** | ✅ Active |
+| **Type** | Governance / Process |
+| **Resolves** | Absence of a structured editorial execution roadmap after all decisions were locked |
+| **Supersedes** | N/A |
+
+**Decision:** `docs/rewrite-plan.md` is created as the standing editorial execution roadmap. It covers Phases 0–10 across four parallel tracks, with per-phase Objective, Scope, Inputs, Deliverables, Dependencies, Exit Criteria, and Risk Level. Includes a Phase Overview Table, Dependency Map, Critical Path, and Current Next Action.
+
+**Phase summary:**
+
+| Phase | Name | Track | Status |
+|-------|------|-------|--------|
+| 0 | Decision Closure | — | ✅ Complete |
+| 1 | Founder Narrative Extraction | A | 🔲 Blocked (author) |
+| 2 | About Strategy | A | 🔲 Blocked (Phase 1) |
+| 3 | About Rewrite | A | 🔲 Blocked (Phase 2) |
+| 4 | System Rewrite Planning | B | 🔲 Ready now |
+| 5 | System Rewrite | B | 🔲 Ready (after Phase 4) |
+| 6 | Implementation Rewrite | C | 🔲 Partial (B-04 now; C-02 after author) |
+| 7 | Journal Audit Refresh | B | 🔲 Ready (after Phase 5) |
+| 8 | Journal Revision | B | 🔲 Ready (after Phase 7) |
+| 9 | Sitewide Microcopy Pass | D | 🔲 Ready (after Phase 5) |
+| 10 | Editorial QA | — | 🔲 After all others |
+
+**Critical path:** Phase 4 → Phase 5 → Phase 7 → Phase 8 → Phase 10. Track B is the only unblocked path to QA. Track A (About) must also complete before Phase 10.
+
+**Current next action:** Begin Phase 4 — define new Journal entry slug, map Journal-altitude sentences from B-03 classification table into entry outline, and produce STP edit list.
+
+**Related documents:** `docs/rewrite-plan.md`, `docs/editorial-decisions.md`, `docs/content-audit.md`
 
 ---
 
