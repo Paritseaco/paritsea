@@ -1,7 +1,7 @@
 # Paritsea — Project State
 **Document type:** Operational snapshot. Update after every approved phase.
 **Last updated:** 2026-06
-**Updated by:** Phase 5 complete — Breadcrumbs, contextual tails, F-01/F-02 navigation fixes
+**Updated by:** Phase 8 complete — Content audit created; language system created; D-037/D-038 logged
 
 ---
 
@@ -15,8 +15,11 @@ Phase 6 is complete and approved. All SEO requirements verified. Canonical bug f
 1. ✅ Altitude check passed on all published content
 2. ✅ CG-01 versioning governance defined (D-035)
 3. ✅ CG-02 mixed-language rule defined (D-036)
-4. ⚠️ Implementation layer empty (optional — soft gate permits this)
-5. 🔲 Search Console sitemap submission (manual action)
+4. ✅ Language system created — editorial governance for all future copy (D-037)
+5. ✅ Full content audit created — 7.0/10 overall; 3-priority rewrite plan defined (D-038)
+6. ⚠️ Implementation layer empty (optional — soft gate permits this)
+7. 🔲 Content rewrite execution (Priority 1: terminology fixes; Priority 2: author decisions; Priority 3: author content)
+8. 🔲 Search Console sitemap submission (manual action)
 
 **Next: Phase 9 — Annual Drift Audit** (recurring, first audit in 2027)
 
@@ -46,7 +49,7 @@ All files in `docs/` are production-locked source-of-truth documents.
 |------|--------|---------|
 | `docs/architecture.md` | ✅ Approved | Site structure, URL map, taxonomy keys, homepage protection |
 | `docs/language-system.md` | ✅ Approved | Editorial and language governance — all future copy must pass this system |
-| `docs/content-audit.md` | ✅ Approved | Full content audit — all 10 pages audited against governance docs; rewrite order defined |
+| `docs/content-audit.md` | ✅ Approved | Full content audit — 10 pages + 5 collections + 7 UX copy categories; 3-priority rewrite plan; overall 7.0/10 |
 | `docs/navigation-model.md` | ✅ Approved | Intent mapping, nav behavior rules, cross-layer flows |
 | `docs/ux-blueprint.md` | ✅ Approved | Per-page section structure, CTAs, linking rules |
 | `docs/content-governance.md` | ✅ Approved | Content altitude law, anti-drift rules, classification tree |

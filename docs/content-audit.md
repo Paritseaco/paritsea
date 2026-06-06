@@ -1,615 +1,1011 @@
-# Paritsea — Content Audit
+# Paritsea — Content Audit (Full)
 **Document type:** Audit. Read-only findings. No copy changes made.
 **Audit date:** 2026-06
-**Auditor:** AI — reverse-engineered from page sources vs governance documents
-**Sources audited against:** architecture.md, navigation-model.md, ux-blueprint.md, language-system.md, paritsea-principles.md
+**Scope:** Site pages + Content collections + UX copy
+**Audited against:** architecture.md · navigation-model.md · ux-blueprint.md · language-system.md · paritsea-principles.md
 
-> This document records findings only. Nothing in this file modifies live content.
+> This document records findings only. No content has been modified.
 > All recommended actions require explicit author approval before any rewrite begins.
 
 ---
 
-## Audit Method
-
-For each page, the current rendered copy (from `src/pages/`, `src/components/`, `src/utils/i18n.ts`) was compared against:
-1. The page's **approved purpose** (ux-blueprint.md)
-2. The **language system rules** (language-system.md)
-3. The **page role** (content-governance.md, architecture.md)
-4. The **terminology standards** (paritsea-principles.md, decision-log D-029)
+## Part 1 — Site Pages
 
 ---
 
-## HOME `/`
+### HOME `/`
 
-### Current Purpose
-Entry point introducing Paritsea as a thinking system. Routes to Journal and Framework. Also currently houses: sessions block, YouTube section, content breadth, worldview, ecosystem links.
+**Current Purpose**
+Entry point introducing Paritsea worldview. Sections: Hero → Worldview → What Paritsea Covers → Latest Journal entries → YouTube Videos → Ecosystem links → Closing quote. Also contains: Sessions block (not in approved blueprint).
 
-### Approved Purpose (ux-blueprint.md §1)
-Hero + Worldview + Pathway/Topics + Journal records + Ecosystem + Closing quote. Exactly 2 CTAs in hero. No sessions, no broad promotional content.
+**Approved Purpose**
+Hero + Worldview + Pathway/Topics + Journal records + Ecosystem + Closing quote. Exactly 2 hero CTAs only. No service offering, no community solicitation.
 
-### Alignment Score: 6 / 10
+**Alignment Score: 6 / 10**
 
-### What Works
+**Strengths**
+- Worldview copy (all 4 locked statements) present and unaltered ✅
+- Hero headline "A way of thinking that understands both the complexity of the world — and the depth of people" — correct altitude
+- 2 hero CTAs in hero section (Read Framework + Explore Journal) — correct pattern
+- Closing quote is a coda only — correct function
+- `"Sometimes we talk about dashboards. But really we're talking about 'people inside systems.'"` — exemplary concrete-image entry, P-05 compliant
+- Thai heroSub is well-written and altitude-appropriate
+- Topics grid (Life & Meaning / Work & Organizations / People & Mind / Growth & Transition) — correct altitude for Home surface
+- Content breadth examples follow "sometimes" entry pattern correctly
 
-- **Worldview copy is locked and correct.** The four worldview statements (`Real understanding sees both the world outside — and the person within it.` etc.) are present and unaltered.
-- **Hero headline structure** is aligned: `A way of thinking that understands both the complexity of the world — and the depth of people` — correct altitude, no marketing register.
-- **2 hero CTAs** (Read Framework + Explore Journal) — correct.
-- **Closing quote** is present (`The problem with problems isn't just that they are problems...`) — correct function as coda.
-- **"Sometimes we talk about dashboards..."** example — correct use of the concrete-image entry pattern.
-- **Thai heroSub** is well-written and matches altitude: not over-philosophical, not sales-y.
+**Issues**
 
-### What Violates the Language System
+*Structural violation — Sessions block absent from approved blueprint:*
+A full "Online Sessions" section appears with daily 8 PM scheduling, a join CTA, and session descriptions. This section is not in ux-blueprint.md §1 required sections. Specific violations:
+- EN `"Join Today's Session →"` contains urgency word `Today` — explicitly prohibited in language-system.md §8 P-08
+- TH `"เข้าร่วม Session วันนี้ →"` — urgency word `วันนี้`
+- `"Safe, private, no-pressure."` and `"You don't have to carry everything alone."` — therapy-register framing, prohibited in language-system.md §3
+- `"Every day at 8 PM"` — scheduling/community content belongs on a separate page, not the worldview entry point
+- `"Explore Paritsea first"` as secondary CTA creates a third CTA — blueprint specifies exactly two hero CTAs; this secondary is additional
 
-**Structural issue — Sessions block:**
-The page currently includes a full "Online Sessions" section (daily sessions at 8 PM, CTA to join). This does not appear in the approved blueprint and introduces a **commercial/service layer** that conflicts with the "never on this page" rule. Specifically:
-- `sessionsCTA: "Join Today's Session →"` — urgency CTA, commercial register
-- `sessionsNote: "Safe, private, no-pressure."` — therapy-adjacent language
-- The entire sessions concept implies live facilitation (a service), not open IP
+*Language register violation — comparative framing:*
+- EN `"Ideas that go beyond Motivation"` — comparative positioning ("beyond X"). Paritsea does not position itself against categories. Prohibited in language-system.md §1 ("position itself against other systems").
+- TH `"แนวคิดที่ไม่ได้หยุดแค่ Motivation"` — identical violation
+- This is a section heading, not body copy — the violation is visible at high prominence
 
-This content belongs on a **separate page** or not at the site at all, not on Home.
+*Ambiguous vocabulary in Start Here section:*
+- EN `startHereDesc`: `"to understand a method that reads people and systems together"` — lowercase "method" is ambiguous in a context where "The Method" was the former Journal name. This is not a direct violation but creates confusion.
 
-**Vocabulary violation — Content breadth section:**
-- EN: `"Ideas that go beyond Motivation"` — comparative framing ("beyond X") is not Paritsea register. Paritsea does not compare itself to categories.
-- TH: `"แนวคิดที่ไม่ได้หยุดแค่ Motivation"` — same issue in Thai
+*Ecosystem section scope:*
+- LinkedIn, Facebook, and LINE Group are listed. These platforms are not documented in About or paritsea-principles.md as core to Paritsea's platform identity. The addition of community/social channels expands past the documented ecosystem.
 
-**Vocabulary violations in TH ecosystem section:**
-- `"เข้าร่วม Session วันนี้ →"` — urgency (`วันนี้` = today) is explicitly prohibited
-- `"ดูแนวคิดจาก Paritsea ก่อน"` — `ก่อน` (first/before) implies pressure ordering
+**Rewrite Risk:** Medium — core worldview copy is immutable; risk is in removing Sessions block if it serves live operational function.
 
-**About section (embedded in Home) — register drift:**
-- `"ไม่ใช่แค่การแชร์ความรู้"` / `"Not just sharing knowledge"` — the "just" framing is mild but edges toward positioning
-- `"understanding the world more deeply"` — aspiration language
-
-### What Violates the Page Role
-
-- **Sessions block does not belong on Home.** Per ux-blueprint §1, Home must never contain: pricing, feature lists, testimonials, founder CV, "newsletter signup." A live community session block is in the same category — it's a service offering, not a lens introduction.
-- **Facebook and LINE Group** in ecosystem section are not core to the Paritsea identity as expressed in About or paritsea-principles. Their inclusion expands scope beyond the stated platform identity.
-- **Content breadth section:** The copy `"covers life and meaning, work and organizations, human psychology, decision-making..."` reads as a topic menu, not a worldview. This is functional content that pushes toward positioning.
-
-### Rewrite Risk: Medium
-The core copy (hero, worldview, coda) is correct. The risk is in removing the Sessions block — that may affect live usage if people rely on it.
-
-### Rewrite Priority: High
-The Sessions block is the most urgent violation. The comparative framing in the content breadth section is secondary.
-
-### Recommended Action: Partial Rewrite
-- Remove or relocate Sessions section
-- Remove or rewrite "goes beyond Motivation" framing
-- Retain: hero, worldview, Journal records, ecosystem (trim to YouTube/Instagram/Threads as in About), closing quote
+**Recommended Action: Partial Rewrite**
+- Remove or relocate Sessions section to a separate page or remove entirely
+- Fix comparative framing in Content breadth heading
+- Clarify lowercase "method" ambiguity in startHereDesc
+- Retain: hero, worldview, topics, Journal records, ecosystem, closing quote
 
 ---
 
-## JOURNAL `/journal`
+### JOURNAL `/journal`
 
-### Current Purpose
-Index of analytical observations. Shows entry list. StructuralIndexPage component renders this as "The Method" in some descriptor copy.
+**Current Purpose**
+Index page listing observation entries from the Journal collection (framework_page: `the-method`). Rendered via `StructuralIndexPage` component. Eyebrow: "ANALYTICAL REGISTRY." No breadcrumb (correct per navigation-model.md §6).
 
-### Approved Purpose (ux-blueprint.md §2)
-Layer intro (1–2 lines: observation, not yet governed) + entry list. No CTA. No newsletter.
+**Approved Purpose**
+Layer intro (1–2 sentences: observation, not yet governed) + entry list. No CTA.
 
-### Alignment Score: 7 / 10
+**Alignment Score: 7 / 10**
 
-### What Works
+**Strengths**
+- No CTA on the index page — correct ✅
+- `"These are reference observations, not opinion pieces."` — altitude-correct boundary declaration
+- `"ANALYTICAL REGISTRY"` eyebrow — correct signal for the seeing layer
+- Thai version carries equivalent altitude
 
-- **"ANALYTICAL REGISTRY"** eyebrow on the live page — correct altitude signal
-- **ProtocolsDescription/methodDescription** in EN: `"The Method is the analytical registry of the framework. It identifies structural tension, names operational cost, and holds recurring patterns still long enough to be understood before they are formalised elsewhere."` — well-written, correct altitude
-- `"These are reference observations, not opinion pieces."` — correct register
-- `"The Method includes both essays and video reflections inside one knowledge flow."` — technically correct
-- Thai version is accurate and carries the same altitude
+**Issues**
 
-### What Violates the Language System
+*Critical terminology — "The Method" persists throughout StructuralIndexPage:*
+The `StructuralIndexPage` component references "The Method" in all body copy, despite the page h1 rendering as "Journal." This creates a split identity: headline says Journal, all explanatory copy says The Method.
+- `methodDescription`: `"The Method is the analytical registry of the framework."` — must say "The Journal"
+- `methodSecondary` key references "The Method" throughout
+- `methodFlowNote` key references "The Method"
+- TH: `"The Method รวมทั้งบทความและวิดีโอสะท้อนคิด"` — same violation
 
-**Terminology violation — stale name "The Method":**
-The approved architecture renamed "The Method" to "Journal" (Phase 1–2). However, the StructuralIndexPage component's copy still uses "The Method" extensively in its descriptive text:
-- EN: `"The Method is the analytical registry..."` — should read `"Journal"`
-- EN: `methodDescription`, `methodSecondary`, `methodFlowNote` keys all use "The Method"
-- TH: `"The Method รวมทั้งบทความและวิดีโอสะท้อนคิด..."` — same violation
+*Wrong intro content — format description instead of layer role:*
+`"The Method includes both essays and video reflections inside one knowledge flow."` — this describes format mix (essays + video). The intro should define what this layer IS: observation, not yet governed. Format is irrelevant at intro level.
 
-The UI renders the h1 as "Journal" (via `navLabels.Protocols` / `navLabels` mapping) which is correct. But the descriptive text beneath still calls it "The Method." This creates a terminology split on the same page: headline says Journal, body says The Method.
+*Promise language:*
+`"Further instruments forthcoming"` — a forward promise. Governance-level copy describes current state only, not future state.
 
-**Architecture violation — "integrationNote" on Implementation page references "The Method":**
-Implementation's `integrationNote` EN: `"This layer connects back to The Method and YouTube reflections"` — should say "Journal."
+**Rewrite Risk:** Low — terminology replacements only; no new content decisions required.
 
-### What Violates the Page Role
-
-- **`methodFlowNote`**: `"The Method includes both essays and video reflections inside one knowledge flow."` — The page intro should define the layer (seeing → observation) not describe its format mix. Format description is not a layer definition.
-- **`further: "Further instruments forthcoming"`** — forward-looking promise. The page should serve current content only.
-
-### Rewrite Risk: Low
-Descriptive text is secondary to the entry list. Swapping "The Method" → "Journal" throughout is a targeted find-and-replace operation on the component.
-
-### Rewrite Priority: Medium
-The terminology inconsistency is a discoverability issue (confusing for returning readers who know the old name) but does not break the page's function.
-
-### Recommended Action: Light Revision
-- Replace all `The Method` references in copy with `Journal`
-- Update `methodFlowNote` to define the layer, not the format mix
-- Remove `further: "Further instruments forthcoming"` (a promise, not a description)
-
----
-
-## SYSTEM `/system`
-
-### Current Purpose
-Hub page orienting the user to the Structuring layer. Shows three sub-page cards + derivation chain + layer spine.
-
-### Approved Purpose (ux-blueprint.md §4)
-Layer definition + three cards + derivation order explicit. Junction, not funnel.
-
-### Alignment Score: 9 / 10
-
-### What Works
-
-- **All 5 required blueprint sections present:** layer definition, Framework card, Protocols card, Standards card, derivation order.
-- **Layer spine section** (Journal → System → Implementation) — beyond spec, useful without violating rules.
-- **Eyebrow "STRUCTURING"** — correct altitude signal.
-- **Intro copy:** `"When observations in the Journal layer become patterns consistent enough to govern, they are formalized here."` — exactly right.
-- **Three equal-weight cards** — correct junction pattern.
-- **"System is not an opinion archive."** disambiguation — correct, not over-explained.
-- **Thai version** carries identical altitude — well-written.
-
-### What Violates the Language System
-
-Minor issue only:
-- **Thai eyebrow** `"STRUCTURING"` — this is English in Thai context. This is fine (nav is all-English per D-029), but it's worth noting that it's a label not a Thai translation.
-
-### What Violates the Page Role
-
-Nothing significant. This page was built to spec after Phase 4–6.
-
-### Rewrite Risk: Negligible
-
-### Rewrite Priority: Low
-
-### Recommended Action: Leave As-Is
-
----
-
-## FRAMEWORK `/system/framework`
-
-### Current Purpose
-Renders the constitutional Framework document ("The Paritsea Doctrine of Structural Coherence and Legitimacy") from the CMS. Marked "Constitutional Document — Immutable."
-
-### Approved Purpose (ux-blueprint.md §5 / content-governance.md)
-Immutable foundational document. Authoritative, sparse, fixed. No changelog, no opinion framing.
-
-### Alignment Score: 8 / 10
-
-### What Works
-
-- **"Constitutional Document"** badge — correct signal
-- **"This document forms the foundational authority for all Paritsea Protocols and Standards. It is immutable."** — correct framing
-- **"Constitutional Doctrine"** badge label — appropriate (though note: the document is the Framework, previously called Doctrine)
-- Section structure (Foundational Premise, Structural Coherence, etc.) is authoritative and sparse
-- **"Legitimacy arises from structural coherence."** — exemplary Framework register
-
-### What Violates the Language System
-
-**Label inconsistency — "Constitutional Doctrine":**
-The UI badge reads "Constitutional Doctrine" but the nav and governance call this the Framework. The ux-blueprint refers to it as Framework. "Doctrine" is the old name (The Doctrine, pre-Phase 1). In the Admin UI, the document might be internally named "doctrine" but the user-facing badge should use "Framework."
-
-Specifically:
-- `constitutionalDoctrine: "Constitutional Doctrine"` in i18n.ts — should be "Constitutional Framework"
-- `labels.doctrine: "Doctrine"` — referenced in the doc badge; should align with "Framework"
-
-**Eyebrow / page position note:**
-ux-blueprint specifies that Framework page should have: "1. Position note — immutable root, one-line; 2. Derivation statement; 3. Document content." Currently the Framework page is the full document without a distinct position note ABOVE the document itself. The breadcrumb (System / Framework) serves the navigation function, but there's no one-line position statement on the page.
-
-### What Violates the Page Role
-
-- Minor: The "About Framework" section from the parent Protocols page (not on Framework directly) calls it "derived from the Doctrine" — should say "derived from the Framework." This is in StructuralIndexPage copy.
-
-### Rewrite Risk: Low
-
-### Rewrite Priority: Medium
-The "Constitutional Doctrine" label is a visible terminology inconsistency on a high-authority page.
-
-### Recommended Action: Light Revision
-- Change `constitutionalDoctrine` label to "Constitutional Framework"
-- Consider adding a one-line position note above the document content on the Framework page
-
----
-
-## PROTOCOLS `/system/protocols`
-
-### Current Purpose
-Index of published Protocols. Currently shows: eyebrow, description, "About Protocols" aside, "Derived From" aside, entry list.
-
-### Approved Purpose (ux-blueprint.md §6)
-Position note + Protocols list + derivation from Framework.
-
-### Alignment Score: 6 / 10
-
-### What Works
-
-- **"About Protocols" aside** — well-written: `"Each protocol is a public structural instrument. Protocols are not tips, best practices, or style recommendations."` — exactly the right negative-definition pattern.
-- **Derivation statement** with link to Framework — structurally correct.
-- `"No protocol may contradict the foundational doctrine."` — correct authority line.
-- **Breadcrumb: System / Protocols** — present ✅
-
-### What Violates the Language System
-
-**Critical terminology violation — "Doctrine" still used:**
-
-EN `protocolsDescription`: `"Protocols are formal structural instruments derived from the Doctrine."` — **"the Doctrine" is the old name.** Should say "the Framework."
-
-EN `noContradiction`: `"No protocol may contradict the foundational doctrine."` — same violation. Should say "the foundational Framework."
-
-EN `derivedFromText`: `"All protocols derive authority from"` → link says "Paritsea Framework" ✅ — this one is correct, but the description above it still says "Doctrine."
-
-**TH version — partially correct:**
-- TH `protocolsDescription`: `"โปรโตคอลคือเครื่องมือเชิงโครงสร้างที่สืบเนื่องจากหลักการ"` — uses "หลักการ" (principles) not "Framework" — this is acceptable in Thai body copy, but slightly inconsistent with the EN version's intent.
-- TH `noContradiction` does not appear in the TH copy checked — needs verification.
-
-**Register issue — `further: "Further instruments forthcoming"`:**
-This is a forward-looking promise at the bottom of a governed reference index. It does not belong on a governance page — governance pages describe what is, not what will be.
-
-### What Violates the Page Role
-
-- **`integrationNote` in Implementation** (not this page, but referenced here): `"This layer connects back to The Method"` — still uses old name.
-- **Position note partially missing**: ux-blueprint §6 requires: "Position note — derives from Framework, sits above Standard." The current page does not have an explicit single-line position statement in the main column.
-
-### Rewrite Risk: Low
-
-### Rewrite Priority: High
-"Derived from the Doctrine" is a visible terminology violation on a governance page. Easy to fix; important to fix.
-
-### Recommended Action: Light Revision
-- Replace `"derived from the Doctrine"` → `"derived from the Framework"` in EN description
-- Replace `"foundational doctrine"` → `"foundational Framework"` in noContradiction
-- Remove `"Further instruments forthcoming"` (forward promise, not governance language)
-- Add a one-line position note in the primary column
-
----
-
-## STANDARDS `/system/standards`
-
-### Current Purpose
-Index of published Standards. Currently shows: eyebrow, description, "About Standards" aside, "Relationship to Protocols" aside, entry list.
-
-### Approved Purpose (ux-blueprint.md §7)
-Position note + Standards list + obligation/threshold disambiguation.
-
-### Alignment Score: 7 / 10
-
-### What Works
-
-- **"About Standards" aside** copy is well-written: `"Standards translate structural obligations into verifiable conditions."` — correct altitude.
-- **Relationship to Protocols** section: `"A Protocol establishes the obligation; a Standard defines the threshold."` — this is the exact obligation/threshold disambiguation required by the spec.
-- **Breadcrumb: System / Standards** — present ✅
-- **Standards description** is technically accurate.
-
-### What Violates the Language System
-
-**Terminology issue — "doctrine" references in description:**
-EN `standardsDescription`: `"Standards translate doctrine into measurable conditions."` — **"doctrine" is the old name.** Should say "Standards translate the Framework into measurable conditions."
-
-**Vocabulary register issue:**
-EN `aboutStandardsText`: `"turning abstract claims into criteria that can be tested, interpreted, and implemented."` — the word "implemented" at the end of a Standards description is ambiguous (it could mean the Standard is then used in an Implementation, but the sentence doesn't make that clear). Minor but worth noting.
-
-### What Violates the Page Role
-
-- **Missing explicit derivation statement**: Unlike Protocols, Standards don't have a clear "derives from Protocol" derivation statement in the UI. The relationship is described in `aboutStandards` but not positioned as a structural declaration.
-- **`further: "Further instruments forthcoming"`** — same as Protocols, this is a promise not a description.
-
-### Rewrite Risk: Low
-
-### Rewrite Priority: Medium
-The "doctrine" → "Framework" replacement is the main fix needed.
-
-### Recommended Action: Light Revision
-- Replace `"Standards translate doctrine into..."` → `"Standards translate the Framework into..."`
-- Add explicit derivation statement: "Standards derive from Protocols, which derive from the Framework."
+**Recommended Action: Light Revision**
+- Replace all `"The Method"` references → `"Journal"` / `"the Journal"` in StructuralIndexPage
+- Replace format description with layer role definition
 - Remove `"Further instruments forthcoming"`
 
 ---
 
-## IMPLEMENTATION `/implementation`
+### SYSTEM `/system`
 
-### Current Purpose
-Index of documented system implementations. Currently shows one entry (AgenSea). Includes qualification rule, reference integrity statement, current reading note.
+**Current Purpose**
+Hub page for the Structuring layer. Five sections: layer definition → Framework card → Protocols card → Standards card → Derivation order → Layer spine. Bilingual (TH/EN).
 
-### Approved Purpose (ux-blueprint.md §9 / content-governance.md)
-Applied Reference Layer. Shows systems that enforce doctrine/protocols/standards in real environments. Evidence-based, demonstrative.
+**Approved Purpose**
+Layer definition + three equal-weight cards + derivation order made explicit. Junction page, not a funnel.
 
-### Alignment Score: 6 / 10
+**Alignment Score: 9 / 10**
 
-### What Works
+**Strengths**
+- All 5 ux-blueprint §4 required sections present ✅
+- Intro: `"When observations in the Journal layer become patterns consistent enough to govern, they are formalized here."` — precisely correct altitude
+- `"STRUCTURING"` eyebrow — correct layer signal
+- Three equal-weight navigation cards — correct junction pattern, no dominant CTA ✅
+- Derivation chain (Framework → Protocols → Standards) explicitly visualized ✅
+- Layer spine section places System within seeing → structuring → doing ✅
+- `"System is not an opinion archive. And it is not Implementation."` — correct disambiguation
+- Thai version operates at identical altitude to English ✅
+- No raw document content, no sequential stepper, no marketing language ✅
 
-- **"Applied Reference Layer"** eyebrow — correct altitude signal.
-- **Qualification Rule** section: `"An implementation must apply Paritsea structurally, not cosmetically."` — excellent. This is exactly the right precision language.
-- **Reference Integrity section**: The prohibition against converting Standards into "star ratings, leaderboard mechanics, sponsored discovery" — well-written and precise.
-- **AgenSea entry** — the description is factual and concrete (correct Implementation altitude).
-- **Breadcrumb would work here** — however, Implementation doesn't have a breadcrumb (correct per spec: breadcrumbs only on `/system/*`).
+**Issues**
+Minor only: Thai eyebrow `"STRUCTURING"` is English in a Thai-locale page. This is acceptable per D-029 (nav and structural labels fully English) but the eyebrow functions as an orientation label, not a nav item. Worth noting for future copy decisions.
 
-### What Violates the Language System
+**Rewrite Risk:** Negligible
 
-**Critical terminology violation — "The Method" reference:**
-EN `integrationNote`: `"This layer connects back to The Method and YouTube reflections"` — **"The Method" is the old name for Journal.** Should say `"This layer connects back to the Journal and YouTube reflections."`
+**Recommended Action: Leave As-Is**
 
-TH `integrationNote`: `"ชั้นนี้เชื่อมกลับไปยัง The Method และ YouTube"` — same violation.
+---
 
-**Terminology issue — "enforce doctrine":**
-EN `description`: `"Implementations are the applied layer of Paritsea: documented systems that enforce doctrine, protocols, and standards in real environments."` — **two issues:**
-1. "enforce" is too prescriptive/compliance-register for Paritsea. Better: "apply" or "embody."
-2. "doctrine" is the old name — should be "Framework."
-Full correction: `"documented systems that apply the Framework, Protocols, and Standards in real environments."`
+### FRAMEWORK `/system/framework`
 
-**Title mismatch:**
-The page title in i18n EN is `"Implementations"` (plural) but the nav label is `"Implementation"` (singular). This creates a title/nav discrepancy on the page itself. Per architecture.md: "Hub pages — singular."
+**Current Purpose**
+Constitutional Foundation page. Renders the `doctrine` post from CMS. Breadcrumb: System / Framework. Badge: "Constitutional Document — Immutable." Contains TOC, utility rail, comments section.
 
-### What Violates the Page Role
+**Approved Purpose**
+Immutable foundational document. Authoritative, sparse, fixed. No changelog, opinion framing, or hedging.
 
-- **`integrationNote` section does not belong on Implementation per ux-blueprint.** The Implementation page's purpose is to show applied systems — not to explain where Implementation sits in the pipeline. That is System hub's job. The note about connecting back to Journal is System-level navigation framing appearing in Implementation.
-- **"Current Reading"** framing implies more entries are coming — fine for now, but should be removed once multiple entries exist and replaced with standard listing.
+**Alignment Score: 8 / 10**
 
-### Rewrite Risk: Low
+**Strengths**
+- Breadcrumb: System / Framework ✅
+- `doctrineNotice`: `"This document forms the foundational authority for all Paritsea Protocols and Standards."` — correct position statement
+- `"Constitutional Foundation — Immutable"` italic header in document body — correct
+- Section structure (Foundational Premise → Structural Coherence → Legitimacy Conditions) follows governed, declarative architecture ✅
+- `"Legitimacy arises from structural coherence. Legitimacy, within Paritsea, is a structural condition — not a moral endorsement."` — correct Framework register
+- `"Legitimacy is not conferred by: — Consensus, — Popularity, — Longevity..."` — declarative list, correct altitude ✅
+- No opinion framing, no hedging, no first-person ✅
+- Language is authoritative and sparse — matches Framework register specification ✅
 
-### Rewrite Priority: High
-The "The Method" violation and "enforce doctrine" are both visible in the current page description. Two lines that need correction.
+**Issues**
 
-### Recommended Action: Light Revision
+*Terminology — page label still uses "Doctrine":*
+The i18n label `constitutionalDoctrine` renders as `"Constitutional Doctrine"` and `labels.doctrine` renders as `"Doctrine"` on this page. "Doctrine" is the pre-Phase 1 name for the Framework. This label inconsistency appears at the highest-authority page in the system. The correct label is `"Constitutional Framework"`.
+
+*Position note visibility:*
+ux-blueprint §5 requires a position note as the first required section. The `doctrineNotice` label provides correct content but renders as a `<span>` inside a notice badge, not a distinct structural statement. The content is right; the prominence is insufficient.
+
+**Rewrite Risk:** Low — label changes only; document content is immutable.
+
+**Recommended Action: Light Revision**
+- Change `constitutionalDoctrine` → `"Constitutional Framework"` in i18n.ts
+- Change `labels.doctrine` → `"Framework"` where user-facing on this page
+- Elevate doctrineNotice text to a visible position statement above document body
+
+---
+
+### PROTOCOLS `/system/protocols`
+
+**Current Purpose**
+Index page for Protocols collection (framework_page: `protocols`). Shows 1 published entry (STP). Aside blocks: About Protocols, Derived From, Further Info. Breadcrumb: System / Protocols.
+
+**Approved Purpose**
+Position note (derives from Framework, sits above Standard) + protocol entry list + "derives authority from Framework" statement.
+
+**Alignment Score: 6 / 10**
+
+**Strengths**
+- Breadcrumb: System / Protocols ✅
+- About Protocols aside: `"Each protocol is a public structural instrument. Protocols are not tips, best practices, or style recommendations."` — excellent negative-definition, correct register
+- Derivation link to Framework in aside ✅
+- Entry list structure is clean and functional
+
+**Issues**
+
+*Critical terminology — "Doctrine" persists in descriptions:*
+- EN `protocolsDescription`: `"Protocols are formal structural instruments derived from the Doctrine."` — "the Doctrine" is the old name. Must say "the Framework."
+- EN `noContradiction`: `"No protocol may contradict the foundational doctrine."` — same violation. Must say "foundational Framework."
+- TH `protocolsDescription`: `"โปรโตคอลคือเครื่องมือเชิงโครงสร้างที่สืบเนื่องจากหลักการ"` — uses `หลักการ` (principles) rather than `Framework`; slightly vague in Thai body context.
+
+*Missing position note in primary column:*
+The "About Protocols" and "Derived From" content sits in the aside. The primary column has no position statement. ux-blueprint §6 requires a position note first.
+
+*Promise language:*
+`"Further instruments forthcoming"` — prohibited forward promise. Current state only.
+
+**Rewrite Risk:** Low
+
+**Recommended Action: Light Revision**
+- Replace `"derived from the Doctrine"` → `"derived from the Framework"`
+- Replace `"foundational doctrine"` → `"foundational Framework"`
+- Add position note to primary column: "Protocols derive from the Framework. Each defines an obligation — what must hold in practice."
+- Remove `"Further instruments forthcoming"`
+
+---
+
+### STANDARDS `/system/standards`
+
+**Current Purpose**
+Index page for Standards collection (framework_page: `standards`). Shows 1 published entry (ASLS-01). Aside: About Standards, Relationship to Protocols. Breadcrumb: System / Standards.
+
+**Approved Purpose**
+Position note (operates beneath Protocols) + standard entry list + obligation/threshold disambiguation.
+
+**Alignment Score: 7 / 10**
+
+**Strengths**
+- Breadcrumb: System / Standards ✅
+- `"A Protocol establishes the obligation; a Standard defines the threshold."` — perfect disambiguation, exactly as specified in ux-blueprint §7 ✅
+- About Standards: `"Standards translate structural obligations into verifiable conditions."` — correct altitude
+- Derivation relationship expressed in aside ✅
+
+**Issues**
+
+*Terminology — "doctrine" in description:*
+- EN `standardsDescription`: `"Standards translate doctrine into measurable conditions."` — "doctrine" is old name. Must say "the Framework."
+
+*Missing derivation declaration in primary column:*
+Standards derive from Protocols (not directly from Framework). This derivation path exists in the aside but is not declared as a structural statement in the primary column. The spec requires this position note as the first section.
+
+*Promise language:*
+`"Further instruments forthcoming"` — same issue as Protocols.
+
+**Rewrite Risk:** Low
+
+**Recommended Action: Light Revision**
+- Replace `"translate doctrine"` → `"translate Framework obligations"`
+- Add primary-column position note: "Standards derive from Protocols. Each defines a verifiable condition — the threshold by which a Protocol's obligation is assessed."
+- Remove `"Further instruments forthcoming"`
+
+---
+
+### IMPLEMENTATION `/implementation`
+
+**Current Purpose**
+Applied reference layer index. One documented entry (AgenSea). Sections: page header (intro + cross-links + usage guidance) → implementation list → qualification aside. Hardcoded in `implementation.astro`.
+
+**Approved Purpose**
+Applied reference layer. Shows systems where the Framework, Protocols, and Standards operate in real environments. Evidential, concrete, demonstrative.
+
+**Alignment Score: 6 / 10**
+
+**Strengths**
+- `"An implementation must apply Paritsea structurally, not cosmetically."` — excellent precision ✅
+- `"Applied Reference Layer"` eyebrow — correct
+- Reference Integrity section: prohibition against star ratings, leaderboard mechanics, raw score exposure — well-written, correct altitude ✅
+- AgenSea description is factual and concrete ✅
+- `"Implements structural legitimacy rather than reputation signals."` — strong note ✅
+
+**Issues**
+
+*Critical terminology — "The Method":*
+- EN `integrationNote`: `"This layer connects back to The Method and YouTube reflections"` — "The Method" is the old Journal name.
+- TH: `"ชั้นนี้เชื่อมกลับไปยัง The Method และ YouTube"` — same violation.
+
+*Critical terminology — "enforce doctrine":*
+- EN `description`: `"documented systems that enforce doctrine, protocols, and standards"` — two violations:
+  1. `"enforce"` is compliance/legal register. Paritsea vocabulary uses "apply."
+  2. `"doctrine"` is old name. Must say "the Framework."
+- Correction: `"documented systems that apply the Framework, Protocols, and Standards"`
+
+*Architecture — title singular/plural mismatch:*
+- Page H1 title: `"Implementations"` (plural)
+- Nav label: `"Implementation"` (singular)
+- architecture.md: "Hub pages — singular." The title must match the nav label.
+
+*Wrong altitude — integrationNote is System-level framing:*
+The sentence explaining how Implementation connects to Journal through observation → structure → application is pipeline-level framing. This belongs on the System hub, not the Implementation page. Implementation's role is to show applied systems, not explain the pipeline.
+
+**Rewrite Risk:** Low
+
+**Recommended Action: Light Revision**
 - Replace `"The Method"` → `"Journal"` in integrationNote (EN + TH)
-- Replace `"enforce doctrine, protocols, and standards"` → `"apply the Framework, Protocols, and Standards"` in description
-- Align page title to singular: `"Implementation"` (not `"Implementations"`)
+- Replace `"enforce doctrine, protocols, and standards"` → `"apply the Framework, Protocols, and Standards"`
+- Fix title: `"Implementations"` → `"Implementation"`
+- Remove or relocate integrationNote to System hub
 
 ---
 
-## ABOUT `/about`
+### ABOUT `/about`
 
-### Current Purpose
-Introduces Paritsea origin, founder identity, open-to-use note.
+**Current Purpose**
+Introduces Paritsea origin and founder. Three sections: "What often goes unseen" / "How Paritsea reads" / "Open to use." CTAs: Read Framework + Explore Journal. Hardcoded in `[page_slug].astro`. Content is not CMS-managed.
 
-### Approved Purpose (ux-blueprint.md §10 / content-governance.md)
-Origin of the lens + founder context. Personal, first-person, non-promotional. Must answer: "Where does this lens come from, and who holds it?" Must NOT answer: "What does the system contain?" or "How do I license it?"
+**Approved Purpose**
+Origin of the lens + founder context. Must answer: "Where does this lens come from, and who holds it?" Must NOT answer: "What does the system contain?" or "How do I license it?"
 
-### Alignment Score: 5 / 10
-*(The user asked for aggressive auditing. This score reflects real gaps against the spec.)*
+**Alignment Score: 5 / 10**
 
-### What Works
+**Strengths**
+- Eyebrow `"Where this lens comes from"` / TH `"สายตานี้มาจากไหน"` — correct framing ✅
+- Hero headline (`"What lies beneath the surface / usually explains everything we don't understand."`) — works as orientation statement
+- `"Not judgment. Understanding."` — correct register, P-04 compliant
+- `"Not a perspective built from theory. But from observing people in real situations..."` — correct P-04 and P-03 patterns ✅
+- LinkedIn link present — appropriate without promotional framing
 
-- **Eyebrow "Where this lens comes from" / "สายตานี้มาจากไหน"** — correct framing, correct altitude.
-- **Hero headline** (EN): `"What lies beneath the surface / usually explains everything we don't understand. / Paritsea reads that layer."` — this is Home-level worldview copy, but as an About intro it works because it orients the reader before the origin story.
-- **"Not judgment. Understanding."** — present in "How Paritsea reads" section — good register.
-- **LinkedIn link** — appropriate, clean, no promotional framing.
-- **Social links** at bottom — minimal, functional.
+**Issues**
 
-### What Violates the Language System
+*Critical structural gap — sections answer wrong questions:*
 
-**Critical gap — The origin story is absent:**
+| Current section | What it answers | What About should answer |
+|----------------|----------------|--------------------------|
+| "What often goes unseen" | What Paritsea observes (worldview) | Origin story |
+| "How Paritsea reads" | Methodology description | Who holds this lens and how it formed |
+| "Open to use" | Licensing terms | One-line pointer to Licensing only |
 
-The About page has three sections:
-1. "What often goes unseen" — *This is a worldview description, not an origin story.* It explains what Paritsea observes, not why Paritsea came to exist or what formed the founder's lens.
-2. "How Paritsea reads" — *This is a methodology description.* It belongs on the Home page or System hub, not About.
-3. "Open to use" — *This is a licensing note.* Per content-governance.md: "Licensing governs all artifacts. Contact: terminal conversation. About: origin of the lens." The licensing note in About steps on Licensing's page role.
+The page answers "What Paritsea sees" and "What you can do with it." Both are wrong for this page role. It does not answer "where this lens came from." The origin question — formative experience, why the beneath-the-surface movement formed — is entirely absent.
 
-The actual question the page should answer — **"Where does this lens come from, and who holds it?"** — is not answered. The reader leaves knowing what Paritsea observes but not why Parit Ritchai sees this way, what experiences formed this lens, or why this perspective was built.
+*Content displacement:*
+- "What often goes unseen" contains Home-level worldview observations ("Why do capable people burn out..."). This content belongs on Home, not About.
+- "How Paritsea reads" is Home/System methodology framing. This belongs there.
+- "Open to use" is a full licensing section. content-audit rules: About must NOT answer "How do I license it?" — it should contain only a one-line pointer.
 
-**What is missing that should be present:**
-- The formative observation(s) that led to Paritsea — the lived experience that created the lens
-- Why the seeing → structuring → doing pattern was recognized
-- What dimension of Parit's actual life/work practice produced this perspective
-- The honest version of "one person's perspective" — not a credential list, but an authentic origin
+*Founder bio register — credential/capability framing:*
+`"I draw on perspectives across multiple dimensions — psychology, systems, organizations, and human relationships — to read situations with depth and precision."` — this lists dimension domains, which functions as a credential claim rather than an origin statement. language-system.md P-07: "First person is honest, not promotional." The list of dimensions ("psychology, systems, organizations") is a CV entry, not an origin story.
 
-**What is present that should be elsewhere:**
+`"Building frameworks that work for people, work, and business."` — value proposition sentence. Does not belong on About.
 
-| Section | Where it belongs instead |
-|---------|--------------------------|
-| "What often goes unseen" (worldview) | Home page — this is lens framing, not origin framing |
-| "How Paritsea reads" (methodology) | Home page or System hub |
-| "Open to use" (licensing note) | Licensing page — or a one-line pointer to Licensing |
+*CTA lead is onboarding framing:*
+`"Start where Paritsea starts"` is Home onboarding copy, not About outro. About's job is to provide origin context and then release users back to a layer — not to onboard them.
 
-**Founder bio register issue:**
-The current bio reads:
-> "I draw on perspectives across multiple dimensions — psychology, systems, organizations, and human relationships — to read situations with depth and precision. Building frameworks that work for people, work, and business."
+*Missing content:*
+The page contains no answer to: Why does Paritsea exist? What experience formed the beneath-the-surface movement? Why does the founder read beneath? This is the content the page was built to carry. It is entirely absent.
 
-This is a competence description — a **résumé sentence.** It describes capability dimensions, not origin or formation. Paritsea's language system explicitly says About must **not** be "Résumé tone, guru framing, credential-listing."
+**Rewrite Risk:** High — requires author-provided origin narrative. Cannot be AI-generated without author input on formative experience.
 
-The sentence `"Building frameworks that work for people, work, and business"` is a value-proposition sentence, not a personal origin sentence.
+**Recommended Action: Full Rewrite**
+Cannot proceed without author content. Required author input:
+1. Formative experience(s) that created the beneath-the-surface movement
+2. Origin of the multi-dimensional lens (not as a list — as a story)
+3. Honest self-description that is not a capability list
 
-**CTA mismatch:**
-The CTAs at the bottom ("Start where Paritsea starts" → "Read Framework" + "Or Explore Journal") are correct by function (routing away), but the lead "Start where Paritsea starts" is the Home intro framing, not About outro framing. About's role is not to onboard; it's to provide origin context then release.
-
-### What Violates the Page Role
-
-About currently contains content from **three other pages**:
-1. Home content (worldview observations)
-2. System content (how the methodology works)
-3. Licensing content (open-to-use terms)
-
-None of these are "origin of the lens." The page answers: *what Paritsea sees* and *what you're allowed to do with it* — not *where this came from.*
-
-Per ux-blueprint §10: About must NOT answer "What does the system contain / how do I license it?" Both of those are currently present.
-
-### Rewrite Risk: High
-The About page needs substantial structural rethinking. The current sections are the wrong content for the page's role. Removing them requires writing real origin content — which requires the author's input.
-
-### Rewrite Priority: High
-About is one of the highest-traffic entry points. It currently fails to answer the question it is supposed to answer.
-
-### Recommended Action: Full Rewrite
-This page needs structural redesign, not copy polishing. The three current sections should largely be replaced with:
-- Actual origin story (what formed this lens)
-- Founder context (honest, not credential-heavy)
-- Brief pointer to Licensing (not a full licensing note)
-
-*Note: A full rewrite of About requires the author's input on the origin narrative — the audit cannot supply that content.*
+Suggested structure (for author approval):
+1. Eyebrow (keep)
+2. Hero (keep or minor revision)
+3. Origin section — actual formative experience(s) [requires author input]
+4. Who holds this lens — honest contextual description (replace résumé bio)
+5. One-line licensing pointer → link only (replace "Open to use" section)
+6. CTAs (keep; update `ctaLead` away from onboarding framing)
 
 ---
 
-## LICENSING `/licensing`
+### LICENSING `/licensing`
 
-### Current Purpose
-Governance page for use permissions. Structured with: plain-language summary, allowed/permission/forbidden sections, FAQ, link to formal policy document.
+**Current Purpose**
+Governance page for use permissions. Structure: Plain-language summary → Allowed uses → Needs-permission uses → Forbidden claims → CC BY-NC 4.0 statement → FAQ → Attribution format → Contact bridge. CMS-managed (pages collection).
 
-### Approved Purpose (ux-blueprint.md §11 / content-governance.md)
-Plain-language first. What is permitted and what is not. FAQ. No worldview content.
+**Approved Purpose**
+Plain-language first. What is permitted and what is not. No worldview content.
 
-### Alignment Score: 9 / 10
+**Alignment Score: 9 / 10**
 
-### What Works
+**Strengths**
+- Plain-language summary appears first ✅
+- Three-tier structure (allowed / needs permission / forbidden) is well-organized ✅
+- `"Using Paritsea does not create endorsement, certification, or official implementation status."` — precise boundary declaration
+- FAQ section answers real questions with direct answers ✅
+- Attribution format example is actionable and clear ✅
+- TH version carries equivalent register ✅
+- No worldview framing, no marketing language ✅
 
-- **Plain-language summary** appears first — correct.
-- **Three-tier structure** (What You May Do / What Requires Permission / What You Must Not Claim) — well-organized.
-- **FAQ** section — appropriate, answers real questions without over-explaining.
-- `"Using Paritsea does not create endorsement, certification, or official implementation status."` — precise governance language.
-- TH version carries equivalent meaning and register.
-- Attribution format section (`Based on Paritsea by Parit Ritchai`) — clear and actionable.
+**Issues**
+Minor only:
+- FAQ answer: `"must be explicitly documented by Paritsea"` — slightly institutional phrasing. Not a violation.
+- `"Formal Policy"` section label — slightly bureaucratic; not a register violation.
 
-### What Violates the Language System
+**Rewrite Risk:** Negligible
 
-Minor issue only:
-- **FAQ Q: "If I adapt it, does that make my system an official implementation?"** — The answer contains `"Official implementation status is separate and must be explicitly documented by Paritsea."` This uses "Paritsea" as an institutional voice, which is slightly inconsistent with the personal authorship framing. Minor.
-- **"Formal Policy"** section label at the bottom — slightly bureaucratic tone. Not a violation but could be softened.
-
-### What Violates the Page Role
-
-- Nothing significant. This page is correctly scoped and well-executed.
-
-### Rewrite Risk: Negligible
-
-### Rewrite Priority: Low
-
-### Recommended Action: Leave As-Is
+**Recommended Action: Leave As-Is**
 
 ---
 
-## CONTACT `/contact`
+### CONTACT `/contact`
 
-### Current Purpose
-Entry point for serious correspondence. Lists what the channel is/isn't for, the email address.
+**Current Purpose**
+Entry point for serious correspondence. Structure: What channel is for → What it is not for → Email address → Response expectation. CMS-managed (pages collection).
 
-### Approved Purpose (ux-blueprint.md §12 / content-governance.md)
-Direct, minimal, honest. The email address is the action. No broad solicitation. No support desk framing.
+**Approved Purpose**
+Direct, minimal, honest. Email address is the action.
 
-### Alignment Score: 9 / 10
+**Alignment Score: 9 / 10**
 
-### What Works
+**Strengths**
+- "Not Intended For" list is precisely right: no general inquiries, no pitches, no press requests ✅
+- Pre-qualification ("Before You Write") framing — correct
+- `"Messages are reviewed carefully, but response is discretionary and not guaranteed."` — honest, non-performative ✅
+- No form walls; email address is the action ✅
+- TH version maintains equivalent directness ✅
+- No marketing warmth, no urgency, no broad solicitation ✅
 
-- **"Not Intended For"** section is exactly right: excludes mass marketing, unsolicited endorsement requests, off-topic support. This is the right boundary-setting for a personal IP contact page.
-- **"Best Used For"** section is appropriately specific: licensing, permissions, implementation enquiries.
-- **"Before You Write"** section — good pre-qualification. Sends users to Licensing before they email unnecessarily.
-- **Email is the action** — correct, no form walls.
-- **"Messages are reviewed carefully, but response is discretionary and not guaranteed."** — honest, non-performative.
-- TH version maintains the same altitude and directness.
+**Issues**
+Minor only:
+- EN copy: `"serious framework correspondence"` — the word "serious" appears twice in close proximity in the contact summary.
+- `"Published Contact Note"` section label — slightly institutional; not a violation.
 
-### What Violates the Language System
+**Rewrite Risk:** Negligible
 
-- **"Published Contact Note" heading** for the CMS post section — slightly institutional. The page intro works well but the label for the CMS post section is a bit bureaucratic. Minor.
-- EN contactSummary uses "serious framework correspondence" — the word "serious" appears twice in proximity. Minor redundancy.
-
-### What Violates the Page Role
-
-Nothing significant.
-
-### Rewrite Risk: Negligible
-
-### Rewrite Priority: Low
-
-### Recommended Action: Leave As-Is
+**Recommended Action: Leave As-Is**
 
 ---
 
-# Audit Summary
-
-| Page | Alignment Score | Recommended Action | Priority |
-|------|----------------|-------------------|----------|
-| Home | 6 / 10 | Partial Rewrite | **High** |
-| Journal | 7 / 10 | Light Revision | Medium |
-| System | 9 / 10 | Leave As-Is | Low |
-| Framework | 8 / 10 | Light Revision | Medium |
-| Protocols | 6 / 10 | Light Revision | **High** |
-| Standards | 7 / 10 | Light Revision | Medium |
-| Implementation | 6 / 10 | Light Revision | **High** |
-| About | 5 / 10 | Full Rewrite | **High** |
-| Licensing | 9 / 10 | Leave As-Is | Low |
-| Contact | 9 / 10 | Leave As-Is | Low |
+## Part 2 — Content Collections
 
 ---
 
-# Rewrite Order Recommendation
+### Journal
 
-## Phase A — Terminology Fixes (Low Risk, High Impact, No Content Decision Required)
-
-These are find-and-replace corrections that do not require authorial input. They fix violations that are visible on live pages.
-
-| Fix | File | Violation |
-|-----|------|-----------|
-| "Doctrine" → "Framework" in Protocols description | StructuralIndexPage.astro | Old terminology |
-| "Doctrine" → "Framework" in Standards description | StructuralIndexPage.astro | Old terminology |
-| "enforce doctrine" → "apply the Framework" in Implementation | implementation.astro | Old terminology + wrong register |
-| "The Method" → "Journal" in Implementation integrationNote | implementation.astro | Old terminology |
-| "The Method" in Journal/StructuralIndexPage descriptions | StructuralIndexPage.astro | Old terminology |
-| "Implementations" (title) → "Implementation" | implementation.astro | Architecture naming rule |
-| "Constitutional Doctrine" → "Constitutional Framework" | i18n.ts labels | Old terminology |
-| Remove "Further instruments forthcoming" from Protocols + Standards | StructuralIndexPage.astro | Promise language |
-
-**Estimated effort:** 1–2 hours. No content decisions required. Build + deploy.
+**Collection:** `posts` (framework_page: `the-method`)
+**Total Entries:** 5 published
+**Language Consistency Score: 8 / 10**
+**Role Consistency Score: 7 / 10**
 
 ---
 
-## Phase B — Structural Fixes (Medium Risk, Authorial Input Optional)
+#### Special Audit — Observation → Naming Pattern
 
-These fixes are structural adjustments that don't require new copy to be written — they either remove content or reframe existing copy.
+All 5 entries are evaluated against the governing pattern: **Observation → Naming**, NOT **Observation → Conclusion**.
 
-| Fix | Page | What to do |
-|-----|------|-----------|
-| Remove "Sessions" block | Home | Remove or relocate sessions content |
-| Replace "goes beyond Motivation" framing | Home | Remove comparative register; simplify |
-| Add position note to Protocols page | Protocols | One-line: "Derives from Framework. Sits above Standards." |
-| Add explicit derivation statement to Standards | Standards | One-line: "Derives from Protocols. Defines verifiable conditions." |
-| Add position note to Framework page | Framework | One-line above document: "The immutable root." |
-| Remove `integrationNote` from Implementation | Implementation | Remove (it's System-layer content on Implementation page) |
-
-**Estimated effort:** Half day. Some author input needed on where Sessions content goes.
+Advisory, motivational, coaching-like, or consulting-like registers are flagged.
 
 ---
 
-## Phase C — About Page (High Risk, Requires Authorial Input)
+**Entry 1: "When the Tool Was Not the Problem" — Seeing Clearly**
+*Quote:* `"Tools are rarely the problem. They only reveal it."`
 
-The About page cannot be rewritten without the author. The content needs to come from lived experience and personal reflection — not from pattern analysis of existing copy.
+**Strengths:**
+- Quote is precise and observation-level ✅
+- Opening scenario (automation request received) — concrete entry into universal insight, P-05 compliant ✅
+- `"Building without answering these questions does not create systems. It creates fragile arrangements."` — strong naming sentence
+- No advisory register present ✅
 
-**What the author needs to provide:**
-1. The formative experience(s) that created the Paritsea lens — not credentials, not a list of domains; a real moment or observation
-2. Why this way of reading (beneath the surface) became the frame rather than other approaches
-3. What dimension of practice (working with people, systems, organizations) produced the distinctive depth
+**Issues:**
+- `"Paritsea did not refuse the work. It refused construction without..."` — Paritsea-as-actor sentence. The Journal layer should observe patterns in reality; it should not describe what "Paritsea" (as a subject) did or decided. This is an altitude slip: the author's lens observes; the lens is not itself the subject of the observation.
+- Entry is brief (approximately 1 min read) — the observation is named but depth is minimal.
 
-**The audit cannot supply this content.** It can only confirm that the current sections do not answer these questions and that the page should be structured around them.
-
-**Suggested structure for the rewrite (to be approved before writing):**
-1. Eyebrow: "Where this lens comes from" (keep)
-2. Hero: Short declarative (keep current — it works as orientation)
-3. Origin section: The actual origin (new — requires author input)
-4. Who holds it: Honest founder description (replace current résumé bio)
-5. Brief licensing pointer (one line, link to Licensing — replace the full "Open to use" section)
-6. CTAs: Keep (route to Framework + Journal)
+**Altitude:** ✅ (with Paritsea-as-actor caveat)
+**Observation → Naming:** ✅
+**Advisory/Prescriptive/Coaching drift:** Absent ✅
 
 ---
 
-## Pages Locked — Do Not Modify
+**Entry 2: "When Ownership Thinking Collides with System Reality" — Structural Tension**
+*Quote:* `"As long as carrying remains possible, the system appears functional. The cost is paid elsewhere. Quietly. By people."`
+
+**Strengths:**
+- Opening quote is the strongest in the collection — three-beat observation building to human cost ✅
+- `"Some leaders carry everything themselves. Not because they are incapable of delegation, but because they do not trust structures to hold without them."` — exemplary naming of the invisible pattern ✅
+- `"The system appears functional. The cost is paid elsewhere."` — the below-the-surface move executed perfectly, P-03 compliant ✅
+- No Paritsea-as-actor sentence ✅
+
+**Issues:**
+None significant. This entry is the strongest in the collection.
+
+**Altitude:** ✅ Exemplary
+**Observation → Naming:** ✅ Perfect execution
+**Advisory/Prescriptive/Coaching drift:** Absent ✅
+
+---
+
+**Entry 3: "When Monitoring Becomes Emotional Labour" — Human Cost**
+*Quote:* `"When systems rely on emotional vigilance, they do not scale. They drain."`
+
+**Strengths:**
+- Opens with technical description, pivots to human cost — correct Journal move, P-03 compliant ✅
+- Three-part list (someone must constantly worry / stay alert so others feel safe / absorb uncertainty) — precise naming of invisible labour ✅
+- `"This labour is rarely visible in architecture documents."` — observation-level naming ✅
+
+**Issues:**
+- Entry is brief (approximately 1 min read). The observation is named but not fully developed. The pattern is correctly identified; the depth is thin compared to Entry 2.
+- The ending lacks a closing naming-moment that lets the reader feel "I felt this but couldn't say it." The observation is stated and left; it could benefit from one closing line that solidifies the naming.
+
+**Altitude:** ✅
+**Observation → Naming:** ✅
+**Advisory/Prescriptive/Coaching drift:** Absent ✅
+
+---
+
+**Entry 4: "When Everything Works — and Something Is Still Wrong" — Seeing Clearly**
+*Quote:* `"If everything is working, why does it feel like something is wrong?"`
+
+**Strengths:**
+- `"This work did not begin with broken systems. It began with systems that worked."` — excellent contrast entry, strong opening ✅
+- `"people were tired in ways that could not be explained by workload alone"` — precise naming of an invisible state ✅
+- `"Silence filled the spaces where clarity should have been."` — strong observation
+
+**Issues:**
+- The question-as-opening `"If everything is working, why does it feel like something is wrong?"` borders on the prohibited hook pattern (P-09: questions hold tension, they do not ask the reader if they feel something). This specific question works because it holds tension; it is close to the line but acceptable.
+- The entry ends near a conclusion rather than a naming. The final paragraph resolves slightly more than it names. Minor register drift toward summary/conclusion altitude.
+
+**Altitude:** ✅
+**Observation → Naming:** ✅ (borderline on ending)
+**Advisory/Prescriptive/Coaching drift:** Absent ✅
+
+---
+
+**Entry 5: "On Automation That Still Requires Fear" — Human Cost**
+*Quote:* `"If a system collapses without human vigilance, it is not a system. It is deferred responsibility."`
+
+**Strengths:**
+- Quote is definitionally precise — naming at the highest level ✅
+- `"many automated systems do the opposite. They require constant monitoring."` — correct contrast pivot ✅
+- `"When people are afraid to leave an automated workflow unattended, the automation has not reduced labour. It has relocated it."` — strongest naming line in this entry, P-02 compliant ✅
+
+**Issues:**
+- `"To free people from unnecessary labour"` as the third item in the opening rhythm list edges toward aspirational framing (what people hope automation will do) rather than pure observation. Minor register slip — the first two items are observational; the third is aspirational.
+
+**Altitude:** ✅
+**Observation → Naming:** ✅
+**Advisory/Prescriptive/Coaching drift:** Absent ✅
+
+---
+
+**Collection Summary:**
+
+| Entry | Altitude | Obs→Naming | Prescriptive | Strength |
+|-------|----------|------------|--------------|----------|
+| When the Tool Was Not the Problem | ✅ | ✅ | No | Strong |
+| When Ownership Thinking Collides | ✅ | ✅ | No | Exemplary |
+| When Monitoring Becomes Emotional Labour | ✅ | ✅ | No | Strong |
+| When Everything Works — Still Wrong | ✅ | ✅ | Borderline | Strong |
+| On Automation That Still Requires Fear | ✅ | ✅ | No | Strong |
+
+**Common Problems:**
+1. Brief entries (1 min read) — three entries name the pattern but do not develop it to full observation depth
+2. Entry 1 contains one Paritsea-as-actor sentence
+3. No entry drifts into advisory, motivational, consulting, or coaching register — this is a significant collection-level strength
+
+**Examples of Strong Entries:** Entry 2 (Ownership Thinking) is exemplary and the model for this collection. Entry 5 (Automation Fear) and Entry 3 (Monitoring) are strong.
+
+**Examples of Weak Entries:** None fail; Entry 1 has the Paritsea-actor issue; Entry 4 has the borderline ending.
+
+**Patterns That Match the Language System:** ✅
+- Below-the-surface move present in all 5 entries (P-03)
+- Naming before explaining in all entries (P-02)
+- Observation before conclusion in all entries (P-01)
+- No "you should" construction anywhere (P-10)
+- No motivational, urgency, or coaching vocabulary
+
+**Patterns That Drift From Language System:**
+- Paritsea-as-actor construction (Entry 1) — the lens observes; the lens is not the subject
+- Aspirational register in a supporting clause (Entry 5, one sentence)
+
+**Recommended Collection Action: Leave As-Is**
+The Journal collection is the strongest part of the site. No entry requires revision. The issues noted are single-sentence observations, not collection-level patterns.
+
+---
+
+### Framework
+
+**Collection:** `posts` (framework_page: `the-doctrine`)
+**Total Entries:** 1 — "The Paritsea Doctrine of Structural Coherence and Legitimacy"
+**Language Consistency Score: 9 / 10**
+**Role Consistency Score: 8 / 10**
+
+---
+
+#### Special Audit — Governed, Declarative, Structurally Precise
+
+The Framework document must be: governed (formalized, not an opinion), declarative (states what is, not what might be), and structurally precise (exact language with no hedging). It must not be essay-like, reflective, or journal-style.
+
+**Strengths:**
+- Section structure (Foundational Premise → Structural Coherence → Legitimacy Conditions) — governed, declarative architecture ✅
+- `"Constitutional Foundation — Immutable"` italic header — correct immutability signal ✅
+- `"Legitimacy arises from structural coherence. Legitimacy, within Paritsea, is a structural condition — not a moral endorsement."` — exactly right Framework register ✅
+- `"Legitimacy is not conferred by: — Consensus, — Popularity, — Longevity, — Institutional endorsement, — Market scale"` — declarative list pattern, correct altitude ✅
+- No opinion framing anywhere ✅
+- No hedging language ("it could be argued," "this might suggest") ✅
+- No first-person voice ✅
+- Language is authoritative and sparse throughout ✅
+
+**Issues:**
+- Document-level page label uses "Doctrine" — this is a page-layer issue, not a document content issue (documented in Site Pages / Framework section above)
+- Some structural sections flow as paragraphs within the declared section heading rather than as standalone declarative statements. This is a stylistic note, not a violation — the content is correct, the visual formatting could be more explicitly sectioned in future.
+
+**Altitude:** ✅ Framework register maintained throughout
+**Declarative:** ✅
+**Essay-like/Journal-style drift:** Absent ✅
+**Opinion framing:** Absent ✅
+
+**Examples of Strong Entries:** The entire document. Particularly: the Legitimacy Conditions section with its explicit not-list.
+
+**Recommended Collection Action: Leave As-Is**
+The Framework document is well-executed. The only required action is the badge label on the page (handled in Site Pages). Document content is immutable.
+
+---
+
+### Protocols
+
+**Collection:** `posts` (framework_page: `protocols`)
+**Total Entries:** 1 — "Structural Transparency Protocol (STP) v1.0"
+**Language Consistency Score: 5 / 10**
+**Role Consistency Score: 4 / 10**
+
+---
+
+#### Special Audit — Governed, Declarative, Structurally Precise
+
+**Strengths:**
+- Version header: `"v1.0 · Foundational · Authored by Parit Ritchai"` — correct protocol metadata ✅
+- The Five Structural Exposures section is the correct altitude for Protocol content:
+  - Human Visibility, Capacity Integrity, Choice & Representation Rights, Conflict & Competitive Boundaries, Power & Responsibility Mapping — all well-named structural domains ✅
+  - Each exposure uses declarative format with `"Required disclosure:"` sub-items — correct Protocol register ✅
+- `"This document is not a guideline."` — correct boundary declaration ✅
+- `"Required disclosure"` pattern — obligation language, correct ✅
+
+**Issues:**
+
+*Critical altitude violation — introductory sections are essay-register, not Protocol-register:*
+
+The STP has approximately 600 words of preamble before the Protocol content begins. Two sections:
+
+**"An Industry Challenge to Agencies":**
+> *"Most agencies speak about transparency. Very few structure themselves around it. The modern agency industry has evolved into a performance-driven ecosystem where velocity is rewarded, visibility is curated, and responsibility is often diffused."*
+
+This is essay/journal-altitude writing. It observes an industry problem with narrative prose. A Protocol does not critique an industry; it declares an obligation. This entire section belongs in a Journal entry, not a Protocol preamble. language-system.md §8 Protocol: the page answers "What obligation does this establish?" — not "Why does the industry have this problem?"
+
+**"Why This Protocol Exists":**
+> *"Agencies today operate at the intersection of technology, data, performance metrics, and human labour. They promise efficiency. They promise optimisation. They promise measurable results. What is rarely disclosed is: who is actually doing the work..."*
+
+This is persuasion-register writing. Three consecutive "They promise..." sentences are rhetorical structure. A Protocol does not persuade; it declares. language-system.md §3 prohibits consulting register ("our recommendation") and language-system.md §4 prohibits "Furthermore," and transition-word padded prose.
+
+Vocabulary violations in preamble sections:
+- `"velocity is rewarded"` — editorial/opinion
+- `"responsibility is often diffused"` — analytical (journal-altitude)
+- `"Clients are sold clarity. What they receive is structure."` — this is actually a strong observational line — but it belongs in a Journal entry, not a Protocol preamble
+
+*Register summary:*
+The first ~600 words of STP are at Journal/essay altitude. The Protocol body (The Five Structural Exposures onward) is at correct Protocol altitude. The document contains two distinct registers. The opening is wrong for a Protocol.
+
+*What should precede a Protocol per spec:*
+ux-blueprint §6 requires a position note (derives from Framework, sits above Standard). There is currently a preamble that argues for why the Protocol should exist. A Protocol does not argue for itself; it declares itself.
+
+**Altitude:** ❌ Mixed — opening sections are essay-altitude; body is protocol-altitude
+**Declarative:** Partially — Exposures section is correct; preamble is narrative/persuasion
+**Essay-like drift:** Present — opening sections
+**Journal-style content mixed in:** Present — opening sections
+
+**Examples of Strong Entries (within document):** The Five Structural Exposures section. Each Exposure name, its domain, and its Required Disclosure format are the model for Protocol content.
+
+**Examples of Weak Entries (within document):** "An Industry Challenge to Agencies" and "Why This Protocol Exists" — both wrong altitude for this layer.
+
+**Recommended Collection Action: Selective Revision**
+The Five Structural Exposures (the actual Protocol body) should be retained without change. The "An Industry Challenge" and "Why This Protocol Exists" sections should either:
+- Be replaced with a one-paragraph declarative position note: derived from Framework, establishes the obligation of structural transparency, sits above ASLS-01.
+- Be extracted to a linked Journal entry that contextualizes the industry problem.
+
+The Protocol should begin with its obligation, not its rationale.
+
+---
+
+### Standards
+
+**Collection:** `posts` (framework_page: `standards`)
+**Total Entries:** 1 — "Agency Structural Legitimacy Standard (ASLS-01) v1.0"
+**Language Consistency Score: 8 / 10**
+**Role Consistency Score: 9 / 10**
+
+---
+
+#### Special Audit — Governed, Declarative, Structurally Precise
+
+**Strengths:**
+- `"This standard does not regulate agencies. It establishes structural assessment conditions."` — excellent boundary declaration; exactly right for a Standard ✅
+- `"Legitimacy, within this framework, is a structural condition — not a marketing claim, performance outcome, or reputational status."` — precise governance language ✅
+- `"Constitutional Position: ASLS-01 remains subordinate to STP v1.0."` — explicit derivation declaration ✅
+- Structured domains with verifiable sub-conditions — correct Standard architecture ✅
+- `"Structural Condition: No strategic authority may be implied without structural presence."` — declarative, testable, correct ✅
+- Agency Scorecard section — moves from declaration to verifiable assessment criteria ✅
+- No essay-like introduction, no persuasion register ✅
+- Derivation chain from STP to ASLS-01 is explicit ✅
+
+**Issues:**
+- `"Note: Legitimacy, within this framework, is a structural condition..."` — the "Note:" label is slightly informal for a Standard. This could be stated as a direct declaration without the label.
+- One sentence in Purpose section runs all five domains in one clause, creating density. Readability note only — not a register violation.
+- ASLS-01 is agency/service-specific. This is correctly scoped and labeled ("Agency" in title). Worth noting it is a domain-specific Standard derived from a general Protocol — the derivation logic holds.
+
+**Altitude:** ✅ Correct throughout
+**Declarative:** ✅
+**Essay-like/Journal-style drift:** Absent ✅
+**Technically precise:** ✅
+
+ASLS-01 is significantly better-executed than STP in terms of altitude consistency. It is the model document for the Standards layer.
+
+**Examples of Strong Entries:** The entire ASLS-01 document. Particularly: boundary declaration, derivation declaration, and Scorecard section.
+
+**Recommended Collection Action: Leave As-Is**
+Minor editorial polish only (the "Note:" label). No structural changes needed.
+
+---
+
+### Implementation
+
+**Collection:** Hardcoded in `implementation.astro` — not CMS-managed
+**Total Entries:** 1 — AgenSea (ASLS-01 v1.1 implementation)
+**Language Consistency Score: 7 / 10**
+**Role Consistency Score: 8 / 10**
+
+---
+
+#### Special Audit — Application vs Theory
+
+The Implementation layer must demonstrate application, not merely describe theory. Each entry must provide observable evidence that the governed system operates in reality.
+
+**Strengths:**
+- `"A structural transparency platform for agency-client work that applies ASLS inside discovery, profile logic, trust surfaces, contracts, and operating workflows."` — concrete, demonstrative, evidential ✅
+- Status: `"MVP in development"` — honest and factual ✅
+- ASLS-01 v1.1 version reference — correct derivation traceability ✅
+- `"Implements structural legitimacy rather than reputation signals."` — strong note ✅
+- `"Translates ASLS into human-readable trust surfaces instead of raw score exposure."` — distinguishes structural from performative application ✅
+- `"Treats structural scoring and operational trust signals as distinct layers."` — evidential precision ✅
+
+**Issues:**
+
+*Scope description without observable evidence:*
+`"applies ASLS inside discovery, profile logic, trust surfaces, contracts, and operating workflows"` — this lists where it applies (scope) but does not show a single observable result of that application. An Implementation entry should give the reader something they can verify. Currently the description maps scope; it should also point to what is visible at the linked URL.
+
+*Conditional qualification — "MVP in development":*
+An Implementation entry implies a system that is operating in reality. "MVP in development" means the system is not yet complete. This qualifies conditionally. The entry documents a system being built, not one currently running. This is an editorial judgment call for the author; it is noted here as a consistency risk.
+
+*No "what to look for" guidance:*
+The entry links to `https://agensea-flame.vercel.app/` as its evidence anchor. The description does not guide the reader to what at that URL demonstrates the implementation. A one-sentence evidential pointer would strengthen the demonstrative function.
+
+**Altitude:** ✅ Evidential/demonstrative
+**Application vs theory:** Leans toward scope description over evidence display. Improvement possible.
+
+**Recommended Collection Action: Selective Revision**
+Light revision: add one sentence of observable evidence pointing to what the reader will see at the linked URL that demonstrates ASLS-01 application. Consider whether "MVP in development" entry qualifies as a documented implementation or should be flagged as provisional.
+
+---
+
+## Part 3 — UX Copy
+
+---
+
+### Navigation Labels
+
+**Score: 10 / 10**
+
+All labels comply with D-029 (fully English in both locales):
+- `Journal` ✅ · `System` ✅ · `Framework` ✅ · `Protocols` ✅ · `Standards` ✅ · `Implementation` ✅ · `About` ✅
+
+No Thai nav labels present anywhere in either locale. System dropdown children are correctly English in TH locale. Footer nav links match approved labels.
+
+**Recommended Action: Leave As-Is**
+
+---
+
+### CTA Labels
+
+**Score: 8 / 10**
+
+**Correct CTAs:**
+- `"Read Framework"` / `"อ่าน Framework"` — Verb + Object ✅
+- `"Explore Journal"` / `"สำรวจ Journal"` — Verb + Object ✅
+- `"View Implementations"` — Verb + Object ✅
+- `"Open implementation →"` — Verb + Object (functional; see note below)
+- `"View YouTube Channel →"` — Verb + Object ✅
+
+**Issues:**
+- `"Join Today's Session →"` — urgency word `Today` is explicitly prohibited in language-system.md §8 P-08
+- TH `"เข้าร่วม Session วันนี้ →"` — urgency word `วันนี้` — same violation
+- `"Explore Paritsea first"` — the word "first" implies sequencing pressure. Paritsea: "depth is pulled, never pushed" — navigation-model.md §3
+- `"Start Here"` block — acceptable as a label; `startHereDesc` uses lowercase "method" ambiguously (`"a method that reads people and systems together"`) — could be read as referencing "The Method" (old Journal name)
+- `"Open implementation →"` is functional. `"View implementation →"` would better match the vocabulary register (`View` aligns with `"View Implementations"` CTA).
+
+**Recommended Action: Light Revision**
+- Remove `"Today"` / `"วันนี้"` from Sessions CTA (or remove Sessions block entirely)
+- Remove `"first"` from secondary sessions CTA
+- Clarify `startHereDesc` lowercase "method" to remove The Method ambiguity
+- Optionally align `"Open"` → `"View"` for CTA vocabulary consistency
+
+---
+
+### Section Headings
+
+**Score: 8 / 10**
+
+**Correct headings:**
+- `"What often goes unseen"` — observational, correct altitude ✅
+- `"How Paritsea reads"` — descriptive, correct ✅
+- `"Derivation order"` — architectural, sparse, correct for System hub ✅
+- `"STRUCTURING"` eyebrow — correct altitude signal ✅
+- `"ANALYTICAL REGISTRY"` eyebrow — correct for Journal ✅
+- `"Applied Reference Layer"` eyebrow — correct for Implementation ✅
+
+**Issues:**
+- Home: `"Ideas that go beyond Motivation"` — comparative framing, prohibited. Must describe what Paritsea is, not what it surpasses.
+- Implementation: `"Current Reading"` — slightly informal for a governance layer. "Current Implementations" or no label would be more appropriate.
+- Protocols + Standards: missing position-note heading in primary column (required by ux-blueprint §6 and §7).
+
+**Recommended Action: Light Revision**
+
+---
+
+### Card Descriptions (System Hub)
+
+**Score: 9 / 10**
+
+Framework card: `"The immutable root. Every Protocol and Standard derives from here. The Framework is fixed — it is referenced, not revised."` — excellent ✅
+
+Protocols card: `"What must hold in practice. Protocols derive from the Framework and define what must be true."` — correct ✅
+
+Standards card: `"How Protocol obligations are verified. Standards sit beneath Protocols and set concrete criteria."` — correct ✅
+
+**Issues:** None significant. All three cards use correct vocabulary and maintain correct derivation order.
+
+**Recommended Action: Leave As-Is**
+
+---
+
+### Footer Copy
+
+**Score: 8 / 10**
+
+EN tagline: `"Where systems meet humanity — a way of thinking that understands both the complexity of the world and the depth of human experience."` — acceptable; close to worldview register but slightly descriptive rather than declarative. Not a violation.
+
+TH tagline: `"ที่ที่ระบบและมนุษย์มาบรรจบกัน — วิธีคิดที่เข้าใจทั้งความซับซ้อนของโลกและความรู้สึกของคน"` — equivalent altitude ✅
+
+Footer section labels: `"Framework Layers"` / `"Legal & Contact"` — appropriate ✅
+TH: `"สถาปัตยกรรมอ้างอิง"` / `"สิทธิ์ & ติดต่อ"` — correct ✅
+
+**Issues:**
+- Author role line: `"Philosophy Architecture of Paritsea · Authority Director of SE Ocean"` — "Philosophy Architecture" and "Authority Director" are uncommon compound titles. Not a register violation; distinctive but unusual.
+- `"Follow on"` ecosystem label is generic — acceptable, not a violation.
+
+**Recommended Action: Leave As-Is**
+
+---
+
+### Empty States
+
+**Score: 7 / 10**
+
+Current: `"No protocols published yet."` / `"No standards published yet."` — functional, but empty states are an opportunity for altitude-appropriate orientation.
+
+The current states are honest. An enhancement would carry a brief layer-orientation line that serves arriving readers who find an empty index. Example altitude-appropriate alternative: "Protocols are formalized when recurring Journal observations become structural obligations." — this maintains altitude while explaining the current state.
+
+**Recommended Action: Optional Enhancement**
+
+---
+
+### Collection Intros (Protocols / Standards / Journal)
+
+**Score: 6 / 10**
+
+Downgraded due to "The Method" and "Doctrine" terminology throughout `StructuralIndexPage`. Once terminology is corrected (Priority 1 fixes), the intros themselves are structurally sound. The main structural issue is that the Journal intro describes format mix rather than layer role.
+
+**Recommended Action: Light Revision (follow Priority 1 terminology fixes)**
+
+---
+
+## Site Health Summary
+
+**Overall Alignment Score: 7.0 / 10**
+
+The site's governance and structural backbone are largely correct. Worldview copy, System hub, Licensing, and Contact are well-executed. The primary issues fall into two categories: (1) legacy terminology that survived Phase 1 ("The Method," "Doctrine") and (2) two pages that do not fulfill their approved purpose (About, Home Sessions block).
+
+---
+
+### Critical Issues (must fix)
+
+| Issue | Location | Type |
+|-------|----------|------|
+| `"The Method"` still in StructuralIndexPage body copy | Journal index | Terminology |
+| `"The Method"` still in Implementation integrationNote | Implementation | Terminology |
+| `"enforce doctrine"` in Implementation description | Implementation | Terminology + register |
+| `"Doctrine"` still in Protocols and Standards descriptions | Protocols, Standards | Terminology |
+| `"Constitutional Doctrine"` badge label on Framework page | Framework (page labels) | Terminology |
+| About page does not answer its approved question | About | Structural |
+| About page sections answer wrong questions (worldview, methodology, licensing) | About | Structural |
+| STP Protocol opening sections are essay-altitude, not protocol-altitude | STP document | Altitude |
+| Sessions block on Home not in approved blueprint | Home | Structural |
+| `"Ideas that go beyond Motivation"` comparative framing | Home | Language register |
+| `"Join Today's Session →"` urgency CTA | Home | Language register |
+
+---
+
+### Medium Issues (should fix)
+
+| Issue | Location | Type |
+|-------|----------|------|
+| Implementation title `"Implementations"` (should be singular) | Implementation | Architecture |
+| Journal intro describes format mix, not layer role | Journal index | UX copy |
+| Missing position notes in primary columns | Protocols, Standards | Structure |
+| `"Further instruments forthcoming"` — promise language | Protocols, Standards | Register |
+| AgenSea entry: scope description without observable evidence | Implementation entry | Altitude |
+| integrationNote on Implementation is System-layer framing | Implementation | Page role |
+| `startHereDesc` lowercase "method" ambiguity | Home | Terminology |
+| `"Explore Paritsea first"` sequencing pressure | Home | Language register |
+
+---
+
+### Low Issues (optional polish)
+
+| Issue | Location | Type |
+|-------|----------|------|
+| Entry 1: "Paritsea did X" authorial insertion | Journal entry 1 | Register |
+| Entry 4: borderline ending approaching conclusion | Journal entry 4 | Altitude |
+| `"Note:"` label in ASLS-01 Purpose | Standards document | Register |
+| Empty states could carry altitude framing | Protocols, Standards | UX copy |
+| Author role title compound phrasing | Footer | Polish |
+| `"Current Reading"` label on Implementation | Implementation | UX copy |
+
+---
+
+## Rewrite Priority Matrix
+
+### Priority 1 — No author input required; terminology fixes only
+
+All fixes are find-and-replace or single-sentence corrections. No content decisions needed. Estimated 1–2 hours total.
+
+| Fix | File | Notes |
+|-----|------|-------|
+| `"The Method"` → `"Journal"` / `"the Journal"` throughout StructuralIndexPage | `StructuralIndexPage.astro` | All instances including TH |
+| `"The Method"` → `"Journal"` in Implementation integrationNote | `implementation.astro` | EN + TH |
+| `"enforce doctrine, protocols, and standards"` → `"apply the Framework, Protocols, and Standards"` | `implementation.astro` | EN description |
+| `"derived from the Doctrine"` → `"derived from the Framework"` | `StructuralIndexPage.astro` | Protocols copy |
+| `"foundational doctrine"` → `"foundational Framework"` | `StructuralIndexPage.astro` | Protocols copy |
+| `"Standards translate doctrine"` → `"Standards translate Framework obligations"` | `StructuralIndexPage.astro` | Standards copy |
+| `"Constitutional Doctrine"` → `"Constitutional Framework"` | `i18n.ts` | `constitutionalDoctrine` label |
+| `labels.doctrine` → `"Framework"` where user-facing | `i18n.ts` | Framework page badge |
+| `"Implementations"` H1 title → `"Implementation"` | `implementation.astro` | Singular per architecture.md |
+| Remove all instances of `"Further instruments forthcoming"` | `StructuralIndexPage.astro` | Protocols + Standards |
+| Format description in Journal intro → layer role definition | `StructuralIndexPage.astro` | `methodFlowNote` key |
+
+---
+
+### Priority 2 — Author decision required before implementation
+
+| Fix | Decision needed |
+|-----|----------------|
+| Remove Sessions block from Home | Where does sessions content go? Separate page, external link, or removal? |
+| Replace `"Ideas that go beyond Motivation"` framing | What should the content breadth section heading say? |
+| Add position notes to Protocols + Standards primary column | Approve proposed one-liners before implementation |
+| STP Protocol opening sections (essay altitude) | Remove preamble, or extract to a linked Journal entry? |
+| integrationNote on Implementation | Remove, or move to System hub? |
+| Elevate doctrineNotice to explicit position statement | Approve restructured Framework page header |
+
+---
+
+### Priority 3 — Author content required; cannot proceed without input
+
+| Fix | What is needed from author |
+|-----|---------------------------|
+| About page full rewrite | Origin narrative — what experience formed this beneath-the-surface movement; honest non-credential self-description |
+| AgenSea evidence sentence | What is observable at the linked URL that demonstrates ASLS-01 application? |
+
+---
+
+## Rewrite Candidates
+
+### Pages requiring full rewrite
 
 | Page | Reason |
 |------|--------|
-| System hub | Recently built to spec; aligned with blueprint |
-| Licensing | Well-executed; no violations |
-| Contact | Well-executed; no violations |
-| Framework document | Immutable per governance rules; only badge label needs updating |
-| Worldview copy (Home) | Locked per paritsea-principles.md — these four statements must not be altered |
+| **About** | Wrong sections; page does not answer its approved question; no origin narrative present; requires author-provided content |
 
----
+### Pages requiring partial rewrite
 
-## Pages Requiring Revision (Author Approval Needed)
+| Page | Scope |
+|------|-------|
+| **Home** | Sessions block structural violation; comparative framing in content breadth heading |
 
-| Page | Type | Can proceed without author? |
-|------|------|---------------------------|
-| Protocols | Light revision (terminology) | Yes |
-| Standards | Light revision (terminology) | Yes |
-| Implementation | Light revision (terminology) | Yes |
-| Journal | Light revision (terminology) | Yes |
-| Home | Partial rewrite | Partially — Sessions removal needs author decision |
-| About | Full rewrite | **No — requires author's origin narrative** |
+### Pages requiring light revision
+
+| Page | Fixes needed |
+|------|-------------|
+| Journal index | Terminology only — "The Method" → "Journal" throughout; intro copy |
+| Framework (page labels) | "Constitutional Doctrine" → "Constitutional Framework" in i18n.ts |
+| Protocols index | Terminology ("Doctrine" → "Framework"); add position note in primary column |
+| Standards index | Terminology ("doctrine" → "Framework"); add position note in primary column |
+| Implementation | Terminology (3 fixes); singular title; remove/relocate integrationNote |
+
+### Collections requiring selective revision
+
+| Collection | Scope |
+|-----------|-------|
+| STP Protocol | Remove or relocate introductory essay sections ("An Industry Challenge," "Why This Protocol Exists"); retain Five Structural Exposures |
+
+### Collections and pages to lock (no changes)
+
+| Item | Reason |
+|------|--------|
+| System hub `/system` | Built to spec; 9/10 alignment |
+| Licensing `/licensing` | Well-executed; 9/10 alignment |
+| Contact `/contact` | Well-executed; 9/10 alignment |
+| ASLS-01 Standard document | Model document for the Standards layer |
+| All 5 Journal entries | Strong collection; no entry requires revision |
+| Worldview copy on Home | Immutable per paritsea-principles.md; cannot be altered |
+| Framework document content | Immutable per governance rules; only page labels need updating |
 
 ---
 
 *Audit complete. No copy has been modified. All findings are observational only.*
-*Next step: Author review and approval of rewrite sequence before any changes begin.*
+*Next step: Author review of Priority 1 fixes (no decisions needed) and author decisions on Priority 2 before implementation.*

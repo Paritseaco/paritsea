@@ -713,6 +713,32 @@ The two are orthogonal: Model A says *where*; Model B says *how heavy the words 
 
 ---
 
+### D-038 — Content audit completed — full site against 5 governance documents
+
+| Field | Value |
+|-------|-------|
+| **Date** | 2026-06 |
+| **Status** | ✅ Active |
+| **Type** | Governance / Audit |
+| **Resolves** | No prior content audit existed; accumulated copy drift not yet measured |
+| **Supersedes** | N/A |
+
+**Decision:** A comprehensive content audit of `docs/content-audit.md` is now the standing audit record for all Paritsea content. It covers: 10 site pages, 5 content collections (Journal, Framework, Protocols, Standards, Implementation), and 7 UX copy categories — audited against `architecture.md`, `navigation-model.md`, `ux-blueprint.md`, `language-system.md`, and `paritsea-principles.md`. Overall score: **7.0 / 10**.
+
+**Key findings:**
+- 4 pages score ≤ 6/10: Home (6), Protocols (6), Implementation (6), About (5)
+- About page requires full rewrite — current sections answer the wrong questions for the origin-context role (D-008)
+- STP Protocol has a critical altitude violation: opening sections are essay-register, not governed-register
+- Home contains a Sessions block not present in approved blueprint, with urgency CTAs and therapy-register framing
+- Implementation page uses "The Method" and "enforce doctrine" — legacy terminology that must be cleared
+- 3-priority rewrite plan defined: Priority 1 (terminology fixes, no author input); Priority 2 (6 author decisions needed); Priority 3 (author-provided content)
+
+**Rationale:** Without a scored audit, copy drift is invisible. The document quantifies misalignment, prioritizes the remediation order, and makes the required author decisions explicit before any rewrite begins.
+
+**Related documents:** `docs/content-audit.md`, `docs/language-system.md`, `docs/ux-blueprint.md`, `docs/paritsea-principles.md`
+
+---
+
 ## Template for future entries
 
 When adding new decisions:
