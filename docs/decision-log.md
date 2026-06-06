@@ -56,6 +56,7 @@
 | D-036 | 2026-06 | Mixed-language rule: both surfaces required before publish (CG-02) | ✅ Active |
 | D-037 | 2026-06 | Language system document created — editorial governance for all Paritsea copy | ✅ Active |
 | D-038 | 2026-06 | Content audit completed — 10 pages scored; 4 high-priority; About requires full rewrite | ✅ Active |
+| D-039 | 2026-06 | Editorial decisions document created — separates approved fixes from author decisions before any rewrite | ✅ Active |
 
 ---
 
@@ -736,6 +737,29 @@ The two are orthogonal: Model A says *where*; Model B says *how heavy the words 
 **Rationale:** Without a scored audit, copy drift is invisible. The document quantifies misalignment, prioritizes the remediation order, and makes the required author decisions explicit before any rewrite begins.
 
 **Related documents:** `docs/content-audit.md`, `docs/language-system.md`, `docs/ux-blueprint.md`, `docs/paritsea-principles.md`
+
+---
+
+### D-039 — Editorial decisions document created
+
+| Field | Value |
+|-------|-------|
+| **Date** | 2026-06 |
+| **Status** | ✅ Active |
+| **Type** | Governance / Process |
+| **Resolves** | Gap between content audit findings and rewrite execution — decisions were implicit |
+| **Supersedes** | N/A |
+
+**Decision:** `docs/editorial-decisions.md` is created as the pre-rewrite decision register. It converts content-audit.md findings into three explicit categories: (A) 11 approved terminology fixes requiring no author input; (B) 6 editorial decisions requiring author judgment; (C) author-provided content that cannot be generated without the author's knowledge, including a 20-question interview questionnaire for the About page origin narrative.
+
+**Rationale:** The content audit identified what is wrong. It did not specify what decisions must be made before any fix is implemented. Without explicit decisions, a rewrite session could resolve terminology correctly but make structural choices (Sessions block location, STP preamble treatment, About origin narrative) based on inference rather than author intent. This document prevents that. No implementation may proceed on Section B or C items until the author has selected an option in this document.
+
+**Key findings encoded:**
+- Section A: 11 terminology fixes READY FOR IMPLEMENTATION upon author approval
+- Section B: 6 decisions that must be made (Sessions block location; comparative heading replacement; STP preamble treatment; integrationNote placement; position note wording; Framework prominence)
+- Section C: 2 items requiring author-provided content (About origin narrative + 20-question interview questionnaire; AgenSea evidence statement)
+
+**Related documents:** `docs/editorial-decisions.md`, `docs/content-audit.md`, `docs/language-system.md`, `docs/paritsea-principles.md`
 
 ---
 
