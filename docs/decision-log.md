@@ -57,6 +57,7 @@
 | D-037 | 2026-06 | Language system document created — editorial governance for all Paritsea copy | ✅ Active |
 | D-038 | 2026-06 | Content audit completed — 10 pages scored; 4 high-priority; About requires full rewrite | ✅ Active |
 | D-039 | 2026-06 | Editorial decisions document created — separates approved fixes from author decisions before any rewrite | ✅ Active |
+| D-040 | 2026-06 | Five editorial decisions locked: B-01/B-02/B-04/B-05/B-06 — Sessions off-site; no comparative framing; upward references only; position notes approved; Framework authority elevated | ✅ Active |
 
 ---
 
@@ -760,6 +761,34 @@ The two are orthogonal: Model A says *where*; Model B says *how heavy the words 
 - Section C: 2 items requiring author-provided content (About origin narrative + 20-question interview questionnaire; AgenSea evidence statement)
 
 **Related documents:** `docs/editorial-decisions.md`, `docs/content-audit.md`, `docs/language-system.md`, `docs/paritsea-principles.md`
+
+---
+
+### D-040 — Five editorial decisions locked (B-01, B-02, B-04, B-05, B-06)
+
+| Field | Value |
+|-------|-------|
+| **Date** | 2026-06 |
+| **Status** | ✅ Active |
+| **Type** | Governance / Editorial |
+| **Resolves** | B-01, B-02, B-04, B-05, B-06 in `docs/editorial-decisions.md` |
+| **Supersedes** | N/A |
+
+**Decision:** Five editorial decisions from the pre-rewrite decision register are approved and locked. Implementation may proceed for all five without further author input.
+
+| Decision | Ruling |
+|---------|--------|
+| **B-01 — Home Sessions block** | **Option 3.** Sessions are a commercial service offering belonging to SE Ocean, not to the Paritsea architecture. The Sessions block is removed from the Home page entirely. The page taxonomy remains closed; no new page is created. |
+| **B-02 — Home comparative framing** | **Option 1.** The heading "Ideas that go beyond Motivation" is replaced with the blueprint-approved label. Paritsea does not position itself against any category — not motivation, not self-help, not consulting. |
+| **B-04 — Implementation integrationNote** | **Option 3.** The integrationNote is replaced with a concise one-line upward reference to the governing Protocols and Standards. Implementation pages demonstrate application; they do not explain pipeline architecture. Pipeline explanation belongs on the System hub. |
+| **B-05 — Protocols + Standards position notes** | **Option 1.** The proposed position notes are approved for addition to the primary column of Protocols and Standards index pages. Aside content is retained. Wording: Protocols — "Protocols derive from the Framework. Each defines an obligation — what must hold in structural practice." Standards — "Standards derive from Protocols. Each defines a verifiable condition — the threshold by which a Protocol's obligation is assessed." |
+| **B-06 — Framework authority statement** | **Option 1.** The doctrineNotice content is elevated from a badge `<span>` to a distinct structural section visually prior to the document body. Framework remains the highest authority layer inside System. |
+
+**Rationale:** Each decision enforces the foundational architectural and language-system rules already in place. B-01 enforces the Paritsea/SE Ocean distinction established in `paritsea-principles.md`. B-02 enforces `language-system.md §1` ("no positioning against other systems"). B-04 enforces altitude discipline at the Implementation layer. B-05 fulfills `ux-blueprint.md §6 and §7` position note requirements. B-06 corrects the visual hierarchy at the Framework page to match the logical hierarchy.
+
+**B-03 remains open.** The STP decision requires additional author judgment. See `docs/editorial-decisions.md §B-03` for the full sentence-level classification and three options.
+
+**Related documents:** `docs/editorial-decisions.md`, `docs/language-system.md`, `docs/ux-blueprint.md`, `docs/paritsea-principles.md`
 
 ---
 

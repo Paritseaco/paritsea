@@ -1,7 +1,7 @@
 # Paritsea — Project State
 **Document type:** Operational snapshot. Update after every approved phase.
 **Last updated:** 2026-06
-**Updated by:** Phase 8 — Editorial decisions document created; D-039 logged; author decisions pending
+**Updated by:** Phase 8 — 5 editorial decisions locked (D-040); B-03 open; Section A + B-01/B-02/B-04/B-05/B-06 ready to implement
 
 ---
 
@@ -19,10 +19,13 @@ Phase 6 is complete and approved. All SEO requirements verified. Canonical bug f
 5. ✅ Full content audit created — 7.0/10 overall; 3-priority rewrite plan defined (D-038)
 6. ⚠️ Implementation layer empty (optional — soft gate permits this)
 7. ✅ Editorial decisions document created — 11 approved fixes + 6 author decisions + author interview questionnaire (D-039)
-8. 🔲 Author decisions required (B-01–B-06 in editorial-decisions.md) before rewrite may proceed
-9. 🔲 Author interview responses required (C-01, C-02) before About rewrite may proceed
-10. 🔲 Section A terminology fixes (11 items) — READY once author approves Section A
-11. 🔲 Search Console sitemap submission (manual action)
+8. ✅ 5 editorial decisions locked — B-01/B-02/B-04/B-05/B-06 approved (D-040)
+9. 🔲 **Section A (11 terminology fixes) — READY TO IMPLEMENT** — no prerequisites remain
+10. 🔲 **B-01/B-02/B-04/B-05/B-06 — READY TO IMPLEMENT** — no prerequisites remain
+11. 🔲 B-03 (STP full document) — OPEN — author selects Option A (split) / Option B (remove) / Option C (retain)
+12. 🔲 C-01 (About origin narrative) — BLOCKED — author interview responses required
+13. 🔲 C-02 (AgenSea evidence) — BLOCKED — author knowledge required
+14. 🔲 Search Console sitemap submission (manual action)
 
 **Next: Phase 9 — Annual Drift Audit** (recurring, first audit in 2027)
 
@@ -53,7 +56,7 @@ All files in `docs/` are production-locked source-of-truth documents.
 | `docs/architecture.md` | ✅ Approved | Site structure, URL map, taxonomy keys, homepage protection |
 | `docs/language-system.md` | ✅ Approved | Editorial and language governance — all future copy must pass this system |
 | `docs/content-audit.md` | ✅ Approved | Full content audit — 10 pages + 5 collections + 7 UX copy categories; 3-priority rewrite plan; overall 7.0/10 |
-| `docs/editorial-decisions.md` | ✅ Active | Pre-rewrite decision register — 11 approved terminology fixes (Section A); 6 author decisions (Section B); About interview questionnaire (Section C) |
+| `docs/editorial-decisions.md` | ✅ Active | Pre-rewrite decision register — 11 approved terminology fixes (Section A); B-01/B-02/B-04/B-05/B-06 locked; B-03 open; About interview questionnaire (Section C) |
 | `docs/navigation-model.md` | ✅ Approved | Intent mapping, nav behavior rules, cross-layer flows |
 | `docs/ux-blueprint.md` | ✅ Approved | Per-page section structure, CTAs, linking rules |
 | `docs/content-governance.md` | ✅ Approved | Content altitude law, anti-drift rules, classification tree |

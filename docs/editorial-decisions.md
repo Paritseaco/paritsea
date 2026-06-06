@@ -1,12 +1,32 @@
 # Paritsea — Editorial Decisions
-**Document type:** Pre-rewrite decision register. Read-only until decisions are made.
+**Document type:** Pre-rewrite decision register.
 **Created:** 2026-06
-**Status:** Open — awaiting author review
+**Last updated:** 2026-06
 **Source:** Derived from content-audit.md (2026-06) against architecture.md, language-system.md, paritsea-principles.md
 
 > This document converts audit findings into explicit decisions before any rewrite begins.
 > No content has been modified. No pages have been changed.
 > Every section below is a prerequisite to implementation — not an implementation.
+
+---
+
+## Decision Status
+
+### LOCKED — approved by author
+
+| ID | Decision | Option chosen |
+|----|---------|--------------|
+| **B-01** | Home Sessions block | **Option 3** — Remove entirely. Sessions are a commercial service belonging to SE Ocean, not to the Paritsea architecture. |
+| **B-02** | Home comparative framing heading | **Option 1** — Replace with blueprint-approved label. Do not position Paritsea against any category. |
+| **B-04** | Implementation integrationNote | **Option 3** — Replace with concise upward reference only. Implementation pages demonstrate application; they do not explain architecture. |
+| **B-05** | Protocols + Standards position notes | **Option 1** — Add approved position notes to primary column. Aside retained. |
+| **B-06** | Framework authority statement | **Option 1** — Elevate to distinct structural section above document body. Framework remains highest authority layer inside System. |
+
+### OPEN — pending author decision
+
+| ID | Decision | Status |
+|----|---------|--------|
+| **B-03** | STP Protocol preamble and post-body sections | Scope clarification: altitude violation extends beyond the two preamble sections to "The Economic Reality" and "The Industry Challenge" (post-body). Full analysis below. Awaiting author decision. |
 
 ---
 
@@ -272,54 +292,109 @@ What should the content breadth section heading say, or should it be removed?
 
 ---
 
-### B-03 — STP Protocol: Essay-altitude preamble
+### B-03 — STP Protocol: Full Document Altitude Review
+
+**Status: OPEN — awaiting author decision**
+
+---
+
+**Scope correction (from direct content analysis)**
+
+The content audit identified ~600 words of preamble before the Five Structural Exposures. Reading the complete STP document from the database reveals the altitude problem extends beyond the two preamble sections. The full document structure:
+
+```
+1. Version header + opening declaration        ← Protocol ✅
+2. "An Industry Challenge to Agencies"         ← MIXED (see classification below)
+3. "Why This Protocol Exists"                  ← MIXED (see classification below)
+4. "The Five Structural Exposures"             ← Protocol ✅ correct throughout
+5. "The Economic Reality"                      ← MIXED (new finding — not in prior audit)
+6. "The Industry Challenge"                    ← MIXED (new finding — not in prior audit)
+```
+
+The B-03 decision applies to the full document, not only sections 2 and 3.
+
+---
+
+**Sentence-level classification**
+
+| Content | Altitude | Treatment |
+|---------|---------|----------|
+| "Most agencies speak about transparency. Very few structure themselves around it." | **Journal** | Extract |
+| "...velocity is rewarded, visibility is curated... Clients are sold clarity. What they receive is structure." | **Journal** | Extract |
+| "This document is not a guideline. It is a structural challenge." | **Protocol** | Retain |
+| "If an agency claims strategic capability, it must be willing to expose the structure..." | **Protocol context** | Retain (as part of position note) |
+| "They promise efficiency. They promise optimisation. They promise measurable results." | **Rhetorical ❌** | Remove — persuasion register; belongs at no altitude in this system |
+| "What is rarely disclosed is: who is actually doing the work, how capacity is distributed..." | **Journal** | Extract |
+| "Transparency is often aesthetic. Rarely structural." | **Journal** | Extract |
+| "The Structural Transparency Protocol exists to change that." | **Protocol context** | Retain (in position note) |
+| The Five Structural Exposures (I–V) | **Protocol ✅** | Retain unchanged |
+| "The market does not reward moral positioning. It rewards risk reduction." | **Journal** | Extract |
+| "Structural transparency is not a virtue signal. It is an economic correction." | **Journal** | Extract |
+| "Agencies that adopt this protocol will likely take on fewer clients... But they will also..." | **Advisory ❌** | Remove — consulting register; belongs at no altitude in this system |
+| "The question is not whether transparency is admirable. The question is whether opacity is sustainable." | **Journal** | Extract |
+| "This protocol is not a certification. It is not a badge... It is a structural position." | **Protocol** | Retain |
+| "If an agency cannot publicly commit to these five exposures, it must reconsider how it defines transparency." | **Protocol context** | Retain |
+| "The industry will not reform through better language. It will reform through structural disclosure." | **Journal** | Extract |
+| "The challenge stands." | **Protocol** | Retain |
+
+**Content that belongs in neither layer (must be removed, not relocated):**
+- The three "They promise..." sentences — rhetorical structure, persuasion register
+- The business case pro/con paragraph ("Agencies that adopt this protocol will likely...") — advisory/consulting register
+
+---
 
 **Issue**
-The Structural Transparency Protocol (STP) opens with approximately 600 words of preamble across two sections:
-- `"An Industry Challenge to Agencies"` — observational essay critiquing the agency industry
-- `"Why This Protocol Exists"` — persuasion-register rationale for the protocol
-
-The content audit identified these as Journal/essay altitude writing embedded inside a Protocol document. The Protocol body (The Five Structural Exposures) is correctly written at Protocol altitude. The two sections before it are not.
-
-Per language-system.md §8 Protocol: the page answers "What obligation does this establish?" — not "Why does the industry have this problem?"
+The document currently contains three distinct registers: Protocol (obligation declarations), Journal (observation-naming sentences), and rhetorical/advisory (persuasion and business case — which belongs nowhere in this architecture). The Five Structural Exposures section is correct throughout. All other sections are mixed.
 
 **Current state**
-The preamble sections are live in the STP document. They contain some strong observational writing — particularly: `"Clients are sold clarity. What they receive is structure."` — but the sections as a whole operate at the wrong altitude for a Protocol.
-
-**Option 1 — Remove preamble entirely; replace with one-paragraph declarative position note**
-
-The "An Industry Challenge" and "Why This Protocol Exists" sections are deleted. A short declarative position note replaces them, stating: what STP derives from (Framework), what obligation it establishes (structural transparency), and how it sits above ASLS-01.
-
-Example draft (for author to approve or revise): `"Structural Transparency Protocol derives from the Paritsea Framework. It establishes the obligation of structural transparency as a non-negotiable condition of legitimate agency-client practice. This document is not a guideline — it is a declaration of what must hold."`
-
-*Architectural impact:* The Protocol becomes 600 words shorter. The Five Structural Exposures section (the actual protocol content) is not touched.
-
-*Language-system impact:* Resolves the altitude violation. The preamble's strong observational sentences ("Clients are sold clarity. What they receive is structure.") would be lost unless extracted.
+The full STP document is live. The altitude violation exists across four sections — two before the Protocol body and two after. The observation-naming sentences are strong and worth preserving. The rhetorical and advisory content is not recoverable by relocation.
 
 ---
 
-**Option 2 — Extract preamble to a linked Journal entry; replace with position note**
+**Decision options (revised to reflect full document scope)**
 
-The content of "An Industry Challenge to Agencies" and "Why This Protocol Exists" is moved to a new Journal entry that contextualizes the industry problem before the reader enters the Protocol. The Protocol itself begins with a position note (per Option 1). A one-line bridge links to the Journal entry: `"The industry context that prompted this Protocol →"`
+**Option A — Split: Extract Journal content; retain Protocol content; remove rhetorical/advisory**
 
-*Architectural impact:* Creates a new Journal entry. Adds a cross-layer link (Journal → Protocol, which is directional from seeing → structuring — a permitted link direction per navigation-model.md §5).
+All Journal-altitude sentences are extracted and formed into a new Journal entry. The Protocol retains only Protocol-altitude content (declarations, boundary statements, the Five Structural Exposures, closing declarations). Two paragraphs are removed entirely (the three "They promise..." sentences and the business case pro/con paragraph).
 
-*Language-system impact:* Resolves the altitude violation. The observational content is preserved at its correct altitude. The Journal entry will need register revision to ensure it operates at Journal altitude (not persuasion altitude).
+*Architectural impact:* Creates a new Journal entry. The cross-layer link (Journal → STP) demonstrates the seeing → structuring pipeline as a traceable path. The Five Structural Exposures are unchanged.
+
+*Language-system impact:* Resolves all altitude violations. The Journal entry requires register revision before publishing (the rhetorical paragraph is removed; the remaining observation sentences are already at Journal altitude). The Protocol becomes declarative throughout.
+
+*Long-term:* Sets the correct precedent for future Protocols. Future Protocols begin with a position note and proceed to obligation content — no justification, no industry context, no persuasion.
+
+---
+
+**Option B — Remove all non-Protocol content; replace with position note only**
+
+All content outside the Five Structural Exposures is removed. A single position note paragraph replaces the preamble and post-body sections. The Journal-altitude observations are lost.
+
+*Architectural impact:* Protocol is clean and minimal. No new Journal entry created.
+
+*Language-system impact:* Resolves all altitude violations. The strong observation sentences ("Clients are sold clarity. What they receive is structure." / "The question is whether opacity is sustainable.") are permanently lost.
+
+*Long-term:* Simpler to maintain. The observation content does not require authoring a new Journal entry.
 
 ---
 
-**Option 3 — Retain preamble; add a register disclaimer**
+**Option C — Retain all sections; accept mixed altitude**
 
-No structural change. A short notice appears at the top: `"The following sections provide industry context. The Protocol itself begins at The Five Structural Exposures."` This is a structural workaround, not a resolution.
+No structural change.
 
-*Architectural impact:* None to file structure. The Protocol continues to contain content at the wrong altitude.
+*Architectural impact:* None. D-016 (one altitude per page) is violated on record.
 
-*Language-system impact:* Does not resolve the altitude violation — it labels it. This option is inconsistent with the content governance model (D-016: one altitude per page) but may be preferable if the author wants to preserve the preamble in its current form as a deliberate choice.
+*Language-system impact:* Violation remains. Will recur in 2027 drift audit.
 
 ---
+
+**Recommended option: Option A (Split)**
+
+The observational content is some of the strongest writing in the Paritsea system. "Clients are sold clarity. What they receive is structure." / "The question is whether opacity is sustainable." / "The industry will not reform through better language." — these are exemplary below-the-surface naming moves. They should exist somewhere in the architecture. Option A preserves them at their correct altitude while making the Protocol architecturally clean. Option B resolves the violation by deleting content the system should keep. Option C accepts the violation.
 
 **Decision required from author:**
-Should the STP preamble be removed, extracted to Journal, or retained with a structural note?
+- **Option A** — Split: extract Journal content to a new entry, remove rhetorical/advisory, retain Protocol content
+- **Option B** — Remove all non-Protocol content; lose the observational sentences
+- **Option C** — Retain as-is; accept the altitude violation on record
 
 ---
 
@@ -617,38 +692,25 @@ The current entry notes `"MVP in development"` — which means the system is not
 
 | Section | Status | Prerequisite |
 |---------|--------|-------------|
-| **A — Terminology fixes (11 items)** | ✅ READY | Author approves Section A in full; no individual decisions needed |
-| **B-01 — Sessions block** | 🔲 BLOCKED | Author chooses: separate page / footer link / remove entirely |
-| **B-02 — Comparative heading** | 🔲 BLOCKED | Author approves replacement heading or removal |
-| **B-03 — STP preamble** | 🔲 BLOCKED | Author chooses: remove / extract to Journal / retain with label |
-| **B-04 — integrationNote** | 🔲 BLOCKED | Author chooses: remove / move to System / replace with upward reference |
-| **B-05 — Position notes** | 🔲 BLOCKED | Author approves proposed wording or provides alternate |
-| **B-06 — Framework prominence** | 🔲 BLOCKED | Author chooses visual treatment |
+| **A — Terminology fixes (11 items)** | ✅ READY | No prerequisites — ready to implement |
+| **B-01 — Sessions block** | ✅ LOCKED (Option 3) | Remove entirely; no new page; no prerequisites |
+| **B-02 — Comparative heading** | ✅ LOCKED (Option 1) | Replace with blueprint-approved "What Paritsea Covers" |
+| **B-03 — STP full document** | 🔲 OPEN | Author selects Option A (split) / Option B (remove) / Option C (retain) |
+| **B-04 — integrationNote** | ✅ LOCKED (Option 3) | Replace with one-line upward reference |
+| **B-05 — Position notes** | ✅ LOCKED (Option 1) | Proposed wording approved; add to primary column |
+| **B-06 — Framework prominence** | ✅ LOCKED (Option 1) | Elevate doctrineNotice to distinct structural section |
 | **C-01 — About origin narrative** | 🔲 BLOCKED | Author provides interview responses |
 | **C-02 — AgenSea evidence** | 🔲 BLOCKED | Author provides observable evidence sentence + active/provisional decision |
 
-**Minimum required before any rewrite begins:**
-Author approval of Section A (enables 11 fixes, ~1–2 hours of implementation).
+**Ready to implement now (no further decisions needed):**
+Section A (11 terminology fixes) + B-01 + B-02 + B-04 + B-05 + B-06
 
-**Required before About rewrite begins:**
-C-01 interview responses.
-
-**Required before Home partial rewrite begins:**
-B-01 + B-02 decisions.
-
-**Required before STP revision begins:**
-B-03 decision.
-
-**Required before Implementation full revision begins:**
-B-04 + C-02 decisions.
-
-**Required before Protocols/Standards position note fixes:**
-B-05 approval.
-
-**Required before Framework page restructure:**
-B-06 decision.
+**Still blocked:**
+B-03 (STP full document — author decision on split/remove/retain)
+C-01 (About origin narrative — author interview responses)
+C-02 (AgenSea evidence — author knowledge)
 
 ---
 
-*Document created from content-audit.md (2026-06). No content modified. No pages changed.*
-*All items above are prerequisites to implementation — not implementations.*
+*Document created from content-audit.md (2026-06). Updated 2026-06 with locked decisions (B-01, B-02, B-04, B-05, B-06) and B-03 scope correction.*
+*No content has been modified. No pages have been changed.*
