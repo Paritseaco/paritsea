@@ -182,9 +182,9 @@ const lastUpdatedLabel = formatDateForLocale(lastUpdated, locale);
 
 			<div class="article-main article-main--doctrine">
 				<header class="article-header">
-					<div class="doctrine-notice">
-						<span class="doctrine-notice-label">{labels.constitutionalDocument}</span>
-						<span class="doctrine-notice-text">{labels.doctrineNotice}</span>
+					<div class="doctrine-authority">
+						<p class="doctrine-authority-label">{labels.constitutionalDocument}</p>
+						<p class="doctrine-authority-statement">{labels.doctrineNotice}</p>
 					</div>
 					<div class="article-doc-badge article-doc-badge--doctrine">{labels.constitutionalDoctrine}</div>
 					<div class="article-meta">
@@ -968,32 +968,33 @@ const lastUpdatedLabel = formatDateForLocale(lastUpdated, locale);
 		margin-bottom: var(--spacing-6);
 	}
 
-	/* Doctrine special treatment */
-	.doctrine-notice {
-		display: flex;
-		flex-direction: column;
-		gap: var(--spacing-1);
-		padding: var(--spacing-4) var(--spacing-5);
-		border-left: 3px solid var(--color-accent);
-		background: color-mix(in srgb, var(--color-accent) 6%, transparent);
-		margin-bottom: var(--spacing-6);
-		border-radius: 0 var(--radius) var(--radius) 0;
+	/* B-06 — Framework authority section: full-width declarative block above document body */
+	.doctrine-authority {
+		width: 100%;
+		padding: var(--spacing-6) var(--spacing-7);
+		border-top: 2px solid var(--color-accent);
+		border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 30%, var(--color-border-subtle));
+		background: color-mix(in srgb, var(--color-accent) 5%, var(--color-surface));
+		margin-bottom: var(--spacing-8);
 	}
 
-	.doctrine-notice-label {
+	.doctrine-authority-label {
 		font-family: var(--font-sans);
 		font-size: var(--font-size-xs);
-		font-weight: 600;
-		letter-spacing: var(--tracking-wider);
+		font-weight: 700;
+		letter-spacing: var(--tracking-widest);
 		text-transform: uppercase;
 		color: var(--color-accent);
+		margin: 0 0 var(--spacing-2);
 	}
 
-	.doctrine-notice-text {
+	.doctrine-authority-statement {
 		font-family: var(--font-sans);
-		font-size: var(--font-size-sm);
-		color: var(--color-text-secondary);
+		font-size: var(--font-size-base);
+		color: var(--color-text);
 		line-height: var(--leading-relaxed);
+		margin: 0;
+		max-width: 60ch;
 	}
 
 	.article-doc-badge--doctrine {

@@ -103,12 +103,12 @@ export const ui = {
       continueReading: "Continue reading",
       constitutionalDocument: "Constitutional Document",
       doctrineNotice:
-        "This document forms the foundational authority for all Paritsea Protocols and Standards. It is immutable.",
-      constitutionalDoctrine: "Constitutional Doctrine",
+        "This document forms the foundational authority for all Paritsea Protocols and Standards. It is immutable — it is referenced, not revised.",
+      constitutionalDoctrine: "Constitutional Framework",
       protocol: "Protocol",
       standard: "Standard",
       implementation: "Implementation",
-      doctrine: "Doctrine",
+      doctrine: "Framework",
     },
   },
   th: {

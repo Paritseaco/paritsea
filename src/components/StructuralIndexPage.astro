@@ -87,12 +87,16 @@ const copy = locale === "th"
 			standardsDescription:
 				"มาตรฐานแปลงหลักการให้เป็นเงื่อนไขที่วัดได้ เมื่อโปรโตคอลกำหนดภาระหน้าที่ มาตรฐานจะนิยามเกณฑ์ที่ทำให้ข้อกล่าวอ้างเชิงโครงสร้างประเมินได้จริง",
 			methodDescription:
-				"The Method คือทะเบียนวิเคราะห์ของกรอบอ้างอิง มันระบุแรงตึงเชิงโครงสร้าง ตั้งชื่อต้นทุนในทางปฏิบัติ และเก็บรูปแบบที่เกิดซ้ำไว้นานพอให้เข้าใจก่อนถูกทำให้เป็นทางการในชั้นอื่น",
+				"Journal คือทะเบียนวิเคราะห์ของกรอบอ้างอิง มันระบุแรงตึงเชิงโครงสร้าง ตั้งชื่อต้นทุนในทางปฏิบัติ และเก็บรูปแบบที่เกิดซ้ำไว้นานพอให้เข้าใจก่อนถูกทำให้เป็นทางการในชั้นอื่น",
 			methodSecondary:
 				"บันทึกเหล่านี้คือข้อสังเกตอ้างอิง ไม่ใช่บทความความเห็น แต่ละบันทึกแยกความไม่สอดคล้องเชิงโครงสร้าง ตั้งชื่อโดยไม่บิดเบือน และเก็บไว้ในรูปที่ผู้อื่นกลับมาอ่าน ปรับใช้ และต่อยอดได้",
 			methodFlowNote:
-				"The Method รวมทั้งบทความและวิดีโอสะท้อนคิดใน knowledge flow เดียวกัน เนื้อหาต่างรูปแบบทำงานบนหลักการวิเคราะห์ชุดเดียว",
-			further: "เครื่องมือเพิ่มเติมจะตามมา",
+				"บันทึกเหล่านี้คือการสังเกตที่ถูกตั้งชื่อก่อนจะกลายเป็นกฎ การมองก่อนการจัดโครงสร้าง",
+			further: "",
+			protocolsPositionNote:
+				"โปรโตคอลสืบเนื่องจาก Framework — แต่ละฉบับนิยามภาระหน้าที่ที่ต้องคงอยู่ในทางปฏิบัติเชิงโครงสร้าง",
+			standardsPositionNote:
+				"มาตรฐานสืบเนื่องจากโปรโตคอล — แต่ละฉบับนิยามเงื่อนไขที่ตรวจสอบได้ เพื่อประเมินภาระหน้าที่ของโปรโตคอล",
 			publiclyDocumented: "เผยแพร่แล้ว",
 			noProtocols: "ยังไม่มีโปรโตคอลเผยแพร่",
 			noStandards: "ยังไม่มีมาตรฐานเผยแพร่",
@@ -118,22 +122,26 @@ const copy = locale === "th"
 				"บันทึกเหล่านี้ไม่ใช่คอลัมน์ความเห็น ไม่ใช่ commentary และไม่ใช่บทวิจารณ์ข่าวอุตสาหกรรม แต่ละบันทึกคือข้อสังเกตเชิงวิเคราะห์ที่ตรวจสอบสิ่งที่ไม่สอดคล้องเชิงโครงสร้าง",
 			whatHappens: "บันทึกเหล่านี้จะไปถึงไหน",
 			whatHappensText:
-				"รูปแบบที่เกิดซ้ำในหลายบันทึกอาจถูกทำให้เป็นโปรโตคอลหรือมาตรฐานในภายหลัง แล้วจึงถูกบังคับใช้ใน implementation The Method คือที่ที่ปัญหากลายเป็นสิ่งที่อ่านออกได้ ก่อนกลายเป็นสิ่งที่ถูกกำกับ",
+				"รูปแบบที่เกิดซ้ำในหลายบันทึกอาจถูกทำให้เป็นโปรโตคอลหรือมาตรฐานในภายหลัง Journal คือที่ที่ปัญหากลายเป็นสิ่งที่อ่านออกได้ ก่อนกลายเป็นสิ่งที่ถูกกำกับ",
 			youtubeBridge: "ดูวิดีโอสะท้อนคิดทั้งหมด",
 		}
 	: {
 			referenceLayer: "Reference Layer",
 			protocolsDescription:
-				"Protocols are formal structural instruments derived from the Doctrine. They define obligations, boundaries, and transparency conditions that can be adapted across domains without losing doctrinal meaning.",
+				"Protocols are formal structural instruments derived from the Framework. They define obligations, boundaries, and transparency conditions that can be adapted across domains without losing Framework meaning.",
 			standardsDescription:
-				"Standards translate doctrine into measurable conditions. Where protocols establish obligations, standards define the thresholds by which structural claims can be meaningfully assessed.",
+				"Standards translate Framework obligations into measurable conditions. Where protocols establish obligations, standards define the thresholds by which structural claims can be meaningfully assessed.",
 			methodDescription:
-				"The Method is the analytical registry of the framework. It identifies structural tension, names operational cost, and holds recurring patterns still long enough to be understood before they are formalised elsewhere.",
+				"Journal is the analytical registry of the framework. It identifies structural tension, names operational cost, and holds recurring patterns still long enough to be understood before they are formalised elsewhere.",
 			methodSecondary:
 				"These are reference observations, not opinion pieces. Each entry isolates a structural failure, names it without distortion, and preserves it in a form others can revisit, adapt, and build from.",
 			methodFlowNote:
-				"The Method includes both essays and video reflections inside one knowledge flow. Different formats, same analytical spine.",
-			further: "Further instruments forthcoming",
+				"These are observations named before they become governed. Seeing before structuring.",
+			further: "",
+			protocolsPositionNote:
+				"Protocols derive from the Framework. Each defines an obligation — what must hold in structural practice.",
+			standardsPositionNote:
+				"Standards derive from Protocols. Each defines a verifiable condition — the threshold by which a Protocol's obligation is assessed.",
 			publiclyDocumented: "publicly documented",
 			noProtocols: "No protocols published yet.",
 			noStandards: "No standards published yet.",
@@ -147,7 +155,7 @@ const copy = locale === "th"
 			derivedFrom: "Derived From",
 			derivedFromText: "All protocols derive authority from",
 			doctrineLink: "Paritsea Framework",
-			noContradiction: "No protocol may contradict the foundational doctrine.",
+			noContradiction: "No protocol may contradict the foundational Framework.",
 			aboutStandards: "About Standards",
 			aboutStandardsText:
 				"Standards translate structural obligations into verifiable conditions. They specify what coherence looks like in practice, turning abstract claims into criteria that can be tested, interpreted, and implemented.",
@@ -159,19 +167,19 @@ const copy = locale === "th"
 				"These entries are not opinion columns. They are not commentary. They are not takes on industry news. Each entry is an analytical observation — a structural examination of something that failed to cohere.",
 			whatHappens: "What Happens to These",
 			whatHappensText:
-				"Patterns that persist across multiple entries may later be formalised into protocols or standards, then enforced inside implementations. The Method is where problems become legible before they become governed.",
+				"Patterns that persist across multiple entries may later be formalised into protocols or standards. Journal is where problems become legible before they become governed.",
 			youtubeBridge: "View all video reflections",
 		};
 ---
 
 <Base
-	title={isProtocols ? "Protocols — Paritsea" : isStandards ? "Standards — Paritsea" : "The Method — Paritsea"}
+	title={isProtocols ? "Protocols — Paritsea" : isStandards ? "Standards — Paritsea" : "Journal — Paritsea"}
 	description={
 		isProtocols
-			? "Protocols are public structural instruments derived from the Doctrine and designed for cross-domain adaptation."
+			? "Protocols are public structural instruments derived from the Framework and designed for cross-domain adaptation."
 			: isStandards
-				? "Standards define verifiable conditions derived from the Doctrine and make structural claims assessable."
-				: "The Method is Paritsea's analytical registry: observations that name structural tension before it becomes protocol or standard."
+				? "Standards define verifiable conditions derived from Protocols and make structural claims assessable."
+				: "Journal is Paritsea's analytical registry: observations that name structural tension before it becomes protocol or standard."
 	}
 	locale={locale}
 >
@@ -189,8 +197,9 @@ const copy = locale === "th"
 							<span class="index-count">{locale === "th" ? `${scopedPosts.length} Protocol ${copy.publiclyDocumented}` : `${scopedPosts.length} protocol${scopedPosts.length === 1 ? "" : "s"} ${copy.publiclyDocumented}`}</span>
 						</p>
 						<h1 class="index-title">{navLabels.Protocols}</h1>
+						<p class="index-position-note">{copy.protocolsPositionNote}</p>
 						<p class="index-description">{copy.protocolsDescription}</p>
-						<p class="index-meta-further">{copy.further}</p>
+						{copy.further && <p class="index-meta-further">{copy.further}</p>}
 					</div>
 					<div class="index-header-aside">
 						<div class="aside-block">
@@ -251,8 +260,9 @@ const copy = locale === "th"
 							<span class="index-count">{locale === "th" ? `${scopedPosts.length} มาตรฐาน ${copy.publiclyDocumented}` : `${scopedPosts.length} standard${scopedPosts.length === 1 ? "" : "s"} ${copy.publiclyDocumented}`}</span>
 						</p>
 						<h1 class="index-title">{navLabels.Standards}</h1>
+						<p class="index-position-note">{copy.standardsPositionNote}</p>
 						<p class="index-description">{copy.standardsDescription}</p>
-						<p class="index-meta-further">{copy.further}</p>
+						{copy.further && <p class="index-meta-further">{copy.further}</p>}
 					</div>
 					<div class="index-header-aside">
 						<div class="aside-block">
@@ -433,6 +443,16 @@ const copy = locale === "th"
 		line-height: .95;
 		letter-spacing: -.03em;
 		margin: 0 0 var(--spacing-5);
+	}
+
+	/* B-05 position note — layer role statement above description */
+	.index-position-note {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-base);
+		color: var(--color-text);
+		line-height: var(--leading-relaxed);
+		margin: 0 0 var(--spacing-4);
+		font-weight: 500;
 	}
 
 	/* Descriptions */
