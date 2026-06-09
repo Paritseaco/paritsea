@@ -471,6 +471,34 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 				"ตราบใดที่ยังแบกไหว ระบบจะดูเหมือนทำงานได้ ต้นทุนถูกจ่ายที่อื่น อย่างเงียบๆ โดยผู้คน",
 		},
 	},
+	"aesthetic-transparency": {
+		title: "ความโปร่งใสมักเป็นเรื่องภาพ แทบไม่ใช่เรื่องโครงสร้าง",
+		excerpt:
+			"ความโปร่งใสมักเป็นเรื่องภาพ แทบไม่ใช่เรื่องโครงสร้าง — และนี่คือสิ่งที่ความแตกต่างนั้นมีหน้าตาอย่างไร",
+		content: {
+			"Most agencies speak about transparency. Very few structure themselves around it.":
+				"เอเจนซีพูดถึงความโปร่งใสกันมาก แต่น้อยมากที่จัดโครงสร้างตัวเองรอบมัน",
+			"Transparency is often aesthetic. Rarely structural.":
+				"ความโปร่งใสมักเป็นเรื่องภาพ แทบไม่ใช่เรื่องโครงสร้าง",
+			"The modern agency industry has evolved into a performance-driven ecosystem where velocity is rewarded, visibility is curated, and responsibility is often diffused.":
+				"ธุรกิจเอเจนซีวันนี้ขับเคลื่อนด้วยผลลัพธ์ ความเร็วได้รับรางวัล ภาพลักษณ์ถูกจัดการ และความรับผิดกระจายจนหาต้นตอไม่ได้",
+			"Clients are sold clarity. What they receive is structure.":
+				"ลูกค้าถูกขายความชัดเจน — สิ่งที่ได้รับจริงคือโครงสร้างของเอเจนซี",
+			"What is rarely disclosed is: who is actually doing the work, how capacity is distributed, where incentives are misaligned, whether conflicts of interest exist, and who absorbs the risk when outcomes fail.":
+				"สิ่งที่แทบไม่ถูกพูดถึงคือ: ใครทำงานจริง กำลังการทำงานถูกกระจายอย่างไร แรงจูงใจตรงไหนไม่ตรงกัน มีผลประโยชน์ทับซ้อนหรือไม่ และเมื่องานล้มเหลว — ใครแบกรับ",
+			"The market does not reward moral positioning. It rewards risk reduction.":
+				"ตลาดไม่ได้ให้รางวัลกับจุดยืนทางศีลธรรม — มันให้รางวัลกับการลดความเสี่ยง",
+			"Structural transparency is not a virtue signal. It is an economic correction.":
+				"ความโปร่งใสเชิงโครงสร้างไม่ใช่เรื่องคุณธรรม มันคือการแก้ไขเชิงเศรษฐกิจ",
+			"The question is not whether transparency is admirable. The question is whether opacity is sustainable.":
+				"คำถามไม่ใช่ว่าความโปร่งใสน่ายกย่องหรือไม่ — คำถามคือ การปิดบังนั้นยั่งยืนได้นานแค่ไหน",
+			"The industry will not reform through better language. It will reform through structural disclosure.":
+				"อุตสาหกรรมนี้จะไม่ปฏิรูปด้วยภาษาที่ดีขึ้น มันจะปฏิรูปด้วยการเปิดเผยเชิงโครงสร้าง",
+			"This observation is the traceable precursor to the ":
+				"การสังเกตนี้คือจุดต้นทางที่สืบย้อนได้ของ ",
+			"Structural Transparency Protocol": "โปรโตคอลความโปร่งใสเชิงโครงสร้าง",
+		},
+	},
 };
 
 const pageTranslations: Record<string, { title: string; content: Record<string, string> }> = {

@@ -53,6 +53,22 @@ Agent skills are in `.agents/skills/`. Load them when working on specific tasks:
 - **building-emdash-site** -- Querying content, rendering Portable Text, schema design, seed files, site features (menus, widgets, search, SEO, comments, bylines). Start here.
 - **creating-plugins** -- Building EmDash plugins with hooks, storage, admin UI, API routes, and Portable Text block types.
 - **emdash-cli** -- CLI commands for content management, seeding, type generation, and visual editing flow.
+- **thai-ux-ui** -- **REQUIRED for any Thai-locale UX/UI work.** Load before designing Thai components, auditing Thai pages, writing Thai UX copy, or proposing changes to `:lang(th)` typography rules. Supersedes `a11y-audit`, `design-tokens`, and `ux-writing` for Thai pages.
+- **a11y-audit** -- WCAG 2.2 AA/AAA audit, contrast measurement, ARIA patterns. For Thai pages: load **thai-ux-ui first**.
+- **ux-writing** -- Interface copy, error messages, button text. For Thai copy: load **thai-ux-ui first**.
+- **design-tokens** -- Design token generation. Note: this project uses CSS custom properties (`--spacing-*`, `--font-size-*`), not DTCG JSON.
+
+### Thai UX/UI — when to load thai-ux-ui
+
+**Load thai-ux-ui whenever the work touches Thai-locale rendering.** Specifically:
+
+- Designing or modifying a component that renders Thai text (`:lang(th)`)
+- Writing labels, errors, or microcopy for Thai pages
+- Auditing Thai pages for accessibility or typography
+- Proposing changes to `line-height`, `letter-spacing`, `font-weight`, or `font-size` in the Thai CSS block in `Base.astro`
+- Adding a new Astro page that has a Thai locale version
+
+**Do not use a11y-audit or ux-writing alone for Thai work.** Generic skills assume Latin script and will produce incorrect values: `line-height: 1.5` clips สระอุ/สระบน; non-zero `letter-spacing` breaks Thai glyph stacking; `font-style: italic` misaligns vowels. These rules are documented and enforced by the thai-ux-ui skill.
 
 ## Rules
 

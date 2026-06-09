@@ -13,16 +13,16 @@
 | Phase | Name | Track | Status | Can start |
 |-------|------|-------|--------|-----------|
 | 0 | Decision Closure | — | ✅ Complete | Done |
-| 1 | Founder Narrative Extraction | A | 🔲 Blocked | After author available |
-| 2 | About Strategy | A | 🔲 Blocked | After Phase 1 |
-| 3 | About Rewrite | A | 🔲 Blocked | After Phase 2 |
-| 4 | System Rewrite Planning | B | 🔲 Ready | **Now** |
-| 5 | System Rewrite | B | 🔲 Ready | After Phase 4 |
-| 6 | Implementation Rewrite | C | 🔲 Partial | B-04 now; C-02 after author |
-| 7 | Journal Audit Refresh | B | 🔲 Ready | After Phase 5 |
-| 8 | Journal Revision | B | 🔲 Ready | After Phase 7 |
-| 9 | Sitewide Microcopy Pass | D | 🔲 Ready | After Phase 5 |
-| 10 | Editorial QA | — | 🔲 Blocked | After all others |
+| 1 | Founder Narrative Extraction | A | ✅ Complete | Done |
+| 2 | About Strategy | A | ✅ Complete | Done |
+| 3 | About Rewrite | A | ✅ Complete | Done |
+| 4 | System Rewrite Planning | B | ✅ Complete — `docs/system-rewrite-plan.md`; author review required | Now |
+| 5 | System Rewrite | B | ✅ Complete — B-03 executed (STP + Journal), Section A + B-05 + B-06 confirmed applied | After Phase 4 |
+| 6 | Implementation Rewrite | C | ✅ Complete — B-04 applied; C-02 resolved (AgenSea: Provisional, observable evidence written) | Done |
+| 7 | Journal Audit Refresh | B | ✅ Complete — all 6 entries pass; 3 borderline sentences (optional revision) | After Phase 5 |
+| 8 | Journal Revision | B | ✅ Complete — TH translation for aesthetic-transparency added to i18n.ts; 3 borderline sentences accepted as-is | After Phase 7 |
+| 9 | Sitewide Microcopy Pass | D | ✅ Complete — B-01 (Sessions block) + B-02 (comparative heading) confirmed absent; "What Paritsea Covers" confirmed in place | After Phase 5 |
+| 10 | Editorial QA | — | 🔲 Ready — all phases complete, no remaining blockers | Now |
 
 ---
 
@@ -39,14 +39,12 @@ Phase 0 (Decision Closure) ── ✅ COMPLETE
     │               └── Phase 9 (Microcopy Pass)
     │
     ├── Track C (partial)
-    │   Phase 6 (Implementation Rewrite)
-    │       B-04 fix: ready now
-    │       C-02 (AgenSea): blocked on author
+    │   Phase 6 (Implementation Rewrite) ── ✅ COMPLETE
     │
-    └── Track A (blocked — author required)
-        Phase 1 (Founder Narrative Extraction)
-            └── Phase 2 (About Strategy)
-                    └── Phase 3 (About Rewrite)
+    └── Track A
+        Phase 1 (Founder Narrative Extraction) ── ✅ COMPLETE
+            └── Phase 2 (About Strategy) ── ✅ COMPLETE
+                    └── Phase 3 (About Rewrite) ── ✅ COMPLETE
 
 All tracks ──► Phase 10 (Editorial QA)
 ```
@@ -79,7 +77,7 @@ Track B is the only fully unblocked path to Phase 10. Track A (About) must also 
 | Field | Detail |
 |-------|--------|
 | **Track** | A |
-| **Status** | 🔲 Blocked — author availability required |
+| **Status** | ✅ Complete — Session 1 (Q1–Q8 + supplementary). All four exit criteria met. |
 | **Objective** | Conduct the C-01a interview; extract raw origin story from author |
 | **Scope** | Author answers the 20-question questionnaire in `editorial-decisions.md §C-01a` |
 | **Inputs** | `docs/editorial-decisions.md §C-01a` (20-question questionnaire) |
@@ -97,7 +95,7 @@ Track B is the only fully unblocked path to Phase 10. Track A (About) must also 
 | Field | Detail |
 |-------|--------|
 | **Track** | A |
-| **Status** | 🔲 Blocked — Phase 1 required |
+| **Status** | ✅ Complete — outline in `docs/about-strategy.md`. All four exit criteria met. Author approved. |
 | **Objective** | Transform raw interview transcript into a structured About page content outline |
 | **Scope** | Map interview responses to the About page role: origin of the lens, who holds it, why systems + people together |
 | **Inputs** | Phase 1 interview transcript; `docs/ux-blueprint.md §8 About`; `docs/language-system.md §7 §8 About`; `docs/architecture.md` (About role: "Origin of the system + founder lens") |
@@ -113,7 +111,7 @@ Track B is the only fully unblocked path to Phase 10. Track A (About) must also 
 | Field | Detail |
 |-------|--------|
 | **Track** | A |
-| **Status** | 🔲 Blocked — Phase 2 required |
+| **Status** | ✅ Complete — EN + TH copy written; `src/pages/[page_slug].astro` `aboutContent` updated |
 | **Objective** | Write the About page body (EN + TH) |
 | **Scope** | Full rewrite of About page content — replaces current sections which answer the wrong question |
 | **Inputs** | Phase 2 content outline; Phase 1 interview transcript; current About page; `docs/language-system.md §8 About`; `docs/paritsea-principles.md §Authorial voice` |
@@ -255,18 +253,21 @@ Track B is the only fully unblocked path to Phase 10. Track A (About) must also 
 
 ---
 
-## Current Next Action
+## Current State (2026-06)
 
-**Phase 4 — System Rewrite Planning**
+**Phases 0–9: complete. Phase 6 C-02 resolved. Phase 10 (Editorial QA) is unblocked.**
 
-Begin immediately. No prerequisites.
+### C-02 Resolution — AgenSea
 
-1. Read the B-03 classification table in `docs/editorial-decisions.md §B-03`
-2. Map the eight Journal-altitude sentences into a coherent narrative arc — this becomes the new Journal entry
-3. Propose a slug and title for the new entry (must be an SEO-friendly English URL segment per CLAUDE.md)
-4. Produce a per-section STP edit list (retain / extract / delete for each paragraph across all four mixed sections)
-5. Present for author review before Phase 5 execution begins
+Author confirmed 2026-06-09:
+- **Status: Provisional** — prototype stage, solo development, not yet launched. Seeking technical co-builder or building to MVP traction before partnership.
+- **Observable evidence:** The three structurally visible failures in the agency industry that AgenSea is built to address: (1) agency reputation ≠ documented performance, (2) false specialist claims (new graduates posed as specialists = analogous to a hospital claiming to treat patients without doctors), (3) undisclosed conflicts of interest when serving competing clients simultaneously.
+- **Copy applied:** `implementation.astro` — both TH and EN AgenSea entries updated: status `"Provisional"`, description rewritten as observable evidence (not scope declaration), `currentText` corrected to reflect prototype stage rather than active deployment.
+
+### Next action
+
+**Phase 10 — Editorial QA.** All phases complete. Ready to begin final pre-publish review.
 
 ---
 
-*Created 2026-06 from editorial-decisions.md (D-041) and all prior governance documents. Update phase statuses as each phase completes.*
+*Created 2026-06 from editorial-decisions.md (D-041) and all prior governance documents. Updated 2026-06-09 — Phases 0–9 complete + C-02 resolved; Phase 10 ready.*
