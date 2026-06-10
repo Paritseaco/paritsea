@@ -562,8 +562,8 @@ const pageTranslations: Record<string, { title: string; content: Record<string, 
 			"hello@paritsea.co": "hello@paritsea.co",
 			"All correspondence is reviewed. Response is discretionary.":
 				"ทุกข้อความจะได้รับการพิจารณา การตอบกลับขึ้นอยู่กับดุลยพินิจ",
-			"Paritsea is an independent doctrinal reference authored by Parit Ritchai.":
-				"Paritsea เป็นกรอบอ้างอิงเชิงหลักคำสอนอิสระ เขียนโดย Parit Ritchai",
+			"Paritsea is an independent framework reference authored by Parit Ritchai.":
+				"Paritsea เป็นกรอบอ้างอิงอิสระ เขียนโดย Parit Ritchai",
 		},
 	},
 };

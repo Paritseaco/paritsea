@@ -22,7 +22,7 @@
 | 7 | Journal Audit Refresh | B | ✅ Complete — all 6 entries pass; 3 borderline sentences (optional revision) | After Phase 5 |
 | 8 | Journal Revision | B | ✅ Complete — TH translation for aesthetic-transparency added to i18n.ts; 3 borderline sentences accepted as-is | After Phase 7 |
 | 9 | Sitewide Microcopy Pass | D | ✅ Complete — B-01 (Sessions block) + B-02 (comparative heading) confirmed absent; "What Paritsea Covers" confirmed in place | After Phase 5 |
-| 10 | Editorial QA | — | 🔲 Ready — all phases complete, no remaining blockers | Now |
+| 10 | Editorial QA | — | ✅ Complete — `docs/phase-10-qa-report.md`; 1 deployment-only item open (production D1 parity, see report §6) | Done |
 
 ---
 
@@ -242,20 +242,20 @@ Track B is the only fully unblocked path to Phase 10. Track A (About) must also 
 | Field | Detail |
 |-------|--------|
 | **Track** | — |
-| **Status** | 🔲 Blocked — all other phases must complete first |
+| **Status** | ✅ Complete — see `docs/phase-10-qa-report.md`. All editorial exit criteria met for `src/` and local dev D1. One deployment-only item open: production D1 (`paritsea-site`) `licensing` and `contact` pages lag local dev content (report §6) — requires author sign-off on production SQL, not an editorial decision. |
 | **Objective** | Final pre-publish editorial review across all pages and content entries |
 | **Scope** | All pages; all content entries; all UX copy — assessed against all governance documents |
 | **Inputs** | All updated files; `docs/language-system.md §10` (rewrite evaluation checklist); `docs/content-audit.md` (scoring rubric); `docs/content-governance.md` (altitude law) |
-| **Deliverables** | QA report — per-page scores and pass/fail; sign-off or remediation list |
+| **Deliverables** | QA report — per-page scores and pass/fail; sign-off or remediation list — `docs/phase-10-qa-report.md` |
 | **Dependencies** | Phases 1–9 all complete (or explicitly deferred with rationale) |
-| **Exit criteria** | All pages score ≥ 8/10 on content-audit.md rubric; zero governance violations (altitude, terminology, register); zero instances of deprecated vocabulary; worldview sentences intact; all A and B terminology fixes confirmed applied |
-| **Risk** | LOW if all prior phases are executed correctly; any skipped phase creates latent risk |
+| **Exit criteria** | All pages score ≥ 8/10 on content-audit.md rubric ✅; zero governance violations (altitude, terminology, register) ✅; zero instances of deprecated vocabulary ✅; worldview sentences intact ✅; all A and B terminology fixes confirmed applied ✅ |
+| **Risk** | LOW — complete |
 
 ---
 
 ## Current State (2026-06)
 
-**Phases 0–9: complete. Phase 6 C-02 resolved. Phase 10 (Editorial QA) is unblocked.**
+**Phases 0–10: complete.** Phase 6 C-02 resolved. Phase 10 QA report at `docs/phase-10-qa-report.md` — 2 additional Doctrine→Framework instances found and fixed during QA (licensing "Version Sovereignty" Doctrine remnant in local dev D1; licensing forbidden-claims list in `[page_slug].astro`).
 
 ### C-02 Resolution — AgenSea
 
@@ -266,8 +266,8 @@ Author confirmed 2026-06-09:
 
 ### Next action
 
-**Phase 10 — Editorial QA.** All phases complete. Ready to begin final pre-publish review.
+**Editorial rewrite is complete.** Remaining work is a deployment task: sync production D1 (`paritsea-site`) `licensing` and `contact` pages to match local dev (see `docs/phase-10-qa-report.md §6`) — requires author sign-off on the SQL.
 
 ---
 
-*Created 2026-06 from editorial-decisions.md (D-041) and all prior governance documents. Updated 2026-06-09 — Phases 0–9 complete + C-02 resolved; Phase 10 ready.*
+*Created 2026-06 from editorial-decisions.md (D-041) and all prior governance documents. Updated 2026-06-10 — Phase 10 (Editorial QA) complete; rewrite plan fully closed pending production D1 parity sync.*
