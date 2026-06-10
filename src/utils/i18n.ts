@@ -220,11 +220,11 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 			"It does not evaluate:\n— Moral virtue\n— Political ideology\n— Cultural preference\n— Financial scale\n— Popular support\n— Strategic success":
 				"กรอบนี้ไม่ประเมิน:\n— คุณค่าทางศีลธรรม\n— อุดมการณ์ทางการเมือง\n— ความชอบทางวัฒนธรรม\n— ขนาดทางการเงิน\n— ความนิยมจากสาธารณะ\n— ความสำเร็จเชิงกลยุทธ์",
 			"Section VI — Immutability": "หมวด VI — ความไม่เปลี่ยนรูป",
-			"The Paritsea Doctrine is immutable. It forms the constitutional foundation for all derived protocols and standards. Derived instruments may evolve, provided they do not contradict the doctrine.":
+			"The Paritsea Framework is immutable. It forms the constitutional foundation for all derived protocols and standards. Derived instruments may evolve, provided they do not contradict the Framework.":
 				"Paritsea Framework ไม่เปลี่ยนรูป มันเป็นรากฐานของโปรโตคอลและมาตรฐานทุกฉบับที่สืบเนื่องมา เครื่องมือที่สืบเนื่องสามารถพัฒนาได้ ตราบเท่าที่ไม่ขัดต่อ Framework",
 			"Paritsea is a constitutional reference framework. It does not function as a regulator, certifier, or enforcement body.":
 				"Paritsea คือกรอบอ้างอิงเชิงรัฐธรรมนูญ ไม่ใช่ผู้กำกับดูแล ผู้รับรอง หรือหน่วยงานบังคับใช้",
-			"Doctrine Version: 1.0 — Constitutional Text": "Framework เวอร์ชัน 1.0 — ข้อความรากฐาน",
+			"Framework Version: 1.0 — Constitutional Text": "Framework เวอร์ชัน 1.0 — ข้อความรากฐาน",
 		},
 	},
 	stp: {
@@ -506,20 +506,20 @@ const pageTranslations: Record<string, { title: string; content: Record<string, 
 		title: "สิทธิการใช้และการอ้างอิง",
 		content: {
 			"Constitutional Position": "ตำแหน่งเชิงรัฐธรรมนูญ",
-			"Paritsea is an independent doctrine of structural coherence and legitimacy authored by Parit Ritchai.":
-				"Paritsea เป็นหลักคำสอนอิสระว่าด้วยความสอดคล้องเชิงโครงสร้างและความชอบธรรม เขียนโดย Parit Ritchai",
-			"The Paritsea Doctrine and all derived Protocols and Standards are made publicly accessible in order to preserve structural clarity and prevent distortion through opacity or exclusivity.":
-				"หลักคำสอน Paritsea รวมถึงโปรโตคอลและมาตรฐานที่สืบเนื่องทั้งหมดเปิดให้เข้าถึงสาธารณะ เพื่อรักษาความชัดเจนเชิงโครงสร้างและป้องกันการบิดเบือนผ่านความทึบแสงหรือความผูกขาด",
-			"Licensing exists to protect doctrinal integrity, not to restrict legitimate reference.":
-				"สิทธิการใช้มีไว้เพื่อปกป้องความสมบูรณ์ของหลักคำสอน ไม่ใช่เพื่อจำกัดการอ้างอิงที่ชอบธรรม",
+			"Paritsea is an independent framework of structural coherence and legitimacy authored by Parit Ritchai.":
+				"Paritsea เป็น framework อิสระว่าด้วยความสอดคล้องเชิงโครงสร้างและความชอบธรรม เขียนโดย Parit Ritchai",
+			"The Paritsea Framework and all derived Protocols and Standards are made publicly accessible in order to preserve structural clarity and prevent distortion through opacity or exclusivity.":
+				"Paritsea Framework รวมถึงโปรโตคอลและมาตรฐานที่สืบเนื่องทั้งหมดเปิดให้เข้าถึงสาธารณะ เพื่อรักษาความชัดเจนเชิงโครงสร้างและป้องกันการบิดเบือนผ่านความทึบแสงหรือความผูกขาด",
+			"Licensing exists to protect Framework integrity, not to restrict legitimate reference.":
+				"สิทธิการใช้มีไว้เพื่อปกป้องความสมบูรณ์ของ Framework ไม่ใช่เพื่อจำกัดการอ้างอิงที่ชอบธรรม",
 			"Open Licence (Non-Commercial Use)": "สิทธิการใช้แบบเปิด (ไม่ใช่เชิงพาณิชย์)",
-			"The Paritsea Doctrine and its derived Protocols and Standards are released under the Creative Commons Attribution–NonCommercial 4.0 International Licence (CC BY-NC 4.0).":
-				"หลักคำสอน Paritsea และโปรโตคอลกับมาตรฐานที่สืบเนื่อง เผยแพร่ภายใต้สัญญาอนุญาต Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)",
+			"The Paritsea Framework and its derived Protocols and Standards are released under the Creative Commons Attribution–NonCommercial 4.0 International Licence (CC BY-NC 4.0).":
+				"Paritsea Framework และโปรโตคอลกับมาตรฐานที่สืบเนื่อง เผยแพร่ภายใต้สัญญาอนุญาต Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)",
 			"Full legal terms are available at: creativecommons.org/licenses/by-nc/4.0/":
 				"เงื่อนไขทางกฎหมายฉบับเต็มดูได้ที่: creativecommons.org/licenses/by-nc/4.0/",
 			"Non-commercial use is permitted with proper attribution.": "อนุญาตให้ใช้แบบไม่ใช่เชิงพาณิชย์ได้ เมื่อให้เครดิตอย่างเหมาะสม",
-			"This licence applies to: The Paritsea Doctrine — All published Standards — All published Protocols — Public explanatory texts — Official diagrams and structural models":
-				"สิทธิการใช้นี้ครอบคลุม: หลักคำสอน Paritsea — มาตรฐานที่เผยแพร่ทั้งหมด — โปรโตคอลที่เผยแพร่ทั้งหมด — ข้อความอธิบายสาธารณะ — แผนภาพและแบบจำลองโครงสร้างอย่างเป็นทางการ",
+			"This licence applies to: The Paritsea Framework — All published Standards — All published Protocols — Public explanatory texts — Official diagrams and structural models":
+				"สิทธิการใช้นี้ครอบคลุม: Paritsea Framework — มาตรฐานที่เผยแพร่ทั้งหมด — โปรโตคอลที่เผยแพร่ทั้งหมด — ข้อความอธิบายสาธารณะ — แผนภาพและแบบจำลองโครงสร้างอย่างเป็นทางการ",
 			"Attribution Requirements": "ข้อกำหนดการให้เครดิต",
 			"Attribution must clearly include: The name \"Paritsea\" — Author: Parit Ritchai — Reference to the original source — A link to the official Paritsea website":
 				"การให้เครดิตต้องระบุอย่างชัดเจน: ชื่อ \"Paritsea\" — ผู้เขียน: Parit Ritchai — การอ้างถึงแหล่งต้นทาง — ลิงก์ไปยังเว็บไซต์ Paritsea อย่างเป็นทางการ",
@@ -534,12 +534,12 @@ const pageTranslations: Record<string, { title: string; content: Record<string, 
 			"Dual Licensing Framework": "กรอบสิทธิการใช้แบบคู่",
 			"Paritsea may grant: Standard commercial licences — Dual licences (open + commercial usage rights) — Exclusive commercial licences within defined domains":
 				"Paritsea อาจให้: สิทธิการใช้เชิงพาณิชย์มาตรฐาน — สิทธิการใช้แบบคู่ (เปิด + สิทธิใช้เชิงพาณิชย์) — สิทธิการใช้เชิงพาณิชย์แบบ exclusive ในโดเมนที่กำหนด",
-			"Dual licensing does not alter doctrinal content. The Paritsea Doctrine remains constitutionally immutable regardless of licensing structure.":
-				"สิทธิการใช้แบบคู่ไม่เปลี่ยนเนื้อหาของหลักคำสอน หลักคำสอน Paritsea ยังคงไม่เปลี่ยนรูปเชิงรัฐธรรมนูญไม่ว่าโครงสร้างสิทธิการใช้จะเป็นอย่างไร",
-			"Doctrinal Integrity Clause": "ข้อกำหนดความสมบูรณ์ของหลักคำสอน",
-			"The Paritsea Doctrine is immutable.": "หลักคำสอน Paritsea เป็นข้อความที่ไม่เปลี่ยนรูป",
-			"Derived Protocols and Standards may evolve, provided they do not contradict the Doctrine. No commercial agreement may alter or reinterpret the Doctrine. Licensing grants permission of use. It does not grant authority to redefine doctrine.":
-				"โปรโตคอลและมาตรฐานที่สืบเนื่องอาจพัฒนาได้ ตราบเท่าที่ไม่ขัดต่อหลักคำสอน ข้อตกลงเชิงพาณิชย์ใดๆ ไม่อาจแก้ไขหรือตีความหลักคำสอนใหม่ได้ สิทธิการใช้ให้เพียงอนุญาตให้ใช้ ไม่ได้ให้อำนาจในการนิยามหลักคำสอนใหม่",
+			"Dual licensing does not alter Framework content. The Paritsea Framework remains constitutionally immutable regardless of licensing structure.":
+				"สิทธิการใช้แบบคู่ไม่เปลี่ยนเนื้อหาของ Framework Paritsea Framework ยังคงไม่เปลี่ยนรูปเชิงรัฐธรรมนูญไม่ว่าโครงสร้างสิทธิการใช้จะเป็นอย่างไร",
+			"Framework Integrity Clause": "ข้อกำหนดความสมบูรณ์ของ Framework",
+			"The Paritsea Framework is immutable.": "Paritsea Framework ไม่เปลี่ยนรูป",
+			"Derived Protocols and Standards may evolve, provided they do not contradict the Framework. No commercial agreement may alter or reinterpret the Framework. Licensing grants permission of use. It does not grant authority to redefine the Framework.":
+				"โปรโตคอลและมาตรฐานที่สืบเนื่องอาจพัฒนาได้ ตราบเท่าที่ไม่ขัดต่อ Framework ข้อตกลงเชิงพาณิชย์ใดๆ ไม่อาจแก้ไขหรือตีความ Framework ใหม่ได้ สิทธิการใช้ให้เพียงอนุญาตให้ใช้ ไม่ได้ให้อำนาจในการนิยาม Framework ใหม่",
 			"Prohibited Representations": "การกล่าวอ้างที่ห้ามทำ",
 			"The following are prohibited without explicit written agreement: Claiming certification by Paritsea — Presenting compliance as endorsement — Modifying Protocol or Standard criteria while retaining the Paritsea name — Using Paritsea branding to imply regulatory authority":
 				"สิ่งต่อไปนี้ห้ามทำหากไม่มีข้อตกลงเป็นลายลักษณ์อักษรชัดเจน: อ้างว่าได้รับ certification โดย Paritsea — นำเสนอ compliance เป็น endorsement — แก้เกณฑ์ของโปรโตคอลหรือมาตรฐานแต่ยังใช้ชื่อ Paritsea — ใช้แบรนด์ Paritsea เพื่อสื่อถึงอำนาจกำกับดูแล",
@@ -548,11 +548,11 @@ const pageTranslations: Record<string, { title: string; content: Record<string, 
 			"Protocols and Standards are versioned.": "โปรโตคอลและมาตรฐานมีเวอร์ชัน",
 			"Each commercial licence is contract-specific and version-specific.":
 				"สิทธิการใช้เชิงพาณิชย์แต่ละฉบับผูกกับสัญญาและเวอร์ชันเฉพาะ",
-			"Adoption of newer versions is not automatic. Previously licensed versions may continue operating under their granted terms. Paritsea retains authorship and doctrinal authority over all versions. Licensees retain implementation autonomy within the bounds of their licensed version. No commercial agreement may redefine or reinterpret the Doctrine.":
-				"การรับเวอร์ชันใหม่ไม่ใช่เรื่องอัตโนมัติ เวอร์ชันที่ได้รับสิทธิแล้วอาจดำเนินต่อภายใต้เงื่อนไขเดิม Paritsea ยังคงถือสิทธิผู้เขียนและอำนาจของหลักคำสอนเหนือทุกเวอร์ชัน ผู้รับสิทธิยังมีอิสระในการนำไปใช้ภายในขอบเขตของเวอร์ชันที่ได้รับอนุญาต ข้อตกลงเชิงพาณิชย์ใดๆ ไม่อาจนิยามหรือตีความหลักคำสอนใหม่ได้",
+			"Adoption of newer versions is not automatic. Previously licensed versions may continue operating under their granted terms. Paritsea retains authorship and authorial authority over all versions. Licensees retain implementation autonomy within the bounds of their licensed version. No commercial agreement may redefine or reinterpret the Framework.":
+				"การรับเวอร์ชันใหม่ไม่ใช่เรื่องอัตโนมัติ เวอร์ชันที่ได้รับสิทธิแล้วอาจดำเนินต่อภายใต้เงื่อนไขเดิม Paritsea ยังคงถือสิทธิผู้เขียนและสิทธิ์ผู้เขียนเหนือทุกเวอร์ชัน ผู้รับสิทธิยังมีอิสระในการนำไปใช้ภายในขอบเขตของเวอร์ชันที่ได้รับอนุญาต ข้อตกลงเชิงพาณิชย์ใดๆ ไม่อาจนิยามหรือตีความ Framework ใหม่ได้",
 			Summary: "สรุป",
-			"Paritsea is open for reference under CC BY-NC 4.0. Non-commercial use is permitted with attribution. Commercial implementation requires agreement. The Doctrine remains immutable. Protocols and Standards are version-governed. Licensing grants permission to implement — not authority to redefine.":
-				"Paritsea เปิดให้อ้างอิงภายใต้ CC BY-NC 4.0 อนุญาตให้ใช้แบบไม่ใช่เชิงพาณิชย์เมื่อให้เครดิต การนำไปใช้เชิงพาณิชย์ต้องมีข้อตกลง หลักคำสอนยังคงไม่เปลี่ยนรูป โปรโตคอลและมาตรฐานถูกกำกับด้วยเวอร์ชัน สิทธิการใช้ให้สิทธิในการนำไปใช้ ไม่ได้ให้อำนาจในการนิยามใหม่",
+			"Paritsea is open for reference under CC BY-NC 4.0. Non-commercial use is permitted with attribution. Commercial implementation requires agreement. The Framework remains immutable. Protocols and Standards are version-governed. Licensing grants permission to implement — not authority to redefine.":
+				"Paritsea เปิดให้อ้างอิงภายใต้ CC BY-NC 4.0 อนุญาตให้ใช้แบบไม่ใช่เชิงพาณิชย์เมื่อให้เครดิต การนำไปใช้เชิงพาณิชย์ต้องมีข้อตกลง Framework ยังคงไม่เปลี่ยนรูป โปรโตคอลและมาตรฐานถูกกำกับด้วยเวอร์ชัน สิทธิการใช้ให้สิทธิในการนำไปใช้ ไม่ได้ให้อำนาจในการนิยามใหม่",
 		},
 	},
 	contact: {
