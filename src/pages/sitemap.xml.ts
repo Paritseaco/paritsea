@@ -53,6 +53,7 @@ export const GET: APIRoute = async ({ site }) => {
 		{ url: `${siteUrl}/system/protocols` },
 		{ url: `${siteUrl}/system/standards` },
 		{ url: `${siteUrl}/implementation` },
+		{ url: `${siteUrl}/media` },
 		// Supporting pages
 		{ url: `${siteUrl}/about` },
 		{ url: `${siteUrl}/licensing` },
@@ -65,6 +66,7 @@ export const GET: APIRoute = async ({ site }) => {
 		{ url: `${siteUrl}/th/system/protocols` },
 		{ url: `${siteUrl}/th/system/standards` },
 		{ url: `${siteUrl}/th/implementation` },
+		{ url: `${siteUrl}/th/media` },
 		{ url: `${siteUrl}/th/about` },
 		{ url: `${siteUrl}/th/licensing` },
 		{ url: `${siteUrl}/th/contact` },

@@ -8,6 +8,7 @@ const EXACT_REDIRECTS: Record<string, string> = {
 	"/protocols":      "/system/protocols",
 	"/standards":      "/system/standards",
 	"/implementations":"/implementation",
+	"/ip":             "/licensing",
 };
 
 // Prefix-match redirects (slug children). Order is significant — more specific first.

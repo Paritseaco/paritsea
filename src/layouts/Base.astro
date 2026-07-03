@@ -103,29 +103,56 @@ function resolveMenuItem(item: { label?: string; url?: string; children?: unknow
 const navItems: ResolvedMenuItem[] = (menu?.items ?? []).map((item) => resolveMenuItem(item as any));
 
 const resolvedNavItems = (() => {
-	const items = [...navItems];
-	// Safety: inject Implementation if seed omits it
-	if (!items.some((item) => stripLocalePrefix(item.url) === "/implementation")) {
-		items.push({
-			id: "implementation",
-			label: copy.navLabels.Implementation ?? "Implementation",
-			url: localizedPath("/implementation", locale),
-			target: undefined,
-			children: [],
-		});
-	}
-	// Always inject About (not in seed, managed by code)
-	// D-029: main nav is always English regardless of locale
-	if (!items.some((item) => stripLocalePrefix(item.url) === "/about")) {
-		items.push({
-			id: "about",
-			label: "About",
+	const systemItem = navItems.find((item) => stripLocalePrefix(item.url) === "/system");
+	const systemChildren = systemItem?.children?.length
+		? systemItem.children
+		: [
+				{
+					label: copy.navLabels.Framework,
+					url: localizedPath("/system/framework", locale),
+					children: [],
+				},
+				{
+					label: copy.navLabels.Protocols,
+					url: localizedPath("/system/protocols", locale),
+					children: [],
+				},
+				{
+					label: copy.navLabels.Standards,
+					url: localizedPath("/system/standards", locale),
+					children: [],
+				},
+			];
+	return [
+		{
+			id: "lens",
+			label: copy.navLabels.Lens ?? "Lens",
 			url: localizedPath("/about", locale),
 			target: undefined,
 			children: [],
-		});
-	}
-	return items;
+		},
+		{
+			id: "system",
+			label: copy.navLabels.System ?? "System",
+			url: localizedPath("/system", locale),
+			target: undefined,
+			children: systemChildren,
+		},
+		{
+			id: "ip",
+			label: copy.navLabels.IP ?? "IP",
+			url: localizedPath("/licensing", locale),
+			target: undefined,
+			children: [],
+		},
+		{
+			id: "media",
+			label: copy.navLabels.Media ?? "Media",
+			url: localizedPath("/media", locale),
+			target: undefined,
+			children: [],
+		},
+	] as ResolvedMenuItem[];
 })();
 
 // Active-state helper: used to apply nav-framework and system dropdown is-active classes
@@ -162,6 +189,19 @@ const structuredData = {
 			inLanguage: ["en", "th"],
 		},
 		{
+			"@type": "Person",
+			"@id": `${siteOrigin}/about#parit-ritchai`,
+			name: "Parit Ritchai",
+			url: `${siteOrigin}/about`,
+			sameAs: [
+				"https://www.youtube.com/@paritsea",
+				"https://www.threads.com/@paritsea",
+				"https://www.instagram.com/paritsea",
+				"https://www.facebook.com/profile.php?id=61588809970162",
+				"https://www.linkedin.com/company/paritsea/",
+			],
+		},
+		{
 			"@type": "Organization",
 			"@id": `${siteOrigin}/#organization`,
 			name: "Paritsea",
@@ -176,18 +216,60 @@ const structuredData = {
 			],
 		},
 		{
+			"@type": "CollectionPage",
+			"@id": `${siteOrigin}/journal#collection`,
+			name: "Paritsea Journal",
+			url: `${siteOrigin}/journal`,
+			description: "The observation layer where real situations are recorded before patterns are formalized.",
+			isPartOf: { "@id": `${siteOrigin}/#website` },
+			creator: { "@id": `${siteOrigin}/about#parit-ritchai` },
+		},
+		{
+			"@type": "CollectionPage",
+			"@id": `${siteOrigin}/system#collection`,
+			name: "Paritsea System",
+			url: `${siteOrigin}/system`,
+			description: "The governed layer for Framework, Protocols, and Standards derived from recurring observations.",
+			isPartOf: { "@id": `${siteOrigin}/#website` },
+		},
+		{
+			"@type": "CollectionPage",
+			"@id": `${siteOrigin}/media#collection`,
+			name: "Paritsea Media",
+			url: `${siteOrigin}/media`,
+			description: "Videos, social channels, and public reflections connected to the Paritsea lens.",
+			isPartOf: { "@id": `${siteOrigin}/#website` },
+		},
+		{
 			"@type": "CreativeWork",
 			"@id": `${siteOrigin}/system/framework#creativework`,
 			name: "Paritsea Framework",
 			url: `${siteOrigin}/system/framework`,
-			creator: {
-				"@type": "Person",
-				name: "Parit Ritchai",
-			},
+			creator: { "@id": `${siteOrigin}/about#parit-ritchai` },
 			publisher: {
 				"@id": `${siteOrigin}/#organization`,
 			},
 			isAccessibleForFree: true,
+			usageInfo: `${siteOrigin}/licensing`,
+			inLanguage: ["en", "th"],
+		},
+		{
+			"@type": "CreativeWork",
+			"@id": `${siteOrigin}/system/protocols#creativework`,
+			name: "Paritsea Protocols",
+			url: `${siteOrigin}/system/protocols`,
+			creator: { "@id": `${siteOrigin}/about#parit-ritchai` },
+			isBasedOn: { "@id": `${siteOrigin}/system/framework#creativework` },
+			usageInfo: `${siteOrigin}/licensing`,
+			inLanguage: ["en", "th"],
+		},
+		{
+			"@type": "CreativeWork",
+			"@id": `${siteOrigin}/system/standards#creativework`,
+			name: "Paritsea Standards",
+			url: `${siteOrigin}/system/standards`,
+			creator: { "@id": `${siteOrigin}/about#parit-ritchai` },
+			isBasedOn: { "@id": `${siteOrigin}/system/protocols#creativework` },
 			usageInfo: `${siteOrigin}/licensing`,
 			inLanguage: ["en", "th"],
 		},
@@ -364,13 +446,21 @@ const structuredData = {
 						<p class="footer-tagline">{copy.footerTagline}</p>
 					</div>
 					<div class="footer-nav">
+						<h4 class="footer-heading">{copy.thoughtPath}</h4>
+						<ul class="footer-links">
+							<li><a href={localizedPath("/about", locale)}>{copy.navLabels.Lens}</a></li>
+							<li><a href={localizedPath("/journal", locale)}>{copy.navLabels.Journal}</a></li>
+							<li><a href={localizedPath("/system", locale)}>{copy.navLabels.System}</a></li>
+							<li><a href={localizedPath("/implementation", locale)}>{copy.navLabels.Implementation}</a></li>
+							<li><a href={localizedPath("/media", locale)}>{copy.navLabels.Media}</a></li>
+						</ul>
+					</div>
+					<div class="footer-nav">
 						<h4 class="footer-heading">{copy.frameworkLayers}</h4>
 						<ul class="footer-links">
 							<li><a href={localizedPath("/system/framework", locale)}>{copy.navLabels.Framework}</a></li>
 							<li><a href={localizedPath("/system/protocols", locale)}>{copy.navLabels.Protocols}</a></li>
 							<li><a href={localizedPath("/system/standards", locale)}>{copy.navLabels.Standards}</a></li>
-							<li><a href={localizedPath("/journal", locale)}>{copy.navLabels.Journal}</a></li>
-							<li><a href={localizedPath("/implementation", locale)}>{copy.navLabels.Implementation}</a></li>
 						</ul>
 					</div>
 				<div class="footer-nav">
@@ -1148,7 +1238,7 @@ const structuredData = {
 
 			.footer-grid {
 				display: grid;
-				grid-template-columns: 2fr 1fr 1fr 1fr;
+				grid-template-columns: 2fr repeat(4, 1fr);
 				gap: var(--spacing-10);
 				margin-bottom: var(--spacing-8);
 			}

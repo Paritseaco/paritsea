@@ -56,8 +56,8 @@ const aboutContent = locale === "th" ? {
 			content: "Paritsea อ่านคนและระบบไปพร้อมกัน เพราะสองสิ่งนี้แยกจากกันไม่ได้\n\nคุณไม่สามารถมองโครงสร้างได้ชัดโดยไม่เห็นคนที่ขับเคลื่อนมัน และคุณไม่สามารถเข้าใจสิ่งที่คนกำลังทำโดยไม่เข้าใจน้ำหนักของโครงสร้างที่กดทับเขา\n\nถ้าฉันต้องบอกว่าอะไรคือสิ่งที่พบซ้ำมากที่สุดในทุกบริบทที่ผ่านมา —\nนั่นคือ: สิ่งที่ขับเคลื่อนสถานการณ์จริงๆ มักมองไม่เห็นสำหรับคนที่อยู่ข้างใน\n\nครอบครัว องค์กร ความสัมพันธ์ ทุกที่มีสิ่งที่ไม่เคยถูกตั้งชื่อ\nพอไม่ถูกตั้งชื่อ มันก็ไม่ถูกแก้ ไม่ถูกพูดถึง ไม่ถูกมองเห็น\n\nParitsea ตั้งชื่อสิ่งเหล่านั้น\n\nเมื่อตั้งชื่อแล้ว อะไรจะเกิดตามมา — ไม่ว่าจะเป็นการเปลี่ยนแปลงหรือไม่ —\nเป็นเรื่องของผู้ที่ได้รับชื่อนั้น\nเพราะบางครั้งสิ่งที่จำเป็นไม่ใช่การแก้ไข แต่คือการที่บางสิ่งถูกมองเห็นในที่สุด",
 		},
 		{
-			title: "เปิดให้ใช้งานฟรี",
-			content: "แนวคิดเหล่านี้มีไว้เพื่อใช้ เหตุผลที่เปิดเป็นสาธารณะไม่ใช่แค่ความใจกว้าง — แต่เป็นเรื่องของโครงสร้าง\n\nการเก็บ Paritsea ไว้นอกระบบแรงจูงใจของที่ปรึกษาที่รับเงิน ช่วยให้สายตายังคงซื่อสัตย์\nไม่ต้องบอกสิ่งที่คนอยากฟัง ไม่ต้องปรับมุมมองให้สอดคล้องกับธุรกิจ\n\nมีเงื่อนไขบางประการสำหรับการนำไปใช้เชิงพาณิชย์\nแต่สำหรับการอ้างอิง การศึกษา และการปรับใช้ภายใน — เปิดให้ใช้ได้",
+			title: "จากบันทึกสู่ IP",
+			content: "Paritsea ไม่ได้เริ่มจากความคิดที่ตกผลึกแล้ว มันเริ่มจาก Journal — การบันทึกสิ่งที่เห็นจากสถานการณ์จริงก่อน\n\nเมื่อรูปแบบบางอย่างปรากฏซ้ำพอ มันจึงถูกคัดไปเป็น Framework, Protocol หรือ Standard และในอนาคตอาจกลายเป็น IP ที่ผู้อื่นขอใช้ เช่าใช้ หรือได้รับอนุญาตอย่างเป็นทางการได้\n\nการอ้างอิง การศึกษา และการปรับใช้ภายในเปิดให้ทำได้ แต่การนำไปใช้เชิงพาณิชย์หรือกล่าวอ้างสถานะ official ต้องอยู่ภายใต้เงื่อนไขสิทธิการใช้",
 			linkText: "ดูเงื่อนไขการใช้งาน →",
 			linkUrl: "/licensing",
 		},
@@ -83,8 +83,8 @@ const aboutContent = locale === "th" ? {
 			content: "Paritsea reads people and systems together because they cannot be separated.\n\nYou cannot see a structure clearly without seeing the humans driving it. And you cannot understand what a human is doing without understanding the weight of the structure on them.\n\nIf I had to name what I have found most consistently across every context I've been in:\nit is that the thing driving a situation is invisible to the people inside it.\n\nFamilies, organisations, relationships — every setting has things that were never named.\nUnnamed, they remain unaddressed, unspoken, unseen.\n\nParitsea names them.\n\nWhat happens after — whether change follows or not — belongs to whoever received the name.\nBecause sometimes what is needed is not a fix. It is that something is finally seen.",
 		},
 		{
-			title: "Open to use",
-			content: "These ideas exist to be used. The reason they are open is not generosity — it is structural.\n\nKeeping Paritsea outside the incentive structures of paid advice keeps the lens honest. No need to tell people what they want to hear. No need to align the perspective with a business interest.\n\nSome conditions apply for commercial use.\nBut for reference, study, and internal adaptation — it is open.",
+			title: "From record to IP",
+			content: "Paritsea does not begin with crystallized ideas. It begins in Journal — the act of recording what is seen in real situations first.\n\nWhen a pattern repeats with enough structure, it can be selected into Framework, Protocol, or Standard. Over time, some of this may become IP that others can request, license, or use officially.\n\nReference, study, and internal adaptation are open. Commercial use or claims of official status follow the licensing policy.",
 			linkText: "View licensing terms →",
 			linkUrl: "/licensing",
 		},
@@ -140,6 +140,50 @@ const licensingForbiddenClaims = locale === "th" ? [
 	"Claiming certification, endorsement, partnership, or institutional affiliation without explicit authorisation.",
 	"Presenting an adaptation as official Paritsea Framework, protocol, standard, or implementation.",
 	"Using the Paritsea name, identity, or branding to imply authority you have not been granted.",
+];
+
+const licensingUsePath = locale === "th" ? [
+	{
+		name: "Cite",
+		body: "อ้างถึง Paritsea พร้อมเครดิตและลิงก์กลับมายังหน้าต้นทาง ใช้ได้กับบทความ lecture research และเอกสารภายใน",
+	},
+	{
+		name: "Adapt",
+		body: "ดัดแปลงแนวคิดเพื่อการเรียนรู้ การวิเคราะห์ หรือบริบทภายในได้ แต่ต้องไม่นำเสนอว่าเป็น Paritsea official text",
+	},
+	{
+		name: "Internal use",
+		body: "ใช้เป็นกรอบคิดภายในชีวิต งาน ทีม หรือองค์กรได้โดยไม่ต้องขออนุญาต ตราบเท่าที่ไม่เกิดรายได้จากการบังคับใช้หรือ certification",
+	},
+	{
+		name: "Commercial licensing",
+		body: "การฝัง logic ของ Paritsea ในผลิตภัณฑ์ บริการ ซอฟต์แวร์ audit หรือระบบที่สร้างรายได้ ต้องได้รับอนุญาตแยก",
+	},
+	{
+		name: "Official implementation",
+		body: "สถานะ official เกิดขึ้นเฉพาะเมื่อ Paritsea บันทึกหรือยอมรับอย่างชัดเจน การใช้งานทั่วไปไม่ทำให้เกิด endorsement",
+	},
+] : [
+	{
+		name: "Cite",
+		body: "Reference Paritsea with attribution and a link to the source page. Suitable for essays, lectures, research, and internal documents.",
+	},
+	{
+		name: "Adapt",
+		body: "Adapt concepts for learning, analysis, or internal contexts, but do not present the adaptation as official Paritsea text.",
+	},
+	{
+		name: "Internal use",
+		body: "Use Paritsea as a thinking framework in life, work, teams, or organizations without permission, as long as it is not monetized enforcement or certification.",
+	},
+	{
+		name: "Commercial licensing",
+		body: "Embedding Paritsea logic into products, services, software, audits, or revenue-generating systems requires separate permission.",
+	},
+	{
+		name: "Official implementation",
+		body: "Official status exists only when Paritsea explicitly records or recognizes the implementation. Ordinary use does not create endorsement.",
+	},
 ];
 
 const licensingFaq = locale === "th" ? [
@@ -308,6 +352,26 @@ const pageDescription = isAboutPage
 							<h2>{locale === "th" ? "Adaptation กับ Official Implementation" : "Adaptation vs Official Implementation"}</h2>
 							<p><strong>Adaptation</strong> {locale === "th" ? "หมายถึงการใช้แนวคิด Paritsea ในบริบท องค์กร โดเมน หรือชีวิตของคุณเอง ซึ่งอนุญาตภายใต้เงื่อนไขสิทธิการใช้" : "means you are using Paritsea concepts in your own context, organisation, domain, or life. This is allowed within the licensing terms."}</p>
 							<p><strong>Official Implementation</strong> {locale === "th" ? "หมายถึงระบบที่ถูกบันทึกหรือยอมรับโดย Paritsea อย่างชัดเจนว่าเป็น implementation ของกรอบนี้ การดัดแปลงเพียงอย่างเดียวไม่ทำให้เกิดสถานะ official" : "means a system has been explicitly documented or recognised by Paritsea as an implementation of the framework. Adaptation alone does not create official status."}</p>
+						</section>
+
+						<section class="policy-section policy-section--full">
+							<h2>{locale === "th" ? "เส้นทางการใช้อย่างถูกต้อง" : "Use Path"}</h2>
+							<p class="policy-faq-intro">{locale === "th" ? "Paritsea เปิดให้แนวคิดเดินทางได้ แต่แต่ละระดับมีขอบเขตต่างกัน" : "Paritsea lets ideas travel, but each level has a different boundary."}</p>
+							<div class="policy-path-grid">
+								{licensingUsePath.map((item) => (
+									<div class="policy-path-item">
+										<h3>{item.name}</h3>
+										<p>{item.body}</p>
+									</div>
+								))}
+							</div>
+						</section>
+
+						<section class="policy-section policy-section--full policy-seocean">
+							<h2>{locale === "th" ? "ความสัมพันธ์กับ SE Ocean" : "Relationship to SE Ocean"}</h2>
+							<p>{locale === "th" ? "SE Ocean เป็นชั้นบริการเชิงพาณิชย์ที่แปลบางแนวคิดของ Paritsea ไปเป็น advisory, architecture, stewardship และ decision-support ภายใต้นิติบุคคลแยกต่างหาก" : "SE Ocean is the commercial service layer that translates selected Paritsea concepts into advisory, architecture, stewardship, and decision-support work under a separate legal entity."}</p>
+							<p>{locale === "th" ? "Paritsea ยังคงเป็นต้นทางของสายตา Journal, Framework, Protocols, Standards และ IP ไม่ใช่หน้าเสนอขายบริการของ SE Ocean" : "Paritsea remains the source for the lens, Journal, Framework, Protocols, Standards, and IP. It is not a sales page for SE Ocean."}</p>
+							<a href="https://seocean.co.th" target="_blank" rel="noreferrer">{locale === "th" ? "ดูชั้นบริการที่ SE Ocean →" : "View the service layer at SE Ocean →"}</a>
 						</section>
 
 						<section class="policy-section">
@@ -673,6 +737,55 @@ const pageDescription = isAboutPage
 		border-top: 1px solid var(--color-border);
 	}
 
+	.policy-path-grid {
+		display: grid;
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+		gap: var(--spacing-4);
+		margin-top: var(--spacing-5);
+	}
+
+	.policy-path-item {
+		padding-top: var(--spacing-4);
+		border-top: 2px solid var(--color-accent);
+	}
+
+	.policy-path-item h3 {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-lg);
+		line-height: 1.25;
+		margin: 0 0 var(--spacing-2);
+		color: var(--color-text);
+	}
+
+	.policy-path-item p,
+	.policy-seocean p {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin: 0 0 var(--spacing-3);
+	}
+
+	.policy-seocean {
+		border-left: 2px solid var(--color-border);
+		padding-left: var(--spacing-5);
+	}
+
+	.policy-seocean a {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		color: var(--color-accent);
+		text-decoration: none;
+	}
+
+	:lang(th) .policy-path-item h3,
+	:lang(th) .policy-path-item p,
+	:lang(th) .policy-seocean p,
+	:lang(th) .policy-seocean a {
+		letter-spacing: 0;
+		line-height: 1.85;
+	}
+
 	/* ─── About Page ─── */
 	.about-page {
 		max-width: 680px;
@@ -940,6 +1053,10 @@ const pageDescription = isAboutPage
 	@media (max-width: 600px) {
 		.page-article {
 			padding: var(--spacing-8) var(--spacing-4) var(--spacing-12);
+		}
+
+		.policy-path-grid {
+			grid-template-columns: 1fr;
 		}
 
 		.about-hero-headline {

@@ -8,14 +8,19 @@ export const GET: APIRoute = async ({ site, url }) => {
 
 	const content = `# Paritsea
 
-> A layered thinking system: seeing → structuring → doing.
+> Parit Ritchai's living thought system: lens → journal → system → IP / official use → media.
 
-Paritsea publishes a framework of governed knowledge, along with journal observations, protocols, standards, implementation notes, and public guidance for citation, adaptation, licensing, and official use.
+Paritsea is not a monetized service website. It publishes the original lens, journal observations, governed Framework / Protocols / Standards, implementation records, and public guidance for citation, adaptation, licensing, and official use.
+
+Ideas usually begin as observations from real situations. They are recorded in Journal first. Patterns that repeat and become structurally mature may later crystallize into System documents and future IP.
 
 ## Layers
-- Journal (seeing): ${siteUrl}/journal | Thai: ${siteUrl}/th/journal
+- Lens (origin and creator context): ${siteUrl}/about | Thai: ${siteUrl}/th/about
+- Journal (first record / seeing): ${siteUrl}/journal | Thai: ${siteUrl}/th/journal
 - System (structuring): ${siteUrl}/system | Thai: ${siteUrl}/th/system
-- Implementation (doing): ${siteUrl}/implementation | Thai: ${siteUrl}/th/implementation
+- IP / Licensing (official use boundaries): ${siteUrl}/licensing | Thai: ${siteUrl}/th/licensing
+- Media (videos and public reflections): ${siteUrl}/media | Thai: ${siteUrl}/th/media
+- Implementation (documented applied systems): ${siteUrl}/implementation | Thai: ${siteUrl}/th/implementation
 
 ## System Architecture
 - Framework (immutable root): ${siteUrl}/system/framework | Thai: ${siteUrl}/th/system/framework
@@ -23,12 +28,14 @@ Paritsea publishes a framework of governed knowledge, along with journal observa
 - Standards (thresholds): ${siteUrl}/system/standards | Thai: ${siteUrl}/th/system/standards
 
 ## Site
-- About: ${siteUrl}/about | Thai: ${siteUrl}/th/about
-- Licensing: ${siteUrl}/licensing | Thai: ${siteUrl}/th/licensing
+- About / Lens: ${siteUrl}/about | Thai: ${siteUrl}/th/about
+- Licensing / IP: ${siteUrl}/licensing | Thai: ${siteUrl}/th/licensing
+- IP alias: ${siteUrl}/ip | Thai: ${siteUrl}/th/ip
+- Media: ${siteUrl}/media | Thai: ${siteUrl}/th/media
 - Contact: ${siteUrl}/contact | Thai: ${siteUrl}/th/contact
 
 ## Relationship to SE Ocean
-Paritsea is the source reference layer. SE Ocean is the separate commercial service layer that translates selected Paritsea concepts into advisory, architecture, stewardship, and decision-support work. Do not treat Paritsea pages as service offers.
+Paritsea is the source thinking and IP layer. SE Ocean is the separate commercial service layer that translates selected Paritsea concepts into advisory, architecture, stewardship, and decision-support work under a legal entity. Do not treat Paritsea pages as service offers or copy SE Ocean positioning back into Paritsea.
 
 ## Discovery
 - Sitemap: ${siteUrl}/sitemap.xml
@@ -36,10 +43,10 @@ Paritsea is the source reference layer. SE Ocean is the separate commercial serv
 
 ## Notes
 - Prefer canonical URLs from the site HTML when citing individual pages.
-- Journal contains observation entries — problems made legible before they become governed.
-- System/Framework is the immutable foundational document. Protocols and Standards derive from it.
+- Journal contains source observations — real situations made legible before they become governed.
+- System documents may be derived from recurring Journal patterns, but Framework remains the immutable root of the governed layer. Protocols and Standards derive from it.
 - Implementation describes applied systems where the framework runs in reality.
-- Licensing defines citation, adaptation, commercial permission, and official implementation boundaries.
+- Licensing defines citation, adaptation, internal use, commercial permission, and official implementation boundaries.
 `;
 
 	return new Response(content, {

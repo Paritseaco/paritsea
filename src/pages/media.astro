@@ -1,0 +1,423 @@
+---
+import { getEmDashCollection, getEntryTerms } from "emdash";
+import Base from "../layouts/Base.astro";
+import { isFrameworkPageSlug, resolveFrameworkPage, resolvePostPath } from "../utils/public-paths";
+import {
+	formatDateForLocale,
+	getAstroLocale,
+	localizeEntry,
+	localizeTermLabel,
+	localizedPath,
+} from "../utils/i18n";
+
+const locale = getAstroLocale(Astro);
+
+const { entries: posts, cacheHint } = await getEmDashCollection("posts", {
+	orderBy: { published_at: "desc" },
+	limit: 12,
+});
+Astro.cache.set(cacheHint);
+
+const journalEntries = (
+	await Promise.all(
+		posts.map(async (post) => {
+			const terms = await getEntryTerms("posts", post.data.id, "category");
+			const frameworkPage = resolveFrameworkPage(
+				post.data.framework_page,
+				terms.find((term) => isFrameworkPageSlug(term.slug))?.slug,
+			);
+			if (frameworkPage !== "the-method") return null;
+			const visibleTerms = terms.filter((term) => !isFrameworkPageSlug(term.slug));
+			return {
+				post: localizeEntry(post, "posts", locale),
+				href: localizedPath(resolvePostPath(post.id, frameworkPage, null) ?? `/journal/${post.id}`, locale),
+				category: visibleTerms[0]?.label ? localizeTermLabel(visibleTerms[0].label, locale) : null,
+				isVideo: post.data.format === "video-reflection" || typeof post.data.youtube_url === "string",
+			};
+		}),
+	)
+).filter(Boolean).slice(0, 4) as Array<{
+	post: (typeof posts)[number];
+	href: string;
+	category: string | null;
+	isVideo: boolean;
+}>;
+
+interface YouTubeVideo {
+	id: string;
+	title: string;
+	published: string;
+}
+
+let youtubeVideos: YouTubeVideo[] = [];
+try {
+	const rssUrl = "https://www.youtube.com/feeds/videos.xml?channel_id=UCAbKE9k4l5OYlKnZXzEPhbA";
+	const res = await fetch(rssUrl);
+	const xml = await res.text();
+	youtubeVideos = xml
+		.split("<entry>")
+		.slice(1, 5)
+		.map((entry) => {
+			const idMatch = entry.match(/<yt:videoId>([^<]+)<\/yt:videoId>/);
+			const titleMatch = entry.match(/<title>([^<]+)<\/title>/);
+			const pubMatch = entry.match(/<published>([^<]+)<\/published>/);
+			return {
+				id: idMatch?.[1] ?? "",
+				title: titleMatch?.[1] ?? "",
+				published: pubMatch?.[1] ?? "",
+			};
+		})
+		.filter((video) => video.id);
+} catch {
+	youtubeVideos = [];
+}
+
+const text = locale === "th"
+	? {
+			title: "Media — Paritsea",
+			description:
+				"วิดีโอ บันทึก และช่องทางติดตามแนวคิด Paritsea จาก Parit Ritchai ก่อนและหลังแนวคิดตกผลึกเป็น Framework, Protocols และ Standards",
+			eyebrow: "MEDIA",
+			headline: "ช่องทางติดตามสายตา ก่อนที่บางสิ่งจะกลายเป็น Framework",
+			intro:
+				"Media คือพื้นที่ที่ Paritsea เคลื่อนไหวในเวลาจริง วิดีโอ บทสนทนา และบันทึกสั้นช่วยให้เห็นวิธีคิดก่อนถูกจัดโครงสร้างเป็น Journal, Protocol หรือ Standard",
+			note:
+				"หน้านี้ไม่ใช่ช่องทางขายบริการ เป็นพื้นที่ติดตามวิธีมอง ปัญหาที่ถูกตั้งชื่อ และรูปแบบที่อาจตกผลึกเป็น IP ในอนาคต",
+			journal: "จาก Journal ล่าสุด",
+			video: "วิดีโอล่าสุด",
+			channels: "ช่องทางติดตาม",
+			read: "อ่านบันทึก →",
+			watch: "ดูวิดีโอ →",
+			openJournal: "เปิด Journal ทั้งหมด",
+			openYoutube: "เปิด YouTube",
+			social: [
+				["YouTube", "วิดีโอสะท้อนคิดและบทสนทนาเชิงระบบ", "https://www.youtube.com/@paritsea"],
+				["Threads", "มุมมองสั้นที่จับแรงตึงในชีวิตและระบบ", "https://www.threads.com/@paritsea"],
+				["Instagram", "visual thoughts และ audience ระหว่างประเทศ", "https://www.instagram.com/paritsea"],
+				["Facebook", "อัปเดตบทความ วิดีโอ และความเคลื่อนไหว", "https://www.facebook.com/profile.php?id=61588809970162"],
+				["LINE Group", "พื้นที่ติดตาม session และพูดคุย", "https://line.me/ti/g2/Cx989g5gDxh4iLU7luRYVHBAJw4s5ykMqNsY9Q"],
+				["LinkedIn", "มุมมองเชิงงาน องค์กร และระบบ", "https://www.linkedin.com/company/paritsea/"],
+			],
+		}
+	: {
+			title: "Media — Paritsea",
+			description:
+				"Videos, notes, and social channels for following Paritsea thinking by Parit Ritchai before and after ideas crystallize into Framework, Protocols, and Standards.",
+			eyebrow: "MEDIA",
+			headline: "Follow the lens before some observations become Framework.",
+			intro:
+				"Media is where Paritsea moves in public time. Videos, conversations, and short reflections reveal the way of seeing before it is structured into Journal entries, Protocols, Standards, or future IP.",
+			note:
+				"This is not a service funnel. It is a place to follow the lens, the problems being named, and the patterns that may later become official intellectual property.",
+			journal: "From the latest Journal",
+			video: "Latest videos",
+			channels: "Follow channels",
+			read: "Read note →",
+			watch: "Watch →",
+			openJournal: "Open Journal",
+			openYoutube: "Open YouTube",
+			social: [
+				["YouTube", "Video reflections and systems conversations", "https://www.youtube.com/@paritsea"],
+				["Threads", "Short observations on life and systems", "https://www.threads.com/@paritsea"],
+				["Instagram", "Visual thoughts and international audience", "https://www.instagram.com/paritsea"],
+				["Facebook", "Article, video, and Paritsea updates", "https://www.facebook.com/profile.php?id=61588809970162"],
+				["LINE Group", "Session updates and discussion space", "https://line.me/ti/g2/Cx989g5gDxh4iLU7luRYVHBAJw4s5ykMqNsY9Q"],
+				["LinkedIn", "Work, organization, and systems perspective", "https://www.linkedin.com/company/paritsea/"],
+			],
+		};
+
+const formatDate = (date: Date | null | undefined) => formatDateForLocale(date, locale);
+---
+
+<Base title={text.title} description={text.description} locale={locale}>
+	<div class="media-page">
+		<header class="media-hero">
+			<div class="media-hero-primary">
+				<p class="media-eyebrow">{text.eyebrow}</p>
+				<h1 class="media-title">{text.headline}</h1>
+				<p class="media-intro">{text.intro}</p>
+			</div>
+			<aside class="media-note">
+				<p>{text.note}</p>
+			</aside>
+		</header>
+
+		<section class="media-section media-section--journal">
+			<div class="media-section-heading">
+				<h2>{text.journal}</h2>
+				<a href={localizedPath("/journal", locale)}>{text.openJournal} →</a>
+			</div>
+			<div class="media-journal-list">
+				{journalEntries.map(({ post, href, category, isVideo }, index) => (
+					<a href={href} class="media-journal-item">
+						<span class="media-index">{String(index + 1).padStart(2, "0")}</span>
+						<span class="media-journal-body">
+							<span class="media-journal-title">{post.data.title}</span>
+							{post.data.excerpt && <span class="media-journal-excerpt">{post.data.excerpt}</span>}
+							<span class="media-journal-meta">
+								{isVideo && <span>{locale === "th" ? "วิดีโอ" : "Video"}</span>}
+								{category && <span>{category}</span>}
+								{formatDate(post.data.publishedAt) && <time>{formatDate(post.data.publishedAt)}</time>}
+							</span>
+						</span>
+						<span class="media-action">{text.read}</span>
+					</a>
+				))}
+			</div>
+		</section>
+
+		{youtubeVideos.length > 0 && (
+			<section class="media-section">
+				<div class="media-section-heading">
+					<h2>{text.video}</h2>
+					<a href="https://www.youtube.com/@paritsea" target="_blank" rel="noreferrer">{text.openYoutube} →</a>
+				</div>
+				<div class="media-video-grid">
+					{youtubeVideos.map((video) => (
+						<a href={`https://www.youtube.com/watch?v=${video.id}`} target="_blank" rel="noreferrer" class="media-video-card">
+							<img src={`https://i3.ytimg.com/vi/${video.id}/hqdefault.jpg`} alt={video.title} loading="lazy" />
+							<span>{video.title}</span>
+						</a>
+					))}
+				</div>
+			</section>
+		)}
+
+		<section class="media-section">
+			<div class="media-section-heading">
+				<h2>{text.channels}</h2>
+			</div>
+			<div class="media-channel-grid">
+				{text.social.map(([name, desc, href]) => (
+					<a href={href} target="_blank" rel="noreferrer" class="media-channel">
+						<span class="media-channel-name">{name}</span>
+						<span class="media-channel-desc">{desc}</span>
+					</a>
+				))}
+			</div>
+		</section>
+	</div>
+</Base>
+
+<style>
+	.media-page {
+		max-width: var(--wide-width);
+		margin: 0 auto;
+		padding: var(--spacing-16) var(--spacing-8) var(--spacing-24);
+	}
+
+	.media-hero {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(220px, 340px);
+		gap: var(--spacing-16);
+		padding-bottom: var(--spacing-14);
+		border-bottom: 1px solid var(--color-border-subtle);
+	}
+
+	.media-eyebrow,
+	.media-action,
+	.media-journal-meta,
+	.media-section-heading a {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		letter-spacing: var(--tracking-wider);
+		text-transform: uppercase;
+	}
+
+	.media-eyebrow {
+		color: var(--color-accent);
+		margin: 0 0 var(--spacing-4);
+	}
+
+	.media-title {
+		font-family: var(--font-serif);
+		font-size: clamp(2.75rem, 7vw, 5.8rem);
+		line-height: 0.98;
+		letter-spacing: var(--tracking-tight);
+		max-width: 920px;
+		margin: 0;
+	}
+
+	.media-intro {
+		font-size: var(--font-size-lg);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		max-width: 720px;
+		margin: var(--spacing-8) 0 0;
+	}
+
+	.media-note {
+		border-left: 2px solid var(--color-accent);
+		padding-left: var(--spacing-6);
+		align-self: end;
+	}
+
+	.media-note p {
+		margin: 0;
+		color: var(--color-text-secondary);
+		line-height: var(--leading-relaxed);
+	}
+
+	.media-section {
+		padding: var(--spacing-14) 0 0;
+	}
+
+	.media-section-heading {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--spacing-6);
+		margin-bottom: var(--spacing-6);
+	}
+
+	.media-section-heading h2 {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-3xl);
+		line-height: 1.15;
+		margin: 0;
+	}
+
+	.media-section-heading a {
+		color: var(--color-text-secondary);
+		text-decoration: none;
+	}
+
+	.media-journal-list {
+		border-top: 1px solid var(--color-border);
+	}
+
+	.media-journal-item {
+		display: grid;
+		grid-template-columns: 56px minmax(0, 1fr) auto;
+		gap: var(--spacing-6);
+		padding: var(--spacing-6) 0;
+		border-bottom: 1px solid var(--color-border-subtle);
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.media-index {
+		font-family: var(--font-mono);
+		font-size: var(--font-size-sm);
+		color: var(--color-accent);
+	}
+
+	.media-journal-body {
+		display: grid;
+		gap: var(--spacing-2);
+	}
+
+	.media-journal-title,
+	.media-channel-name {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-xl);
+		color: var(--color-text);
+		line-height: 1.25;
+	}
+
+	.media-journal-excerpt,
+	.media-channel-desc {
+		color: var(--color-text-secondary);
+		line-height: var(--leading-relaxed);
+	}
+
+	.media-journal-meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--spacing-3);
+		color: var(--color-muted);
+	}
+
+	.media-action {
+		color: var(--color-accent);
+		align-self: center;
+		white-space: nowrap;
+	}
+
+	.media-video-grid,
+	.media-channel-grid {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: var(--spacing-5);
+	}
+
+	.media-video-card,
+	.media-channel {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.media-video-card img {
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		object-fit: cover;
+		border: 1px solid var(--color-border-subtle);
+		margin-bottom: var(--spacing-3);
+	}
+
+	.media-video-card span {
+		display: block;
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+	}
+
+	.media-channel-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.media-channel {
+		display: grid;
+		gap: var(--spacing-2);
+		padding: var(--spacing-5) 0;
+		border-top: 1px solid var(--color-border-subtle);
+	}
+
+	:lang(th) .media-title,
+	:lang(th) .media-section-heading h2,
+	:lang(th) .media-journal-title,
+	:lang(th) .media-channel-name {
+		letter-spacing: 0;
+		line-height: 1.4;
+	}
+
+	:lang(th) .media-eyebrow,
+	:lang(th) .media-action,
+	:lang(th) .media-journal-meta,
+	:lang(th) .media-section-heading a {
+		letter-spacing: 0;
+		line-height: 1.6;
+	}
+
+	@media (max-width: 900px) {
+		.media-hero,
+		.media-journal-item {
+			grid-template-columns: 1fr;
+		}
+
+		.media-video-grid,
+		.media-channel-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.media-action {
+			justify-self: start;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.media-page {
+			padding: var(--spacing-10) var(--spacing-5) var(--spacing-16);
+		}
+
+		.media-section-heading {
+			display: grid;
+		}
+
+		.media-video-grid,
+		.media-channel-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

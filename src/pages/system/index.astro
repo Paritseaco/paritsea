@@ -25,8 +25,8 @@ const copy = locale === "th" ? {
 	title: `System — ${siteTitle}`,
 	description: "System คือชั้นของการจัดโครงสร้าง — การสังเกตจาก Journal ที่ถูกกำหนดเป็นความรู้ที่มีกฎกำกับ ประกอบด้วย Framework, Protocols และ Standards",
 	eyebrow: "STRUCTURING",
-	intro: "เมื่อการสังเกตในชั้น Journal กลายเป็นรูปแบบที่ซ้ำพอจะกำหนดได้ มันจะถูกนำมาจัดโครงสร้างที่นี่",
-	introSub: "System คือชั้นที่ความรู้ที่ผ่านการทดสอบแล้วถูกทำให้เป็นสิ่งที่ใช้ได้จริงและสม่ำเสมอ — ไม่ใช่ความเห็น แต่เป็นโครงสร้างที่มีกฎกำกับ",
+	intro: "เมื่อ observation จาก Journal ปรากฏซ้ำพอจนไม่ใช่แค่บันทึกส่วนตัว มันจะถูกคัดและจัดโครงสร้างที่นี่",
+	introSub: "System คือชั้นที่รูปแบบจากชีวิตจริงถูกทำให้เป็นความรู้ที่อ้างอิง ใช้ซ้ำ และตรวจสอบได้ — ไม่ใช่ blog ไม่ใช่ personal opinion และไม่ใช่บริการเชิงพาณิชย์",
 	cardsLabel: "เลือกชั้นที่คุณต้องการ",
 	framework: {
 		name: "Framework",
@@ -44,7 +44,7 @@ const copy = locale === "th" ? {
 		desc: "วิธีตรวจสอบว่าข้อกำหนดของ Protocol เป็นจริง Standard อยู่ใต้ Protocol และวางเกณฑ์ที่ชัดเจน",
 	},
 	derivationHeading: "ลำดับที่มา",
-	derivationText: "Framework ไม่ได้มาจากสิ่งใด มันคือรากฐาน Protocols มาจาก Framework — เป็นสิ่งที่ต้องคงอยู่ Standards มาจาก Protocols — เป็นสิ่งที่วัดได้ว่าข้อกำหนดนั้นเป็นจริง",
+	derivationText: "Journal เป็นพื้นที่ที่ observation ถูกบันทึก เมื่อ pattern สุกพอจึงถูกคัดเข้ามาใน System Framework ทำหน้าที่เป็นรากฐาน Protocols มาจาก Framework และ Standards มาจาก Protocols เพื่อทำให้ข้อกำหนดตรวจสอบได้",
 	layerHeading: "System อยู่ในระบบนี้",
 	layerJournal: "Journal",
 	layerJournalRole: "การสังเกต — ปัญหาที่ถูกตั้งชื่อก่อนจะมีกฎกำกับ",
@@ -53,12 +53,14 @@ const copy = locale === "th" ? {
 	layerImpl: "Implementation",
 	layerImplRole: "การนำไปปรับใช้จริง — ความรู้ที่มีกฎกำกับถูกนำไปใช้ในความจริง",
 	notDesc: "System ไม่ใช่แหล่งรวบรวมความเห็น และไม่ใช่ Implementation — มันคือโครงสร้างที่ทำให้ความเห็นกลายเป็นสิ่งที่อ้างอิงได้",
+	systemNoteHeading: "ไม่ใช่ blog และไม่ใช่บริการ",
+	systemNoteText: "เนื้อหาใน System ถูกเขียนใน register ของเอกสารอ้างอิง สิ่งที่อยู่ในชั้นนี้ต้องคงความหมายเมื่อถูกอ้าง ดัดแปลง หรือขอสิทธิ์ใช้อย่างเป็นทางการ",
 } : {
 	title: `System — ${siteTitle}`,
 	description: "System is the structuring layer — observations from Journal formalized into governed knowledge: Framework, Protocols, and Standards.",
 	eyebrow: "STRUCTURING",
-	intro: "When observations in the Journal layer become patterns consistent enough to govern, they are formalized here.",
-	introSub: "System is the layer where tested knowledge is made consistent and usable — not opinion, but governed structure.",
+	intro: "When observations from Journal repeat strongly enough to become more than personal notes, they are selected and structured here.",
+	introSub: "System is where patterns from lived reality become citable, repeatable, and verifiable knowledge — not a blog, not personal opinion, and not a commercial service.",
 	cardsLabel: "Choose a layer",
 	framework: {
 		name: "Framework",
@@ -76,7 +78,7 @@ const copy = locale === "th" ? {
 		desc: "How Protocol obligations are verified. Standards sit beneath Protocols and set concrete criteria.",
 	},
 	derivationHeading: "Derivation order",
-	derivationText: "Framework derives from nothing. It is the root. Protocols derive from Framework — they are obligations. Standards derive from Protocols — they define when an obligation is verifiably met.",
+	derivationText: "Journal records observation. When a pattern is mature enough, it can be selected into System. Framework serves as the root. Protocols derive from Framework, and Standards derive from Protocols so obligations can be verified.",
 	layerHeading: "System within the spine",
 	layerJournal: "Journal",
 	layerJournalRole: "Observation — problems named before they are governed",
@@ -85,6 +87,8 @@ const copy = locale === "th" ? {
 	layerImpl: "Implementation",
 	layerImplRole: "Doing — governed knowledge applied in reality",
 	notDesc: "System is not an opinion archive. And it is not Implementation. It is the structure that makes observation citable.",
+	systemNoteHeading: "Not a blog and not a service",
+	systemNoteText: "System pages use reference-document register. Anything here must preserve meaning when it is cited, adapted, licensed, or used officially.",
 };
 ---
 
@@ -124,6 +128,11 @@ const copy = locale === "th" ? {
 		<section class="system-hub-derivation">
 			<h3 class="system-hub-section-heading">{copy.derivationHeading}</h3>
 			<div class="system-hub-derivation-chain">
+				<div class="derivation-node derivation-node--journal">
+					<span class="derivation-label">Journal</span>
+					<span class="derivation-tag">{locale === "th" ? "observation · ต้นทาง" : "observation · origin"}</span>
+				</div>
+				<div class="derivation-arrow" aria-hidden="true">↓</div>
 				<div class="derivation-node derivation-node--root">
 					<span class="derivation-label">Framework</span>
 					<span class="derivation-tag">{locale === "th" ? "รากฐาน · ไม่เปลี่ยน" : "root · immutable"}</span>
@@ -140,6 +149,10 @@ const copy = locale === "th" ? {
 				</div>
 			</div>
 			<p class="system-hub-derivation-text">{copy.derivationText}</p>
+			<div class="system-hub-note">
+				<h3 class="system-hub-section-heading">{copy.systemNoteHeading}</h3>
+				<p>{copy.systemNoteText}</p>
+			</div>
 		</section>
 
 		{/* ── Layer relationship ── */}
@@ -310,6 +323,10 @@ const copy = locale === "th" ? {
 		border-left-color: var(--color-accent);
 	}
 
+	.derivation-node--journal {
+		border-left-color: color-mix(in srgb, var(--color-sea) 70%, var(--color-border));
+	}
+
 	.derivation-label {
 		font-family: var(--font-serif);
 		font-size: var(--font-size-base);
@@ -337,6 +354,25 @@ const copy = locale === "th" ? {
 		line-height: var(--leading-relaxed);
 		color: var(--color-text-secondary);
 		margin: 0;
+	}
+
+	.system-hub-note {
+		margin-top: var(--spacing-8);
+		padding: var(--spacing-5) 0 0 var(--spacing-5);
+		border-left: 2px solid var(--color-border-subtle);
+	}
+
+	.system-hub-note p {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin: 0;
+	}
+
+	:lang(th) .derivation-tag {
+		letter-spacing: 0;
+		line-height: 1.6;
 	}
 
 	/* ── Layer spine ── */

@@ -56,6 +56,7 @@ export const ui = {
     admin: "Admin",
     footerTagline: "Where systems meet humanity — a way of thinking that understands both the complexity of the world and the depth of human experience.",
     frameworkLayers: "Framework Layers",
+    thoughtPath: "Thought Path",
     legalContact: "Legal & Contact",
     licensing: "Licensing",
     contact: "Contact",
@@ -77,11 +78,14 @@ export const ui = {
     followOn: "Follow on",
     navLabels: {
       // Phase 2 vocabulary — matches new seed menu labels
+      Lens: "Lens",
       Journal: "Journal",
       System: "System",
       Framework: "Framework",
       Protocols: "Protocols",
       Standards: "Standards",
+      IP: "IP",
+      Media: "Media",
       Implementation: "Implementation",
       // Legacy keys kept for fallback safety
       "The Doctrine": "Framework",
@@ -121,6 +125,7 @@ export const ui = {
     admin: "จัดการเว็บ",
     footerTagline: "ที่ที่ระบบและมนุษย์มาบรรจบกัน — วิธีคิดที่เข้าใจทั้งความซับซ้อนของโลกและความรู้สึกของคน",
     frameworkLayers: "สถาปัตยกรรมอ้างอิง",
+    thoughtPath: "เส้นทางความคิด",
     legalContact: "สิทธิ์ & ติดต่อ",
     licensing: "สิทธิ์การใช้",
     contact: "ติดต่อ",
@@ -143,11 +148,14 @@ export const ui = {
     navLabels: {
       // Navigation is FULLY ENGLISH in TH + EN (D-029). No Thai nav terms.
       // แก่น is NEVER used. การประยุกต์ใช้ is deprecated.
+      Lens: "Lens",
       Journal: "Journal",
       System: "System",
       Framework: "Framework",
       Protocols: "Protocols",
       Standards: "Standards",
+      IP: "IP",
+      Media: "Media",
       Implementation: "Implementation",
       // Legacy keys kept for fallback safety
       "The Doctrine": "Framework",
