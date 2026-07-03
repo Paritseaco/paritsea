@@ -231,11 +231,12 @@ const formatDate = (date: Date | null | undefined) => formatDateForLocale(date, 
 
 	.media-title {
 		font-family: var(--font-serif);
-		font-size: clamp(2.75rem, 7vw, 5.8rem);
-		line-height: 0.98;
+		font-size: clamp(2.25rem, 5vw, 4rem);
+		line-height: 1.08;
 		letter-spacing: var(--tracking-tight);
-		max-width: 920px;
+		max-width: 840px;
 		margin: 0;
+		text-wrap: balance;
 	}
 
 	.media-intro {
@@ -380,6 +381,11 @@ const formatDate = (date: Date | null | undefined) => formatDateForLocale(date, 
 	:lang(th) .media-channel-name {
 		letter-spacing: 0;
 		line-height: 1.4;
+	}
+
+	:lang(th) .media-title {
+		font-size: clamp(2rem, 4.6vw, 3.25rem);
+		max-width: 760px;
 	}
 
 	:lang(th) .media-eyebrow,

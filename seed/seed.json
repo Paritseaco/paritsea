@@ -178,6 +178,11 @@
         },
         {
           "type": "custom",
+          "label": "Journal",
+          "url": "/journal"
+        },
+        {
+          "type": "custom",
           "label": "System",
           "url": "/system",
           "children": [
