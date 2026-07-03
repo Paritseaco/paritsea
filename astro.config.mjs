@@ -6,6 +6,21 @@ import { webhookNotifierPlugin } from "@emdash-cms/plugin-webhook-notifier";
 import { defineConfig, fontProviders } from "astro/config";
 import emdash from "emdash/astro";
 
+const emdashDevOptimizerIncludes = [
+	"astro/zod",
+	"emdash/middleware",
+	"emdash/middleware/redirect",
+	"emdash/middleware/setup",
+	"emdash/middleware/auth",
+	"emdash/middleware/request-context",
+	"emdash/media/local-runtime",
+	"emdash/ui",
+	"@emdash-cms/cloudflare/db/d1",
+	"@emdash-cms/cloudflare/storage/r2",
+	"@emdash-cms/plugin-forms",
+	"@emdash-cms/plugin-forms/astro",
+];
+
 export default defineConfig({
 	site: "https://paritsea.co",
 	output: "server",
@@ -42,4 +57,14 @@ export default defineConfig({
 		},
 	],
 	devToolbar: { enabled: false },
+	vite: {
+		optimizeDeps: {
+			include: emdashDevOptimizerIncludes,
+		},
+		ssr: {
+			optimizeDeps: {
+				include: emdashDevOptimizerIncludes,
+			},
+		},
+	},
 });

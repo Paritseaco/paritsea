@@ -10,6 +10,48 @@
 
 ---
 
+## Questionnaire
+
+The following 21 questions form the C-01a interview questionnaire (originally in `docs/editorial-decisions.md`). Q1–Q8 have been answered in Session 1 below. Q9–Q21 remain for future sessions.
+
+**I. Before the Framework**
+
+1. What situation did you find yourself in — before you could name what you were actually seeing — that you now understand was the beginning of this?
+2. When you look back at a specific moment where something became visible to you that was invisible to everyone else in the room — what was happening? What did you see?
+3. What is the thing you have noticed most consistently across very different situations — in organizations, in relationships, in people — that others seem to walk past without registering?
+4. Was there a time when you tried to explain what you were seeing to someone, and they could not see it? What did that experience feel like? What did it clarify for you?
+5. What is the earliest situation you can recall where you understood that the visible surface of something was not the actual thing?
+
+**II. The lens itself**
+
+6. You hold two things together that are usually discussed separately: systems (organizations, structures, processes) and people (psychology, wounds, inner experience). When did you understand that separating them was a mistake?
+7. Most people who notice structural problems stop at the structure. Most people who notice human problems stop at the human. Why do you not stop at either?
+8. What did observing people in "real situations" actually look like? Where were you standing? What were you watching?
+9. When you say Paritsea reads "what's behind" something — not what's visible — what does that act of reading feel like from the inside? What are you actually doing?
+10. What is the pattern you have been naming your whole working life, even before you had language for it?
+
+**III. Why Paritsea exists as it does**
+
+11. What would go wrong — in the world, for the people you care about — if the beneath-the-surface layer remained unnamed?
+12. You chose not to build a consulting practice, a self-help brand, or a content platform. You built a layered thinking system. What motivated that specific shape?
+13. What is the thing Paritsea is designed to do that you believed could not be done by anything else you had encountered?
+14. Why is it important that Paritsea is one person's lens — not a collective, not a curation? What would be lost if it became something that many voices contributed to?
+15. The Framework document is immutable. What made you decide that something should not change — rather than versioning everything? What is at stake in that decision?
+
+**IV. The cost of seeing**
+
+16. What has it cost you to see things others do not see — in a relationship, in an organization, in yourself?
+17. Is there something you have seen clearly for a long time that you still do not know how to name?
+18. What is the hardest thing to make legible — the thing that resists naming even now?
+19. Are there situations or types of people where your ability to read beneath the surface fails you? Where are the limits of this lens?
+20. What would you want someone to feel after spending time inside Paritsea — not understand, not learn — feel?
+
+**V. The AgenSea connection** *(optional)*
+
+21. AgenSea is described as a structural transparency platform applying ASLS-01. What does someone see when they arrive at it that demonstrates the Framework operating in reality — not just in documentation?
+
+---
+
 ## Interview Log
 
 ---

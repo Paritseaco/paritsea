@@ -2,7 +2,7 @@
 import { getEmDashEntry, decodeSlug } from "emdash";
 import { PortableText } from "emdash/ui";
 import Base from "../layouts/Base.astro";
-import { getAstroLocale, localizeEntry, localizedPath, ui } from "../utils/i18n";
+import { getAstroLocale, localizeEntry, localizedPath } from "../utils/i18n";
 
 const slug = decodeSlug(Astro.params.page_slug);
 const locale = getAstroLocale(Astro);
@@ -40,30 +40,24 @@ if (cacheHint) {
 	Astro.cache.set(cacheHint);
 }
 
-const copy = ui[locale];
-
 const aboutContent = locale === "th" ? {
 	title: "เกี่ยวกับ Paritsea",
 	eyebrow: "สายตานี้มาจากไหน",
 	heroHeadline: "สายตานี้ไม่ได้มาจากการเรียน\nมันมาจากบางอย่างที่เกิดขึ้น\nที่ทำให้การมองข้ามสิ่งต่างๆ เป็นไปไม่ได้อีก",
-	heroBody: "ไม่ใช่มุมมองที่เกิดจากทฤษฎีหรือการศึกษา สิ่งที่อยู่ที่นี่ก่อตัวขึ้นจากการผ่านชีวิตบางอย่าง — และจากสิ่งที่ตกผลึกออกมาในช่วงเวลาที่ตามมา",
+	heroBody: "ไม่ใช่มุมมองที่เกิดจากทฤษฎีหรือการศึกษา สิ่งที่อยู่ที่นี่ก่อตัวขึ้นจากการผ่านสิ่งต่างๆ มา — และจากสิ่งที่ตกผลึกในช่วงเวลาที่ตามมา",
 	bioSection: {
 		name: "ปาริศ ฤทธิ์ชัย",
 		title: "ผู้สร้างแนวคิด Paritsea",
-		body: "ตอนอายุใกล้ 30 ฉันอยู่ในจุดที่ดูเหมือนประสบความสำเร็จจากภายนอก\nอาชีพที่สร้างมาจนเป็นที่ยอมรับระดับโลก ความสัมพันธ์ที่ดูถูกต้องในทุกมุม เมืองที่คุ้นเคย\nแล้วสามสิ่งก็พังพร้อมกัน — ความสัมพันธ์ บริษัทที่รับผิดชอบ และเมืองที่ย้ายไปเพื่อทั้งสองอย่าง\nฉันแบกทุกอย่างไว้คนเดียว — นานกว่าที่จะไหว\n\nช่วงเวลาหลายเดือนหลังจากนั้นคือที่ที่สายตานี้ก่อตัวขึ้นจริงๆ\nไม่ใช่จากการศึกษา แต่จากการอยู่กับสิ่งที่เกิดขึ้น รวมถึงส่วนที่เจ็บปวดและเป็นของฉันด้วย\nสิ่งที่ชัดขึ้นไม่ใช่ insight แบบนามธรรม\nมันคือการมองเห็น — แบบที่ก่อตัวได้เมื่อการอ่านผิวเผินล้มเหลวซ้ำแล้วซ้ำเล่าจากข้างใน\n\nมีช่วงหนึ่งที่ฉันจำได้ — เพิ่งกลับมากรุงเทพโดยไม่มีอะไรเลย ไปพักกับรุ่นน้องคนหนึ่ง\nเขาทำน้ำแข็งไว้ให้เพราะสังเกตว่าฉันกินน้ำแข็งตลอด โดยไม่ต้องบอก\nฉันร้องไห้ สิ่งเล็กน้อยที่ไม่ต้องขอนั้นแสดงให้ฉันเห็นสิ่งที่ความสัมพันธ์ทั้งชีวิตไม่เคยมีให้\nการถูกมองเห็นมันไม่ยาก แค่มันไม่มีอยู่ที่นั่น\n\nต่อมา ในองค์กรแห่งหนึ่งที่ฉันเข้าไปช่วย\nฉันเจอรูปแบบเดิมในระดับโครงสร้าง — คนที่มองไม่เห็นในระบบที่พวกเขาทำงานอยู่\nระบบไม่สามารถตั้งชื่อสิ่งที่เกิดขึ้นกับพวกเขาได้\nฉันทำได้ ฉันตั้งชื่อมัน วางความจริงเอาไว้ แล้วก็ออกมา",
+		body: "สายตานี้เกิดจากการใช้ชีวิต ไม่ใช่การศึกษา มันเริ่มก่อตัวตอนที่การมองแบบผิวเผินใช้ไม่ได้อีกต่อไป\n\nมีช่วงหนึ่งที่ฉันพบว่า สิ่งที่ดูดีจากภายนอก กับสิ่งที่เกิดขึ้นจริงข้างใน ไม่ได้ตรงกัน การอยู่กับความไม่ตรงกันนั้นโดยไม่เบือนหนี — คือจุดเริ่มต้นของสิ่งที่เรียกว่า Paritsea ทุกวันนี้\n\nเมื่อเวลาผ่านไป รูปแบบเดิมปรากฏซ้ำในหลายบริบท ไม่ว่าจะในความสัมพันธ์ส่วนตัวหรือในองค์กร:\nสิ่งที่ขับเคลื่อนสถานการณ์จริงๆ มองไม่เห็นสำหรับคนที่อยู่ข้างใน\nไม่ใช่เพราะถูกซ่อน แต่เพราะไม่เคยถูกตั้งชื่อ\n\nParitsea เกิดขึ้นมาเพื่อตั้งชื่อสิ่งเหล่านั้น\n\nในองค์กรแห่งหนึ่งที่ฉันเข้าไปช่วย ฉันพบรูปแบบเดิมในระดับโครงสร้าง\nคนที่มองไม่เห็นในระบบที่พวกเขาทำงานอยู่ ระบบไม่สามารถตั้งชื่อสิ่งที่เกิดขึ้นกับพวกเขาได้\nฉันทำได้ ฉันตั้งชื่อมัน วางความจริงเอาไว้ แล้วก็ออกมา\n\nรูปแบบเดิมนี้เองที่พัฒนาไปเป็น Framework, Protocol และ Standard —\nไม่ใช่เพราะฉันอยากสร้างระบบอ้างอิง แต่เพราะสิ่งที่เห็นถูกบันทึกและถูกทำให้อ้างอิงได้\n\nโครงสร้างของ Paritsea — Journal, System, Implementation —\nสะท้อนวิธีที่ฉันมองและทำงานจริง: เห็นก่อน ตั้งชื่อก่อน แล้วค่อยทำให้เป็นระบบ\nหลังจากนั้นจึงนำไปปรับใช้จริง",
 	},
 	sections: [
 		{
-			title: "สิ่งที่ฉันพบซ้ำๆ",
-			content: "คุณไม่สามารถมองโครงสร้างได้ชัดโดยไม่เห็นคนที่ขับเคลื่อนมัน และคุณไม่สามารถเข้าใจสิ่งที่คนกำลังทำโดยไม่เข้าใจน้ำหนักของโครงสร้างที่กำลังกดทับเขา มันคือปัญหาเดียวกัน\n\nฉันพบสิ่งนี้ครั้งแรกในระบบครอบครัวของตัวเอง โครงสร้างที่ผู้ใหญ่มีสิทธิ์ตัดสินซึ่งปิดปากเด็ก — และยังเป็นสิ่งที่ปกป้องมรดกจากพ่อแม่ที่คงเผาทิ้งไปแล้ว โครงสร้างเดิมมีทั้งความผิดพลาดและการปกป้องอยู่พร้อมกัน ไม่สามารถแก้สิ่งหนึ่งโดยไม่รื้ออีกสิ่งหนึ่ง บางครั้งไม่มีอะไรต้องแก้ บางครั้งสิ่งที่จำเป็นคือการมองเห็นทั้งสองด้านพร้อมกัน\n\nนี่คือเหตุผลที่ Paritsea อ่านทั้งสองอย่างพร้อมกัน ไม่ใช่ในฐานะวิธีการ แต่ในฐานะสิ่งที่ค้นพบ — เมื่อพยายามแยกพวกมันออกจากกัน คุณจะหยุดเห็นทั้งคู่อย่างชัดเจน",
-		},
-		{
-			title: "สิ่งที่มองเห็น",
-			content: "สิ่งที่ฉันพบซ้ำๆ ในหลายบริบท คือรูปแบบเดิม — สิ่งที่กำลังขับเคลื่อนสถานการณ์อยู่จริงๆ มองไม่เห็นสำหรับคนที่อยู่ข้างใน ไม่ใช่เพราะถูกซ่อนไว้โดยตั้งใจ แต่เพราะมันไม่เคยถูกยอมรับว่ามีอยู่จริง\n\nนั่นคือที่ที่สิ่งนี้เริ่มต้น — จากสิ่งที่ไม่เคยถูกตั้งชื่อ",
+			title: "วิธีที่ Paritsea อ่าน",
+			content: "Paritsea อ่านคนและระบบไปพร้อมกัน เพราะสองสิ่งนี้แยกจากกันไม่ได้\n\nคุณไม่สามารถมองโครงสร้างได้ชัดโดยไม่เห็นคนที่ขับเคลื่อนมัน และคุณไม่สามารถเข้าใจสิ่งที่คนกำลังทำโดยไม่เข้าใจน้ำหนักของโครงสร้างที่กดทับเขา\n\nถ้าฉันต้องบอกว่าอะไรคือสิ่งที่พบซ้ำมากที่สุดในทุกบริบทที่ผ่านมา —\nนั่นคือ: สิ่งที่ขับเคลื่อนสถานการณ์จริงๆ มักมองไม่เห็นสำหรับคนที่อยู่ข้างใน\n\nครอบครัว องค์กร ความสัมพันธ์ ทุกที่มีสิ่งที่ไม่เคยถูกตั้งชื่อ\nพอไม่ถูกตั้งชื่อ มันก็ไม่ถูกแก้ ไม่ถูกพูดถึง ไม่ถูกมองเห็น\n\nParitsea ตั้งชื่อสิ่งเหล่านั้น\n\nเมื่อตั้งชื่อแล้ว อะไรจะเกิดตามมา — ไม่ว่าจะเป็นการเปลี่ยนแปลงหรือไม่ —\nเป็นเรื่องของผู้ที่ได้รับชื่อนั้น\nเพราะบางครั้งสิ่งที่จำเป็นไม่ใช่การแก้ไข แต่คือการที่บางสิ่งถูกมองเห็นในที่สุด",
 		},
 		{
 			title: "เปิดให้ใช้งานฟรี",
-			content: "แนวคิดเหล่านี้มีไว้เพื่อใช้ เหตุผลที่เปิดเป็นเรื่องของโครงสร้าง — การเก็บ Paritsea ไว้นอกระบบแรงจูงใจของที่ปรึกษาที่รับเงินช่วยให้สายตายังคงซื่อสัตย์\n\nมีเงื่อนไขบางประการสำหรับการนำไปใช้เชิงพาณิชย์",
+			content: "แนวคิดเหล่านี้มีไว้เพื่อใช้ เหตุผลที่เปิดเป็นสาธารณะไม่ใช่แค่ความใจกว้าง — แต่เป็นเรื่องของโครงสร้าง\n\nการเก็บ Paritsea ไว้นอกระบบแรงจูงใจของที่ปรึกษาที่รับเงิน ช่วยให้สายตายังคงซื่อสัตย์\nไม่ต้องบอกสิ่งที่คนอยากฟัง ไม่ต้องปรับมุมมองให้สอดคล้องกับธุรกิจ\n\nมีเงื่อนไขบางประการสำหรับการนำไปใช้เชิงพาณิชย์\nแต่สำหรับการอ้างอิง การศึกษา และการปรับใช้ภายใน — เปิดให้ใช้ได้",
 			linkText: "ดูเงื่อนไขการใช้งาน →",
 			linkUrl: "/licensing",
 		},
@@ -77,24 +71,20 @@ const aboutContent = locale === "th" ? {
 	title: "About Paritsea",
 	eyebrow: "Where this lens comes from",
 	heroHeadline: "I didn't learn to see this way.\nSomething happened\nthat made looking past things impossible.",
-	heroBody: "Not a perspective built from theory or study. What's here was formed from living through something — and from what crystallized in the time that followed.",
+	heroBody: "Not a perspective built from theory or study. What's here crystallised from going through things — and from what formed in the time that followed.",
 	bioSection: {
 		name: "Parit Ritchai",
 		title: "Creator of Paritsea",
-		body: "At around 30, I had reached a point that looked like success from the outside.\nA career I'd built to global recognition, a relationship that looked right from every angle, a city I knew.\nThen three things broke at once: the relationship, the company I'd taken on, the city I'd moved to for both of them.\nI carried all of it alone — longer than was possible.\n\nThe months that followed were where this lens actually formed.\nNot from study. From staying with what had happened, including the parts that were ugly and mine.\nWhat became clear wasn't insight in the abstract.\nIt was sight — the kind that forms when surface readings fail repeatedly, from the inside.\n\nOne moment I carry: newly back in Bangkok with nothing, staying with a junior friend.\nHe had made ice ready because he'd noticed I always ate it.\nI cried. That small, unasked thing showed me what an entire relationship had never provided.\nBeing seen isn't complicated. It just wasn't there.\n\nLater, inside an organization I was brought in to help,\nI found the same pattern at a structural scale: people invisible to the system they worked in.\nThe system couldn't name what was happening to them.\nI could. I named it, placed what I saw, and left.",
+		body: "This lens came from living, not studying. It began forming when surface-level reading stopped working.\n\nAt one point, I found that what looked good from the outside and what was actually happening inside did not match. Staying with that mismatch without looking away — that was the beginning of what is now Paritsea.\n\nOver time, the same pattern appeared across different contexts: the thing actually driving a situation was invisible to the people inside it.\nNot because it was hidden. Because it was never named.\n\nParitsea exists to name those things.\n\nInside an organization I was brought in to help, I found the same pattern at a structural scale. People invisible to the system they worked in. The system couldn't name what was happening to them. I could. I named it, placed what I saw, and left.\n\nThat pattern became Framework, Protocol, and Standard —\nnot because I set out to build a reference system, but because what was seen got recorded and made referencable.\n\nThe structure of Paritsea — Journal, System, Implementation —\nreflects how I actually see and work: observe first, name first, then structure.\nAfter that, let it be applied.",
 	},
 	sections: [
 		{
-			title: "What I kept finding",
-			content: "You cannot see a structure clearly without seeing the humans driving it. And you cannot see what a human is doing without understanding the structural load they're carrying. They are the same problem.\n\nI found this first in my own family. A veto structure that silenced children — and also protected the inheritance their parents would have burned. The same structure held both wrong and protection simultaneously. You cannot fix one without dismantling the other. Sometimes neither needs fixing. Sometimes only seeing both dimensions at once is what's needed.\n\nThis is why Paritsea reads both. Not as a methodology. As a finding: when you try to separate them, you stop seeing either one clearly.",
-		},
-		{
-			title: "What this sees",
-			content: "What I kept finding, across contexts, was the same pattern: the thing actually driving a situation was invisible to the people inside it. Not hidden deliberately. Simply never acknowledged to exist.\n\nThat is where this starts — with what was never named.",
+			title: "How Paritsea reads",
+			content: "Paritsea reads people and systems together because they cannot be separated.\n\nYou cannot see a structure clearly without seeing the humans driving it. And you cannot understand what a human is doing without understanding the weight of the structure on them.\n\nIf I had to name what I have found most consistently across every context I've been in:\nit is that the thing driving a situation is invisible to the people inside it.\n\nFamilies, organisations, relationships — every setting has things that were never named.\nUnnamed, they remain unaddressed, unspoken, unseen.\n\nParitsea names them.\n\nWhat happens after — whether change follows or not — belongs to whoever received the name.\nBecause sometimes what is needed is not a fix. It is that something is finally seen.",
 		},
 		{
 			title: "Open to use",
-			content: "These ideas exist to be used. The reason they're open is structural: keeping Paritsea outside the incentive structures of paid advice keeps the lens honest.\n\nSome conditions apply for commercial use.",
+			content: "These ideas exist to be used. The reason they are open is not generosity — it is structural.\n\nKeeping Paritsea outside the incentive structures of paid advice keeps the lens honest. No need to tell people what they want to hear. No need to align the perspective with a business interest.\n\nSome conditions apply for commercial use.\nBut for reference, study, and internal adaptation — it is open.",
 			linkText: "View licensing terms →",
 			linkUrl: "/licensing",
 		},
@@ -236,10 +226,25 @@ const contactNotFor = locale === "th" ? [
 	"Requests for endorsement, certification, or affiliation without prior basis",
 	"Support requests unrelated to Paritsea's framework or published implementations",
 ];
+
+const pageDescription = isAboutPage
+	? locale === "th"
+		? "ที่มาของ Paritsea วิธีที่กรอบนี้อ่านคนและระบบ และเหตุผลที่แนวคิดเปิดให้อ้างอิงโดยไม่กลายเป็นเว็บไซต์บริการ"
+		: "The origin of Paritsea, how it reads people and systems together, and why the reference layer remains open without becoming a service site."
+	: isLicensingPage
+		? locale === "th"
+			? "นโยบายการอ้างอิง การดัดแปลง สิทธิการใช้เชิงพาณิชย์ และสถานะ official implementation ของ Paritsea"
+			: "Paritsea policy for citation, adaptation, commercial use, and official implementation status."
+		: isContactPage
+			? locale === "th"
+				? "ช่องทางติดต่อ Paritsea สำหรับสิทธิการใช้ การอ้างอิง implementation และ correspondence จริงจังเกี่ยวกับกรอบอ้างอิง"
+				: "Contact Paritsea about licensing, reference use, implementation status, and serious framework correspondence."
+			: null;
 ---
 
 <Base
 	title={isAboutPage ? aboutContent.title : page!.data.title}
+	description={pageDescription}
 	locale={locale}
 	content={isAboutPage ? undefined : { collection: "pages", id: page!.data.id, slug }}
 >
@@ -428,7 +433,7 @@ const contactNotFor = locale === "th" ? [
 							<section class="about-section">
 								<h2 class="about-section-title">{section.title}</h2>
 								<div class="about-section-text">
-									{section.content.split("\n\n").map((paragraph, index) => (
+									{section.content.split("\n\n").map((paragraph) => (
 										<p>
 											{paragraph.split("\n").map((line, lineIndex) => (
 												<>{lineIndex > 0 && <br />}{line}</>
@@ -955,3 +960,5 @@ const contactNotFor = locale === "th" ? [
 			text-align: center;
 		}
 	}
+
+</style>

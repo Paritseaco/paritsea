@@ -9,7 +9,7 @@
 			"binding": "DB",
 			"database_name": "paritsea-site",
 			// Run `wrangler d1 create my-emdash-site` and paste the real ID here for deploy
-			"database_id": "871e5589-67f2-4344-97e1-f8e82b4326e4",
+          "database_id": "4c6bb48c-a21c-48dc-991d-be155946e6db",
 		},
 	],
 	"kv_namespaces": [

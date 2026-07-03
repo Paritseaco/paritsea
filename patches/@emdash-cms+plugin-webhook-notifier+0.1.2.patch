@@ -1,0 +1,10 @@
+diff --git a/node_modules/@emdash-cms/plugin-webhook-notifier/dist/sandbox-entry.mjs b/node_modules/@emdash-cms/plugin-webhook-notifier/dist/sandbox-entry.mjs
+index dc3828d..5515e17 100644
+--- a/node_modules/@emdash-cms/plugin-webhook-notifier/dist/sandbox-entry.mjs
++++ b/node_modules/@emdash-cms/plugin-webhook-notifier/dist/sandbox-entry.mjs
+@@ -1,4 +1,4 @@
+-import { definePlugin } from "emdash";
++const definePlugin = (definition) => definition;
+ 
+ //#region src/sandbox-entry.ts
+ /**

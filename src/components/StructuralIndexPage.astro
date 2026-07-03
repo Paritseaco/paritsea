@@ -65,6 +65,18 @@ const formatDate = (date: Date) =>
 const isProtocols = slug === "protocols";
 const isStandards = slug === "standards";
 const isMethod = slug === "the-method";
+const pageTitle = isProtocols ? "Protocols — Paritsea" : isStandards ? "Standards — Paritsea" : "Journal — Paritsea";
+const pageDescription = locale === "th"
+	? isProtocols
+		? "Protocols คือเครื่องมืออ้างอิงเชิงโครงสร้างที่สืบเนื่องจาก Framework และออกแบบให้ปรับใช้ข้ามโดเมนได้โดยไม่เสียความหมายต้นทาง"
+		: isStandards
+			? "Standards นิยามเงื่อนไขที่ตรวจสอบได้ซึ่งสืบเนื่องจาก Protocols เพื่อทำให้ข้อกล่าวอ้างเชิงโครงสร้างประเมินได้จริง"
+			: "Journal คือทะเบียนวิเคราะห์ของ Paritsea: บันทึกข้อสังเกตที่ตั้งชื่อแรงตึงเชิงโครงสร้างก่อนกลายเป็น Protocol หรือ Standard"
+	: isProtocols
+		? "Protocols are public structural instruments derived from the Framework and designed for cross-domain adaptation."
+		: isStandards
+			? "Standards define verifiable conditions derived from Protocols and make structural claims assessable."
+			: "Journal is Paritsea's analytical registry: observations that name structural tension before it becomes protocol or standard.";
 const methodFormatLabel = (format: unknown, cats: Array<{ label: string }>) => {
 	if (format === "video-reflection") return "Video Reflection";
 	if (format === "pattern-brief") return "Pattern Brief";
@@ -83,9 +95,9 @@ const copy = locale === "th"
 	? {
 			referenceLayer: "ชั้นอ้างอิง",
 			protocolsDescription:
-				"โปรโตคอลคือเครื่องมือเชิงโครงสร้างที่สืบเนื่องจากหลักการ แต่ละฉบับนิยามภาระหน้าที่ ขอบเขต และเงื่อนไขความโปร่งใส ที่ปรับใช้ข้ามโดเมนได้โดยไม่เสียความหมายของหลักการ",
+				"โปรโตคอลคือเครื่องมือเชิงโครงสร้างที่สืบเนื่องจาก Framework แต่ละฉบับนิยามภาระหน้าที่ ขอบเขต และเงื่อนไขความโปร่งใส ที่ปรับใช้ข้ามโดเมนได้โดยไม่เสียความหมายของ Framework",
 			standardsDescription:
-				"มาตรฐานแปลงหลักการให้เป็นเงื่อนไขที่วัดได้ เมื่อโปรโตคอลกำหนดภาระหน้าที่ มาตรฐานจะนิยามเกณฑ์ที่ทำให้ข้อกล่าวอ้างเชิงโครงสร้างประเมินได้จริง",
+				"มาตรฐานแปลงภาระหน้าที่ของ Framework ให้เป็นเงื่อนไขที่วัดได้ เมื่อโปรโตคอลกำหนดภาระหน้าที่ มาตรฐานจะนิยามเกณฑ์ที่ทำให้ข้อกล่าวอ้างเชิงโครงสร้างประเมินได้จริง",
 			methodDescription:
 				"Journal คือทะเบียนวิเคราะห์ของกรอบอ้างอิง มันระบุแรงตึงเชิงโครงสร้าง ตั้งชื่อต้นทุนในทางปฏิบัติ และเก็บรูปแบบที่เกิดซ้ำไว้นานพอให้เข้าใจก่อนถูกทำให้เป็นทางการในชั้นอื่น",
 			methodSecondary:
@@ -110,7 +122,7 @@ const copy = locale === "th"
 			derivedFrom: "สืบเนื่องจาก",
 			derivedFromText: "โปรโตคอลทั้งหมดรับอำนาจจาก",
 			doctrineLink: "Paritsea Framework",
-			noContradiction: "และไม่มีโปรโตคอลใดขัดกับหลักการฐานรากได้",
+			noContradiction: "และไม่มีโปรโตคอลใดขัดต่อ Framework ฐานรากได้",
 			aboutStandards: "เกี่ยวกับมาตรฐาน",
 			aboutStandardsText:
 				"มาตรฐานแปลงภาระหน้าที่เชิงโครงสร้างให้เป็นเงื่อนไขที่ตรวจสอบได้ ระบุว่าความสอดคล้องมีหน้าตาอย่างไรในทางปฏิบัติ และเปลี่ยนข้อกล่าวอ้างที่เป็นนามธรรมให้เป็นเกณฑ์ที่ทดสอบและนำไปใช้ได้",
@@ -173,14 +185,8 @@ const copy = locale === "th"
 ---
 
 <Base
-	title={isProtocols ? "Protocols — Paritsea" : isStandards ? "Standards — Paritsea" : "Journal — Paritsea"}
-	description={
-		isProtocols
-			? "Protocols are public structural instruments derived from the Framework and designed for cross-domain adaptation."
-			: isStandards
-				? "Standards define verifiable conditions derived from Protocols and make structural claims assessable."
-				: "Journal is Paritsea's analytical registry: observations that name structural tension before it becomes protocol or standard."
-	}
+	title={pageTitle}
+	description={pageDescription}
 	locale={locale}
 >
 	{isProtocols && (

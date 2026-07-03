@@ -31,9 +31,12 @@ Slugs must be SEO-friendly English URL segments. Do not use Thai text in URLs.
 They do not need to contain the full page or The Method title; prefer short,
 readable slugs that clearly signal the content.
 
-Thai pages use the root path with the English slug, for example
-`/the-method/automation-fear`. English pages keep the same slug under `/en`, for
-example `/en/the-method/automation-fear`.
+English pages use the canonical root path with the English slug, for example
+`/journal/automation-fear`. Thai pages keep the same English slug under `/th`,
+for example `/th/journal/automation-fear`.
+
+Legacy `/en/...` paths may redirect to the canonical root English URL. Do not add
+new `/en` routes unless the locale strategy is explicitly changed.
 
 ## Key Files
 

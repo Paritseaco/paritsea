@@ -71,6 +71,7 @@ const resolvedCanonical =
 // SEO-03: fallback OG image for pages without a dedicated featured image
 const siteOrigin = (typeof Astro.site === "string" ? Astro.site : Astro.site?.toString())?.replace(/\/$/, "") ?? Astro.url.origin;
 const resolvedOgImage = image ?? `${siteOrigin}/images/logo.jpg`;
+const resolvedDescription = description ?? siteTagline;
 const languageAlternatePath = alternatePath(requestPath, locale);
 const thAlternateUrl = new URL(localizedPath(canonicalPath, "th"), Astro.url.origin).toString();
 const enAlternateUrl = new URL(localizedPath(canonicalPath, "en"), Astro.url.origin).toString();
@@ -149,6 +150,49 @@ const pageCtx = createPublicPageContext({
 
 // Check if user is logged in (for showing admin link)
 const isLoggedIn = !!Astro.locals.user;
+const structuredData = {
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "WebSite",
+			"@id": `${siteOrigin}/#website`,
+			url: siteOrigin,
+			name: siteTitle,
+			description: resolvedDescription,
+			inLanguage: ["en", "th"],
+		},
+		{
+			"@type": "Organization",
+			"@id": `${siteOrigin}/#organization`,
+			name: "Paritsea",
+			url: siteOrigin,
+			logo: `${siteOrigin}${brandMark}`,
+			sameAs: [
+				"https://www.youtube.com/@paritsea",
+				"https://www.threads.com/@paritsea",
+				"https://www.instagram.com/paritsea",
+				"https://www.facebook.com/profile.php?id=61588809970162",
+				"https://www.linkedin.com/company/paritsea/",
+			],
+		},
+		{
+			"@type": "CreativeWork",
+			"@id": `${siteOrigin}/system/framework#creativework`,
+			name: "Paritsea Framework",
+			url: `${siteOrigin}/system/framework`,
+			creator: {
+				"@type": "Person",
+				name: "Parit Ritchai",
+			},
+			publisher: {
+				"@id": `${siteOrigin}/#organization`,
+			},
+			isAccessibleForFree: true,
+			usageInfo: `${siteOrigin}/licensing`,
+			inLanguage: ["en", "th"],
+		},
+	],
+};
 ---
 
 <!doctype html>
@@ -162,28 +206,20 @@ const isLoggedIn = !!Astro.locals.user;
 		<Font cssVariable="--font-sans" preload />
 		<Font cssVariable="--font-mono" />
   <title>{fullTitle}</title>
-  <meta name="description" content={description ?? siteTagline} />
+  <meta name="description" content={resolvedDescription} />
   <link rel="alternate" hreflang="en" href={enAlternateUrl} />
   <link rel="alternate" hreflang="th" href={thAlternateUrl} />
   <link rel="alternate" hreflang="x-default" href={enAlternateUrl} />
   <link rel="icon" href={resolvedFavicon} type="image/svg+xml" />
   <EmDashHead page={pageCtx} />
   <meta property="og:title" content={fullTitle} />
-  <meta property="og:description" content={description ?? siteTagline} />
+  <meta property="og:description" content={resolvedDescription} />
   <meta property="og:url" content={resolvedCanonical} />
   <meta property="og:type" content={type === "article" ? "article" : "website"} />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={fullTitle} />
-  <meta name="twitter:description" content={description ?? siteTagline} />
-  <script type="application/ld+json">
-  {`{
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "url": "${typeof Astro.site === "string" ? Astro.site : Astro.site?.toString() ?? ""}",
-    "name": "${siteTitle}",
-    "description": "${description ?? siteTagline}"
-  }`}
-  </script>
+  <meta name="twitter:description" content={resolvedDescription} />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 <script is:inline>
 			// Apply theme immediately to prevent flash
 			(function () {
@@ -346,9 +382,9 @@ const isLoggedIn = !!Astro.locals.user;
 					</ul>
 				</div>
 				<div class="footer-nav">
-					<h4 class="footer-heading">{locale === "th" ? "บริการ" : "Services"}</h4>
+					<h4 class="footer-heading">{locale === "th" ? "ชั้นแปลสู่บริการ" : "Commercial Translation"}</h4>
 					<ul class="footer-links">
-						<li><a href="https://seocean.co.th" target="_blank" rel="noreferrer">{locale === "th" ? "สถาบันให้บริการของเรา →" : "Our service institute →"}</a></li>
+						<li><a href="https://seocean.co.th" target="_blank" rel="noreferrer">{locale === "th" ? "SE Ocean: ชั้นบริการ →" : "SE Ocean service layer →"}</a></li>
 					</ul>
 				</div>
 				</div>

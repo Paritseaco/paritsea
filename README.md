@@ -1,67 +1,56 @@
-# EmDash Blog Template (Cloudflare)
+# Paritsea
 
-A clean, minimal blog built with [EmDash](https://github.com/emdash-cms/emdash) and deployed on Cloudflare Workers with D1 and R2.
+Paritsea is the public source of record for the Paritsea thinking system: its
+Framework, Protocols, Standards, Journal observations, implementation records,
+and use/licensing boundaries.
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/emdash-cms/templates/tree/main/blog-cloudflare)
+This is not a monetized service website. Commercial service expression belongs
+to SE Ocean; Paritsea holds the original reference layer and the public IP
+context that others can cite, study, adapt, license, or translate into practice
+under the published use policy.
 
-![Blog template homepage](https://raw.githubusercontent.com/emdash-cms/emdash/main/assets/templates/blog/latest/homepage-light-desktop.jpg)
+## Canonical Structure
 
-## What's Included
+| Layer | Route | Role |
+| --- | --- | --- |
+| Home | `/` | First orientation to Paritsea as the source-of-record |
+| Journal | `/journal` | Observations before they become governed instruments |
+| System | `/system` | Structuring layer for Framework, Protocols, and Standards |
+| Framework | `/system/framework` | Immutable root reference |
+| Protocols | `/system/protocols` | Obligations derived from the Framework |
+| Standards | `/system/standards` | Verifiable conditions derived from Protocols |
+| Implementation | `/implementation` | Documented applied systems |
+| Licensing | `/licensing` | Citation, adaptation, commercial use, and official-status rules |
 
-- Featured post hero on the homepage
-- Post archive with reading time estimates
-- Category and tag archives
-- Full-text search
-- RSS feed
-- SEO metadata and JSON-LD
-- Dark/light mode
-- Forms plugin and webhook notifier
+English is canonical at the root path. Thai pages use `/th` with the same
+English slug, for example `/th/system/protocols/stp`.
 
-## Pages
+## Stack
 
-| Page | Route |
-|---|---|
-| Homepage | `/` |
-| All posts | `/posts` |
-| Single post | `/posts/:slug` |
-| Category archive | `/category/:slug` |
-| Tag archive | `/tag/:slug` |
-| Search | `/search` |
-| Static pages | `/pages/:slug` |
-| 404 | fallback |
-
-## Screenshots
-
-| | Desktop | Mobile |
-|---|---|---|
-| Light | ![homepage light desktop](https://raw.githubusercontent.com/emdash-cms/emdash/main/assets/templates/blog/latest/homepage-light-desktop.jpg) | ![homepage light mobile](https://raw.githubusercontent.com/emdash-cms/emdash/main/assets/templates/blog/latest/homepage-light-mobile.jpg) |
-| Dark | ![homepage dark desktop](https://raw.githubusercontent.com/emdash-cms/emdash/main/assets/templates/blog/latest/homepage-dark-desktop.jpg) | ![homepage dark mobile](https://raw.githubusercontent.com/emdash-cms/emdash/main/assets/templates/blog/latest/homepage-dark-mobile.jpg) |
-
-## Infrastructure
-
-- **Runtime:** Cloudflare Workers
-- **Database:** D1
-- **Storage:** R2
-- **Framework:** Astro with `@astrojs/cloudflare`
+- Astro, server-rendered with `output: "server"`
+- EmDash CMS
+- Cloudflare Workers, D1, R2, KV, and Cloudflare Images bindings
+- Vanilla CSS with project CSS custom properties
+- Thai UI rules are governed by `.agents/skills/thai-ux-ui`
 
 ## Local Development
 
 ```bash
-pnpm install
-pnpm bootstrap
-pnpm dev
+npx emdash dev
+npx emdash types
+npx emdash seed seed/seed.json --validate
 ```
 
-## Deploying
+The admin UI is available at `http://localhost:4321/_emdash/admin` when the dev
+server is running.
 
-```bash
-pnpm deploy
-```
+When testing with the Cloudflare/Astro dev runtime, content comes from the
+Miniflare D1 sqlite database under
+`.wrangler/state/v3/d1/miniflare-D1DatabaseObject/`, not necessarily `data.db`.
+See `AGENTS.md` before seeding or comparing local content.
 
-Or click the deploy button above to set up the project in your Cloudflare account.
+## Release Notes
 
-## See Also
-
-- [Node.js variant](../blog) -- same template using SQLite and local file storage
-- [All templates](../)
-- [EmDash documentation](https://github.com/emdash-cms/emdash/tree/main/docs)
+Do not treat a successful HTTP status alone as proof that a content route is
+healthy. For Framework, Protocol, and Standard pages, verify the rendered
+HTML/title/body and the backing D1 rows.

@@ -1,35 +1,54 @@
 # Paritsea — Project State
 **Document type:** Operational snapshot. Update after every approved phase.
 **Last updated:** 2026-06
-**Updated by:** All 6 B-decisions locked (D-040, D-041); rewrite-plan.md created (D-042); Track B ready to implement
+**Updated by:** Editorial rewrite complete (Phases 0–10); Phase 10 QA report delivered; project-state.md synced
 
 ---
 
 ## Current phase
 
-**Phase 8 — Content Activation** (complete — soft gate passed)
+**Phase 10 — Editorial QA** (complete — verified)
 
-Phase 6 is complete and approved. All SEO requirements verified. Canonical bug fixed. RSS scoped. OG fallback active.
-
-**Active priorities:**
-1. ✅ Altitude check passed on all published content
-2. ✅ CG-01 versioning governance defined (D-035)
-3. ✅ CG-02 mixed-language rule defined (D-036)
-4. ✅ Language system created — editorial governance for all future copy (D-037)
-5. ✅ Full content audit created — 7.0/10 overall; 3-priority rewrite plan defined (D-038)
-6. ⚠️ Implementation layer empty (optional — soft gate permits this)
-7. ✅ Editorial decisions document created — 11 approved fixes + 6 author decisions + author interview questionnaire (D-039)
-8. ✅ 5 editorial decisions locked — B-01/B-02/B-04/B-05/B-06 approved (D-040)
-9. 🔲 **Section A (11 terminology fixes) — READY TO IMPLEMENT** — no prerequisites remain
-10. 🔲 **B-01/B-02/B-04/B-05/B-06 — READY TO IMPLEMENT** — no prerequisites remain
-11. ✅ B-03 (STP full document) — LOCKED (Option A: Split) — new Journal entry to be created; STP cleaned to Protocol-only; rhetorical/advisory removed (D-041)
-12. ✅ Rewrite plan created — 10-phase editorial roadmap with dependency map and critical path (D-042)
-13. 🔲 **Phase 4 (System Rewrite Planning) — NEXT** — define new Journal entry slug and STP edit list
-14. 🔲 C-01 (About origin narrative) — BLOCKED — author interview responses required
-15. 🔲 C-02 (AgenSea evidence) — BLOCKED — author knowledge required
-16. 🔲 Search Console sitemap submission (manual action)
+All 10 editorial phases delivered. Phase 10 QA report confirms:
+- 11/11 Section A terminology fixes applied ✅
+- All 6 B-decisions (B-01 through B-06) applied ✅
+- Zero `การประยุกต์ใช้` in `src/` ✅
+- Zero "Doctrine"/"The Method"/"enforce" in user-facing copy ✅
+- STP B-03 split executed (Protocol-only + Journal entry `aesthetic-transparency`) ✅
+- B-05 position notes in primary column ✅
+- B-06 Framework prominence block ✅
+- B-04 upward reference in Implementation ✅
+- C-02 resolved (AgenSea: Provisional, observable evidence written) ✅
+- C-01 (About origin narrative) — BLOCKED — author interview responses required
+- Search Console sitemap submission (manual action)
 
 **Next: Phase 9 — Annual Drift Audit** (recurring, first audit in 2027)
+
+---
+
+## Editorial Rewrite Status
+
+All editorial rewrite phases from `docs/rewrite-plan.md` are complete.
+
+| Phase | Name | Track | Status |
+|-------|------|-------|--------|
+| 0 | Decision Closure | — | ✅ Complete |
+| 1 | Founder Narrative Extraction | A | ✅ Complete |
+| 2 | About Strategy | A | ✅ Complete |
+| 3 | About Rewrite | A | ✅ Complete |
+| 4 | System Rewrite Planning | B | ✅ Complete — system-rewrite-plan.md delivered; author approved |
+| 5 | System Rewrite | B | ✅ Complete — B-03 executed (STP + Journal), Section A + B-05 + B-06 applied |
+| 6 | Implementation Rewrite | C | ✅ Complete — B-04 applied; C-02 resolved (AgenSea: Provisional) |
+| 7 | Journal Audit Refresh | B | ✅ Complete — all 6 entries pass |
+| 8 | Journal Revision | B | ✅ Complete — TH translation for aesthetic-transparency added |
+| 9 | Sitewide Microcopy Pass | D | ✅ Complete — B-01/B-02 confirmed absent |
+| 10 | Editorial QA | — | ✅ Complete — phase-10-qa-report.md delivered |
+
+### Remaining items
+
+1. 🔲 **Production D1 parity** — sync `paritsea-site` production D1 `licensing` and `contact` pages to match local dev (see phase-10-qa-report.md §6) — requires author sign-off on SQL
+2. 🔲 **C-01 (About origin narrative)** — BLOCKED — author interview responses required
+3. 🔲 **Search Console sitemap submission** — manual action
 
 ---
 
@@ -45,7 +64,10 @@ Phase 6 is complete and approved. All SEO requirements verified. Canonical bug f
 | Phase 4 | UX Copy | ✅ 2026-06 | D-028/D-029 language system applied; all nav English; Thai body terms updated; LinkedIn link on About; TypeScript fixes |
 | Phase 5 | Breadcrumbs & Contextual Nav | ✅ 2026-06 | System sub-page breadcrumbs (D-018); Journal lateral + System bridge tail; Implementation protocol tail; F-01/F-02 nav fixes |
 | Phase 6 | SEO Audit & Verification | ✅ 2026-06 | All 301s verified; sitemap clean; canonical bug fixed (Astro.site.origin); RSS Journal-only; OG fallback image; hreflang verified |
-| Architecture | /system Hub | ✅ 2026-06 | Full hub page: 5 blueprint sections + bilingual copy + derivation chain + layer spine; D-034 |
+| Phase 7 | Architecture: /system Hub | ✅ 2026-06 | Full hub page: 5 blueprint sections + bilingual copy + derivation chain + layer spine; D-034 |
+| Phase 8 | Content Activation | ✅ 2026-06 | Soft gate passed; all SEO requirements verified; content altitude check passed |
+| Phase 9 | Annual Drift Audit | 🔲 2027 | Recurring; first audit in 2027 |
+| Phase 10 | Editorial QA | ✅ 2026-06 | Full QA report delivered; all Phases 0–9 verified |
 
 ---
 
@@ -60,6 +82,8 @@ All files in `docs/` are production-locked source-of-truth documents.
 | `docs/content-audit.md` | ✅ Approved | Full content audit — 10 pages + 5 collections + 7 UX copy categories; 3-priority rewrite plan; overall 7.0/10 |
 | `docs/editorial-decisions.md` | ✅ Active | Pre-rewrite decision register — 11 approved terminology fixes (Section A); ALL B-decisions locked (B-01 through B-06); About interview questionnaire (Section C) |
 | `docs/rewrite-plan.md` | ✅ Active | 10-phase editorial roadmap — Phase 0 (complete) through Phase 10 (QA); dependency map; critical path |
+| `docs/system-rewrite-plan.md` | ✅ Active | Phase 4 deliverable — B-03 Journal entry outline + STP edit list; author-approved |
+| `docs/phase-10-qa-report.md` | ✅ Active | Final QA verification — all terminology fixes, B-decisions confirmed applied |
 | `docs/navigation-model.md` | ✅ Approved | Intent mapping, nav behavior rules, cross-layer flows |
 | `docs/ux-blueprint.md` | ✅ Approved | Per-page section structure, CTAs, linking rules |
 | `docs/content-governance.md` | ✅ Approved | Content altitude law, anti-drift rules, classification tree |
@@ -67,34 +91,6 @@ All files in `docs/` are production-locked source-of-truth documents.
 | `docs/roadmap.md` | ✅ Approved | Phase roadmap, dependencies, gates, completion checklist |
 | `docs/project-state.md` | ✅ Active | This file — operational snapshot |
 | `docs/decision-log.md` | ✅ Active | Chronological decision record |
-
----
-
-## Active blockers
-
-**None blocking Phase 4.**
-
-### Open items from consistency audit (non-blocking)
-
-| ID | Issue | Blocks | Due before |
-|----|-------|--------|-----------|
-| MD-05 | Protocol/Standard list vs document structure ambiguous | Phase 4 UX copy | Phase 4 |
-| MD-06 | Journal Post System bridge mechanism undefined | Phase 5 | Phase 5 |
-| MD-07 | "Related Journal entries" algorithm undefined | Phase 5 | Phase 5 |
-| MD-08 | Implementation → "which Protocol to link" undefined | Phase 5 | Phase 5 |
-| SEO-01 | `/system` hub canonical + hreflang strategy missing | Phase 6 | Phase 6 |
-| SEO-02 | RSS feed scope (Journal-only vs all) undefined | Phase 6 | Phase 6 |
-| SEO-03 | OG image fallback for static/hub pages missing | Phase 6 | Phase 6 |
-| CG-01 | Protocol/Standard versioning governance undefined | Phase 8 | Phase 8 |
-| CG-02 | Mixed-language post handling undefined | Phase 8 | Phase 8 |
-| CG-03 | Content retirement governance undefined | Phase 9 | Phase 9 |
-
-### Low-priority technical debt from Phase 2 review
-
-| ID | Finding | Priority | Phase |
-|----|---------|---------|-------|
-| F-01 | Plain nav items (`Journal`, `Implementation`, `About`) have no server-side active state. CSS rule `a[aria-current="page"]` exists but Astro SSR does not auto-inject `aria-current`. | Low | Phase 5 |
-| F-02 | JS `mobileBreakpoint` uses `max-width: 760px`; CSS hamburger activates at `≤960px`. Gap: menu close-on-link-click doesn't fire between 760–960px (pre-existing, not Phase 2 regression). | Low | Phase 5 |
 
 ---
 
@@ -111,57 +107,35 @@ All files in `docs/` are production-locked source-of-truth documents.
 | `src/layouts/Base.astro` — nav dropdown + active state + mobile accordion | ✅ Done |
 | `src/utils/i18n.ts` — navLabels full update | ✅ Done |
 | `src/pages/index.astro` — Home label updates (labels only, no copy) | ✅ Done |
-| UX copy per page (per ux-blueprint.md) | ❌ Phase 4 |
-| Breadcrumb component (`System / [sub-page]`) | ❌ Phase 5 |
-| Journal Post end-of-article tail template | ❌ Phase 5 |
-| Production deploy | ❌ Phase 7 |
+| UX copy per page (per ux-blueprint.md) — language system applied, Implementation terms updated | ✅ Done |
+| Breadcrumb component (`System / [sub-page]`) | ✅ Done |
+| Journal Post end-of-article tail template | ✅ Done |
+| Section A terminology fixes (11/11) — applied and QA-verified | ✅ Done |
+| B-decisions (B-01 through B-06) — applied and QA-verified | ✅ Done |
+| STP B-03 split — Journal entry `aesthetic-transparency` live | ✅ D1 |
+| C-02 AgenSea — Provisional status applied | ✅ Done |
+| Production deploy | ❌ Not yet |
 
 ---
 
-## Current implementation target (Phase 4 — UX Copy + Language System)
+## Active blockers
 
-**Objective:** Apply the reconciled two-model language system across all UX copy, fully English nav, and the Thai Implementation terminology change.
+**None blocking editorial completion.**
 
-**Confirmed rulings (this sync):**
-1. **Model A** (Journal / System / Implementation) = structural architecture truth.
-2. **Model B** (Entry / Gateway / Core) = language-exposure overlay applied *on top of* Model A.
-3. Pipeline terms (Journal / System / Implementation / Framework) are **Entry-layer** vocabulary — allowed in user-facing UI and nav.
-4. `language-hierarchy.md` example words are **PRESCRIPTIVE** vocabulary, not illustrative.
-5. Thai Implementation **body content** uses **"การนำไปปรับใช้จริง"**. Legacy **"การประยุกต์ใช้" is deprecated and removed.**
-6. **Navigation is fully English** — no Thai nav terms remain (โปรโตคอล → Protocols, มาตรฐาน → Standards).
+### Open items
 
-**Code deliverables:**
-- `src/utils/i18n.ts` — TH navLabels Protocols/Standards → English; `labels.implementation` + `viewImplementations` → การนำไปปรับใช้จริง
-- `src/pages/implementation.astro` — all body การประยุกต์ใช้ → การนำไปปรับใช้จริง
-- `src/components/UsageGuidance.astro` — same
-- `src/layouts/Base.astro` — nav fallback → English "Implementation"
-- `src/pages/index.astro` — `viewImplementations` Thai term
+| ID | Issue | Status |
+|----|-------|--------|
+| C-01 | About origin narrative — requires author interview responses | 🔲 BLOCKED |
+| — | Production D1 parity — sync `licensing`/`contact` pages (see phase-10-qa-report.md §6) — requires author sign-off | 🔲 Manual |
+| — | Search Console sitemap submission | 🔲 Manual |
 
-**Success criteria:**
-- Zero `การประยุกต์ใช้` in `src/`
-- TH nav renders Protocols / Standards in English (no โปรโตคอล / มาตรฐาน)
-- Implementation body copy reads การนำไปปรับใช้จริง consistently
-- No worldview paragraph changed
+### Low-priority technical debt (Phase 2 review)
 
----
-
-## Next milestone
-
-**Phase 4 gate:** Language system applied + per-page UX copy verified in dev → Phase 5 (Breadcrumbs + Contextual Nav) may begin.
-
----
-
-## Future phases
-
-| Phase | Name | Depends on | Approx scope |
-|-------|------|------------|-------------|
-| Phase 3 | Home Labels | Phase 2 ✅ | `index.astro` label strings + hrefs — **current** |
-| Phase 4 | UX Copy | Phase 3 | Per-page intros, System hub copy, altitude-correct text, LinkedIn badge on About |
-| Phase 5 | Breadcrumbs + Contextual Nav | Phase 4 | Breadcrumb component, Journal Post tail, Implementation tail; F-01 + F-02 fixes |
-| Phase 6 | SEO Audit | Phase 5 | 301 crawl, sitemap, canonicals, hreflang, OG images |
-| Phase 7 | Production Deploy | Phase 6 | `npm run deploy` + post-deploy validation |
-| Phase 8 | Content Activation | Phase 7 | Publish first complete content set per Content Governance altitude rules |
-| Phase 9 | Annual Drift Audit | Phase 8 | Recurring; altitude check, link audit, docs review |
+| ID | Finding | Priority |
+|----|---------|---------|
+| F-01 | Plain nav items have no server-side active state. CSS `a[aria-current="page"]` exists but Astro SSR does not auto-inject `aria-current`. | Low |
+| F-02 | JS `mobileBreakpoint` uses `max-width: 760px`; CSS hamburger activates at `≤960px`. Menu close-on-link-click doesn't fire between 760–960px. | Low |
 
 ---
 

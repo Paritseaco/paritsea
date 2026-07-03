@@ -21,7 +21,7 @@ const copy = ui[locale];
 const navLabels = ui[locale].navLabels;
 
 const { entries: posts, cacheHint } = await getEmDashCollection("posts");
-const { siteTitle, siteTagline } = resolveBlogSiteIdentity(await getSiteSettings());
+const { siteTitle } = resolveBlogSiteIdentity(await getSiteSettings());
 
 Astro.cache.set(cacheHint);
 
@@ -109,32 +109,32 @@ const home = locale === "th"
 	? {
 			// ── HERO ──
 			eyebrow: "Paritsea",
-			headlineLine1: "วิธีคิดที่เข้าใจ",
-			headlineLine2: "ทั้ง \"ความซับซ้อนของโลก\"",
-			headlineLine3: "และ \"ความรู้สึกของคน\"",
-			heroSub: "Paritsea คือแหล่งรวมแนวคิด มุมมอง และบทสนทนา\nสำหรับคนที่อยากเข้าใจชีวิต ธุรกิจ ผู้คน และตัวเองให้ลึกขึ้น\nไม่ใช่แค่ในเชิงทฤษฎี แต่ในแบบที่ใช้ได้จริงกับโลกจริง",
+			headlineLine1: "แหล่งอ้างอิงต้นทาง",
+			headlineLine2: "ของ Framework, Protocols,",
+			headlineLine3: "Standards และ IP ของ Paritsea",
+			heroSub: "Paritsea คือพื้นที่บันทึกแนวคิดต้นฉบับ Framework, Protocol, Standard และสถานะการนำไปใช้จริง\nไม่ใช่เว็บไซต์ขายบริการ แต่เป็นชั้นอ้างอิงของระบบความคิด\nที่ผู้อื่นสามารถอ่าน อ้างถึง ดัดแปลง หรือขออนุญาตนำไปใช้ได้อย่างไม่บิดเบือน",
 			readDoctrine: "อ่าน Framework",
 			exploreMethod: "สำรวจ Journal",
 			viewImplementations: "ดูการนำไปปรับใช้จริง",
 
 			// ── WHAT PARITSEA COVERS ──
-			topicsLabel: "สิ่งที่ Paritsea พูดถึง",
-			topicLife: "ชีวิต & ความหมาย",
-			topicLifeDesc: "เป้าหมาย ความสัมพันธ์ ความสุข ความโดดเดี่ยว ความคาดหวัง และการใช้ชีวิตอย่างมีสติ",
-			topicWork: "งาน & องค์กร",
-			topicWorkDesc: "Workflow การทำงาน การตัดสินใจ การจัดการทีม Burnout ความเป็นผู้นำ และระบบที่ดีต้องไม่ทำให้มนุษย์บางคนต้องแบกเงียบ ๆ แต่ไม่ถูกมองเห็น",
-			topicHuman: "มนุษย์ & จิตใจ",
-			topicHumanDesc: "การอ่านคน ความสัมพันธ์ ความซับซ้อนทางอารมณ์ Trauma ความกดดัน และธรรมชาติของมนุษย์จริง ๆ",
-			topicGrowth: "การเติบโต & การเปลี่ยนผ่าน",
-			topicGrowthDesc: "การพัฒนาตัวเอง การเริ่มต้นใหม่ การผ่านวิกฤต และการเติบโตที่ไม่ต้องฝืนตัวตน",
+			topicsLabel: "สิ่งที่ Paritsea รับผิดชอบ",
+			topicLife: "Framework ต้นทาง",
+			topicLifeDesc: "ฐานความคิดที่กำหนดความหมาย ขอบเขต และเงื่อนไขของความสอดคล้องเชิงโครงสร้าง",
+			topicWork: "Protocols & Standards",
+			topicWorkDesc: "เครื่องมืออ้างอิงที่แปลง Framework ให้เป็นภาระหน้าที่ เกณฑ์ และเงื่อนไขที่ตรวจสอบได้",
+			topicHuman: "Journal Observations",
+			topicHumanDesc: "บันทึกสิ่งที่มองเห็นก่อนถูกทำให้เป็นระบบ เพื่อให้ปัญหา รูปแบบ และต้นทุนมนุษย์อ่านออกได้",
+			topicGrowth: "Use, Citation & IP",
+			topicGrowthDesc: "เงื่อนไขการอ้างอิง การดัดแปลง สิทธิการใช้ และสถานะ implementation อย่างเป็นทางการ",
 
 			// ── WORLDVIEW ──
-			worldviewLabel: "Paritsea มองโลกแบบไหน",
-			worldviewHeadline: "ความเข้าใจที่แท้จริง ต้องเห็นทั้งโลกข้างนอก และคนข้างใน",
-			worldviewBody1: "บางครั้งสิ่งที่หนักที่สุดไม่ใช่ระบบหรือองค์กร แต่คือมนุษย์คนหนึ่งที่หลงทาง สับสน หรือแบกบางอย่างที่ยังไม่มีชื่อ",
-			worldviewBody2: "ความสัมพันธ์ที่พัง ไม่ได้พังเพราะใครเลว แต่เพราะบาดแผล ความกลัว และสิ่งที่ไม่เคยถูกเข้าใจ — ไม่ว่าจะในคนคนหนึ่ง ในทีม หรือในองค์กร",
+			worldviewLabel: "ทำไมต้องมีแหล่งอ้างอิงนี้",
+			worldviewHeadline: "แนวคิดจะเดินทางได้อย่างซื่อสัตย์ ก็ต่อเมื่อที่มา ขอบเขต และสิทธิการใช้ชัดเจน",
+			worldviewBody1: "Paritsea แยกชั้นต้นฉบับออกจากการนำไปใช้เชิงพาณิชย์ เพื่อให้ Framework, Protocols และ Standards ถูกอ่านจากแหล่งที่ไม่ถูกแรงจูงใจทางบริการกลืนความหมาย",
+			worldviewBody2: "เมื่อแนวคิดถูกอ้าง แปล ดัดแปลง หรือแปลงเป็นระบบ ผู้อ่านควรเห็นได้ว่าอะไรคือข้อความต้นทาง อะไรคือ adaptation และอะไรต้องได้รับอนุญาตก่อนใช้อย่างเป็นทางการ",
 			worldviewBody3: "",
-			worldviewCoda: "Paritsea อ่านได้ทั้งสองแบบ — ความซับซ้อนข้างนอก และความรู้สึกข้างใน\nเพราะบางครั้งทั้งสองสิ่งคือเรื่องเดียวกัน",
+			worldviewCoda: "Paritsea จึงทำหน้าที่เป็น source-of-truth:\nเก็บต้นฉบับ ชี้ขอบเขต และป้องกันการนำความคิดไปใช้จนเสียความหมาย",
 
 			// ── START HERE ──
 			startHere: "เริ่มตรงนี้",
@@ -177,32 +177,32 @@ const home = locale === "th"
 	: {
 			// ── HERO ──
 			eyebrow: "Paritsea",
-			headlineLine1: "A way of thinking",
-			headlineLine2: "that understands both",
-			headlineLine3: "the complexity of the world — and the depth of people",
-			heroSub: "Paritsea is a gathering of ideas, perspectives, and conversations for those who want to understand life, business, people, and themselves more deeply. Not just in theory. In ways that work in reality.",
+			headlineLine1: "The source of record",
+			headlineLine2: "for Paritsea frameworks,",
+			headlineLine3: "protocols, standards, and IP",
+			heroSub: "Paritsea publishes the original thinking behind its Framework, Protocols, Standards, and implementation records. It is not a service website. It is the reference layer for concepts that may later be cited, adapted, licensed, or translated into practice elsewhere.",
 			readDoctrine: "Read Framework",
 			exploreMethod: "Explore Journal",
 			viewImplementations: "View Implementations",
 
 			// ── WHAT PARITSEA COVERS ──
-			topicsLabel: "What Paritsea Covers",
-			topicLife: "Life & Meaning",
-			topicLifeDesc: "Purpose, relationships, happiness, loneliness, expectations, and living with intention",
-			topicWork: "Work & Organizations",
-			topicWorkDesc: "Workflow, decision-making, team dynamics, burnout, leadership, and systems that don't destroy good people",
-			topicHuman: "People & Mind",
-			topicHumanDesc: "Reading people, relationships, emotional depth, trauma, pressure, and the real nature of being human",
-			topicGrowth: "Growth & Transition",
-			topicGrowthDesc: "Self-development, starting over, navigating crisis, and growing without losing yourself",
+			topicsLabel: "What Paritsea Is Responsible For",
+			topicLife: "Original Framework",
+			topicLifeDesc: "The root position that defines structural coherence, legitimacy, and the boundaries of the system.",
+			topicWork: "Protocols & Standards",
+			topicWorkDesc: "Reference instruments that translate the Framework into obligations, thresholds, and verifiable conditions.",
+			topicHuman: "Journal Observations",
+			topicHumanDesc: "Named observations before they become governed, preserving patterns, tensions, and human cost.",
+			topicGrowth: "Use, Citation & IP",
+			topicGrowthDesc: "Rules for attribution, adaptation, commercial use, and official implementation status.",
 
 			// ── WORLDVIEW ──
-			worldviewLabel: "How Paritsea Sees the World",
-			worldviewHeadline: "Real understanding sees both the world outside — and the person within it.",
-			worldviewBody1: "Sometimes the heaviest thing isn't a broken system or a failing organization. It's one person — lost, confused, carrying something that doesn't have a name yet.",
-			worldviewBody2: "Relationships fall apart not because someone is bad, but because of wounds, fear, and things never understood — in one person, in a team, in an organization.",
+			worldviewLabel: "Why this reference exists",
+			worldviewHeadline: "Ideas can travel honestly only when their source, boundaries, and use are clear.",
+			worldviewBody1: "Paritsea keeps the original reference layer separate from commercial service expression so the Framework, Protocols, and Standards can be read without being absorbed by a service incentive.",
+			worldviewBody2: "When an idea is cited, translated, adapted, or implemented, readers should be able to distinguish the source text, the adaptation, and the use that requires permission.",
 			worldviewBody3: "",
-			worldviewCoda: "Paritsea reads both — the complexity outside, and the feeling inside.\nBecause sometimes they are the same thing.",
+			worldviewCoda: "This site preserves the source:\nthe original system, its governed instruments, and the public record around their use.",
 
 			// ── START HERE ──
 			startHere: "Start Here",
@@ -241,10 +241,14 @@ const home = locale === "th"
 			videoCTA: "View YouTube Channel →",
 			quote: "\"The problem with problems isn't just that they are problems,\nbut how they are dealt with,\nthat's what makes them turn out differently.\"",
 			attr: "— Parit Ritchai",
-		};
+	};
+
+const homeDescription = locale === "th"
+	? "Paritsea คือแหล่งอ้างอิงต้นทางของ Framework, Protocols, Standards และ IP ไม่ใช่เว็บไซต์ขายบริการ แต่เป็นชั้นอ้างอิงสำหรับการอ่าน อ้างถึง ดัดแปลง ขอสิทธิการใช้ และนำไปใช้จริง"
+	: "Paritsea is the source of record for its Framework, Protocols, Standards, and IP: a public reference layer for reading, citation, adaptation, licensing, and implementation.";
 ---
 
-<Base title={siteTitle} description={siteTagline} locale={locale}>
+<Base title={siteTitle} description={homeDescription} locale={locale}>
 	<div class="landing">
 
 		{/* ── HERO ── */}
