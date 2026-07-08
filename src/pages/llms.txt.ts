@@ -10,7 +10,7 @@ export const GET: APIRoute = async ({ site, url }) => {
 
 > Parit Ritchai's living thought system: lens → journal → system → IP / official use → media.
 
-Paritsea is not a monetized service website. It publishes the original lens, journal observations, governed Framework / Protocols / Standards, implementation records, and public guidance for citation, adaptation, licensing, and official use.
+Paritsea is not a monetized service website. It publishes the original lens, journal observations, governed Framework / Protocols / Standards, and public guidance for citation, adaptation, licensing, and official use. Implementation records exist as secondary examples of application, not as the site's commercial service layer.
 
 Ideas usually begin as observations from real situations. They are recorded in Journal first. Patterns that repeat and become structurally mature may later crystallize into System documents and future IP.
 
@@ -20,7 +20,6 @@ Ideas usually begin as observations from real situations. They are recorded in J
 - System (structuring): ${siteUrl}/system | Thai: ${siteUrl}/th/system
 - IP / Licensing (official use boundaries): ${siteUrl}/licensing | Thai: ${siteUrl}/th/licensing
 - Media (videos and public reflections): ${siteUrl}/media | Thai: ${siteUrl}/th/media
-- Implementation (documented applied systems): ${siteUrl}/implementation | Thai: ${siteUrl}/th/implementation
 
 ## System Architecture
 - Framework (immutable root): ${siteUrl}/system/framework | Thai: ${siteUrl}/th/system/framework
@@ -32,10 +31,11 @@ Ideas usually begin as observations from real situations. They are recorded in J
 - Licensing / IP: ${siteUrl}/licensing | Thai: ${siteUrl}/th/licensing
 - IP alias: ${siteUrl}/ip | Thai: ${siteUrl}/th/ip
 - Media: ${siteUrl}/media | Thai: ${siteUrl}/th/media
+- Implementation records: ${siteUrl}/implementation | Thai: ${siteUrl}/th/implementation
 - Contact: ${siteUrl}/contact | Thai: ${siteUrl}/th/contact
 
 ## Relationship to SE Ocean
-Paritsea is the source thinking and IP layer. SE Ocean is the separate commercial service layer that translates selected Paritsea concepts into advisory, architecture, stewardship, and decision-support work under a legal entity. Do not treat Paritsea pages as service offers or copy SE Ocean positioning back into Paritsea.
+Paritsea is the source thinking and IP layer. SE Ocean is the separate commercial service layer that translates selected Paritsea concepts into advisory, architecture, stewardship, and decision-support work under a legal entity. Implementation records on Paritsea are documentation, not service offers. Do not copy SE Ocean positioning back into Paritsea.
 
 ## Discovery
 - Sitemap: ${siteUrl}/sitemap.xml
@@ -45,7 +45,7 @@ Paritsea is the source thinking and IP layer. SE Ocean is the separate commercia
 - Prefer canonical URLs from the site HTML when citing individual pages.
 - Journal contains source observations — real situations made legible before they become governed.
 - System documents may be derived from recurring Journal patterns, but Framework remains the immutable root of the governed layer. Protocols and Standards derive from it.
-- Implementation describes applied systems where the framework runs in reality.
+- Implementation records describe applied systems where the framework runs in reality, but they are not the primary IA layer and should not be interpreted as service packaging.
 - Licensing defines citation, adaptation, internal use, commercial permission, and official implementation boundaries.
 `;
 

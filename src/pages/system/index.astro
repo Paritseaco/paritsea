@@ -2,7 +2,7 @@
 /**
  * /system — Structuring layer hub.
  *
- * Architecture: Journal (seeing) → System (structuring) → Implementation (doing)
+ * Architecture: Lens (origin) → Journal (seeing) → System (structuring) → IP / Official Use
  * System holds what has been observed in Journal and formalized into governed
  * knowledge — Framework, Protocols, and Standards.
  *
@@ -45,14 +45,16 @@ const copy = locale === "th" ? {
 	},
 	derivationHeading: "ลำดับที่มา",
 	derivationText: "Journal เป็นพื้นที่ที่ observation ถูกบันทึก เมื่อ pattern สุกพอจึงถูกคัดเข้ามาใน System Framework ทำหน้าที่เป็นรากฐาน Protocols มาจาก Framework และ Standards มาจาก Protocols เพื่อทำให้ข้อกำหนดตรวจสอบได้",
-	layerHeading: "System อยู่ในระบบนี้",
+	layerHeading: "System อยู่ในเส้นทางนี้",
+	layerLens: "Lens",
+	layerLensRole: "ที่มา — สายตาและบริบทของผู้สร้าง",
 	layerJournal: "Journal",
 	layerJournalRole: "การสังเกต — ปัญหาที่ถูกตั้งชื่อก่อนจะมีกฎกำกับ",
 	layerSystem: "System",
 	layerSystemRole: "การจัดโครงสร้าง — การสังเกตที่ถูกกำหนดเป็นความรู้ที่มีกฎกำกับ",
-	layerImpl: "Implementation",
-	layerImplRole: "การนำไปปรับใช้จริง — ความรู้ที่มีกฎกำกับถูกนำไปใช้ในความจริง",
-	notDesc: "System ไม่ใช่แหล่งรวบรวมความเห็น และไม่ใช่ Implementation — มันคือโครงสร้างที่ทำให้ความเห็นกลายเป็นสิ่งที่อ้างอิงได้",
+	layerIp: "IP",
+	layerIpRole: "ขอบเขตการใช้ — การอ้างอิง ดัดแปลง ขอสิทธิ์ และ official use",
+	notDesc: "System ไม่ใช่แหล่งรวบรวมความเห็น และไม่ใช่หน้าเสนอขายบริการ — มันคือโครงสร้างที่ทำให้ข้อสังเกตกลายเป็นสิ่งที่อ้างอิงได้",
 	systemNoteHeading: "ไม่ใช่ blog และไม่ใช่บริการ",
 	systemNoteText: "เนื้อหาใน System ถูกเขียนใน register ของเอกสารอ้างอิง สิ่งที่อยู่ในชั้นนี้ต้องคงความหมายเมื่อถูกอ้าง ดัดแปลง หรือขอสิทธิ์ใช้อย่างเป็นทางการ",
 } : {
@@ -79,14 +81,16 @@ const copy = locale === "th" ? {
 	},
 	derivationHeading: "Derivation order",
 	derivationText: "Journal records observation. When a pattern is mature enough, it can be selected into System. Framework serves as the root. Protocols derive from Framework, and Standards derive from Protocols so obligations can be verified.",
-	layerHeading: "System within the spine",
+	layerHeading: "System within the thought path",
+	layerLens: "Lens",
+	layerLensRole: "Origin — creator context and way of seeing",
 	layerJournal: "Journal",
 	layerJournalRole: "Observation — problems named before they are governed",
 	layerSystem: "System",
 	layerSystemRole: "Structuring — observation formalized into governed knowledge",
-	layerImpl: "Implementation",
-	layerImplRole: "Doing — governed knowledge applied in reality",
-	notDesc: "System is not an opinion archive. And it is not Implementation. It is the structure that makes observation citable.",
+	layerIp: "IP",
+	layerIpRole: "Use boundaries — citation, adaptation, licensing, and official use",
+	notDesc: "System is not an opinion archive. And it is not a service offer. It is the structure that makes observation citable.",
 	systemNoteHeading: "Not a blog and not a service",
 	systemNoteText: "System pages use reference-document register. Anything here must preserve meaning when it is cited, adapted, licensed, or used officially.",
 };
@@ -159,6 +163,11 @@ const copy = locale === "th" ? {
 		<section class="system-hub-spine">
 			<h3 class="system-hub-section-heading">{copy.layerHeading}</h3>
 			<div class="spine-layers">
+				<a href={localizedPath("/about", locale)} class="spine-layer">
+					<span class="spine-layer-name">{copy.layerLens}</span>
+					<span class="spine-layer-role">{copy.layerLensRole}</span>
+				</a>
+				<div class="spine-arrow" aria-hidden="true">↓</div>
 				<a href={localizedPath("/journal", locale)} class="spine-layer">
 					<span class="spine-layer-name">{copy.layerJournal}</span>
 					<span class="spine-layer-role">{copy.layerJournalRole}</span>
@@ -169,9 +178,9 @@ const copy = locale === "th" ? {
 					<span class="spine-layer-role">{copy.layerSystemRole}</span>
 				</div>
 				<div class="spine-arrow" aria-hidden="true">↓</div>
-				<a href={localizedPath("/implementation", locale)} class="spine-layer">
-					<span class="spine-layer-name">{copy.layerImpl}</span>
-					<span class="spine-layer-role">{copy.layerImplRole}</span>
+				<a href={localizedPath("/licensing", locale)} class="spine-layer">
+					<span class="spine-layer-name">{copy.layerIp}</span>
+					<span class="spine-layer-role">{copy.layerIpRole}</span>
 				</a>
 			</div>
 			<p class="system-hub-not">{copy.notDesc}</p>

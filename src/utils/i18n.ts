@@ -69,12 +69,12 @@ export const ui = {
     socialYouTube: "YouTube",
     authorName: "Parit Ritchai",
     authorRole: "Author of Paritsea · Founder of SE Ocean",
-    authorBio: "Paritsea is the public reference layer for a way of thinking that reads people and systems together. It preserves the original framework, governed instruments, and boundaries for citation, adaptation, licensing, and implementation without turning the source into a service funnel.",
+    authorBio: "Paritsea is Parit Ritchai's living thought system: a lens, journal, and governed source layer where observations can become Framework, Protocols, Standards, and future IP without turning the source into a service funnel.",
     readDoctrine: "Read Framework",
     exploreMethod: "Explore Journal",
-    viewImplementations: "View Implementations",
+    viewImplementations: "Review Official Use",
     startHere: "Start here",
-    startHereDesc: "New to Paritsea? Begin with the foundational position, then explore analytical entries, or see applied systems.",
+    startHereDesc: "New to Paritsea? Start with the Lens, read Journal, understand System, then review IP and official-use boundaries.",
     followOn: "Follow on",
     navLabels: {
       // Phase 2 vocabulary — matches new seed menu labels
@@ -138,12 +138,12 @@ export const ui = {
     socialYouTube: "YouTube",
     authorName: "Parit Ritchai",
     authorRole: "ผู้เขียน Paritsea · ผู้ก่อตั้ง SE Ocean",
-    authorBio: "Paritsea คือชั้นอ้างอิงสาธารณะของวิธีคิดที่อ่านคนและระบบไปพร้อมกัน เก็บ Framework ต้นทาง เครื่องมือที่มีกฎกำกับ และขอบเขตการอ้างอิง ดัดแปลง ขอสิทธิการใช้ และนำไปใช้จริง โดยไม่ทำให้ต้นฉบับกลายเป็น funnel ของบริการ",
+    authorBio: "Paritsea คือ living thought system ของ Parit Ritchai: สายตา Journal และชั้นอ้างอิงที่ทำให้ข้อสังเกตจากสถานการณ์จริงตกผลึกเป็น Framework, Protocols, Standards และ IP ในอนาคต โดยไม่ทำให้ต้นทางกลายเป็น funnel ของบริการ",
     readDoctrine: "อ่าน Framework",
     exploreMethod: "สำรวจ Journal",
-    viewImplementations: "ดูการนำไปปรับใช้จริง",
+    viewImplementations: "ดูขอบเขต Official Use",
     startHere: "เริ่มตรงนี้",
-    startHereDesc: "ใหม่กับ Paritsea? เริ่มจาก Framework แล้วค่อยสำรวจ Journal หรือดู Implementation",
+    startHereDesc: "ใหม่กับ Paritsea? เริ่มจาก Lens อ่าน Journal เข้าใจ System แล้วค่อยดู IP และขอบเขต Official Use",
     followOn: "ติดตาม",
     navLabels: {
       // Navigation is FULLY ENGLISH in TH + EN (D-029). No Thai nav terms.
