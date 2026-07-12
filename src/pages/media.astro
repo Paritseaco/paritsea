@@ -231,10 +231,10 @@ const formatDate = (date: Date | null | undefined) => formatDateForLocale(date, 
 
 	.media-title {
 		font-family: var(--font-serif);
-		font-size: clamp(2.25rem, 5vw, 4rem);
-		line-height: 1.08;
+		font-size: clamp(2rem, 4.2vw, 3.35rem);
+		line-height: 1.14;
 		letter-spacing: var(--tracking-tight);
-		max-width: 840px;
+		max-width: 760px;
 		margin: 0;
 		text-wrap: balance;
 	}
@@ -285,6 +285,15 @@ const formatDate = (date: Date | null | undefined) => formatDateForLocale(date, 
 
 	.media-journal-list {
 		border-top: 1px solid var(--color-border);
+		position: relative;
+	}
+
+	.media-journal-list::before {
+		content: "";
+		position: absolute;
+		inset: 0 auto 0 27px;
+		width: 1px;
+		background: color-mix(in srgb, var(--color-border-subtle) 80%, transparent);
 	}
 
 	.media-journal-item {
@@ -295,6 +304,7 @@ const formatDate = (date: Date | null | undefined) => formatDateForLocale(date, 
 		border-bottom: 1px solid var(--color-border-subtle);
 		text-decoration: none;
 		color: inherit;
+		position: relative;
 	}
 
 	.media-index {
@@ -384,8 +394,8 @@ const formatDate = (date: Date | null | undefined) => formatDateForLocale(date, 
 	}
 
 	:lang(th) .media-title {
-		font-size: clamp(2rem, 4.6vw, 3.25rem);
-		max-width: 760px;
+		font-size: clamp(1.85rem, 4.1vw, 2.85rem);
+		max-width: 700px;
 	}
 
 	:lang(th) .media-eyebrow,

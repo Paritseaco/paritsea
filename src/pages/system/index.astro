@@ -242,30 +242,41 @@ const copy = locale === "th" ? {
 	.system-hub-cards {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-		gap: var(--spacing-4);
+		gap: var(--spacing-8);
 		margin-bottom: var(--spacing-14);
+		counter-reset: system-layer;
 	}
 
 	.system-hub-card {
 		display: flex;
 		flex-direction: column;
 		gap: var(--spacing-2);
-		padding: var(--spacing-6) var(--spacing-5);
-		border: 1px solid var(--color-border);
+		padding: var(--spacing-5) 0 0;
+		border-top: 1px solid var(--color-border);
 		text-decoration: none;
 		color: inherit;
-		transition: border-color 0.15s, background 0.15s, transform 0.15s;
+		position: relative;
+		counter-increment: system-layer;
+		transition: border-color 0.15s, transform 0.15s;
+	}
+
+	.system-hub-card::before {
+		content: "0" counter(system-layer);
+		font-family: var(--font-mono);
+		font-size: var(--font-size-xs);
+		color: var(--color-accent);
+		margin-bottom: var(--spacing-4);
+		opacity: 0.72;
 	}
 
 	.system-hub-card:hover {
 		border-color: var(--color-accent);
-		background: var(--color-accent-subtle);
 		transform: translateY(-2px);
 		opacity: 1;
 	}
 
 	.system-hub-card--framework {
-		border-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+		border-top-color: color-mix(in srgb, var(--color-accent) 60%, transparent);
 	}
 
 	.system-hub-card-role {
@@ -318,6 +329,15 @@ const copy = locale === "th" ? {
 		flex-direction: column;
 		gap: var(--spacing-1);
 		margin-bottom: var(--spacing-5);
+		position: relative;
+	}
+
+	.system-hub-derivation-chain::before {
+		content: "";
+		position: absolute;
+		inset: var(--spacing-3) auto var(--spacing-3) 0;
+		width: 1px;
+		background: color-mix(in srgb, var(--color-border-subtle) 80%, transparent);
 	}
 
 	.derivation-node {
@@ -448,7 +468,23 @@ const copy = locale === "th" ? {
 		line-height: var(--leading-relaxed);
 		color: var(--color-muted);
 		margin: 0;
-		font-style: italic;
+		font-style: normal;
+	}
+
+	:lang(th) .system-hub-eyebrow,
+	:lang(th) .system-hub-card-role,
+	:lang(th) .system-hub-section-heading,
+	:lang(th) .derivation-tag {
+		letter-spacing: 0;
+		line-height: 1.6;
+	}
+
+	:lang(th) .system-hub-title,
+	:lang(th) .system-hub-card-title,
+	:lang(th) .derivation-label,
+	:lang(th) .spine-layer-name {
+		letter-spacing: 0;
+		line-height: 1.4;
 	}
 
 	/* ── Responsive ── */

@@ -511,6 +511,17 @@ const homeDescription = locale === "th"
 		align-self: center;
 		padding-left: var(--spacing-8);
 		border-left: 1px solid var(--color-border-subtle);
+		position: relative;
+	}
+
+	.hero-map::before {
+		content: "";
+		position: absolute;
+		left: -1px;
+		top: 0;
+		width: 1px;
+		height: 34%;
+		background: var(--color-accent);
 	}
 
 	.hero-map-label {
@@ -726,9 +737,23 @@ const homeDescription = locale === "th"
 		border-bottom: 1px solid var(--color-border-subtle);
 		margin-bottom: var(--spacing-10);
 		position: relative;
-		background: linear-gradient(to right, var(--color-bg-subtle) 0%, transparent 20%);
+		background:
+			linear-gradient(to right, var(--color-bg-subtle) 0%, transparent 22%),
+			linear-gradient(to bottom, color-mix(in srgb, var(--color-border-subtle) 50%, transparent) 1px, transparent 1px) 0 0 / 100% 3.75rem;
 		margin-left: calc(-1 * var(--spacing-8));
 		margin-right: calc(-1 * var(--spacing-8));
+	}
+
+	.worldview::before {
+		content: "source note";
+		position: absolute;
+		top: var(--spacing-12);
+		right: var(--spacing-8);
+		font-family: var(--font-sans);
+		font-size: var(--font-size-2xs);
+		letter-spacing: var(--tracking-widest);
+		text-transform: uppercase;
+		color: var(--color-muted);
 	}
 
 	.worldview-content {
@@ -873,14 +898,41 @@ const homeDescription = locale === "th"
 	:lang(th) .btn-primary,
 	:lang(th) .btn-secondary,
 	:lang(th) .btn-text,
-	:lang(th) .lens-eyebrow {
+	:lang(th) .hero-map-label,
+	:lang(th) .hero-map-num,
+	:lang(th) .hero-eyebrow,
+	:lang(th) .worldview-eyebrow,
+	:lang(th) .lens-eyebrow,
+	:lang(th) .topics-eyebrow,
+	:lang(th) .section-eyebrow,
+	:lang(th) .section-more,
+	:lang(th) .record-num,
+	:lang(th) .record-tag,
+	:lang(th) .ecosystem-eyebrow,
+	:lang(th) .closing-attr {
 		letter-spacing: 0;
 		line-height: 1.6;
 	}
 
-	:lang(th) .lens-title {
+	:lang(th) .hero-statement,
+	:lang(th) .worldview-headline,
+	:lang(th) .lens-title,
+	:lang(th) .topic-card-title,
+	:lang(th) .record-title,
+	:lang(th) .ecosystem-card-title,
+	:lang(th) .closing-quote {
 		letter-spacing: 0;
 		line-height: 1.4;
+	}
+
+	:lang(th) .worldview::before {
+		content: "บันทึกต้นทาง";
+		letter-spacing: 0;
+		line-height: 1.6;
+	}
+
+	:lang(th) .closing-quote {
+		font-style: normal;
 	}
 
 	/* ─── TOPICS ─── */
@@ -913,19 +965,31 @@ const homeDescription = locale === "th"
 	.topics-grid {
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
-		gap: var(--spacing-5);
+		gap: var(--spacing-8);
+		counter-reset: topic-layer;
 	}
 
 	.topic-card {
-		padding: var(--spacing-6);
-		border: 1px solid var(--color-border-subtle);
-		background: var(--color-bg-subtle);
-		transition: border-color var(--transition-base), background var(--transition-base);
+		padding: var(--spacing-5) 0 0;
+		border-top: 1px solid var(--color-border-subtle);
+		background: transparent;
+		position: relative;
+		counter-increment: topic-layer;
+		transition: border-color var(--transition-base);
+	}
+
+	.topic-card::before {
+		content: "0" counter(topic-layer);
+		display: block;
+		font-family: var(--font-mono);
+		font-size: var(--font-size-xs);
+		color: var(--color-accent);
+		margin-bottom: var(--spacing-5);
+		opacity: 0.72;
 	}
 
 	.topic-card:hover {
 		border-color: var(--color-accent);
-		background: var(--color-accent-subtle);
 	}
 
 	.topic-card-title {
@@ -1001,6 +1065,15 @@ const homeDescription = locale === "th"
 	.records-list {
 		display: flex;
 		flex-direction: column;
+		position: relative;
+	}
+
+	.records-list::before {
+		content: "";
+		position: absolute;
+		inset: 0 auto 0 1.25rem;
+		width: 1px;
+		background: color-mix(in srgb, var(--color-border-subtle) 80%, transparent);
 	}
 
 	.record-item {
@@ -1014,6 +1087,7 @@ const homeDescription = locale === "th"
 		text-decoration: none;
 		color: inherit;
 		transition: border-left-color var(--transition-fast), opacity var(--transition-fast);
+		position: relative;
 	}
 
 	.record-item:first-child {
@@ -1282,6 +1356,10 @@ const homeDescription = locale === "th"
 			padding: var(--spacing-8) var(--spacing-5);
 			margin-left: calc(-1 * var(--spacing-5));
 			margin-right: calc(-1 * var(--spacing-5));
+		}
+
+		.worldview::before {
+			display: none;
 		}
 
 		.topics-grid {

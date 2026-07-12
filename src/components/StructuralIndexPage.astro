@@ -407,8 +407,12 @@ const copy = locale === "th"
 		content: "";
 		position: absolute;
 		inset: 0 0 auto 0;
-		height: 300px;
-		background: radial-gradient(circle at 8% 0%, color-mix(in srgb, var(--color-accent) 18%, transparent), transparent 60%);
+		height: 100%;
+		background:
+			linear-gradient(to right, color-mix(in srgb, var(--color-border-subtle) 55%, transparent) 1px, transparent 1px) 0 0 / 4rem 4rem,
+			linear-gradient(to bottom, color-mix(in srgb, var(--color-border-subtle) 42%, transparent) 1px, transparent 1px) 0 0 / 4rem 4rem;
+		mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.42), transparent 58%);
+		opacity: 0.34;
 		pointer-events: none;
 	}
 
@@ -419,6 +423,15 @@ const copy = locale === "th"
 		margin-bottom: var(--spacing-12);
 		position: relative;
 		z-index: 1;
+	}
+
+	.index-header::before {
+		content: "";
+		position: absolute;
+		inset: 0 auto var(--spacing-10) calc(-1 * var(--spacing-5));
+		width: 2px;
+		background: linear-gradient(to bottom, var(--color-accent), var(--color-border-subtle));
+		opacity: 0.55;
 	}
 
 	/* Two-column header: title+desc left | aside info right */
@@ -530,6 +543,8 @@ const copy = locale === "th"
 	/* ─── Document list ─── */
 	.document-registry {
 		max-width: 760px;
+		position: relative;
+		z-index: 1;
 	}
 
 	.document-list {
@@ -540,19 +555,19 @@ const copy = locale === "th"
 		display: grid;
 		grid-template-columns: 2.5rem 1fr;
 		gap: var(--spacing-5);
-		padding: var(--spacing-6) 0;
+		padding: var(--spacing-7) 0 var(--spacing-7) var(--spacing-3);
 		border-top: 1px solid color-mix(in srgb, var(--color-accent) 15%, var(--color-border-subtle));
 		border-left: 3px solid transparent;
-		padding-left: var(--spacing-3);
 		text-decoration: none;
 		color: inherit;
-		transition: border-left-color var(--transition-fast), background var(--transition-fast);
-		border-radius: var(--radius-sm);
+		position: relative;
+		transition: border-left-color var(--transition-fast), background var(--transition-fast), padding-left var(--transition-fast);
 	}
 
 	.document-card:hover {
 		border-left-color: var(--color-accent);
-		background: color-mix(in srgb, var(--color-surface) 70%, transparent);
+		background: linear-gradient(to right, color-mix(in srgb, var(--color-accent) 7%, transparent), transparent 58%);
+		padding-left: var(--spacing-4);
 	}
 
 	.document-card-index {
@@ -642,6 +657,32 @@ const copy = locale === "th"
 	:lang(th) .document-card-status {
 		letter-spacing: 0;
 		line-height: 1.6;
+	}
+
+	:lang(th) .index-eyebrow,
+	:lang(th) .index-count,
+	:lang(th) .aside-heading,
+	:lang(th) .document-card-index,
+	:lang(th) .document-tag,
+	:lang(th) .document-card-format,
+	:lang(th) .document-card-footer,
+	:lang(th) .method-youtube-link {
+		letter-spacing: 0;
+		line-height: 1.6;
+	}
+
+	:lang(th) .index-title,
+	:lang(th) .document-card-title {
+		letter-spacing: 0;
+		line-height: 1.35;
+	}
+
+	:lang(th) .index-title {
+		font-size: clamp(2.35rem, 6vw, 4rem);
+	}
+
+	:lang(th) .document-card-title {
+		font-size: clamp(1.35rem, 2.3vw, 1.8rem);
 	}
 
 	/* ─── Responsive ─── */
