@@ -57,6 +57,7 @@ export const GET: APIRoute = async ({ site }) => {
 		// Supporting pages
 		{ url: `${siteUrl}/about` },
 		{ url: `${siteUrl}/licensing` },
+		{ url: `${siteUrl}/ip` },
 		{ url: `${siteUrl}/contact` },
 		// Thai locale equivalents
 		{ url: `${siteUrl}/th` },
@@ -69,6 +70,7 @@ export const GET: APIRoute = async ({ site }) => {
 		{ url: `${siteUrl}/th/media` },
 		{ url: `${siteUrl}/th/about` },
 		{ url: `${siteUrl}/th/licensing` },
+		{ url: `${siteUrl}/th/ip` },
 		{ url: `${siteUrl}/th/contact` },
 	];
 

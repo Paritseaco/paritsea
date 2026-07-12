@@ -133,6 +133,57 @@ const docBadge = isRecord
 			: isDoctrine
 				? labels.doctrine
 				: null;
+const articleContext = locale === "th"
+	? isRecord
+		? {
+				kicker: "ต้นทางของระบบ",
+				title: "Journal บันทึกสิ่งที่เห็นก่อนจะถูกทำให้เป็น Framework, Protocol หรือ Standard",
+				body: "หน้านี้คือ first record ของ observation, tension หรือ pattern จากสถานการณ์จริง ยังไม่ใช่เอกสารกำกับ แต่เป็นหลักฐานของวิธีคิดที่อาจตกผลึกในภายหลัง",
+			}
+		: isProtocol
+			? {
+					kicker: "ชั้นข้อกำหนด",
+					title: "Protocol คือ obligation ที่สืบมาจาก Framework",
+					body: "หน้านี้ไม่ใช่บทความความเห็น แต่เป็นข้อกำหนดที่ทำให้ Framework มีผลในทางปฏิบัติ และต้องไม่ขัดกับรากฐานที่ไม่เปลี่ยนรูป",
+				}
+			: isStandard
+				? {
+						kicker: "ชั้นเกณฑ์ตรวจสอบ",
+						title: "Standard คือ threshold ที่ทำให้ Protocol ตรวจสอบได้",
+						body: "หน้านี้วางเกณฑ์เพื่อดูว่าข้อกำหนดของ Protocol เกิดขึ้นจริงหรือไม่ ไม่ใช่ service offer และไม่ใช่ certification โดยตัวมันเอง",
+					}
+				: isImplementation
+					? {
+							kicker: "ตัวอย่างการใช้",
+							title: "Implementation คือบันทึกการแปลแนวคิดไปใช้จริง ไม่ใช่ชั้นต้นทางของ Paritsea",
+							body: "หน้าประเภทนี้เป็นหลักฐานรองของการใช้งานในโลกจริง ชั้นต้นทางยังคงอยู่ที่ Lens, Journal, System และ IP / Official Use",
+						}
+					: null
+	: isRecord
+		? {
+				kicker: "System origin",
+				title: "Journal records what is seen before it becomes Framework, Protocol, or Standard.",
+				body: "This page is a first record of an observation, tension, or pattern from real situations. It is not yet a governed instrument; it is evidence of thinking that may crystallize later.",
+			}
+		: isProtocol
+			? {
+					kicker: "Obligation layer",
+					title: "A Protocol is an obligation derived from the Framework.",
+					body: "This is not an opinion essay. It is a governed requirement that gives the Framework practical force without contradicting the immutable root.",
+				}
+			: isStandard
+				? {
+						kicker: "Verification layer",
+						title: "A Standard is a threshold that makes a Protocol verifiable.",
+						body: "This page defines criteria for whether Protocol obligations hold in practice. It is not a service offer and does not create certification by itself.",
+					}
+				: isImplementation
+					? {
+							kicker: "Applied record",
+							title: "Implementation documents applied use; it is not Paritsea's source layer.",
+							body: "Implementation pages are secondary evidence of real-world application. The source remains Lens, Journal, System, and IP / Official Use.",
+						}
+					: null;
 
 // Bylines are already hydrated by getEmDashEntry
 const bylines = post.data.bylines ?? [];
@@ -339,6 +390,13 @@ const lateralPosts = allRecentPosts
 							<p class="article-excerpt" {...post.edit.excerpt}>{post.data.excerpt}</p>
 						)
 					}
+					{articleContext && (
+						<aside class="article-context-panel">
+							<p class="article-context-kicker">{articleContext.kicker}</p>
+							<h2 class="article-context-title">{articleContext.title}</h2>
+							<p class="article-context-body">{articleContext.body}</p>
+						</aside>
+					)}
 					</header>
 
 				<div class={`article-content ${post.data.excerpt ? 'has-excerpt' : ''}`}>
@@ -559,10 +617,12 @@ const lateralPosts = allRecentPosts
 		content: "";
 		position: absolute;
 		inset: 0 0 auto 0;
-		height: 340px;
+		height: 540px;
 		background:
-			radial-gradient(circle at 14% 0%, color-mix(in srgb, var(--color-accent) 20%, transparent), transparent 58%),
-			radial-gradient(circle at 85% 12%, color-mix(in srgb, var(--color-sea) 18%, transparent), transparent 54%);
+			linear-gradient(to right, color-mix(in srgb, var(--color-border-subtle) 48%, transparent) 1px, transparent 1px) 0 0 / 4rem 4rem,
+			linear-gradient(to bottom, color-mix(in srgb, var(--color-border-subtle) 38%, transparent) 1px, transparent 1px) 0 0 / 4rem 4rem;
+		mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.38), transparent 72%);
+		opacity: 0.42;
 		pointer-events: none;
 	}
 
@@ -570,9 +630,9 @@ const lateralPosts = allRecentPosts
 	.article-hero {
 		margin: var(--spacing-12) var(--spacing-8) 0;
 		overflow: hidden;
-		border: 1px solid color-mix(in srgb, var(--color-accent) 24%, var(--color-border-subtle));
-		border-radius: var(--radius-lg);
-		background: color-mix(in srgb, var(--color-surface) 70%, transparent);
+		border: 1px solid color-mix(in srgb, var(--color-accent) 20%, var(--color-border-subtle));
+		border-radius: 0;
+		background: transparent;
 		position: relative;
 		z-index: 1;
 	}
@@ -688,11 +748,9 @@ const lateralPosts = allRecentPosts
 	/* Main content column */
 	.article-main {
 		min-width: 0;
-		padding: var(--spacing-8) var(--spacing-7);
-		border: 1px solid color-mix(in srgb, var(--color-accent) 20%, var(--color-border-subtle));
-		border-radius: var(--radius-lg);
-		background: color-mix(in srgb, var(--color-surface) 72%, transparent);
-		backdrop-filter: blur(4px);
+		padding: var(--spacing-8) 0;
+		border-top: 1px solid color-mix(in srgb, var(--color-accent) 24%, var(--color-border-subtle));
+		background: transparent;
 	}
 
 	.article-header {
@@ -724,10 +782,13 @@ const lateralPosts = allRecentPosts
 	}
 
 	.article-title::after {
-		content: " ☽";
-		font-size: 0.72em;
-		color: var(--color-muted);
-		opacity: 0.7;
+		content: "";
+		display: block;
+		width: 4rem;
+		height: 1px;
+		margin-top: var(--spacing-6);
+		background: var(--color-accent);
+		opacity: 0.72;
 	}
 
 	.article-context-format::before {
@@ -741,6 +802,39 @@ const lateralPosts = allRecentPosts
 		font-size: var(--font-size-lg);
 		line-height: var(--leading-relaxed);
 		color: var(--color-text-secondary);
+	}
+
+	.article-context-panel {
+		margin-top: var(--spacing-8);
+		padding: var(--spacing-5) 0 0 var(--spacing-5);
+		border-left: 2px solid var(--color-accent);
+	}
+
+	.article-context-kicker {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-xs);
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: var(--tracking-wider);
+		color: var(--color-accent);
+		margin: 0 0 var(--spacing-2);
+	}
+
+	.article-context-title {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-lg);
+		line-height: 1.3;
+		letter-spacing: var(--tracking-tight);
+		margin: 0 0 var(--spacing-2);
+		color: var(--color-text);
+	}
+
+	.article-context-body {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+		margin: 0;
 	}
 
 	/* Article content typography */
@@ -774,8 +868,8 @@ const lateralPosts = allRecentPosts
 		margin: 2.4em 0;
 		padding: var(--spacing-6) var(--spacing-8);
 		border-left: 2px solid var(--color-accent);
-		border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-		background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+		border-radius: 0;
+		background: transparent;
 		color: var(--color-text);
 		font-style: italic;
 		font-family: Georgia, 'Times New Roman', serif;
@@ -855,9 +949,8 @@ const lateralPosts = allRecentPosts
 		margin-bottom: var(--spacing-8);
 		padding-bottom: var(--spacing-6);
 		border: 1px solid color-mix(in srgb, var(--color-accent) 20%, var(--color-border-subtle));
-		border-radius: var(--radius-sm);
 		padding: var(--spacing-5);
-		background: color-mix(in srgb, var(--color-surface) 62%, transparent);
+		background: transparent;
 	}
 
 	.toc-title {
@@ -1452,12 +1545,12 @@ const lateralPosts = allRecentPosts
 	.article-author-card {
 		display: flex;
 		gap: var(--spacing-5);
-		padding: var(--spacing-6);
+		padding: var(--spacing-6) 0;
 		margin-top: var(--spacing-12);
 		margin-bottom: var(--spacing-8);
-		border: 1px solid var(--color-border-subtle);
-		background: color-mix(in srgb, var(--color-surface) 72%, transparent);
-		border-radius: var(--radius-lg);
+		border-top: 1px solid var(--color-border-subtle);
+		border-bottom: 1px solid var(--color-border-subtle);
+		background: transparent;
 		align-items: flex-start;
 	}
 
@@ -1543,3 +1636,44 @@ const lateralPosts = allRecentPosts
 			align-items: flex-start;
 		}
 	}
+
+	:lang(th) .article-title,
+	:lang(th) .article-context-title,
+	:lang(th) .article-author-card-name,
+	:lang(th) .more-title,
+	:lang(th) .article-content :global(h2),
+	:lang(th) .article-content :global(h3) {
+		letter-spacing: 0;
+		line-height: 1.4;
+	}
+
+	:lang(th) .article-context-kicker,
+	:lang(th) .article-context-format,
+	:lang(th) .article-doc-badge,
+	:lang(th) .toc-title,
+	:lang(th) .article-tail-lateral-label,
+	:lang(th) .article-tail-bridge-link,
+	:lang(th) .article-author-card-role,
+	:lang(th) .article-author-card-links a {
+		letter-spacing: 0;
+		line-height: 1.6;
+	}
+
+	:lang(th) .article-excerpt,
+	:lang(th) .article-context-body,
+	:lang(th) .article-content,
+	:lang(th) .article-reference-note-text,
+	:lang(th) .article-tail-lateral-link,
+	:lang(th) .article-author-card-bio {
+		letter-spacing: 0;
+		line-height: 1.9;
+	}
+
+	:lang(th) .article-content :global(blockquote) {
+		font-family: var(--font-sans);
+		font-style: normal;
+		font-weight: 300;
+		letter-spacing: 0;
+		line-height: 1.75;
+	}
+</style>
