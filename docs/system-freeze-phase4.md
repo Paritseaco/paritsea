@@ -1,5 +1,5 @@
 # Paritsea — System Freeze: Phase 4 UX Entry Point
-**Status:** READ-ONLY. This document is a frozen snapshot of system state at the moment Phase 4 UX execution begins.
+**Status:** Historical / superseded. This remains a read-only snapshot of the pre-2026-07 system state.
 **Frozen:** 2026-06
 **Authority:** Semantic Constitution §0 — this document is a reference artifact, not an authority document. It summarises locked authorities for UX execution. It CANNOT be modified by UX work.
 **Any change to this document requires:** explicit user instruction + Semantic Constitution §9 compliance.

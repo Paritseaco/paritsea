@@ -1,5 +1,7 @@
 # Paritsea — Language & Terminology Guide
 
+**Status:** Historical / superseded by `paritsea-identity-voice-and-visual-system.md` and `paritsea-information-architecture.md` (2026-07).
+
 This document records all language decisions for the Paritsea project. Reference this before writing any copy, translating content, or building new pages. Do not repeat decisions already made here.
 
 ---

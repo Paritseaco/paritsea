@@ -1,0 +1,458 @@
+{
+  "collections": [
+    {
+      "slug": "applied_contexts",
+      "label": "Applied Contexts",
+      "labelSingular": "Applied Context",
+      "supports": [
+        "drafts",
+        "revisions",
+        "search"
+      ],
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true,
+          "unique": false
+        },
+        {
+          "slug": "related_work",
+          "label": "Related Intellectual Work",
+          "type": "reference",
+          "required": true,
+          "unique": false
+        },
+        {
+          "slug": "context_type",
+          "label": "Context Type",
+          "type": "select",
+          "required": true,
+          "unique": false,
+          "validation": {
+            "options": [
+              "field-evidence",
+              "se-ocean-problem",
+              "se-ocean-case",
+              "se-ocean-service"
+            ]
+          }
+        },
+        {
+          "slug": "public_url",
+          "label": "Public URL",
+          "type": "string",
+          "required": true,
+          "unique": false
+        },
+        {
+          "slug": "context_summary",
+          "label": "Context Summary",
+          "type": "text",
+          "required": true,
+          "unique": false
+        },
+        {
+          "slug": "disclosure_status",
+          "label": "Disclosure Status",
+          "type": "select",
+          "required": true,
+          "unique": false,
+          "validation": {
+            "options": [
+              "reviewed-public",
+              "restricted",
+              "withdrawn"
+            ]
+          }
+        },
+        {
+          "slug": "last_reviewed_at",
+          "label": "Last Reviewed At",
+          "type": "datetime",
+          "required": false,
+          "unique": false
+        }
+      ]
+    },
+    {
+      "slug": "official_uses",
+      "label": "Official Uses",
+      "labelSingular": "Official Use",
+      "supports": [
+        "drafts",
+        "revisions",
+        "search",
+        "seo"
+      ],
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true,
+          "unique": false
+        },
+        {
+          "slug": "related_work",
+          "label": "Related Intellectual Work",
+          "type": "reference",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "implementer",
+          "label": "Implementer",
+          "type": "string",
+          "required": true,
+          "unique": false
+        },
+        {
+          "slug": "use_status",
+          "label": "Use Status",
+          "type": "select",
+          "required": true,
+          "unique": false,
+          "validation": {
+            "options": [
+              "provisional",
+              "recorded",
+              "retired"
+            ]
+          }
+        },
+        {
+          "slug": "implementation_version",
+          "label": "Implementation Version",
+          "type": "string",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "scope_note",
+          "label": "Scope",
+          "type": "text",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "public_note",
+          "label": "Public Note",
+          "type": "portableText",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "started_at",
+          "label": "Started At",
+          "type": "datetime",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "last_reviewed_at",
+          "label": "Last Reviewed At",
+          "type": "datetime",
+          "required": false,
+          "unique": false
+        }
+      ]
+    },
+    {
+      "slug": "pages",
+      "label": "Pages",
+      "labelSingular": "Page",
+      "supports": [
+        "drafts",
+        "revisions",
+        "search"
+      ],
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true,
+          "unique": false
+        },
+        {
+          "slug": "content",
+          "label": "Content",
+          "type": "portableText",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "page_role",
+          "label": "Page Role",
+          "type": "select",
+          "required": false,
+          "unique": false,
+          "validation": {
+            "options": [
+              "orientation",
+              "lens",
+              "policy",
+              "utility"
+            ]
+          }
+        },
+        {
+          "slug": "descriptor",
+          "label": "Public Descriptor",
+          "type": "text",
+          "required": false,
+          "unique": false
+        }
+      ]
+    },
+    {
+      "slug": "posts",
+      "label": "Intellectual Works",
+      "labelSingular": "Intellectual Work",
+      "supports": [
+        "drafts",
+        "revisions",
+        "search",
+        "seo"
+      ],
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true,
+          "unique": false
+        },
+        {
+          "slug": "featured_image",
+          "label": "Featured Image",
+          "type": "image",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "content",
+          "label": "Content",
+          "type": "portableText",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "excerpt",
+          "label": "Excerpt",
+          "type": "text",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "framework_page",
+          "label": "Legacy Route Family",
+          "type": "select",
+          "required": true,
+          "unique": false,
+          "validation": {
+            "options": [
+              "the-doctrine",
+              "protocols",
+              "standards",
+              "the-method",
+              "implementations"
+            ]
+          }
+        },
+        {
+          "slug": "format",
+          "label": "Content Format",
+          "type": "select",
+          "required": false,
+          "unique": false,
+          "validation": {
+            "options": [
+              "essay",
+              "video-reflection",
+              "pattern-brief",
+              "decision-note"
+            ]
+          }
+        },
+        {
+          "slug": "youtube_url",
+          "label": "YouTube URL",
+          "type": "string",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "system_bridge_url",
+          "label": "System Bridge URL",
+          "type": "string",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "protocol_url",
+          "label": "Protocol URL",
+          "type": "string",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "content_type",
+          "label": "Content Type",
+          "type": "select",
+          "required": false,
+          "unique": false,
+          "validation": {
+            "options": [
+              "journal",
+              "concept",
+              "framework",
+              "protocol",
+              "standard"
+            ]
+          }
+        },
+        {
+          "slug": "intellectual_stage",
+          "label": "Intellectual Stage",
+          "type": "select",
+          "required": false,
+          "unique": false,
+          "validation": {
+            "options": [
+              "observation",
+              "interpretation",
+              "proposition",
+              "formalized"
+            ]
+          }
+        },
+        {
+          "slug": "lifecycle_status",
+          "label": "Lifecycle Status",
+          "type": "select",
+          "required": false,
+          "unique": false,
+          "validation": {
+            "options": [
+              "exploring",
+              "developing",
+              "current",
+              "superseded",
+              "retired"
+            ]
+          }
+        },
+        {
+          "slug": "document_version",
+          "label": "Document Version",
+          "type": "string",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "provenance_summary",
+          "label": "Provenance Summary",
+          "type": "text",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "scope_note",
+          "label": "Scope Note",
+          "type": "text",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "non_claims",
+          "label": "What This Does Not Establish",
+          "type": "text",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "evidence_note",
+          "label": "Evidence Note",
+          "type": "text",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "last_reviewed_at",
+          "label": "Last Reviewed At",
+          "type": "datetime",
+          "required": false,
+          "unique": false
+        }
+      ]
+    },
+    {
+      "slug": "relationships",
+      "label": "Work Relationships",
+      "labelSingular": "Work Relationship",
+      "supports": [
+        "drafts",
+        "revisions"
+      ],
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Internal Title",
+          "type": "string",
+          "required": true,
+          "unique": false
+        },
+        {
+          "slug": "source_work",
+          "label": "Source Work",
+          "type": "reference",
+          "required": true,
+          "unique": false
+        },
+        {
+          "slug": "target_work",
+          "label": "Target Work",
+          "type": "reference",
+          "required": true,
+          "unique": false
+        },
+        {
+          "slug": "relationship_type",
+          "label": "Relationship Type",
+          "type": "select",
+          "required": true,
+          "unique": false,
+          "validation": {
+            "options": [
+              "developed-from",
+              "names",
+              "formalizes",
+              "implements",
+              "sets-threshold-for",
+              "related-to",
+              "supersedes"
+            ]
+          }
+        },
+        {
+          "slug": "relationship_note",
+          "label": "Relationship Note",
+          "type": "text",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "sort_order",
+          "label": "Sort Order",
+          "type": "integer",
+          "required": false,
+          "unique": false
+        }
+      ]
+    }
+  ],
+  "version": "ba5bd9c090aabef8"
+}

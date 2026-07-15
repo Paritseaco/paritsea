@@ -1,4 +1,5 @@
 # Paritsea — Editorial Decisions
+**Status:** Historical / superseded by the 2026-07 canonical Paritsea documents. Retained as a pre-reassessment decision record.
 **Document type:** Pre-rewrite decision register.
 **Created:** 2026-06
 **Last updated:** 2026-06

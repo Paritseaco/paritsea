@@ -17,7 +17,7 @@ if (slug && structuralPages.has(slug)) {
 const term = slug ? await getTerm("category", slug) : null;
 
 if (!term) {
-	return Astro.redirect("/404");
+	return new Response(locale === "th" ? "ไม่พบหน้า" : "Not found", { status: 404 });
 }
 
 const { entries: posts } = await getEmDashCollection("posts", {

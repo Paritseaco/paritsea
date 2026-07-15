@@ -1,0 +1,135 @@
+---
+interface Props {
+	role: string;
+	eyebrow?: string;
+	title: string;
+	intro: string;
+	count?: number;
+	statusLabel?: string;
+}
+
+const { role, eyebrow, title, intro, count, statusLabel } = Astro.props;
+---
+
+<header class="role-header">
+	<div class="role-rail" aria-hidden="true"><span></span><i></i></div>
+	<div class="role-copy">
+		<p class="role-kicker"><span>{role}</span>{eyebrow && <> · {eyebrow}</>}</p>
+		<h1>{title}</h1>
+		<p class="role-intro">{intro}</p>
+		{(typeof count === "number" || statusLabel) && (
+			<p class="role-state">
+				{typeof count === "number" && <span>{count} records</span>}
+				{statusLabel && <span>{statusLabel}</span>}
+			</p>
+		)}
+	</div>
+</header>
+
+<style>
+	.role-header {
+		display: grid;
+		grid-template-columns: 32px minmax(0, 820px);
+		gap: var(--spacing-8);
+		padding: var(--spacing-20) 0 var(--spacing-16);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.role-rail {
+		position: relative;
+		min-height: 180px;
+	}
+
+	.role-rail::before {
+		content: "";
+		position: absolute;
+		left: 15px;
+		top: 8px;
+		bottom: 8px;
+		width: 1px;
+		background: var(--color-border);
+	}
+
+	.role-rail span,
+	.role-rail i {
+		position: absolute;
+		left: 11px;
+		width: 9px;
+		height: 9px;
+		border: 1px solid var(--color-accent);
+		border-radius: 50%;
+		background: var(--color-bg);
+	}
+
+	.role-rail span { top: 4px; }
+	.role-rail i { bottom: 4px; background: var(--color-accent); }
+
+	.role-kicker,
+	.role-state {
+		font-family: var(--font-mono);
+		font-size: var(--font-size-sm);
+		color: var(--color-muted);
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+	}
+
+	.role-kicker span { color: var(--color-accent); }
+
+	h1 {
+		max-width: 16ch;
+		margin-top: var(--spacing-6);
+		font-size: clamp(2.75rem, 6vw, 5.75rem);
+		line-height: 0.98;
+		letter-spacing: var(--tracking-tightest);
+	}
+
+	.role-intro {
+		max-width: 700px;
+		margin-top: var(--spacing-8);
+		font-family: var(--font-serif);
+		font-size: clamp(1.25rem, 2vw, 1.65rem);
+		line-height: 1.55;
+		color: var(--color-text-secondary);
+	}
+
+	.role-state {
+		display: flex;
+		gap: var(--spacing-6);
+		margin-top: var(--spacing-8);
+	}
+
+	:global(:lang(th)) .role-kicker,
+	:global(:lang(th)) .role-state {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		letter-spacing: 0;
+		line-height: 1.55;
+		text-transform: none;
+	}
+
+	:global(:lang(th)) h1 {
+		font-family: var(--font-sans);
+		font-weight: 300;
+		letter-spacing: 0;
+		line-height: 1.4;
+	}
+
+	:global(:lang(th)) .role-intro {
+		font-family: var(--font-sans);
+		font-size: clamp(1.125rem, 2vw, 1.4rem);
+		line-height: 1.9;
+		letter-spacing: 0;
+	}
+
+	@media (max-width: 640px) {
+		.role-header {
+			grid-template-columns: 18px minmax(0, 1fr);
+			gap: var(--spacing-4);
+			padding: var(--spacing-12) 0;
+		}
+
+		.role-rail::before { left: 8px; }
+		.role-rail span,
+		.role-rail i { left: 4px; }
+	}
+</style>

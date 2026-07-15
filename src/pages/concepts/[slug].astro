@@ -1,0 +1,37 @@
+---
+import { getEmDashEntry } from "emdash";
+import { PortableText } from "emdash/ui";
+import Base from "../../layouts/Base.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import DocumentRecordMeta from "../../components/DocumentRecordMeta.astro";
+import { getAstroLocale, localizeEntry, localizedPath } from "../../utils/i18n";
+
+const locale = getAstroLocale(Astro);
+const slug = Astro.params.slug ?? "";
+const { entry, cacheHint } = await getEmDashEntry("posts", slug);
+const data = entry?.data as unknown as Record<string, unknown> | undefined;
+if (!entry || data?.content_type !== "concept") return new Response("Not found", { status: 404 });
+Astro.cache.set(cacheHint);
+const concept = localizeEntry(entry, "posts", locale);
+---
+
+<Base title={concept.data.title} description={concept.data.excerpt} locale={locale} type="article" content={{ collection: "posts", id: concept.data.id, slug }}>
+	<article class="concept-document">
+		<Breadcrumb crumbs={[{ label: "Concepts", href: localizedPath("/concepts", locale) }, { label: concept.data.title }]} />
+		<p class="page-role">Concept · Full record</p>
+		<h1>{concept.data.title}</h1>
+		{concept.data.excerpt && <p class="lead">{concept.data.excerpt}</p>}
+		<DocumentRecordMeta locale={locale} contentType="Concept" stage={String(data.intellectual_stage ?? "interpretation")} status={String(data.lifecycle_status ?? "developing")} version={String(data.document_version ?? "1.0")} provenance={String(data.provenance_summary ?? (locale === "th" ? "Concept record ที่พัฒนาจาก observation ใน Journal" : "A named concept developed from Journal observations."))} scope={String(data.scope_note ?? (locale === "th" ? "ใช้เป็นภาษากลางเพื่ออ้างถึงรูปแบบที่สังเกตพบ" : "Provides shared language for a recurring observed pattern."))} nonClaims={String(data.non_claims ?? (locale === "th" ? "ยังไม่ใช่ Framework, Protocol หรือ Standard" : "It is not yet a Framework, Protocol, or Standard."))} />
+		<div class="article-content"><PortableText value={concept.data.content} /></div>
+	</article>
+</Base>
+
+<style>
+	.concept-document { width: min(var(--content-width), calc(100vw - 32px)); margin: 0 auto; padding: var(--spacing-8) 0 var(--spacing-24); }
+	.page-role { margin-top: var(--spacing-14); font-family: var(--font-mono); font-size: var(--font-size-sm); color: var(--color-accent); }
+	h1 { margin-top: var(--spacing-5); font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 500; line-height: 1; }
+	.lead { margin-top: var(--spacing-6); font-family: var(--font-serif); font-size: var(--font-size-xl); line-height: 1.6; color: var(--color-text-secondary); }
+	.article-content { font-size: var(--font-size-lg); line-height: 1.75; }
+	:global(:lang(th)) .page-role { font-family: var(--font-sans); font-size: var(--font-size-sm); letter-spacing: 0; }
+	:global(:lang(th)) .lead, :global(:lang(th)) .article-content { font-family: var(--font-sans); font-size: 1.0625rem; line-height: 1.9; letter-spacing: 0; }
+</style>

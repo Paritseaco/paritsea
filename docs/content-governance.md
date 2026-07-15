@@ -1,5 +1,6 @@
 # Paritsea — Content Governance System
-**Status:** Production. Source of truth for all content decisions.
+> Historical governance record. Superseded on 2026-07-15 by `paritsea-content-and-ip-governance.md`.
+**Status:** Historical / superseded.
 **Last reviewed:** 2026-06
 
 ---

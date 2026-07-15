@@ -1,4 +1,5 @@
 # Paritsea — Content Audit (Full)
+**Status:** Historical / superseded as a decision source. Retained as the 2026-06 evidence snapshot.
 **Document type:** Audit. Read-only findings. No copy changes made.
 **Audit date:** 2026-06
 **Scope:** Site pages + Content collections + UX copy

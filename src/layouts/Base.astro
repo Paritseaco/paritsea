@@ -31,6 +31,7 @@ interface Props {
 	modifiedTime?: string | null;
 	author?: string | null;
 	locale?: "th" | "en";
+	structuredData?: Record<string, unknown> | null;
 	/** Pass content reference for plugin page contributions on content pages */
 	content?: { collection: string; id: string; slug?: string | null };
 }
@@ -47,16 +48,14 @@ const {
 	modifiedTime,
 	author,
 	locale: localeProp,
+	structuredData: pageStructuredData,
 	content,
 } = Astro.props;
 const locale = localeProp ?? getAstroLocale(Astro);
 const copy = ui[locale];
-const { siteTitle, siteTagline, siteLogo, siteFavicon } = resolveBlogSiteIdentity(await getSiteSettings());
-const brandWordmark = "/images/logo/paritsea-wordmark.svg";
+const { siteTitle, siteTagline, siteFavicon } = resolveBlogSiteIdentity(await getSiteSettings());
 const brandMark = "/images/logo/paritsea-mark.svg";
 const brandFavicon = "/images/logo/paritsea-mark.svg";
-const headerLogoSrc = siteLogo?.url ?? brandWordmark;
-const footerLogoSrc = siteLogo?.url ?? brandWordmark;
 const resolvedFavicon = siteFavicon ?? brandFavicon;
 // If title already includes site title (from getSeoMeta), use as-is
 const fullTitle = title.includes(siteTitle) ? title : `${title} — ${siteTitle}`;
@@ -108,8 +107,8 @@ const resolvedNavItems = (() => {
 		? systemItem.children
 		: [
 				{
-					label: copy.navLabels.Framework,
-					url: localizedPath("/system/framework", locale),
+					label: copy.navLabels.Frameworks ?? copy.navLabels.Framework,
+					url: localizedPath("/system/frameworks", locale),
 					children: [],
 				},
 				{
@@ -148,14 +147,7 @@ const resolvedNavItems = (() => {
 		{
 			id: "ip",
 			label: copy.navLabels.IP ?? "IP",
-			url: localizedPath("/licensing", locale),
-			target: undefined,
-			children: [],
-		},
-		{
-			id: "media",
-			label: copy.navLabels.Media ?? "Media",
-			url: localizedPath("/media", locale),
+			url: localizedPath("/ip", locale),
 			target: undefined,
 			children: [],
 		},
@@ -184,7 +176,7 @@ const pageCtx = createPublicPageContext({
 
 // Check if user is logged in (for showing admin link)
 const isLoggedIn = !!Astro.locals.user;
-const structuredData = {
+const defaultStructuredData = {
 	"@context": "https://schema.org",
 	"@graph": [
 		{
@@ -222,66 +214,9 @@ const structuredData = {
 				"https://www.linkedin.com/company/paritsea/",
 			],
 		},
-		{
-			"@type": "CollectionPage",
-			"@id": `${siteOrigin}/journal#collection`,
-			name: "Paritsea Journal",
-			url: `${siteOrigin}/journal`,
-			description: "The observation layer where real situations are recorded before patterns are formalized.",
-			isPartOf: { "@id": `${siteOrigin}/#website` },
-			creator: { "@id": `${siteOrigin}/about#parit-ritchai` },
-		},
-		{
-			"@type": "CollectionPage",
-			"@id": `${siteOrigin}/system#collection`,
-			name: "Paritsea System",
-			url: `${siteOrigin}/system`,
-			description: "The governed layer for Framework, Protocols, and Standards derived from recurring observations.",
-			isPartOf: { "@id": `${siteOrigin}/#website` },
-		},
-		{
-			"@type": "CollectionPage",
-			"@id": `${siteOrigin}/media#collection`,
-			name: "Paritsea Media",
-			url: `${siteOrigin}/media`,
-			description: "Videos, social channels, and public reflections connected to the Paritsea lens.",
-			isPartOf: { "@id": `${siteOrigin}/#website` },
-		},
-		{
-			"@type": "CreativeWork",
-			"@id": `${siteOrigin}/system/framework#creativework`,
-			name: "Paritsea Framework",
-			url: `${siteOrigin}/system/framework`,
-			creator: { "@id": `${siteOrigin}/about#parit-ritchai` },
-			publisher: {
-				"@id": `${siteOrigin}/#organization`,
-			},
-			isAccessibleForFree: true,
-			usageInfo: `${siteOrigin}/licensing`,
-			inLanguage: ["en", "th"],
-		},
-		{
-			"@type": "CreativeWork",
-			"@id": `${siteOrigin}/system/protocols#creativework`,
-			name: "Paritsea Protocols",
-			url: `${siteOrigin}/system/protocols`,
-			creator: { "@id": `${siteOrigin}/about#parit-ritchai` },
-			isBasedOn: { "@id": `${siteOrigin}/system/framework#creativework` },
-			usageInfo: `${siteOrigin}/licensing`,
-			inLanguage: ["en", "th"],
-		},
-		{
-			"@type": "CreativeWork",
-			"@id": `${siteOrigin}/system/standards#creativework`,
-			name: "Paritsea Standards",
-			url: `${siteOrigin}/system/standards`,
-			creator: { "@id": `${siteOrigin}/about#parit-ritchai` },
-			isBasedOn: { "@id": `${siteOrigin}/system/protocols#creativework` },
-			usageInfo: `${siteOrigin}/licensing`,
-			inLanguage: ["en", "th"],
-		},
 	],
 };
+const structuredData = pageStructuredData ?? defaultStructuredData;
 ---
 
 <!doctype html>
@@ -291,20 +226,15 @@ const structuredData = {
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet" />
 		<Font cssVariable="--font-sans" preload />
 		<Font cssVariable="--font-mono" />
   <title>{fullTitle}</title>
-  <meta name="description" content={resolvedDescription} />
   <link rel="alternate" hreflang="en" href={enAlternateUrl} />
   <link rel="alternate" hreflang="th" href={thAlternateUrl} />
   <link rel="alternate" hreflang="x-default" href={enAlternateUrl} />
   <link rel="icon" href={resolvedFavicon} type="image/svg+xml" />
   <EmDashHead page={pageCtx} />
-  <meta property="og:title" content={fullTitle} />
-  <meta property="og:description" content={resolvedDescription} />
-  <meta property="og:url" content={resolvedCanonical} />
-  <meta property="og:type" content={type === "article" ? "article" : "website"} />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={fullTitle} />
   <meta name="twitter:description" content={resolvedDescription} />
@@ -325,10 +255,12 @@ const structuredData = {
 	</head>
 	<body>
 		<EmDashBodyStart page={pageCtx} />
+		<a class="skip-link" href="#main-content">{locale === "th" ? "ข้ามไปยังเนื้อหาหลัก" : "Skip to main content"}</a>
 		<header class="site-header">
 			<nav class="nav">
 				<a href={localizedPath("/", locale)} class="site-title">
-					<img src={headerLogoSrc} alt={siteLogo?.alt || siteTitle} class="site-logo-img" />
+					<img src={brandMark} alt="" class="site-logo-mark" aria-hidden="true" />
+					<span class="site-logo-word">{siteTitle}</span>
 				</a>
 				<button
 					type="button"
@@ -394,7 +326,7 @@ const structuredData = {
 												role="menuitem"
 												class:list={[
 													"nav-dropdown-item",
-													{ "nav-framework": stripLocalePrefix(child.url) === "/system/framework" },
+											{ "nav-framework": stripLocalePrefix(child.url) === "/system/frameworks" },
 													{ "is-active": currentPath === stripLocalePrefix(child.url) },
 												]}
 											>
@@ -439,7 +371,7 @@ const structuredData = {
 			></button>
 		</header>
 
-		<main>
+		<main id="main-content" tabindex="-1">
 			<slot />
 		</main>
 
@@ -448,7 +380,8 @@ const structuredData = {
 				<div class="footer-grid">
 					<div class="footer-brand">
 						<a href={localizedPath("/", locale)} class="footer-logo">
-							<img src={footerLogoSrc} alt={siteLogo?.alt || siteTitle} class="footer-logo-img" />
+							<img src={brandMark} alt="" class="footer-logo-mark" aria-hidden="true" />
+							<span>{siteTitle}</span>
 						</a>
 						<p class="footer-tagline">{copy.footerTagline}</p>
 					</div>
@@ -458,14 +391,14 @@ const structuredData = {
 							<li><a href={localizedPath("/about", locale)}>{copy.navLabels.Lens}</a></li>
 							<li><a href={localizedPath("/journal", locale)}>{copy.navLabels.Journal}</a></li>
 							<li><a href={localizedPath("/system", locale)}>{copy.navLabels.System}</a></li>
-							<li><a href={localizedPath("/licensing", locale)}>{copy.navLabels.IP}</a></li>
+							<li><a href={localizedPath("/ip", locale)}>{copy.navLabels.IP}</a></li>
 							<li><a href={localizedPath("/media", locale)}>{copy.navLabels.Media}</a></li>
 						</ul>
 					</div>
 					<div class="footer-nav">
 						<h4 class="footer-heading">{copy.frameworkLayers}</h4>
 						<ul class="footer-links">
-							<li><a href={localizedPath("/system/framework", locale)}>{copy.navLabels.Framework}</a></li>
+							<li><a href={localizedPath("/system/frameworks", locale)}>{copy.navLabels.Frameworks ?? copy.navLabels.Framework}</a></li>
 							<li><a href={localizedPath("/system/protocols", locale)}>{copy.navLabels.Protocols}</a></li>
 							<li><a href={localizedPath("/system/standards", locale)}>{copy.navLabels.Standards}</a></li>
 						</ul>
@@ -474,20 +407,20 @@ const structuredData = {
 					<h4 class="footer-heading">{copy.legalContact}</h4>
 					<ul class="footer-links">
 						<li><a href={localizedPath("/about", locale)}>{copy.about}</a></li>
-						<li><a href={localizedPath("/licensing", locale)}>{copy.licensing}</a></li>
+						<li><a href={localizedPath("/ip/licensing", locale)}>{copy.licensing}</a></li>
 						<li><a href={localizedPath("/contact", locale)}>{copy.contact}</a></li>
 					</ul>
 				</div>
 				<div class="footer-nav">
-					<h4 class="footer-heading">{locale === "th" ? "ชั้นแปลสู่บริการ" : "Commercial Translation"}</h4>
+					<h4 class="footer-heading">{locale === "th" ? "บริบทการประยุกต์ใช้" : "Applied context"}</h4>
 					<ul class="footer-links">
-						<li><a href="https://seocean.co.th" target="_blank" rel="noreferrer">{locale === "th" ? "SE Ocean: ชั้นบริการ →" : "SE Ocean service layer →"}</a></li>
+						<li><a href="https://seocean.co.th" target="_blank" rel="noreferrer">{locale === "th" ? "SE Ocean นำงานบางส่วนไปใช้กับบริบทองค์กร →" : "SE Ocean applies selected work in organizational contexts →"}</a></li>
 					</ul>
 				</div>
 				</div>
 				<div class="footer-bottom">
 					<p class="footer-copyright">
-						© Paritsea · <a href={localizedPath("/licensing", locale)}>{copy.licensing}</a>
+						© Paritsea · <a href={localizedPath("/ip/licensing", locale)}>{copy.licensing}</a>
 					</p>
 					<div class="theme-switcher">
 						<button
@@ -720,18 +653,18 @@ const structuredData = {
 				h6 {
 					font-family: var(--font-serif);
 					line-height: var(--leading-tight);
-					font-weight: 700;
+					font-weight: 500;
 					letter-spacing: var(--tracking-snug);
 					color: var(--color-text);
 				}
 
 				h1 {
-					font-weight: 700;
+					font-weight: 500;
 					letter-spacing: var(--tracking-tight);
 				}
 
 				h2 {
-					font-weight: 600;
+					font-weight: 500;
 					font-size: var(--font-size-2xl);
 				}
 
@@ -750,6 +683,15 @@ const structuredData = {
 					color: var(--color-text);
 				}
 
+				:focus-visible {
+					outline: 2px solid var(--color-accent);
+					outline-offset: 3px;
+				}
+
+				main:focus {
+					outline: none;
+				}
+
 				/* ─── Thai locale typography ─── */
 				:lang(th) {
 					--font-sans: 'Sarabun', system-ui, sans-serif;
@@ -761,6 +703,11 @@ const structuredData = {
 					line-height: 1.85;
 					letter-spacing: 0;
 					word-break: keep-all;
+				}
+
+				:lang(th) em,
+				:lang(th) i {
+					font-style: normal;
 				}
 
 				:lang(th) h2,
@@ -838,20 +785,58 @@ const structuredData = {
 					letter-spacing: 0;
 					line-height: 1.9;
 				}
+
+				:lang(th) :is(.label, .meta, .footer-heading, .breadcrumb, .article-doc-badge, .article-context-kicker) {
+					font-size: max(var(--font-size-sm), 1em);
+					font-style: normal;
+					letter-spacing: 0 !important;
+					line-height: 1.55;
+				}
+
+				:lang(th) :is(
+					[class*="eyebrow"],
+					[class*="credit"],
+					[class*="map-"],
+					[class*="record-"],
+					.section-more,
+					.closing-attr,
+					.footer-tagline,
+					time,
+					small
+				) {
+					font-size: max(0.875rem, 1em) !important;
+					font-style: normal;
+					letter-spacing: 0 !important;
+					line-height: 1.55;
+				}
 			}
 		</style>
 
 		<style>
 			/* ─── Header / Nav ─── */
+			.skip-link {
+				position: fixed;
+				top: var(--spacing-3);
+				left: var(--spacing-3);
+				z-index: 1000;
+				padding: var(--spacing-3) var(--spacing-4);
+				background: var(--color-text);
+				color: var(--color-bg);
+				transform: translateY(-180%);
+				transition: transform var(--transition-fast);
+			}
+
+			.skip-link:focus {
+				transform: translateY(0);
+			}
+
 			.site-header {
 				position: sticky;
 				top: 0;
 				z-index: 100;
-				background:
-					radial-gradient(circle at 8% -80%, color-mix(in srgb, var(--color-accent) 30%, transparent), transparent 55%),
-					color-mix(in srgb, var(--color-bg) 88%, #090d1c 12%);
+				background: color-mix(in srgb, var(--color-bg) 94%, transparent);
 				backdrop-filter: blur(10px);
-				border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 28%, var(--color-border-subtle));
+				border-bottom: 1px solid var(--color-border-subtle);
 			}
 
 			.nav {
@@ -882,8 +867,8 @@ const structuredData = {
 				display: none;
 				align-items: center;
 				justify-content: center;
-				width: 42px;
-				height: 42px;
+				width: 44px;
+				height: 44px;
 				padding: 0;
 				border: 1px solid var(--color-border-subtle);
 				background: transparent;
@@ -914,10 +899,32 @@ const structuredData = {
 				transition: transform var(--transition-fast), opacity var(--transition-fast);
 			}
 
-			.site-logo-img {
-				height: 46px;
+			.site-title {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.65rem;
+				color: var(--color-text);
+				text-decoration: none;
+			}
+
+			.site-logo-mark {
+				height: 38px;
 				width: auto;
 				display: block;
+			}
+
+			.site-logo-word {
+				font-family: var(--font-serif);
+				font-size: 1.35rem;
+				font-weight: 500;
+				letter-spacing: -0.025em;
+				line-height: 1;
+			}
+
+			:global(:lang(th)) .site-logo-word {
+				font-family: var(--font-sans);
+				font-weight: 500;
+				letter-spacing: 0;
 			}
 
 			.nav-right {
@@ -1263,16 +1270,23 @@ const structuredData = {
 				letter-spacing: 0.01em;
 				text-transform: none;
 				transition: opacity var(--transition-fast);
-				display: inline-block;
+				display: inline-flex;
+				align-items: center;
+				gap: 0.65rem;
 			}
 
 			.footer-logo:hover {
 				opacity: 0.6;
 			}
 
-			.footer-logo-img {
-				height: 38px;
+			.footer-logo-mark {
+				height: 32px;
 				width: auto;
+			}
+
+			:global(:lang(th)) .footer-logo {
+				font-family: var(--font-sans);
+				letter-spacing: 0;
 			}
 
 			.footer-tagline {
@@ -1384,8 +1398,8 @@ const structuredData = {
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				width: 28px;
-				height: 24px;
+				width: 44px;
+				height: 44px;
 				background: transparent;
 				border: none;
 				color: var(--color-muted);
@@ -1564,6 +1578,7 @@ const structuredData = {
 					justify-content: flex-start;
 					border: 0;
 					height: auto;
+					min-height: 44px;
 					min-width: 0;
 					padding: var(--spacing-2) 0 0;
 				}

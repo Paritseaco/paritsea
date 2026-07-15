@@ -102,7 +102,7 @@ const contentByLocale = {
 		},
 		"the-method": {
 			eyebrow: "การใช้และการอ้างอิง",
-			title: "Journal คือทะเบียนวิเคราะห์สาธารณะ — เปิดให้อ้างอิง อภิปราย และต่อยอด",
+			title: "Journal คือ archive ของข้อสังเกตและคำถามที่ยังเคลื่อนไหว — เปิดให้อ้างอิง อภิปราย และต่อยอด",
 			summary:
 				"บันทึกเหล่านี้อ้างอิงและต่อยอดได้เมื่อให้เครดิต เป็นวัตถุเชิงวิเคราะห์ ไม่ใช่ endorsement อย่างเป็นทางการ และไม่ควรถูกนำเสนอใหม่เป็นจุดยืนที่ Paritsea รับรอง",
 			points: [
@@ -126,7 +126,7 @@ const contentByLocale = {
 } as const;
 
 const content = contentByLocale[locale][variant];
-const licensingHref = locale === "th" ? "/th/licensing" : "/licensing";
+const licensingHref = locale === "th" ? "/th/ip/licensing" : "/ip/licensing";
 const linkLabel = locale === "en" ? "Read the full licence and use policy →" : "อ่านนโยบายสิทธิการใช้ฉบับเต็ม →";
 ---
 

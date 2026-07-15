@@ -1,5 +1,6 @@
 # Paritsea — Navigation Behavior & Intent-Flow Model
-**Status:** Production. Navigation behavior is approved and governs all future nav decisions.
+> Historical navigation record. Superseded on 2026-07-15 by `paritsea-information-architecture.md`.
+**Status:** Historical / superseded.
 **Last reviewed:** 2026-06
 
 ---

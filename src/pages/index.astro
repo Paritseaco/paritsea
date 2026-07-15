@@ -109,13 +109,13 @@ const home = locale === "th"
 	? {
 			// ── HERO ──
 			eyebrow: "Paritsea",
-			headlineLine1: "วิธีมองโลก",
-			headlineLine2: "ที่เริ่มจากการสังเกตจริง",
-			headlineLine3: "ก่อนตกผลึกเป็นระบบ",
-			heroSub: "Paritsea คือพื้นที่ของสายตา แนวคิด และบันทึกของ Parit Ritchai\nสิ่งที่เห็นจากสถานการณ์จริงจะถูกบันทึกใน Journal ก่อน\nเมื่อรูปแบบซ้ำพอ จึงตกผลึกเป็น Framework, Protocols, Standards และ IP ที่ใช้อย่างเป็นทางการได้",
+			headlineLine1: "มองก่อนที่ภาษาเดิม",
+			headlineLine2: "จะบอกว่าอะไรควรถูกเห็น",
+			headlineLine3: "แล้วรับผิดชอบต่อสิ่งที่ตั้งชื่อ",
+			heroSub: "Paritsea คือพื้นที่ปฏิบัติการทางความคิดที่มีผู้เขียนชัดเจน และเป็นบันทึกสาธารณะของข้อสังเกต วิธีมอง และแนวคิดที่ค่อย ๆ พัฒนาไปสู่ Framework, Protocol, Standard และงานทางปัญญาที่มีการกำกับดูแล",
 			readDoctrine: "เข้าใจ System",
 			exploreMethod: "อ่าน Journal",
-			viewImplementations: "ดู Media",
+			viewImplementations: "ตรวจขอบเขต IP",
 
 			// ── WHAT PARITSEA COVERS ──
 			topicsLabel: "เส้นทางของความคิด",
@@ -177,13 +177,13 @@ const home = locale === "th"
 	: {
 			// ── HERO ──
 			eyebrow: "Paritsea",
-			headlineLine1: "A way of seeing",
-			headlineLine2: "that begins in real situations",
-			headlineLine3: "before it becomes system",
-			heroSub: "Paritsea is the public home of Parit Ritchai's lens, notes, and thinking system.\nWhat is observed in real situations is first recorded in Journal.\nWhen patterns repeat, they crystallize into Framework, Protocols, Standards, and future IP for official use.",
+			headlineLine1: "Look before inherited language",
+			headlineLine2: "decides what can be seen",
+			headlineLine3: "then answer for what is named",
+			heroSub: "Paritsea is an author-led intellectual practice and public record for observations, lenses, and ideas as they develop into frameworks, protocols, standards, and governed intellectual work.",
 			readDoctrine: "Understand System",
 			exploreMethod: "Read Journal",
-			viewImplementations: "View Media",
+			viewImplementations: "Review IP boundaries",
 
 			// ── WHAT PARITSEA COVERS ──
 			topicsLabel: "The path of an idea",
@@ -244,8 +244,8 @@ const home = locale === "th"
 	};
 
 const homeDescription = locale === "th"
-	? "Paritsea คือ living thought system ของ Parit Ritchai: เริ่มจาก Lens และ Journal ก่อนตกผลึกเป็น Framework, Protocols, Standards และ IP สำหรับการใช้ที่เป็นทางการ"
-	: "Paritsea is Parit Ritchai's living thought system: a lens and journal that crystallize into Framework, Protocols, Standards, and future IP for official use.";
+	? "Paritsea คือพื้นที่ปฏิบัติการทางความคิดที่มีผู้เขียนชัดเจน และเป็นบันทึกสาธารณะของข้อสังเกต วิธีมอง และงานทางปัญญาที่มีการกำกับดูแล"
+	: "Paritsea is an author-led intellectual practice and public record for observations, lenses, and governed intellectual work.";
 ---
 
 <Base title={siteTitle} description={homeDescription} locale={locale}>
@@ -265,7 +265,7 @@ const homeDescription = locale === "th"
 				<div class="hero-actions">
 					{doctrinePost && <a href={localizedPath("/system", locale)} class="btn-primary">{home.readDoctrine}</a>}
 					<a href={localizedPath("/journal", locale)} class="btn-secondary">{home.exploreMethod}</a>
-					<a href={localizedPath("/media", locale)} class="btn-text">{home.viewImplementations}</a>
+					<a href={localizedPath("/ip", locale)} class="btn-text">{home.viewImplementations}</a>
 				</div>
 
 				<div class="hero-credit">
@@ -298,15 +298,15 @@ const homeDescription = locale === "th"
 						</a>
 					</li>
 					<li class="hero-map-item">
-						<a href={localizedPath("/licensing", locale)} class="hero-map-link">
+						<a href={localizedPath("/ip", locale)} class="hero-map-link">
 							<span class="hero-map-num">04</span>
 							<span class="hero-map-name">{navLabels.IP}</span>
 						</a>
 					</li>
 					<li class="hero-map-item">
-						<a href={localizedPath("/media", locale)} class="hero-map-link">
+						<a href={localizedPath("/concepts", locale)} class="hero-map-link">
 							<span class="hero-map-num">05</span>
-							<span class="hero-map-name">{navLabels.Media}</span>
+							<span class="hero-map-name">Concepts</span>
 						</a>
 					</li>
 				</ul>
@@ -470,6 +470,13 @@ const homeDescription = locale === "th"
 			</div>
 		</section>
 
+		<section class="relationship-note" aria-labelledby="relationship-title">
+			<p class="relationship-label">{locale === "th" ? "ความสัมพันธ์กับการนำไปใช้" : "Relationship to application"}</p>
+			<h2 id="relationship-title">{locale === "th" ? "ต้นทางไม่จำเป็นต้องกลายเป็นข้อเสนอขาย" : "The source does not have to become an offer."}</h2>
+			<p>{locale === "th" ? "Paritsea เป็นพื้นที่กำเนิดและรักษางานความคิดต้นทาง ส่วน SE Ocean อาจตีความและนำงานบางส่วนไปใช้กับบริบทองค์กรอย่างรับผิดชอบ การนำไปใช้ไม่ได้เปลี่ยนเจ้าของหรือผู้กำกับต้นทาง" : "Paritsea originates and preserves the intellectual source. SE Ocean may interpret and apply selected work in accountable organizational contexts; application does not transfer ownership of the source."}</p>
+			<a href="https://seocean.co.th" target="_blank" rel="noreferrer">{locale === "th" ? "ดูบริบทการประยุกต์ใช้ที่ SE Ocean →" : "See applied organizational contexts at SE Ocean →"}</a>
+		</section>
+
 		{/* ── CLOSING STATEMENT ── */}
 		<section class="closing">
 			<blockquote class="closing-quote">
@@ -489,6 +496,32 @@ const homeDescription = locale === "th"
 		max-width: var(--wide-width);
 		margin: 0 auto;
 		padding: 0 var(--spacing-8) var(--spacing-24);
+	}
+
+	.relationship-note {
+		display: grid;
+		grid-template-columns: 180px minmax(260px, .8fr) 1.2fr;
+		gap: var(--spacing-8);
+		padding: var(--spacing-12) 0;
+		border-top: 1px solid var(--color-applied);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.relationship-label {
+		font-family: var(--font-mono);
+		font-size: var(--font-size-sm);
+		color: var(--color-applied);
+	}
+
+	.relationship-note h2 { font-size: var(--font-size-2xl); }
+	.relationship-note > p:last-of-type { max-width: 62ch; color: var(--color-text-secondary); }
+	.relationship-note a { grid-column: 3; color: var(--color-applied); font-family: var(--font-sans); }
+	:global(:lang(th)) .relationship-label { font-family: var(--font-sans); font-size: var(--font-size-sm); letter-spacing: 0; line-height: 1.55; }
+	:global(:lang(th)) .relationship-note > p:last-of-type { font-size: 1.0625rem; line-height: 1.85; letter-spacing: 0; }
+
+	@media (max-width: 820px) {
+		.relationship-note { grid-template-columns: 1fr; }
+		.relationship-note a { grid-column: auto; }
 	}
 
 	/* ─── HERO ─── */

@@ -1,9 +1,6 @@
 ---
 /**
- * Breadcrumb — System sub-page orientation indicator.
- *
- * D-018: Required on /system/framework, /system/protocols, /system/standards.
- * Never rendered on Journal, Implementation, About, or support pages.
+ * Breadcrumb — orientation for every archive and full document.
  *
  * Usage:
  *   <Breadcrumb crumbs={[{ label: "System", href: "/system" }, { label: "Framework" }]} />
@@ -85,5 +82,14 @@ const { crumbs } = Astro.props;
 		color: var(--color-text-secondary);
 		letter-spacing: var(--tracking-wide);
 		text-transform: uppercase;
+	}
+
+	:global(:lang(th)) .breadcrumb-link,
+	:global(:lang(th)) .breadcrumb-current,
+	:global(:lang(th)) .breadcrumb-sep {
+		font-size: var(--font-size-sm);
+		letter-spacing: 0;
+		line-height: 1.55;
+		text-transform: none;
 	}
 </style>

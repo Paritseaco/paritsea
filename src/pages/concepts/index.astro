@@ -1,0 +1,55 @@
+---
+import { getEmDashCollection } from "emdash";
+import Base from "../../layouts/Base.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import PageRoleHeader from "../../components/PageRoleHeader.astro";
+import { getAstroLocale, localizeEntry, localizedPath } from "../../utils/i18n";
+
+const locale = getAstroLocale(Astro);
+const { entries, cacheHint } = await getEmDashCollection("posts");
+Astro.cache.set(cacheHint);
+const concepts = entries
+	.filter((entry) => (entry.data as unknown as Record<string, unknown>).content_type === "concept")
+	.map((entry) => {
+		const localized = localizeEntry(entry, "posts", locale);
+		return { entry: localized, lifecycle: String((entry.data as unknown as Record<string, unknown>).lifecycle_status ?? "developing") };
+	});
+const intro = locale === "th"
+	? "Concept คือรูปแบบที่ถูกตั้งชื่อจนสามารถอ้างถึงได้ แต่ยังไม่ใช่ Framework หรือเอกสารกำกับ หน้านี้เป็น archive สำหรับค้นหาความสัมพันธ์ ไม่ใช่ขั้นบังคับของทุกแนวคิด"
+	: "A Concept is a named pattern stable enough to reference but not yet a Framework or governed instrument. This archive supports relationship discovery; it is not a required stage for every idea.";
+---
+
+<Base title="Concepts" description={intro} locale={locale}>
+	<div class="archive-shell">
+		<Breadcrumb crumbs={[{ label: locale === "th" ? "หน้าแรก" : "Home", href: localizedPath("/", locale) }, { label: "Concepts" }]} />
+		<PageRoleHeader role="Archive" eyebrow="Relationship discovery" title="Concepts" intro={intro} count={concepts.length} statusLabel={locale === "th" ? "ค้นพบผ่าน Journal และ System" : "Discovered through Journal and System"} />
+		<section class="concept-list">
+			{concepts.length ? concepts.map(({ entry: concept, lifecycle }) => (
+				<a href={localizedPath(`/concepts/${concept.id}`, locale)} class="concept-row">
+					<span>Concept · {lifecycle}</span>
+					<h2>{concept.data.title}</h2>
+					<p>{concept.data.excerpt}</p>
+				</a>
+			)) : (
+				<div class="empty-state">
+					<p>{locale === "th" ? "ยังไม่มี Concept record ที่ผ่านการเผยแพร่" : "No Concept records have been published yet."}</p>
+					<a href={localizedPath("/journal", locale)}>{locale === "th" ? "อ่าน observation ที่ยังเคลื่อนไหว →" : "Read observations still in motion →"}</a>
+				</div>
+			)}
+		</section>
+	</div>
+</Base>
+
+<style>
+	.archive-shell { width: var(--wide-width); margin: 0 auto; padding: var(--spacing-8) 0 var(--spacing-24); }
+	.concept-list { margin-top: var(--spacing-12); border-top: 1px solid var(--color-border); }
+	.concept-row { display: grid; grid-template-columns: 190px 1fr; gap: var(--spacing-5) var(--spacing-8); padding: var(--spacing-8) 0; border-bottom: 1px solid var(--color-border-subtle); }
+	.concept-row span { font-family: var(--font-mono); font-size: var(--font-size-sm); color: var(--color-muted); }
+	.concept-row h2 { font-size: var(--font-size-2xl); font-weight: 500; }
+	.concept-row p { grid-column: 2; color: var(--color-text-secondary); }
+	.empty-state { max-width: 680px; padding: var(--spacing-12) 0; font-size: var(--font-size-lg); }
+	.empty-state a { display: inline-block; margin-top: var(--spacing-5); color: var(--color-accent); }
+	:global(:lang(th)) .concept-row span { font-family: var(--font-sans); font-size: var(--font-size-sm); letter-spacing: 0; }
+	:global(:lang(th)) .concept-row p, :global(:lang(th)) .empty-state { font-size: 1.0625rem; line-height: 1.85; }
+	@media (max-width: 700px) { .concept-row { grid-template-columns: 1fr; } .concept-row p { grid-column: auto; } }
+</style>

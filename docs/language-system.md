@@ -1,7 +1,8 @@
 # Paritsea — Language System
-**Document type:** Editorial and language governance. Permanent. Authoritative.
+**Status:** Historical / superseded by `paritsea-identity-voice-and-visual-system.md` and `paritsea-content-and-ip-governance.md` (2026-07).
+**Document type:** Historical editorial and language governance snapshot.
 **Last reviewed:** 2026-06
-**Status:** Production. All future copy — web, Journal, Framework, Protocol, Standard, Implementation, social — must pass this system.
+**Current use:** Evidence only; do not apply where it conflicts with the 2026-07 canonical documents.
 
 This document is **not** a brand guide. It is not a content strategy. It is the extracted writing system that already governs everything Paritsea has published. It exists so future writers and AI editors can reproduce that system without guesswork.
 

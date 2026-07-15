@@ -12,6 +12,8 @@
 		"postinstall": "patch-package",
 		"patch:refresh": "patch-package emdash @emdash-cms/admin",
 		"typecheck": "astro check",
+		"migrate:intellectual-registry": "node scripts/migrate-intellectual-registry.mjs",
+		"test:smoke": "node scripts/smoke.mjs",
 		"bootstrap": "emdash init && emdash seed",
 		"seed": "emdash seed"
 	},
@@ -36,6 +38,9 @@
 		"patch-package": "^8.0.1",
 		"typescript": "^6.0.3",
 		"wrangler": "^4.80.0"
+	},
+	"overrides": {
+		"sanitize-html": "^2.17.6"
 	},
 	"pnpm": {
 		"onlyBuiltDependencies": [

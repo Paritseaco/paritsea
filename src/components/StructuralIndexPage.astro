@@ -71,12 +71,12 @@ const pageDescription = locale === "th"
 		? "Protocols คือเครื่องมืออ้างอิงเชิงโครงสร้างที่สืบเนื่องจาก Framework และออกแบบให้ปรับใช้ข้ามโดเมนได้โดยไม่เสียความหมายต้นทาง"
 		: isStandards
 			? "Standards นิยามเงื่อนไขที่ตรวจสอบได้ซึ่งสืบเนื่องจาก Protocols เพื่อทำให้ข้อกล่าวอ้างเชิงโครงสร้างประเมินได้จริง"
-			: "Journal คือทะเบียนวิเคราะห์ของ Paritsea: บันทึกข้อสังเกตที่ตั้งชื่อแรงตึงเชิงโครงสร้างก่อนกลายเป็น Protocol หรือ Standard"
+			: "Journal คือ archive ของข้อสังเกต การตีความ และคำถามที่ยังเคลื่อนไหว โดยยังไม่อ้างสถานะว่าเป็น Framework, Protocol หรือ Standard"
 	: isProtocols
 		? "Protocols are public structural instruments derived from the Framework and designed for cross-domain adaptation."
 		: isStandards
 			? "Standards define verifiable conditions derived from Protocols and make structural claims assessable."
-			: "Journal is Paritsea's analytical registry: observations that name structural tension before it becomes protocol or standard.";
+			: "Journal is an archive of observations, interpretations, and questions still in motion; publication does not make them a Framework, Protocol, or Standard.";
 const methodFormatLabel = (format: unknown, cats: Array<{ label: string }>) => {
 	if (format === "video-reflection") return "Video Reflection";
 	if (format === "pattern-brief") return "Pattern Brief";
@@ -229,7 +229,7 @@ const copy = locale === "th"
 						<div class="aside-block">
 							<h3 class="aside-heading">{copy.derivedFrom}</h3>
 							<p class="aside-text">
-								{copy.derivedFromText} <a href={localizedPath("/system/framework", locale)} class="aside-link">{copy.doctrineLink}</a>. {copy.noContradiction}
+								{copy.derivedFromText} <a href={localizedPath("/system/frameworks/paritsea-framework", locale)} class="aside-link">{copy.doctrineLink}</a>. {copy.noContradiction}
 							</p>
 						</div>
 					</div>
@@ -329,11 +329,15 @@ const copy = locale === "th"
 
 	{isMethod && (
 		<div class="index-page">
+			<Breadcrumb crumbs={[
+				{ label: locale === "th" ? "หน้าแรก" : "Home", href: localizedPath("/", locale) },
+				{ label: "Journal" }
+			]} />
 			<header class="index-header">
 				<div class="index-header-grid">
 					<div class="index-header-primary">
 						<p class="index-eyebrow">
-							{locale === "th" ? "ทะเบียนวิเคราะห์" : "Analytical Registry"}
+							{locale === "th" ? "Archive · งานที่ยังเคลื่อนไหว" : "Archive · Work still in motion"}
 							<span class="index-count">{locale === "th" ? `${scopedPosts.length} บันทึก ${copy.publiclyDocumented}` : `${scopedPosts.length} entr${scopedPosts.length === 1 ? "y" : "ies"} published`}</span>
 						</p>
 						<h1 class="index-title">{navLabels["The Method"]}</h1>
@@ -538,6 +542,22 @@ const copy = locale === "th"
 		text-decoration: underline;
 		text-underline-offset: 2px;
 		text-decoration-thickness: 1px;
+	}
+
+	:global(:lang(th)) .index-eyebrow,
+	:global(:lang(th)) .index-count,
+	:global(:lang(th)) .aside-heading,
+	:global(:lang(th)) .document-tag,
+	:global(:lang(th)) .document-card-status,
+	:global(:lang(th)) .document-card-format,
+	:global(:lang(th)) .document-date,
+	:global(:lang(th)) .document-read {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		font-style: normal;
+		letter-spacing: 0;
+		line-height: 1.55;
+		text-transform: none;
 	}
 
 	/* ─── Document list ─── */

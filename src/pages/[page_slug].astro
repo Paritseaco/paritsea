@@ -8,17 +8,17 @@ const slug = decodeSlug(Astro.params.page_slug);
 const locale = getAstroLocale(Astro);
 
 if (!slug) {
-	return Astro.redirect("/404");
+	return new Response(locale === "th" ? "ไม่พบหน้า" : "Not found", { status: 404 });
 }
 
 // Only handle known page slugs — avoid conflicting with other routes
 const KNOWN_PAGE_SLUGS = ["licensing", "ip", "contact", "about"];
 if (!KNOWN_PAGE_SLUGS.includes(slug)) {
-	return Astro.redirect("/404");
+	return new Response(locale === "th" ? "ไม่พบหน้า" : "Not found", { status: 404 });
 }
 
 if (slug === "ip") {
-	return Astro.redirect(localizedPath("/licensing", locale), 301);
+	return Astro.redirect(localizedPath("/ip", locale), 301);
 }
 
 const isLicensingPage = slug === "licensing";
@@ -35,7 +35,7 @@ if (!isAboutPage) {
 }
 
 if (!isAboutPage && !rawPage) {
-	return Astro.redirect("/404");
+	return new Response(locale === "th" ? "ไม่พบหน้า" : "Not found", { status: 404 });
 }
 
 const page = rawPage ? localizeEntry(rawPage, "pages", locale) : null;
@@ -56,6 +56,12 @@ const aboutContent = locale === "th" ? {
 	},
 	sections: [
 		{
+			title: "ใครกำลังพูด และอะไรดำเนินต่อได้โดยไม่ขึ้นกับบุคคล",
+			content: "Journal ใช้ first-person voice เพราะ observation และ judgment ต้องผูกกับผู้เขียนอย่างตรวจสอบได้ เมื่อแนวคิดถูกทำให้เป็น Framework, Protocol หรือ Standard ภาษาเปลี่ยนเป็น governed editorial voice: Parit Ritchai ยังเป็นผู้เขียนและผู้อนุมัติ semantic change ส่วน Paritsea รักษา version, provenance, scope และประวัติการเปลี่ยนแปลง\n\nโครงสร้างนี้รักษาลายเซ็นของผู้เขียนโดยไม่ทำให้งานกลายเป็น portfolio และทำให้ผู้อื่นอ่าน อ้างอิง หรือประยุกต์งานได้โดยไม่ต้องซื้อบริการจากตัวบุคคล",
+			linkText: "ดูระเบียนผู้เขียน →",
+			linkUrl: "/author/parit-ritchai",
+		},
+		{
 			title: "วิธีที่ Paritsea อ่าน",
 			content: "Paritsea อ่านคนและระบบไปพร้อมกัน เพราะสองสิ่งนี้แยกจากกันไม่ได้\n\nคุณไม่สามารถมองโครงสร้างได้ชัดโดยไม่เห็นคนที่ขับเคลื่อนมัน และคุณไม่สามารถเข้าใจสิ่งที่คนกำลังทำโดยไม่เข้าใจน้ำหนักของโครงสร้างที่กดทับเขา\n\nถ้าฉันต้องบอกว่าอะไรคือสิ่งที่พบซ้ำมากที่สุดในทุกบริบทที่ผ่านมา —\nนั่นคือ: สิ่งที่ขับเคลื่อนสถานการณ์จริงๆ มักมองไม่เห็นสำหรับคนที่อยู่ข้างใน\n\nครอบครัว องค์กร ความสัมพันธ์ ทุกที่มีสิ่งที่ไม่เคยถูกตั้งชื่อ\nพอไม่ถูกตั้งชื่อ มันก็ไม่ถูกแก้ ไม่ถูกพูดถึง ไม่ถูกมองเห็น\n\nParitsea ตั้งชื่อสิ่งเหล่านั้น\n\nเมื่อตั้งชื่อแล้ว อะไรจะเกิดตามมา — ไม่ว่าจะเป็นการเปลี่ยนแปลงหรือไม่ —\nเป็นเรื่องของผู้ที่ได้รับชื่อนั้น\nเพราะบางครั้งสิ่งที่จำเป็นไม่ใช่การแก้ไข แต่คือการที่บางสิ่งถูกมองเห็นในที่สุด",
 		},
@@ -63,7 +69,7 @@ const aboutContent = locale === "th" ? {
 			title: "จากบันทึกสู่ IP",
 			content: "Paritsea ไม่ได้เริ่มจากความคิดที่ตกผลึกแล้ว มันเริ่มจาก Journal — การบันทึกสิ่งที่เห็นจากสถานการณ์จริงก่อน\n\nเมื่อรูปแบบบางอย่างปรากฏซ้ำพอ มันจึงถูกคัดไปเป็น Framework, Protocol หรือ Standard และในอนาคตอาจกลายเป็น IP ที่ผู้อื่นขอใช้ เช่าใช้ หรือได้รับอนุญาตอย่างเป็นทางการได้\n\nการอ้างอิง การศึกษา และการปรับใช้ภายในเปิดให้ทำได้ แต่การนำไปใช้เชิงพาณิชย์หรือกล่าวอ้างสถานะ official ต้องอยู่ภายใต้เงื่อนไขสิทธิการใช้",
 			linkText: "ดูเงื่อนไขการใช้งาน →",
-			linkUrl: "/licensing",
+			linkUrl: "/ip/licensing",
 		},
 	],
 	ctaLead: "เริ่มจากที่ Paritsea เริ่ม",
@@ -83,6 +89,12 @@ const aboutContent = locale === "th" ? {
 	},
 	sections: [
 		{
+			title: "Who is speaking, and what can continue beyond the person",
+			content: "Journal uses first person because observation and judgement must remain attributable. When a work becomes a Framework, Protocol, or Standard, its voice becomes governed and editorial: Parit Ritchai remains the author and approves semantic change, while Paritsea preserves version, provenance, scope, and history.\n\nThis keeps the author's signature visible without turning the work into a portfolio. It also lets other people read, cite, and apply the work without purchasing a personal service.",
+			linkText: "View the author record →",
+			linkUrl: "/author/parit-ritchai",
+		},
+		{
 			title: "How Paritsea reads",
 			content: "Paritsea reads people and systems together because they cannot be separated.\n\nYou cannot see a structure clearly without seeing the humans driving it. And you cannot understand what a human is doing without understanding the weight of the structure on them.\n\nIf I had to name what I have found most consistently across every context I've been in:\nit is that the thing driving a situation is invisible to the people inside it.\n\nFamilies, organisations, relationships — every setting has things that were never named.\nUnnamed, they remain unaddressed, unspoken, unseen.\n\nParitsea names them.\n\nWhat happens after — whether change follows or not — belongs to whoever received the name.\nBecause sometimes what is needed is not a fix. It is that something is finally seen.",
 		},
@@ -90,7 +102,7 @@ const aboutContent = locale === "th" ? {
 			title: "From record to IP",
 			content: "Paritsea does not begin with crystallized ideas. It begins in Journal — the act of recording what is seen in real situations first.\n\nWhen a pattern repeats with enough structure, it can be selected into Framework, Protocol, or Standard. Over time, some of this may become IP that others can request, license, or use officially.\n\nReference, study, and internal adaptation are open. Commercial use or claims of official status follow the licensing policy.",
 			linkText: "View licensing terms →",
-			linkUrl: "/licensing",
+			linkUrl: "/ip/licensing",
 		},
 	],
 	ctaLead: "Start where Paritsea starts",
@@ -373,9 +385,9 @@ const pageDescription = isAboutPage
 
 						<section class="policy-section policy-section--full policy-seocean">
 							<h2>{locale === "th" ? "ความสัมพันธ์กับ SE Ocean" : "Relationship to SE Ocean"}</h2>
-							<p>{locale === "th" ? "SE Ocean เป็นชั้นบริการเชิงพาณิชย์ที่แปลบางแนวคิดของ Paritsea ไปเป็น advisory, architecture, stewardship และ decision-support ภายใต้นิติบุคคลแยกต่างหาก" : "SE Ocean is the commercial service layer that translates selected Paritsea concepts into advisory, architecture, stewardship, and decision-support work under a separate legal entity."}</p>
-							<p>{locale === "th" ? "Paritsea ยังคงเป็นต้นทางของสายตา Journal, Framework, Protocols, Standards และ IP ไม่ใช่หน้าเสนอขายบริการของ SE Ocean" : "Paritsea remains the source for the lens, Journal, Framework, Protocols, Standards, and IP. It is not a sales page for SE Ocean."}</p>
-							<a href="https://seocean.co.th" target="_blank" rel="noreferrer">{locale === "th" ? "ดูชั้นบริการที่ SE Ocean →" : "View the service layer at SE Ocean →"}</a>
+							<p>{locale === "th" ? "Paritsea เป็นพื้นที่กำเนิดและรักษางานความคิดต้นทาง ส่วน SE Ocean อาจตีความและนำงานบางส่วนไปใช้กับบริบทองค์กรอย่างรับผิดชอบ" : "Paritsea originates and preserves the intellectual source. SE Ocean may interpret and apply selected work in accountable organizational contexts."}</p>
+							<p>{locale === "th" ? "การนำไปใช้ไม่ได้เปลี่ยนเจ้าของหรือผู้กำกับต้นทาง และ SE Ocean ไม่มีสิทธิ์เปลี่ยน canonical version โดยอัตโนมัติ" : "Application does not transfer ownership or stewardship of the source, and SE Ocean does not gain authority to alter a canonical version automatically."}</p>
+							<a href="https://seocean.co.th" target="_blank" rel="noreferrer">{locale === "th" ? "ดูบริบทการประยุกต์ใช้ที่ SE Ocean →" : "See applied contexts at SE Ocean →"}</a>
 						</section>
 
 						<section class="policy-section">
@@ -443,7 +455,7 @@ const pageDescription = isAboutPage
 
 						<section class="policy-section">
 							<h2>{locale === "th" ? "ก่อนเขียนถึงเรา" : "Before You Write"}</h2>
-							<p>{locale === "th" ? "หากคำถามของคุณเกี่ยวกับการอ้างอิง การดัดแปลง การให้เครดิต หรือสถานะ official implementation โปรดอ่าน " : "If your question is about reference, adaptation, attribution, or official implementation status, please review the "}<a href={localizedPath("/licensing", locale)}>{locale === "th" ? "นโยบายสิทธิการใช้" : "licensing and use policy"}</a>{locale === "th" ? " ก่อน คำถามทั่วไปจำนวนมากมีคำตอบอยู่ที่นั่น" : " first. Many common questions are answered there."}</p>
+							<p>{locale === "th" ? "หากคำถามของคุณเกี่ยวกับการอ้างอิง การดัดแปลง การให้เครดิต หรือสถานะ Official Use โปรดอ่าน " : "If your question is about reference, adaptation, attribution, or Official Use status, please review the "}<a href={localizedPath("/ip/licensing", locale)}>{locale === "th" ? "นโยบายสิทธิการใช้" : "licensing and use policy"}</a>{locale === "th" ? " ก่อน คำถามทั่วไปจำนวนมากมีคำตอบอยู่ที่นั่น" : " first. Many common questions are answered there."}</p>
 						</section>
 
 						<section class="policy-section policy-section--full">
@@ -522,7 +534,7 @@ const pageDescription = isAboutPage
 					<footer class="about-cta">
 						<p class="about-cta-lead">{aboutContent.ctaLead}</p>
 						<div class="about-cta-actions">
-							<a href={localizedPath("/system/framework", locale)} class="about-cta-btn about-cta-btn--primary">{aboutContent.ctaDoctrine}</a>
+							<a href={localizedPath("/system/frameworks/paritsea-framework", locale)} class="about-cta-btn about-cta-btn--primary">{aboutContent.ctaDoctrine}</a>
 							<a href={localizedPath("/journal", locale)} class="about-cta-btn about-cta-btn--secondary">{aboutContent.ctaMethod}</a>
 						</div>
 						<p class="about-cta-contact">

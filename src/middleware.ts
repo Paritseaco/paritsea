@@ -3,12 +3,14 @@ import { defineMiddleware } from "astro:middleware";
 // ─── Phase 1 IA restructure: old URL → new URL 301 map ───────────────────────
 // Exact-match redirects (index pages).
 const EXACT_REDIRECTS: Record<string, string> = {
-	"/the-doctrine":   "/system/framework",
+	"/the-doctrine":   "/system/frameworks/paritsea-framework",
 	"/the-method":     "/journal",
 	"/protocols":      "/system/protocols",
 	"/standards":      "/system/standards",
-	"/implementations":"/implementation",
-	"/ip":             "/licensing",
+	"/implementations":"/ip/official-use",
+	"/implementation": "/ip/official-use",
+	"/licensing":      "/ip/licensing",
+	"/system/framework":"/system/frameworks/paritsea-framework",
 };
 
 // Prefix-match redirects (slug children). Order is significant — more specific first.
@@ -16,7 +18,8 @@ const PREFIX_REDIRECTS: [string, string][] = [
 	["/the-method/",      "/journal/"],
 	["/protocols/",       "/system/protocols/"],
 	["/standards/",       "/system/standards/"],
-	["/implementations/", "/implementation/"],
+	["/implementations/", "/ip/official-use/"],
+	["/implementation/",  "/ip/official-use/"],
 ];
 // ─────────────────────────────────────────────────────────────────────────────
 

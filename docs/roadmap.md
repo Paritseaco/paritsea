@@ -1,5 +1,6 @@
 # Paritsea — Production Roadmap
-**Status:** Active planning document.
+> Historical roadmap snapshot. It is not the current IA or release plan after 2026-07-15.
+**Status:** Historical / superseded.
 **Last reviewed:** 2026-06-03
 **Architecture locked:** Yes — do not modify structure without a new IA decision record.
 **Current phase:** Phase 8 — Content Activation (POST-LAUNCH)

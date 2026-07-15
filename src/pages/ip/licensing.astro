@@ -1,0 +1,54 @@
+---
+import Base from "../../layouts/Base.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import PageRoleHeader from "../../components/PageRoleHeader.astro";
+import { getAstroLocale, localizedPath } from "../../utils/i18n";
+
+const locale = getAstroLocale(Astro);
+const copy = locale === "th" ? {
+	title: "สิทธิ์การใช้และการอ้างอิง",
+	intro: "เอกสารฉบับเต็มสำหรับตรวจขอบเขตการอ่าน อ้างอิง ดัดแปลง การใช้ภายใน การใช้เชิงพาณิชย์ และการกล่าวอ้างสถานะ Official Use",
+	open: "ทำได้โดยไม่ต้องขออนุญาต",
+	permission: "ต้องได้รับอนุญาตแยก",
+	claims: "คำกล่าวอ้างที่ห้ามใช้",
+	openItems: ["อ่าน อ้าง สอน และอภิปรายโดยให้เครดิตและลิงก์กลับไปยังหน้าต้นทาง", "ดัดแปลงเพื่อการเรียนรู้ การวิเคราะห์ หรือการใช้ภายในที่ไม่สร้างรายได้จากการบังคับใช้", "แปลหรือสรุปโดยระบุว่าคือการตีความ ไม่ใช่ canonical text"],
+	permissionItems: ["ฝัง Paritsea logic ในผลิตภัณฑ์ ซอฟต์แวร์ audit หรือบริการที่สร้างรายได้", "ใช้ชื่อหรือเครื่องหมาย Paritsea เป็น trust mark, certification หรือ enforcement layer", "เผยแพร่ adaptation โดยใช้ชื่อและ version เดียวกับ canonical work"],
+	claimItems: ["อ้างว่าได้รับ endorsement, certification หรือ partnership โดยไม่มีเอกสาร", "เรียก adaptation ว่าเป็น official Paritsea Framework, Protocol หรือ Standard", "สื่อว่า SE Ocean หรือผู้ใช้อื่นมีสิทธิ์เปลี่ยน canonical source"],
+} : {
+	title: "Licensing and use",
+	intro: "The full policy for reading, citing, adapting, internal use, commercial use, and claims of Official Use status.",
+	open: "Open without separate permission",
+	permission: "Requires separate permission",
+	claims: "Claims that are not allowed",
+	openItems: ["Read, cite, teach, and discuss with attribution and a link to the source page.", "Adapt for learning, analysis, or internal use that does not monetize enforcement.", "Translate or summarize while identifying the work as an interpretation rather than canonical text."],
+	permissionItems: ["Embed Paritsea logic in paid products, software, audits, or services.", "Use the Paritsea name or mark as a trust mark, certification, or enforcement layer.", "Publish an adaptation under the same name and version as the canonical work."],
+	claimItems: ["Claim endorsement, certification, or partnership without documentation.", "Present an adaptation as an official Paritsea Framework, Protocol, or Standard.", "Imply that SE Ocean or another user may change the canonical source."],
+};
+---
+
+<Base title={copy.title} description={copy.intro} locale={locale}>
+	<div class="policy-shell">
+		<Breadcrumb crumbs={[{ label: "IP", href: localizedPath("/ip", locale) }, { label: copy.title }]} />
+		<PageRoleHeader role="Policy · Full document" eyebrow="Version 1.0 · current" title={copy.title} intro={copy.intro} statusLabel={locale === "th" ? "ผู้เขียน: Parit Ritchai · ผู้รักษาระเบียน: Paritsea" : "Author: Parit Ritchai · Public steward: Paritsea"} />
+		<div class="policy-sections">
+			<section><span>01</span><h2>{copy.open}</h2><ul>{copy.openItems.map((item) => <li>{item}</li>)}</ul></section>
+			<section><span>02</span><h2>{copy.permission}</h2><ul>{copy.permissionItems.map((item) => <li>{item}</li>)}</ul></section>
+			<section><span>03</span><h2>{copy.claims}</h2><ul>{copy.claimItems.map((item) => <li>{item}</li>)}</ul></section>
+		</div>
+		<aside class="contact-note"><p>{locale === "th" ? "คำถามเรื่องสิทธิ์การใช้เขียนถึง hello@paritsea.co การติดต่อไม่ได้สร้างสถานะ Official Use จนกว่าจะมีการบันทึกอย่างชัดเจน" : "For use-rights questions, write to hello@paritsea.co. Correspondence does not create Official Use status until it is explicitly recorded."}</p></aside>
+	</div>
+</Base>
+
+<style>
+	.policy-shell { width: var(--wide-width); margin: 0 auto; padding: var(--spacing-8) 0 var(--spacing-24); }
+	.policy-sections { margin-top: var(--spacing-12); border-top: 1px solid var(--color-border); }
+	.policy-sections section { display: grid; grid-template-columns: 80px minmax(220px, .7fr) 1.3fr; gap: var(--spacing-8); padding: var(--spacing-10) 0; border-bottom: 1px solid var(--color-border); }
+	.policy-sections span { font-family: var(--font-mono); color: var(--color-accent); }
+	.policy-sections h2 { font-size: var(--font-size-2xl); }
+	.policy-sections ul { list-style: none; }
+	.policy-sections li { padding: var(--spacing-3) 0; border-top: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); }
+	.contact-note { max-width: 720px; margin: var(--spacing-12) 0 0 auto; padding-left: var(--spacing-6); border-left: 2px solid var(--color-accent); font-family: var(--font-serif); font-size: var(--font-size-xl); line-height: 1.65; }
+	:global(:lang(th)) .policy-sections span { font-family: var(--font-sans); font-size: var(--font-size-sm); letter-spacing: 0; }
+	:global(:lang(th)) .policy-sections li, :global(:lang(th)) .contact-note { font-family: var(--font-sans); font-size: 1.0625rem; line-height: 1.9; letter-spacing: 0; }
+	@media (max-width: 760px) { .policy-sections section { grid-template-columns: 48px 1fr; } .policy-sections ul { grid-column: 1 / -1; } }
+</style>

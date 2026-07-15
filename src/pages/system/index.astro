@@ -8,7 +8,7 @@
  *
  * ux-blueprint.md §4 required sections (in order):
  * 1. Layer definition — what "structuring" means
- * 2. Framework card — immutable root, one-line role
+ * 2. Framework card — canonical version-governed root, one-line role
  * 3. Protocols card — obligations, one-line role
  * 4. Standards card — thresholds, one-line role
  * 5. Derivation order made explicit
@@ -24,14 +24,14 @@ const { siteTitle } = resolveBlogSiteIdentity(await getSiteSettings());
 const copy = locale === "th" ? {
 	title: `System — ${siteTitle}`,
 	description: "System คือชั้นของการจัดโครงสร้าง — การสังเกตจาก Journal ที่ถูกกำหนดเป็นความรู้ที่มีกฎกำกับ ประกอบด้วย Framework, Protocols และ Standards",
-	eyebrow: "STRUCTURING",
+	eyebrow: "HUB · STRUCTURING",
 	intro: "เมื่อ observation จาก Journal ปรากฏซ้ำพอจนไม่ใช่แค่บันทึกส่วนตัว มันจะถูกคัดและจัดโครงสร้างที่นี่",
 	introSub: "System คือชั้นที่รูปแบบจากชีวิตจริงถูกทำให้เป็นความรู้ที่อ้างอิง ใช้ซ้ำ และตรวจสอบได้ — ไม่ใช่ blog ไม่ใช่ personal opinion และไม่ใช่บริการเชิงพาณิชย์",
 	cardsLabel: "เลือกชั้นที่คุณต้องการ",
 	framework: {
 		name: "Framework",
-		role: "รากฐานที่ไม่เปลี่ยน",
-		desc: "ทุก Protocol และ Standard มาจากที่นี่ Framework คือสิ่งที่ตายตัว — ไม่มีการแก้ไข มีแต่การอ้างอิง",
+		role: "รากฐาน canonical ที่มี version",
+		desc: "Framework จัดระเบียบแนวคิดและข้อจำกัด ทุก semantic change ต้องมีเหตุผล ประวัติ และ version ใหม่ ไม่เขียนทับอดีต",
 	},
 	protocols: {
 		name: "Protocols",
@@ -44,7 +44,7 @@ const copy = locale === "th" ? {
 		desc: "วิธีตรวจสอบว่าข้อกำหนดของ Protocol เป็นจริง Standard อยู่ใต้ Protocol และวางเกณฑ์ที่ชัดเจน",
 	},
 	derivationHeading: "ลำดับที่มา",
-	derivationText: "Journal เป็นพื้นที่ที่ observation ถูกบันทึก เมื่อ pattern สุกพอจึงถูกคัดเข้ามาใน System Framework ทำหน้าที่เป็นรากฐาน Protocols มาจาก Framework และ Standards มาจาก Protocols เพื่อทำให้ข้อกำหนดตรวจสอบได้",
+	derivationText: "Journal เป็นพื้นที่ที่ observation ถูกบันทึก บางรูปแบบถูกตั้งชื่อเป็น Concept และบางส่วนจึงถูก formalize เป็น Framework, Protocol หรือ Standard แต่ไม่มีแนวคิดใดถูกบังคับให้เดินจนสุดเส้นทาง",
 	layerHeading: "System อยู่ในเส้นทางนี้",
 	layerLens: "Lens",
 	layerLensRole: "ที่มา — สายตาและบริบทของผู้สร้าง",
@@ -60,14 +60,14 @@ const copy = locale === "th" ? {
 } : {
 	title: `System — ${siteTitle}`,
 	description: "System is the structuring layer — observations from Journal formalized into governed knowledge: Framework, Protocols, and Standards.",
-	eyebrow: "STRUCTURING",
+	eyebrow: "HUB · STRUCTURING",
 	intro: "When observations from Journal repeat strongly enough to become more than personal notes, they are selected and structured here.",
 	introSub: "System is where patterns from lived reality become citable, repeatable, and verifiable knowledge — not a blog, not personal opinion, and not a commercial service.",
 	cardsLabel: "Choose a layer",
 	framework: {
 		name: "Framework",
-		role: "The immutable root",
-		desc: "Every Protocol and Standard derives from here. The Framework is fixed — it is referenced, not revised.",
+		role: "The versioned canonical root",
+		desc: "A Framework organises concepts and constraints. Semantic change requires rationale, history, and a new version rather than rewriting the past.",
 	},
 	protocols: {
 		name: "Protocols",
@@ -80,7 +80,7 @@ const copy = locale === "th" ? {
 		desc: "How Protocol obligations are verified. Standards sit beneath Protocols and set concrete criteria.",
 	},
 	derivationHeading: "Derivation order",
-	derivationText: "Journal records observation. When a pattern is mature enough, it can be selected into System. Framework serves as the root. Protocols derive from Framework, and Standards derive from Protocols so obligations can be verified.",
+	derivationText: "Journal records observation. Some patterns become named Concepts and selected work may be formalized into a Framework, Protocol, or Standard. No idea is required to travel through the entire path.",
 	layerHeading: "System within the thought path",
 	layerLens: "Lens",
 	layerLensRole: "Origin — creator context and way of seeing",
@@ -109,7 +109,7 @@ const copy = locale === "th" ? {
 
 		{/* ── Three destination cards ── */}
 		<nav class="system-hub-cards" aria-label={copy.cardsLabel}>
-			<a href={localizedPath("/system/framework", locale)} class="system-hub-card system-hub-card--framework">
+			<a href={localizedPath("/system/frameworks", locale)} class="system-hub-card system-hub-card--framework">
 				<p class="system-hub-card-role">{copy.framework.role}</p>
 				<h2 class="system-hub-card-title">{copy.framework.name}</h2>
 				<p class="system-hub-card-desc">{copy.framework.desc}</p>
@@ -137,9 +137,14 @@ const copy = locale === "th" ? {
 					<span class="derivation-tag">{locale === "th" ? "observation · ต้นทาง" : "observation · origin"}</span>
 				</div>
 				<div class="derivation-arrow" aria-hidden="true">↓</div>
+				<div class="derivation-node">
+					<span class="derivation-label">Concept</span>
+					<span class="derivation-tag">{locale === "th" ? "pattern · ตั้งชื่อแล้ว" : "pattern · named"}</span>
+				</div>
+				<div class="derivation-arrow" aria-hidden="true">↓</div>
 				<div class="derivation-node derivation-node--root">
 					<span class="derivation-label">Framework</span>
-					<span class="derivation-tag">{locale === "th" ? "รากฐาน · ไม่เปลี่ยน" : "root · immutable"}</span>
+					<span class="derivation-tag">{locale === "th" ? "รากฐาน · มี version" : "root · versioned"}</span>
 				</div>
 				<div class="derivation-arrow" aria-hidden="true">↓</div>
 				<div class="derivation-node">
@@ -178,7 +183,7 @@ const copy = locale === "th" ? {
 					<span class="spine-layer-role">{copy.layerSystemRole}</span>
 				</div>
 				<div class="spine-arrow" aria-hidden="true">↓</div>
-				<a href={localizedPath("/licensing", locale)} class="spine-layer">
+				<a href={localizedPath("/ip", locale)} class="spine-layer">
 					<span class="spine-layer-name">{copy.layerIp}</span>
 					<span class="spine-layer-role">{copy.layerIpRole}</span>
 				</a>
@@ -205,7 +210,7 @@ const copy = locale === "th" ? {
 
 	.system-hub-eyebrow {
 		font-family: var(--font-sans);
-		font-size: var(--font-size-xs);
+		font-size: var(--font-size-sm);
 		font-weight: 500;
 		color: var(--color-accent);
 		letter-spacing: var(--tracking-wider);
@@ -216,7 +221,7 @@ const copy = locale === "th" ? {
 	.system-hub-title {
 		font-family: var(--font-serif);
 		font-size: clamp(var(--font-size-2xl), 5vw, var(--font-size-3xl));
-		font-weight: 700;
+		font-weight: 500;
 		color: var(--color-text);
 		margin: 0 0 var(--spacing-5);
 		letter-spacing: var(--tracking-tight);

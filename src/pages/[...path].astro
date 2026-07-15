@@ -17,6 +17,8 @@ import {
 import Base from "../layouts/Base.astro";
 import PostCard from "../components/PostCard.astro";
 import ArticleUtilityRail from "../components/ArticleUtilityRail.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import DocumentRecordMeta from "../components/DocumentRecordMeta.astro";
 import { getDirectPostBySlug } from "../utils/direct-post";
 import {
 	frameworkPageFromSegment,
@@ -47,10 +49,10 @@ const segments = pathParam.split("/").filter(Boolean);
 const rawSlug = segments.pop() ?? "";
 const publicSegment = segments.join("/");
 const taxonomySlug = frameworkPageFromSegment(publicSegment);
-if (!taxonomySlug || taxonomySlug === "the-doctrine") return Astro.redirect("/404");
+if (!taxonomySlug || taxonomySlug === "the-doctrine") return new Response(locale === "th" ? "ไม่พบหน้า" : "Not found", { status: 404 });
 
 const slug = decodeSlug(rawSlug);
-if (!slug) return Astro.redirect("/404");
+if (!slug) return new Response(locale === "th" ? "ไม่พบหน้า" : "Not found", { status: 404 });
 
 const { entry: emdashPost, cacheHint } = await getEmDashEntry("posts", slug);
 const matchingEntry =
@@ -65,7 +67,7 @@ if (!rawPost) {
 		rawPost = null;
 	}
 }
-if (!rawPost) return Astro.redirect("/404");
+if (!rawPost) return new Response(locale === "th" ? "ไม่พบหน้า" : "Not found", { status: 404 });
 const post = localizeEntry(rawPost, "posts", locale);
 
 if (cacheHint) {
@@ -144,7 +146,7 @@ const articleContext = locale === "th"
 			? {
 					kicker: "ชั้นข้อกำหนด",
 					title: "Protocol คือ obligation ที่สืบมาจาก Framework",
-					body: "หน้านี้ไม่ใช่บทความความเห็น แต่เป็นข้อกำหนดที่ทำให้ Framework มีผลในทางปฏิบัติ และต้องไม่ขัดกับรากฐานที่ไม่เปลี่ยนรูป",
+					body: "หน้านี้ไม่ใช่บทความความเห็น แต่เป็นข้อกำหนดที่ทำให้ Framework มีผลในทางปฏิบัติ การเปลี่ยนความหมายต้นทางต้องผ่าน revision ที่เปิดเผยและกำกับด้วยเวอร์ชัน",
 				}
 			: isStandard
 				? {
@@ -169,7 +171,7 @@ const articleContext = locale === "th"
 			? {
 					kicker: "Obligation layer",
 					title: "A Protocol is an obligation derived from the Framework.",
-					body: "This is not an opinion essay. It is a governed requirement that gives the Framework practical force without contradicting the immutable root.",
+					body: "This is not an opinion essay. It is a governed requirement that gives the Framework practical force; changes to the canonical source require an explicit, versioned revision.",
 				}
 			: isStandard
 				? {
@@ -192,13 +194,31 @@ const bylines = post.data.bylines ?? [];
 const readingTime = getReadingTime(post.data.content);
 const initialViews = await incrementPostViews(post.data.id, { unique: false });
 
-// Get other posts for "More posts" section.
-// Fetch a few extra in case the current post is among them
+// Relationship-driven navigation. CMS records win; explicit provenance fallbacks
+// preserve the current STP/ASLS and Journal chain until relationships are migrated.
+let relationshipTargetIds: string[] = [];
+try {
+	const relationshipResult = await getEmDashCollection("relationships", { where: { source_work: post.data.id } });
+	relationshipTargetIds = relationshipResult.entries
+		.map((entry) => String((entry.data as unknown as Record<string, unknown>).target_work ?? ""))
+		.filter(Boolean);
+} catch {
+	relationshipTargetIds = [];
+}
+const fallbackRelationshipSlugs: Record<string, string[]> = {
+	stp: ["doctrine", "aesthetic-transparency"],
+	"asls-01": ["stp"],
+	"aesthetic-transparency": ["stp"],
+};
 const { entries: recentPosts } = await getEmDashCollection("posts", {
 	orderBy: { published_at: "desc" },
-	limit: 4,
+	limit: 24,
 });
-const otherPosts = recentPosts.filter((p) => p.id !== post.id).slice(0, 3);
+const fallbackSlugs = fallbackRelationshipSlugs[slug] ?? [];
+const otherPosts = recentPosts
+	.filter((candidate) => candidate.id !== post.id)
+	.filter((candidate) => relationshipTargetIds.includes(candidate.data.id) || fallbackSlugs.includes(candidate.id))
+	.slice(0, 3);
 
 // Fetch categories for related posts (bylines are already hydrated by getEmDashCollection)
 const otherPostsWithTags = await Promise.all(
@@ -231,6 +251,36 @@ const lastUpdatedLabel = formatDateForLocale(lastUpdated, locale);
 
 // Phase 5 — contextual tails
 const postDataUntyped = post.data as unknown as Record<string, unknown>;
+const fallbackRecord = (() => {
+	if (isProtocol) return {
+		type: "Protocol", stage: "formalized", status: "current", version: "1.0",
+		provenance: locale === "th" ? "สืบเนื่องจาก Paritsea Framework และ observation เรื่อง aesthetic transparency" : "Derived from the Paritsea Framework and the Journal observation on aesthetic transparency.",
+		scope: locale === "th" ? "กำหนด obligation ด้านความโปร่งใสเชิงโครงสร้าง โดยต้องอ่านร่วมกับ scope ในเอกสาร" : "Defines obligations for structural transparency and must be read with the scope stated in the document.",
+		nonClaims: locale === "th" ? "ไม่ใช่ certification, audit result หรือคำกล่าวอ้างว่าใช้ได้กับทุกองค์กร" : "It is not certification, an audit result, or a claim of universal applicability.",
+	};
+	if (isStandard) return {
+		type: "Standard", stage: "formalized", status: "current", version: "1.0",
+		provenance: locale === "th" ? "สืบเนื่องจาก Structural Transparency Protocol (STP) v1.0" : "Derived from Structural Transparency Protocol (STP) v1.0.",
+		scope: locale === "th" ? "ระบุ threshold ที่ใช้ประเมิน obligation ของ Protocol ในขอบเขตที่เอกสารกำหนด" : "Defines thresholds for assessing Protocol obligations within the stated scope.",
+		nonClaims: locale === "th" ? "ไม่สร้าง certification หรือ endorsement โดยตัวมันเอง" : "It does not create certification or endorsement by itself.",
+	};
+	return {
+		type: "Journal", stage: "observation", status: "exploring", version: "1.0",
+		provenance: locale === "th" ? "ข้อสังเกตที่เขียนโดย Parit Ritchai และเก็บใน Journal ก่อนการ formalize" : "An observation authored by Parit Ritchai and preserved in Journal before formalization.",
+		scope: locale === "th" ? "บันทึกสิ่งที่เห็น การตีความ และคำถามจากบริบทที่ระบุในเนื้อหา" : "Records what was seen, interpreted, and questioned in the context named by the entry.",
+		nonClaims: locale === "th" ? "การเผยแพร่ยังไม่ทำให้งานชิ้นนี้เป็น Framework, Protocol หรือ Standard" : "Publication does not make this entry a Framework, Protocol, or Standard.",
+	};
+})();
+const contentType = String(postDataUntyped.content_type ?? fallbackRecord.type);
+const intellectualStage = String(postDataUntyped.intellectual_stage ?? fallbackRecord.stage);
+const lifecycleStatus = String(postDataUntyped.lifecycle_status ?? fallbackRecord.status);
+const documentVersion = String(postDataUntyped.document_version ?? fallbackRecord.version);
+const provenanceSummary = String(postDataUntyped.provenance_summary ?? fallbackRecord.provenance);
+const scopeNote = String(postDataUntyped.scope_note ?? fallbackRecord.scope);
+const nonClaims = String(postDataUntyped.non_claims ?? fallbackRecord.nonClaims);
+const lastReviewedValue = postDataUntyped.last_reviewed_at instanceof Date
+	? formatDateForLocale(postDataUntyped.last_reviewed_at, locale)
+	: lastUpdatedLabel;
 const systemBridgeUrl = typeof postDataUntyped.system_bridge_url === "string"
 	? postDataUntyped.system_bridge_url
 	: null;
@@ -238,13 +288,62 @@ const protocolUrl = typeof postDataUntyped.protocol_url === "string"
 	? postDataUntyped.protocol_url
 	: null;
 
-// MD-07: latest 2 Journal entries (the-method), excluding current post
-const { entries: allRecentPosts } = await getEmDashCollection("posts", {
-	orderBy: { published_at: "desc" },
-	limit: 10,
-});
-const lateralPosts = allRecentPosts
-	.filter((p) => p.id !== post.id && resolveFrameworkPage(p.data.framework_page) === "the-method")
+type AppliedContext = { title: string; url: string; summary: string; type: string };
+let appliedContexts: AppliedContext[] = [];
+try {
+	const result = await getEmDashCollection("applied_contexts", { where: { related_work: post.data.id } });
+	appliedContexts = result.entries
+		.map((entry) => entry.data as unknown as Record<string, unknown>)
+		.filter((data) => data.disclosure_status === "reviewed-public")
+		.map((data) => ({ title: String(data.title ?? "Applied context"), url: String(data.public_url ?? ""), summary: String(data.context_summary ?? ""), type: String(data.context_type ?? "field-evidence") }))
+		.filter((context) => context.url.startsWith("https://"));
+} catch {
+	appliedContexts = [];
+}
+
+if (appliedContexts.length === 0) {
+	const fallbackApplied: Record<string, AppliedContext> = {
+		"when-the-tool-was-not-the-problem": { title: "Tools accelerate confusion", url: "https://seocean.co.th/problems/tools-accelerate-confusion", summary: "A related organizational problem context maintained by SE Ocean.", type: "se-ocean-problem" },
+		"on-automation-that-still-requires-fear": { title: "Tools accelerate confusion", url: "https://seocean.co.th/problems/tools-accelerate-confusion", summary: "A related organizational problem context maintained by SE Ocean.", type: "se-ocean-problem" },
+		"when-monitoring-becomes-emotional-labour": { title: "Invisible fixers hold the system", url: "https://seocean.co.th/problems/invisible-fixers-hold-system", summary: "A related organizational problem context maintained by SE Ocean.", type: "se-ocean-problem" },
+	};
+	if (fallbackApplied[slug]) appliedContexts = [fallbackApplied[slug]];
+}
+
+const breadcrumbCrumbs = isRecord
+	? [{ label: "Journal", href: localizedPath("/journal", locale) }, { label: post.data.title }]
+	: isProtocol
+		? [{ label: "System", href: localizedPath("/system", locale) }, { label: "Protocols", href: localizedPath("/system/protocols", locale) }, { label: post.data.title }]
+		: isStandard
+			? [{ label: "System", href: localizedPath("/system", locale) }, { label: "Standards", href: localizedPath("/system/standards", locale) }, { label: post.data.title }]
+			: [{ label: locale === "th" ? "หน้าแรก" : "Home", href: localizedPath("/", locale) }, { label: post.data.title }];
+
+const documentStructuredData = {
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": isRecord ? "Article" : "DigitalDocument",
+			"@id": `${seo.canonical}#work`,
+			name: post.data.title,
+			description: post.data.excerpt,
+			url: seo.canonical,
+			version: documentVersion,
+			datePublished: post.data.publishedAt?.toISOString(),
+			dateModified: post.data.updatedAt.toISOString(),
+			creator: { "@type": "Person", name: "Parit Ritchai", url: `${Astro.url.origin}${localizedPath("/author/parit-ritchai", locale)}` },
+			publisher: { "@type": "Organization", name: "Paritsea", url: Astro.url.origin },
+			usageInfo: `${Astro.url.origin}${localizedPath("/ip/licensing", locale)}`,
+			inLanguage: locale,
+		},
+		{
+			"@type": "BreadcrumbList",
+			itemListElement: breadcrumbCrumbs.map((crumb, index) => ({ "@type": "ListItem", position: index + 1, name: crumb.label, item: crumb.href ? `${Astro.url.origin}${crumb.href}` : seo.canonical })),
+		},
+	],
+};
+
+const lateralPosts = otherPosts
+	.filter((p) => resolveFrameworkPage(p.data.framework_page) === "the-method")
 	.slice(0, 2)
 	.map((p) => ({
 		post: localizeEntry(p, "posts", locale),
@@ -263,8 +362,10 @@ const lateralPosts = allRecentPosts
 	publishedTime={post.data.publishedAt?.toISOString() ?? null}
 	modifiedTime={post.data.updatedAt.toISOString()}
 	locale={locale}
+	structuredData={documentStructuredData}
 	content={{ collection: "posts", id: post.data.id, slug }}
 >
+	<div class="article-breadcrumb"><Breadcrumb crumbs={breadcrumbCrumbs} /></div>
 	<article class="article">
 		{/* Hero: Full-width featured image or geometric illustration */}
 		<div class="article-hero">
@@ -399,6 +500,18 @@ const lateralPosts = allRecentPosts
 					)}
 					</header>
 
+				<DocumentRecordMeta
+					locale={locale}
+					contentType={contentType}
+					stage={intellectualStage}
+					status={lifecycleStatus}
+					version={documentVersion}
+					provenance={provenanceSummary}
+					scope={scopeNote}
+					nonClaims={nonClaims}
+					lastReviewed={lastReviewedValue}
+				/>
+
 				<div class={`article-content ${post.data.excerpt ? 'has-excerpt' : ''}`}>
 					<PortableText value={post.data.content} />
 				</div>
@@ -410,10 +523,18 @@ const lateralPosts = allRecentPosts
 							{locale === "th"
 								? "สามารถอ้างอิงและนำแนวคิดนี้ไปต่อยอดได้ เมื่อให้เครดิตและลิงก์กลับมายัง Paritsea"
 								: "You may reference, cite, and build on these ideas with attribution and a link back to Paritsea."}
-							<a href={localizedPath("/licensing", locale)} class="article-reference-note-link">
+							<a href={localizedPath("/ip/licensing", locale)} class="article-reference-note-link">
 								{locale === "th" ? "อ่านนโยบาย →" : "Read policy →"}
 							</a>
 						</p>
+					</aside>
+				)}
+
+				{appliedContexts.length > 0 && (
+					<aside class="applied-context" aria-labelledby="applied-context-title">
+						<p class="applied-context-label">{locale === "th" ? "บริบทการประยุกต์ใช้ภายนอก" : "External applied context"}</p>
+						<h2 id="applied-context-title">{locale === "th" ? "แนวคิดนี้ปรากฏในงานองค์กรอย่างไร" : "Where this idea appears in organizational work"}</h2>
+						{appliedContexts.map((context) => <a href={context.url} target="_blank" rel="noreferrer"><strong>{context.title}</strong><span>{locale === "th" ? "ดูบริบทที่ SE Ocean ดูแล โดยไม่เปลี่ยน canonical source →" : "View the context maintained by SE Ocean without changing the canonical source →"}</span></a>)}
 					</aside>
 				)}
 
@@ -424,7 +545,6 @@ const lateralPosts = allRecentPosts
 							<iframe 
 								src={youtubeUrl.replace("watch?v=", "embed/").replace("youtu.be/", "youtube.com/embed/")} 
 								title={post.data.title}
-								frameborder="0"
 								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 								allowfullscreen
 								class="article-video-iframe"
@@ -606,6 +726,53 @@ const lateralPosts = allRecentPosts
 </Base>
 
 <style>
+	.article-breadcrumb {
+		width: var(--wide-width);
+		margin: 0 auto;
+		padding-top: var(--spacing-8);
+	}
+
+	.applied-context {
+		margin: var(--spacing-12) 0;
+		padding: var(--spacing-6) 0;
+		border-top: 1px solid var(--color-applied);
+		border-bottom: 1px solid var(--color-border-subtle);
+	}
+
+	.applied-context-label {
+		font-family: var(--font-mono);
+		font-size: var(--font-size-sm);
+		color: var(--color-applied);
+	}
+
+	.applied-context h2 {
+		margin: var(--spacing-3) 0 var(--spacing-5);
+		font-size: var(--font-size-xl);
+	}
+
+	.applied-context a {
+		display: grid;
+		gap: var(--spacing-2);
+		padding: var(--spacing-4) 0;
+		border-top: 1px solid var(--color-border-subtle);
+		color: var(--color-applied);
+	}
+
+	.applied-context span { color: var(--color-text-secondary); }
+
+	:global(:lang(th)) .applied-context-label {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		letter-spacing: 0;
+		line-height: 1.55;
+	}
+
+	:global(:lang(th)) .applied-context a {
+		font-size: 1.0625rem;
+		line-height: 1.85;
+		letter-spacing: 0;
+	}
+
 	/* Article container */
 	.article {
 		max-width: var(--wide-width);

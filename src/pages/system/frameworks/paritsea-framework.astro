@@ -1,6 +1,6 @@
 ---
-// The Doctrine is a standalone constitutional page at /the-doctrine
-// It always loads the "doctrine" post slug
+// Canonical Framework document. The internal CMS slug remains "doctrine"
+// to preserve content IDs and revision history during the IA migration.
 import {
 	getEmDashEntry,
 	getEmDashCollection,
@@ -15,19 +15,20 @@ import {
 	CommentForm,
 	WidgetArea,
 } from "emdash/ui";
-import Base from "../../layouts/Base.astro";
-import Breadcrumb from "../../components/Breadcrumb.astro";
-import PostCard from "../../components/PostCard.astro";
-import ArticleUtilityRail from "../../components/ArticleUtilityRail.astro";
-import UsageGuidance from "../../components/UsageGuidance.astro";
+import Base from "../../../layouts/Base.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import DocumentRecordMeta from "../../../components/DocumentRecordMeta.astro";
+import PostCard from "../../../components/PostCard.astro";
+import ArticleUtilityRail from "../../../components/ArticleUtilityRail.astro";
+import UsageGuidance from "../../../components/UsageGuidance.astro";
 import {
 	isFrameworkPageSlug,
 	resolveFrameworkPage,
 	resolvePostPath,
-} from "../../utils/public-paths";
-import { getReadingTime } from "../../utils/reading-time";
-import { resolveBlogSiteIdentity } from "../../utils/site-identity";
-import { incrementPostViews } from "../../utils/view-count";
+} from "../../../utils/public-paths";
+import { getReadingTime } from "../../../utils/reading-time";
+import { resolveBlogSiteIdentity } from "../../../utils/site-identity";
+import { incrementPostViews } from "../../../utils/view-count";
 import {
 	formatDateForLocale,
 	getAstroLocale,
@@ -35,14 +36,14 @@ import {
 	localizeTermLabel,
 	localizedPath,
 	ui,
-} from "../../utils/i18n";
+} from "../../../utils/i18n";
 
 const slug = "doctrine";
 const locale = getAstroLocale(Astro);
 const labels = ui[locale].labels;
 
 const { entry: rawPost, cacheHint } = await getEmDashEntry("posts", slug);
-if (!rawPost) return Astro.redirect("/404");
+if (!rawPost) return new Response(locale === "th" ? "ไม่พบหน้า" : "Not found", { status: 404 });
 const post = localizeEntry(rawPost, "posts", locale);
 
 Astro.cache.set(cacheHint);
@@ -63,7 +64,7 @@ const { siteTitle } = resolveBlogSiteIdentity(await getSiteSettings());
 const seo = getSeoMeta(post, {
 	siteTitle,
 	siteUrl: Astro.site?.origin ?? Astro.url.origin,
-	path: localizedPath("/system/framework", locale),
+	path: localizedPath("/system/frameworks/paritsea-framework", locale),
 	defaultOgImage: featuredImageUrl,
 });
 
@@ -120,7 +121,8 @@ const lastUpdatedLabel = formatDateForLocale(lastUpdated, locale);
 >
 	<Breadcrumb crumbs={[
 		{ label: "System", href: localizedPath("/system", locale) },
-		{ label: "Framework" }
+		{ label: "Frameworks", href: localizedPath("/system/frameworks", locale) },
+		{ label: "Paritsea Framework" }
 	]} />
 	<article class="article">
 		<div class="article-hero">
@@ -217,6 +219,18 @@ const lastUpdatedLabel = formatDateForLocale(lastUpdated, locale);
 					)}
 					<UsageGuidance variant="doctrine" compact locale={locale} />
 				</header>
+
+				<DocumentRecordMeta
+					locale={locale}
+					contentType="Framework"
+					stage="formalized"
+					status="current"
+					version="1.0"
+					provenance={locale === "th" ? "เขียนโดย Parit Ritchai และรักษาเป็น canonical public record โดย Paritsea" : "Authored by Parit Ritchai and preserved by Paritsea as the canonical public record."}
+					scope={locale === "th" ? "ใช้ประเมินความสอดคล้องเชิงโครงสร้างและความสัมพันธ์ระหว่างอำนาจ หน้าที่ และความรับผิด" : "Evaluates structural coherence and the relationship between authority, function, and accountability."}
+					nonClaims={locale === "th" ? "ไม่ใช่การรับรองทางศีลธรรม certification หรือคำกล่าวอ้างว่าสามารถใช้ได้กับทุกบริบท" : "It is not moral endorsement, certification, or a claim of universal applicability."}
+					lastReviewed={lastUpdatedLabel}
+				/>
 
 				<div class={`article-content${post.data.excerpt ? ' has-excerpt' : ''}`}>
 					<PortableText value={post.data.content} />

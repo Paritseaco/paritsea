@@ -1,5 +1,6 @@
 # Paritsea — Site Architecture
-**Status:** Production. Locked. Do not restructure without a new IA decision record.
+> Historical architecture record. Superseded on 2026-07-15 by `paritsea-brand-architecture-and-boundary.md` and `paritsea-information-architecture.md`.
+**Status:** Historical / superseded.
 **Last reviewed:** 2026-06
 
 ---

@@ -1,5 +1,5 @@
 # Paritsea — Foundation Principles
-**Status:** Production. The source of truth for tone, voice, worldview, and authorial identity.
+**Status:** Historical / superseded by `paritsea-brand-architecture-and-boundary.md`, `paritsea-identity-voice-and-visual-system.md`, and `paritsea-content-and-ip-governance.md` (2026-07).
 **Last reviewed:** 2026-06
 
 ---

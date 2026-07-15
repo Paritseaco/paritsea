@@ -1,4 +1,5 @@
 # Paritsea — Decision Log
+> Append-only historical decisions. Entries predating 2026-07-15 may be superseded by the canonical Paritsea boundary, IA, visual, content-governance, and release documents.
 **Document type:** Chronological record of approved architectural and strategic decisions.
 **Purpose:** Long-term memory layer. Every major decision is logged here. Future sessions, contributors, and governance reviews begin here.
 **Last updated:** 2026-06 (Phase 6 SEO audit complete; D-030–D-033 added)

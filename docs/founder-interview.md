@@ -1,4 +1,5 @@
 # Paritsea — Founder Interview
+**Status:** Historical source material, not current governance or public copy. Current boundaries are defined by the 2026-07 canonical Paritsea documents.
 **Phase:** Phase 1 — Founder Narrative Extraction
 **Purpose:** Extract the origin story behind the lens — not for branding, but for truth.
 **Interviewer:** Claude (structured extraction)
@@ -767,4 +768,3 @@ First version: automation, available even when founder is asleep / not here.
 Current: non-monetized website + SE Ocean. Concepts available always; services when founder is engaged.
 Both: same desire — to make the lens available beyond the founder's direct presence.
 The form changed. The intention never did.
-

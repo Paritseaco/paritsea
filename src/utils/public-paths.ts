@@ -1,11 +1,11 @@
 // Internal taxonomy keys (left) are frozen — they live in seed content.
 // Public URL segments (right) express the seeing → structuring → doing architecture.
 export const FRAMEWORK_PAGE_SEGMENTS = {
-	"the-doctrine": "system/framework",
+	"the-doctrine": "system/frameworks",
 	"protocols": "system/protocols",
 	"standards": "system/standards",
 	"the-method": "journal",
-	"implementations": "implementation",
+	"implementations": "ip/official-use",
 } as const;
 
 export type FrameworkPageSlug = keyof typeof FRAMEWORK_PAGE_SEGMENTS;
@@ -58,9 +58,9 @@ export function resolvePostPath(
 	const page = resolveFrameworkPage(frameworkPage, legacyCategorySlug);
 	if (!page) return null;
 
-	// Framework is a single standalone document, not a collection — no child slug.
+	// The current Framework keeps its legacy database slug while its public title is stable.
 	if (page === "the-doctrine") {
-		return "/system/framework";
+		return "/system/frameworks/paritsea-framework";
 	}
 
 	return `/${FRAMEWORK_PAGE_SEGMENTS[page]}/${slug}`;

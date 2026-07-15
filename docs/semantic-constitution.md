@@ -1,4 +1,5 @@
 # Paritsea Semantic Constitution
+> Historical semantic record. Canonical identity and content authority now live in `paritsea-brand-architecture-and-boundary.md` and `paritsea-content-and-ip-governance.md`.
 
 ## 0. Purpose
 

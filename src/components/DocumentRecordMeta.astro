@@ -1,0 +1,98 @@
+---
+interface Props {
+	locale: "en" | "th";
+	contentType: string;
+	stage: string;
+	status: string;
+	version: string;
+	provenance: string;
+	scope: string;
+	nonClaims: string;
+	lastReviewed?: string | null;
+}
+
+const { locale, contentType, stage, status, version, provenance, scope, nonClaims, lastReviewed } = Astro.props;
+const labels = locale === "th"
+	? { title: "ระเบียนเอกสาร", type: "ประเภท", stage: "สถานะทางความคิด", status: "วงจรงาน", version: "Version", provenance: "ที่มา", scope: "ขอบเขต", nonClaims: "สิ่งที่เอกสารนี้ยังไม่ยืนยัน", reviewed: "ทบทวนล่าสุด" }
+	: { title: "Document record", type: "Type", stage: "Intellectual stage", status: "Lifecycle", version: "Version", provenance: "Provenance", scope: "Scope", nonClaims: "What this does not establish", reviewed: "Last reviewed" };
+---
+
+<aside class="record-meta" aria-labelledby="document-record-title">
+	<h2 id="document-record-title">{labels.title}</h2>
+	<dl>
+		<div><dt>{labels.type}</dt><dd>{contentType}</dd></div>
+		<div><dt>{labels.stage}</dt><dd>{stage}</dd></div>
+		<div><dt>{labels.status}</dt><dd><span class="status-dot" aria-hidden="true"></span>{status}</dd></div>
+		<div><dt>{labels.version}</dt><dd>{version}</dd></div>
+		<div class="record-wide"><dt>{labels.provenance}</dt><dd>{provenance}</dd></div>
+		<div class="record-wide"><dt>{labels.scope}</dt><dd>{scope}</dd></div>
+		<div class="record-wide"><dt>{labels.nonClaims}</dt><dd>{nonClaims}</dd></div>
+		{lastReviewed && <div><dt>{labels.reviewed}</dt><dd>{lastReviewed}</dd></div>}
+	</dl>
+</aside>
+
+<style>
+	.record-meta {
+		margin: var(--spacing-10) 0;
+		padding: var(--spacing-6) 0;
+		border-top: 1px solid var(--color-accent);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	h2 {
+		font-family: var(--font-mono);
+		font-size: var(--font-size-sm);
+		font-weight: 500;
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+	}
+
+	dl {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--spacing-6) var(--spacing-8);
+		margin-top: var(--spacing-6);
+	}
+
+	.record-wide { grid-column: 1 / -1; }
+
+	dt {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		color: var(--color-muted);
+	}
+
+	dd {
+		margin-top: var(--spacing-1);
+		font-family: var(--font-sans);
+		font-size: var(--font-size-base);
+		line-height: 1.65;
+		color: var(--color-text);
+	}
+
+	.status-dot {
+		display: inline-block;
+		width: 8px;
+		height: 8px;
+		margin-right: var(--spacing-2);
+		border-radius: 50%;
+		background: var(--color-accent);
+	}
+
+	:global(:lang(th)) h2,
+	:global(:lang(th)) dt,
+	:global(:lang(th)) dd {
+		font-family: var(--font-sans);
+		font-style: normal;
+		letter-spacing: 0;
+	}
+
+	:global(:lang(th)) h2,
+	:global(:lang(th)) dt { font-size: var(--font-size-sm); line-height: 1.55; }
+	:global(:lang(th)) dd { font-size: 1.0625rem; line-height: 1.85; }
+
+	@media (max-width: 640px) {
+		dl { grid-template-columns: 1fr; }
+		.record-wide { grid-column: auto; }
+	}
+</style>

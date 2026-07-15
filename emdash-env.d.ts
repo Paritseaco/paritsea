@@ -5,19 +5,57 @@
 
 import type { ContentBylineCredit, PortableTextBlock } from "emdash";
 
-export interface Page {
+export interface AppliedContext {
   id: string;
   slug: string | null;
   status: string;
   title: string;
-  content?: PortableTextBlock[];
+  related_work: string;
+  context_type: "field-evidence" | "se-ocean-problem" | "se-ocean-case" | "se-ocean-service";
+  public_url: string;
+  context_summary: string;
+  disclosure_status: "reviewed-public" | "restricted" | "withdrawn";
+  last_reviewed_at?: string;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
   bylines?: ContentBylineCredit[];
 }
 
-export interface Entry {
+export interface OfficialUse {
+  id: string;
+  slug: string | null;
+  status: string;
+  title: string;
+  related_work?: string;
+  implementer: string;
+  use_status: "provisional" | "recorded" | "retired";
+  implementation_version?: string;
+  scope_note?: string;
+  public_note?: PortableTextBlock[];
+  started_at?: string;
+  last_reviewed_at?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  bylines?: ContentBylineCredit[];
+}
+
+export interface Page {
+  id: string;
+  slug: string | null;
+  status: string;
+  title: string;
+  content?: PortableTextBlock[];
+  page_role?: "orientation" | "lens" | "policy" | "utility";
+  descriptor?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  bylines?: ContentBylineCredit[];
+}
+
+export interface IntellectualWork {
   id: string;
   slug: string | null;
   status: string;
@@ -30,6 +68,31 @@ export interface Entry {
   youtube_url?: string;
   system_bridge_url?: string;
   protocol_url?: string;
+  content_type?: "journal" | "concept" | "framework" | "protocol" | "standard";
+  intellectual_stage?: "observation" | "interpretation" | "proposition" | "formalized";
+  lifecycle_status?: "exploring" | "developing" | "current" | "superseded" | "retired";
+  document_version?: string;
+  provenance_summary?: string;
+  scope_note?: string;
+  non_claims?: string;
+  evidence_note?: string;
+  last_reviewed_at?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  bylines?: ContentBylineCredit[];
+}
+
+export interface WorkRelationship {
+  id: string;
+  slug: string | null;
+  status: string;
+  title: string;
+  source_work: string;
+  target_work: string;
+  relationship_type: "developed-from" | "names" | "formalizes" | "implements" | "sets-threshold-for" | "related-to" | "supersedes";
+  relationship_note?: string;
+  sort_order?: number;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
@@ -38,7 +101,10 @@ export interface Entry {
 
 declare module "emdash" {
   interface EmDashCollections {
+    applied_contexts: AppliedContext;
+    official_uses: OfficialUse;
     pages: Page;
-    posts: Entry;
+    posts: IntellectualWork;
+    relationships: WorkRelationship;
   }
 }

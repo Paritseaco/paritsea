@@ -1,5 +1,6 @@
 # Paritsea — UX Blueprint (per page)
-**Status:** Production. Page structure, section order, and behavioral rules are approved.
+> Historical UX blueprint. Superseded on 2026-07-15 by `paritsea-identity-voice-and-visual-system.md` and `paritsea-information-architecture.md`.
+**Status:** Historical / superseded.
 **Last reviewed:** 2026-06
 
 ---
