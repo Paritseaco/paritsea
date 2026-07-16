@@ -7,9 +7,9 @@
 	"d1_databases": [
 		{
 			"binding": "DB",
-			"database_name": "paritsea-site",
-			// Run `wrangler d1 create my-emdash-site` and paste the real ID here for deploy
-          "database_id": "4c6bb48c-a21c-48dc-991d-be155946e6db",
+			"database_name": "paritsea-site-prod",
+			// Canonical production D1. Changing this ID requires an explicit content and auth migration.
+			"database_id": "4c6bb48c-a21c-48dc-991d-be155946e6db",
 		},
 	],
 	"kv_namespaces": [

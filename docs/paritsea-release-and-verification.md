@@ -16,11 +16,12 @@ Run sequentially because concurrent EmDash/Astro commands can contend for the lo
 
 The schema seed and intellectual-record migration are separate so existing CMS entries retain their IDs, bylines, revisions, media, and translation groups.
 
-1. Validate and apply `seed/seed.json` to the target EmDash database using the collection interface.
-2. Run `npm run migrate:intellectual-registry -- --url=<target-url>` with an authenticated EmDash CLI session.
-3. The migration reads each item and its `_rev` before writing. It adds stage, status, version, provenance, scope, non-claims, evidence notes, explicit relationships, and reviewed applied contexts.
-4. Framework revision 1.1 replaces the absolute immutability claim with explicit, attributable, version-governed change. EmDash revisions preserve version 1.0 as prior evidence.
-5. Verify `knowledge.json`, the Framework page, STP, ASLS-01, the Official Use registry, and the three reviewed SE Ocean context links before deployment.
+1. Validate `seed/seed.json`.
+2. Run `npm run migrate:intellectual-schema -- --url=<target-url>` with `EMDASH_TOKEN` from an authenticated EmDash CLI session. This uses EmDash schema and menu HTTP interfaces, including validation, reference-target, and translation metadata that the current CLI flags do not expose.
+3. Run `npm run migrate:intellectual-registry -- --url=<target-url>` with the authenticated EmDash CLI session.
+4. The content migration reads each item and its `_rev` before writing. It adds stage, status, version, provenance, scope, non-claims, evidence notes, explicit relationships, reviewed applied contexts, and the provisional AgenSea Official Use record.
+5. Framework revision 1.1 replaces the absolute immutability claim with explicit, attributable, version-governed change. EmDash revisions preserve version 1.0 as prior evidence.
+6. Verify `knowledge.json`, the Framework page, STP, ASLS-01, the Official Use registry, and the three reviewed SE Ocean context links before deployment.
 
 The migration uses EmDash content CRUD only. Application code and release scripts do not use raw SQL.
 
@@ -50,3 +51,10 @@ No production D1 mutation or Worker deployment occurs before that approval.
 - Application rollback: redeploy the previous Worker deployment.
 - Content rollback: use EmDash revisions to republish the previous intellectual-work revision; retire newly created relationship or applied-context records rather than deleting their history.
 - Route rollback: retain the one-hop redirects even when rolling back UI code so legacy links do not regress.
+
+## Production D1 identity and auth repair
+
+- The canonical Worker binding is `DB` → `paritsea-site-prod` (`4c6bb48c-a21c-48dc-991d-be155946e6db`). Keep the resource name and ID aligned in `wrangler.jsonc` so operator commands do not resolve the legacy database by name.
+- On 2026-07-16, the existing administrator and GitHub account linkage were restored from the legacy `paritsea-site` database after the production binding was found to contain content but no EmDash owner state. No passkey credential or session token was copied.
+- The pre-repair Time Travel bookmark is `00000d52-00000000-000050aa-aad65476145e2e4174e4ca20cb0d0152`.
+- A redirect from `/_emdash/admin/device` to `/_emdash/admin/setup` now indicates a regression in `emdash:setup_complete`, owner state, or the active D1 binding; do not initialize a second owner before checking those three conditions.

@@ -132,4 +132,16 @@ for (const [slug, workSlug, publicUrl, summary] of appliedSpecs) {
 	});
 }
 
+ensureRecord("official_uses", "agensea", {
+	title: "AgenSea",
+	implementer: "Parit Ritchai",
+	use_status: "provisional",
+	implementation_version: "prototype",
+	scope_note:
+		"A prototype exploring selected Paritsea ideas. This record is not certification, endorsement, or evidence of universal applicability.",
+	public_note:
+		"AgenSea is recorded as a provisional exploration. Its presence in this registry documents relationship and scope; it does not make the implementation final or canonical.",
+	last_reviewed_at: "2026-07-15T00:00:00.000Z",
+});
+
 console.log(`Migrated ${works.length} intellectual works at ${url}.`);
