@@ -66,6 +66,14 @@ No production D1 mutation or Worker deployment occurs before that approval.
 - Detail templates no longer manufacture decorative source diagrams or expose comments and generic widgets as if intellectual records were blog posts. Source images appear only when a record has an image.
 - Thai browser QA confirmed Sarabun at 17px / 1.9 for long-form detail content, zero letter spacing, and no horizontal overflow at 390px. EN and TH were inspected at 390, 1440, and 3840px; the main frame remains capped by `--wide-width` while reading measure remains independent.
 - Light theme measured contrast: primary text 14.66:1, secondary text 7.32:1, muted text 4.59:1, and oxide accent 5.83:1 against paper. Dark theme measured 14.97:1, 9.90:1, 5.80:1, and 5.71:1 respectively. Borders are structural separators and are not the sole carrier of state.
-- Production admin currently redirects `/_emdash/admin` to GitHub login, not setup. Production Official Use and AgenSea routes both return 200 from the bound D1 data.
+- Before release deployment, production admin redirected `/_emdash/admin` to GitHub login, not setup, and the Official Use and AgenSea routes both returned 200 from the bound D1 data.
 - Dependency audit reports 0 critical, 15 high, 6 moderate, and 2 low production advisories. Automatic remediation requires incompatible EmDash/plugin upgrades and is therefore a separate compatibility-gated release rather than a silent change in this release.
 - The repository `a11y-audit` skill references verification assets that are not present in the installed skill directory. Browser semantic snapshots, keyboard menu operation, computed Thai styles, target-size CSS, reduced-motion CSS, and measured token contrast were used as the available fallback; full per-element hover/focus contrast automation remains a known verification limitation.
+
+### Production release incident
+
+- Worker version `48393fc2-2ab8-4530-985b-1c88e14716ab` was uploaded successfully, but the first production check redirected every public route to `/_emdash/admin/setup`.
+- The release was rolled back immediately to version `7b221445-767a-4a02-8f6a-3ef04f07a672` at 100% traffic. The redirect persisted after rollback, ruling out the new public-route implementation as the cause.
+- Read-only queries against the canonical D1 database failed with Cloudflare API error `7500`. At the same time, Cloudflare reported degraded D1 performance and increased Durable Object errors in Europe and APAC.
+- Do not complete setup or create another owner while this infrastructure incident is active. Keep the rollback version serving until D1 reads succeed and the public site returns 200 again.
+- After recovery, deploy the already-uploaded release version at 100% without rebuilding, then repeat the production route, content, machine-readable, 404, and admin-auth verification matrix before closing the release.
