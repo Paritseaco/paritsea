@@ -1,1477 +1,738 @@
 ---
-import { getEmDashCollection, getEntryTerms, getSiteSettings } from "emdash";
+import { getEmDashCollection, getSiteSettings } from "emdash";
 import Base from "../layouts/Base.astro";
-import {
-	isFrameworkPageSlug,
-	resolveFrameworkPage,
-	resolvePostPath,
-} from "../utils/public-paths";
-import { resolveBlogSiteIdentity } from "../utils/site-identity";
 import {
 	formatDateForLocale,
 	getAstroLocale,
 	localizeEntry,
-	localizeTermLabel,
 	localizedPath,
-	ui,
 } from "../utils/i18n";
+import { resolveBlogSiteIdentity } from "../utils/site-identity";
 
 const locale = getAstroLocale(Astro);
-const copy = ui[locale];
-const navLabels = ui[locale].navLabels;
-
-const { entries: posts, cacheHint } = await getEmDashCollection("posts");
+const { entries, cacheHint } = await getEmDashCollection("posts", {
+	orderBy: { published_at: "desc" },
+});
 const { siteTitle } = resolveBlogSiteIdentity(await getSiteSettings());
-
 Astro.cache.set(cacheHint);
 
-// Specific landmark posts
-const doctrinePost = posts.find((p) => p.id === "doctrine");
-
-// The Method = recent analytical entries (exclude the 3 landmark posts)
-const landmarkIds = new Set(["doctrine", "stp", "asls-01"]);
-const methodEntries = (
-	await Promise.all(
-		posts
-			.filter((p) => !landmarkIds.has(p.id))
-			.map(async (post) => {
-				const legacyTerms = await getEntryTerms("posts", post.data.id, "category");
-				const legacyFrameworkPage =
-					legacyTerms.find((term) => isFrameworkPageSlug(term.slug))?.slug ?? null;
-				return {
-					post,
-					legacyTerms,
-					frameworkPage: resolveFrameworkPage(post.data.framework_page, legacyFrameworkPage),
-				};
-			}),
-	)
-)
-	.filter((entry) => entry.frameworkPage === "the-method")
-	.toSorted((a, b) => {
-		const dateA = a.post.data.publishedAt?.getTime() ?? 0;
-		const dateB = b.post.data.publishedAt?.getTime() ?? 0;
-		return dateB - dateA;
-	})
-	.slice(0, 4);
-
-const methodEntriesWithTags = await Promise.all(
-	methodEntries.map(async ({ post, legacyTerms, frameworkPage }) => {
-		const categories = legacyTerms.filter((term) => !isFrameworkPageSlug(term.slug)).length > 0
-			? legacyTerms.filter((term) => !isFrameworkPageSlug(term.slug))
-			: await getEntryTerms("posts", post.data.id, "category");
-		const href =
-			resolvePostPath(post.id, frameworkPage, null) ??
-			`/journal/${post.id}`;
-		return {
-			post: localizeEntry(post, "posts", locale),
-			youtubeUrl: typeof post.data.youtube_url === "string" ? post.data.youtube_url : null,
-			categories: categories.map((category) => ({
-				slug: category.slug,
-				label: localizeTermLabel(category.label, locale),
-			})),
-			href: localizedPath(href, locale),
-		};
-	})
-);
-
-function formatDate(date: Date | null | undefined) {
-	return formatDateForLocale(date, locale);
+function contentType(entry: (typeof entries)[number]) {
+	const data = entry.data as unknown as Record<string, unknown>;
+	if (typeof data.content_type === "string" && data.content_type) return data.content_type;
+	const family = String(data.framework_page ?? "");
+	if (family === "the-method") return "journal";
+	if (family === "the-doctrine") return "framework";
+	if (family === "protocols") return "protocol";
+	if (family === "standards") return "standard";
+	return "journal";
 }
 
-// ─── Fetch latest YouTube videos from RSS ───
-interface YouTubeVideo {
-	id: string;
-	title: string;
-	published: string;
-}
-let youtubeVideos: YouTubeVideo[] = [];
-try {
-	const rssUrl = "https://www.youtube.com/feeds/videos.xml?channel_id=UCAbKE9k4l5OYlKnZXzEPhbA";
-	const res = await fetch(rssUrl);
-	const xml = await res.text();
-	// Simple XML parsing — extract entries
-	const entries = xml.split("<entry>").slice(1);
-	youtubeVideos = entries.slice(0, 4).map((entry) => {
-		const idMatch = entry.match(/<yt:videoId>([^<]+)<\/yt:videoId>/);
-		const titleMatch = entry.match(/<title>([^<]+)<\/title>/);
-		const pubMatch = entry.match(/<published>([^<]+)<\/published>/);
-		return {
-			id: idMatch?.[1] ?? "",
-			title: titleMatch?.[1] ?? "",
-			published: pubMatch?.[1] ?? "",
-		};
-	}).filter((v) => v.id);
-} catch {
-	// Silent fail — YouTube section just won't render
+function workPath(entry: (typeof entries)[number]) {
+	const type = contentType(entry);
+	if (type === "concept") return `/concepts/${entry.id}`;
+	if (type === "framework") return `/system/frameworks/${entry.id === "doctrine" ? "paritsea-framework" : entry.id}`;
+	if (type === "protocol") return `/system/protocols/${entry.id}`;
+	if (type === "standard") return `/system/standards/${entry.id}`;
+	return `/journal/${entry.id}`;
 }
 
-const home = locale === "th"
+const localizedWorks = entries.map((entry) => ({
+	original: entry,
+	entry: localizeEntry(entry, "posts", locale),
+	type: contentType(entry),
+	href: localizedPath(workPath(entry), locale),
+}));
+
+const journal = localizedWorks.filter((item) => item.type === "journal");
+const formalized = localizedWorks.filter((item) => ["framework", "protocol", "standard"].includes(item.type));
+const latestJournal = journal.slice(0, 3);
+const featuredFormalized = formalized.slice(0, 3);
+
+const counts = {
+	journal: journal.length,
+	concept: localizedWorks.filter((item) => item.type === "concept").length,
+	framework: localizedWorks.filter((item) => item.type === "framework").length,
+	protocol: localizedWorks.filter((item) => item.type === "protocol").length,
+	standard: localizedWorks.filter((item) => item.type === "standard").length,
+};
+
+const copy = locale === "th"
 	? {
-			// ── HERO ──
-			eyebrow: "Paritsea",
-			headlineLine1: "มองก่อนที่ภาษาเดิม",
-			headlineLine2: "จะบอกว่าอะไรควรถูกเห็น",
-			headlineLine3: "แล้วรับผิดชอบต่อสิ่งที่ตั้งชื่อ",
-			heroSub: "Paritsea คือพื้นที่ปฏิบัติการทางความคิดที่มีผู้เขียนชัดเจน และเป็นบันทึกสาธารณะของข้อสังเกต วิธีมอง และแนวคิดที่ค่อย ๆ พัฒนาไปสู่ Framework, Protocol, Standard และงานทางปัญญาที่มีการกำกับดูแล",
-			readDoctrine: "เข้าใจ System",
-			exploreMethod: "อ่าน Journal",
-			viewImplementations: "ตรวจขอบเขต IP",
-
-			// ── WHAT PARITSEA COVERS ──
-			topicsLabel: "เส้นทางของความคิด",
-			topicLife: "Lens",
-			topicLifeDesc: "สายตาของ Parit ที่อ่านคนและระบบไปพร้อมกัน จากสถานการณ์จริง ไม่ใช่จากทฤษฎีลอยตัว",
-			topicWork: "Journal",
-			topicWorkDesc: "บันทึกแรกของสิ่งที่เห็น แรงตึง ต้นทุนมนุษย์ และรูปแบบที่ยังไม่ถูกทำให้เป็นกฎ",
-			topicHuman: "System",
-			topicHumanDesc: "ชั้นที่รูปแบบซ้ำถูกตกผลึกเป็น Framework, Protocols และ Standards ที่อ้างอิงได้",
-			topicGrowth: "IP & Official Use",
-			topicGrowthDesc: "เงื่อนไขการอ้างอิง ดัดแปลง ขอสิทธิ์ และนำไปใช้เชิงพาณิชย์โดยไม่บิดความหมายต้นทาง",
-
-			// ── WORLDVIEW ──
-			worldviewLabel: "Paritsea ทำงานอย่างไร",
-			worldviewHeadline: "สิ่งที่ตกผลึกแล้วไม่ได้เกิดขึ้นก่อน สิ่งที่เห็นต่างหากเกิดขึ้นก่อน",
-			worldviewBody1: "Paritsea เริ่มจากการมองสถานการณ์จริงให้ชัดพอจะตั้งชื่อได้ Journal จึงเป็นต้นน้ำ ไม่ใช่พื้นที่เสริม มันเก็บ observation ก่อนที่ observation จะกลายเป็นโครงสร้าง",
-			worldviewBody2: "เมื่อรูปแบบเดิมปรากฏซ้ำพอ มันจึงถูกแยกชั้นเป็น System: Framework ให้ฐานคิด Protocols กำหนดภาระหน้าที่ Standards ทำให้ตรวจสอบได้ และ Licensing กำหนดการใช้ที่ไม่บิดเบือน",
-			worldviewBody3: "",
-			worldviewCoda: "Paritsea จึงเป็นทั้งพื้นที่คิด พื้นที่บันทึก และพื้นที่อ้างอิง\nไม่ใช่ service funnel และไม่ใช่คลังบทความทั่วไป",
-
-			// ── START HERE ──
-			startHere: "เริ่มตรงนี้",
-			startHereDesc: "ใหม่ต่อ Paritsea? เริ่มจาก Lens เพื่อรู้ว่าสายตานี้มาจากไหน จากนั้นอ่าน Journal แล้วค่อยเข้า System และ IP",
-
-			// ── REGISTRY ──
-			registry: "Journal",
-			openMethod: "สำรวจ Journal →",
-
-			// ── ABOUT ──
-			aboutLabel: "Lens",
-			aboutHeadline1: "Paritsea มีผู้ถือสายตา",
-			aboutHeadline2: "แต่ไม่ได้เป็น portfolio ส่วนตัว",
-			aboutBody: "Paritsea คือระบบความคิดที่ Parit Ritchai สร้างจากการสังเกตชีวิต งาน องค์กร ความสัมพันธ์ และสถานการณ์ที่คนจำนวนมากรู้สึกได้ แต่ยังตั้งชื่อไม่ได้",
-			aboutInsight: "ตัวตนของ Parit สำคัญเพราะเป็นที่มาของสายตา แต่สิ่งที่ถูกสร้างไว้ต้องอ่าน อ้างอิง และนำไปใช้ได้โดยไม่ต้องกลายเป็นบริการรับจ้างของตัวบุคคล",
-
-			// ── ECOSYSTEM ──
-			ecosystemLabel: "ติดตามแนวคิดจาก Paritsea",
-			ecosystemYoutube: "YouTube",
-			ecosystemYoutubeDesc: "มุมมองเชิงลึกทั้งภาษาไทยและอังกฤษ",
-			ecosystemThreads: "Threads",
-			ecosystemThreadsDesc: "มุมมองสั้น ๆ ที่คมและชวนคิด",
-			ecosystemInstagram: "Instagram",
-			ecosystemInstagramDesc: "สำหรับ international audience และ visual thoughts",
-			ecosystemFacebook: "Facebook",
-			ecosystemFacebookDesc: "อัปเดต บทความ และความคิดเห็นจาก Paritsea",
-			ecosystemLine: "LINE Group",
-			ecosystemLineDesc: "พูดคุย แลกเปลี่ยน และติดตาม session",
-			ecosystemSession: "Linkedin",
-			ecosystemSessionDesc: "ติดตามแนวคิดและมุมมองจาก Paritsea",
-
-			followOn: "ติดตาม",
-
-			// ── CLOSING ── / ── VIDEO / QUOTE ──
-			videoEyebrow: "วิดีโอล่าสุด",
-			videoCTA: "ดูช่อง YouTube →",
-			quote: "\"ปัญหาของปัญหาไม่ใช่เพราะแค่มันเป็นปัญหา\nแต่คือวิธีรับมือและจัดการกับปัญหานั้นต่างหาก\nที่ทำให้ทิศทางของปัญหานั้นต่างออกไป\"",
-			attr: "— ปาริศ ฤทธิ์ชัย",
-		}
+		pageDescription: "Paritsea บันทึกข้อสังเกตของ Parit Ritchai และเปิดให้เห็นว่าความคิดหนึ่งค่อย ๆ ถูกตั้งชื่อ ทบทวน และพัฒนาเป็นงานอ้างอิงอย่างไร",
+		heroLabel: "บันทึกสาธารณะโดย Parit Ritchai",
+		heroTitle: "บางอย่างผิดอยู่ ก่อนที่เราจะมีคำเรียกมัน",
+		heroSummary: "Paritsea เริ่มจากสิ่งที่ Parit Ritchai เห็นในชีวิต งาน และระบบ จากนั้นจึงบันทึก ตั้งชื่อ และทบทวน บางแนวคิดหยุดอยู่ที่คำถาม บางแนวคิดค่อย ๆ กลายเป็นงานอ้างอิงที่ตรวจสอบที่มาได้",
+		primaryAction: "เริ่มจากข้อสังเกต",
+		secondaryAction: "ดูงานอ้างอิง",
+		mapLabel: "ความคิดหนึ่งอาจเดินทางอย่างไร",
+		intentLabel: "เริ่มจากเหตุผลที่มาที่นี่",
+		intentTitle: "คุณกำลังพยายามเข้าใจอะไร",
+		intentSummary: "ไม่จำเป็นต้องอ่านตามลำดับ เลือกทางเข้าที่ตรงกับคำถามของคุณมากที่สุด",
+		intents: [
+			{
+				index: "01",
+				title: "ฉันเห็นบางอย่างซ้ำ ๆ แต่ยังอธิบายไม่ได้",
+				body: "เริ่มจาก Journal เพื่ออ่านข้อสังเกตที่ยังไม่ถูกบังคับให้เป็นข้อสรุป",
+				href: "/journal",
+				link: "อ่านบันทึกต้นทาง",
+			},
+			{
+				index: "02",
+				title: "ฉันพบคำของ Paritsea และต้องการรู้ว่ามาจากไหน",
+				body: "Concept records เก็บนิยาม ที่มา ความสัมพันธ์ และสิ่งที่แนวคิดนั้นยังไม่ได้พิสูจน์",
+				href: "/concepts",
+				link: "สำรวจแนวคิด",
+			},
+			{
+				index: "03",
+				title: "ฉันต้องการงานที่จัดระบบแล้ว",
+				body: "Framework, Protocol และ Standard แสดงข้อเสนอ ภาระหน้าที่ เกณฑ์ และเวอร์ชันที่อ้างอิงได้",
+				href: "/system",
+				link: "ดูงานอ้างอิง",
+			},
+			{
+				index: "04",
+				title: "ฉันต้องการอ้างอิง ดัดแปลง หรือนำงานไปใช้",
+				body: "ตรวจขอบเขตการใช้ วิธีระบุที่มา และระเบียนการนำงานไปใช้โดยไม่บิดความหมายต้นทาง",
+				href: "/ip",
+				link: "ตรวจการใช้และอ้างอิง",
+			},
+		],
+		journalLabel: "คำถามที่กำลังเคลื่อนไหว",
+		journalTitle: "สิ่งที่ยังไม่ควรถูกสรุปเร็วเกินไป",
+		journalSummary: "Journal รักษาข้อสังเกตและความไม่แน่นอนไว้ก่อน บันทึกแต่ละชิ้นจึงไม่จำเป็นต้องกลายเป็น Framework หรือ Standard",
+		openJournal: "ดูบันทึกทั้งหมด",
+		formalLabel: "งานที่ผ่านการจัดระบบแล้ว",
+		formalTitle: "อ่านได้ อ้างอิงได้ และตรวจที่มาได้",
+		formalSummary: "งานกลุ่มนี้ระบุประเภท สถานะ เวอร์ชัน ขอบเขต และเหตุผลของการเปลี่ยนแปลงอย่างชัดเจน",
+		openSystem: "ดูงานอ้างอิงทั้งหมด",
+		pathLabel: "จากข้อสังเกตสู่งานอ้างอิง",
+		pathTitle: "ไม่ใช่ทุกความคิดต้องเดินไปจนสุดทาง",
+		pathSummary: "เส้นทางนี้แสดงความสัมพันธ์ ไม่ใช่ลำดับบังคับ งานหนึ่งอาจยังคงเป็นคำถาม หรือย้อนกลับไปแก้ความเข้าใจเดิมเมื่อมีหลักฐานใหม่",
+		pathStages: ["ข้อสังเกต", "แนวคิด", "Framework", "Protocol", "Standard"],
+		authorLabel: "ใครกำลังพูด",
+		authorTitle: "ผู้เขียนต้องมองเห็นได้ แต่ไม่ควรกลบงาน",
+		authorBody: "Parit Ritchai เป็นผู้เขียนข้อสังเกต ผู้ตั้งชื่อ และผู้ตัดสินใจเมื่อความหมายของงานต้นทางเปลี่ยน ส่วน Paritsea ทำให้งานเหล่านั้นอ่าน ตรวจสอบ และอ้างอิงได้โดยไม่ต้องกลายเป็นประวัติส่วนตัวหรือข้อเสนอขายบริการ",
+		authorLink: "อ่านเรื่องผู้เขียนและขอบเขตของ Paritsea",
+		appliedLabel: "เมื่องานถูกนำไปใช้",
+		appliedTitle: "การประยุกต์ใช้ไม่เปลี่ยนเจ้าของต้นทาง",
+		appliedBody: "SE Ocean อาจตีความและนำงานบางส่วนไปใช้กับบริบทองค์กร งานที่ทำกับลูกค้าเปลี่ยนได้ตามสถานการณ์ แต่ไม่สามารถแก้ความหมายของฉบับอ้างอิงหลักใน Paritsea ได้โดยอัตโนมัติ",
+		appliedLink: "ดูบริบทการประยุกต์ใช้ที่ SE Ocean",
+		returnLabel: "กลับมาเมื่อความคิดเปลี่ยน",
+		returnTitle: "ติดตามงานใหม่และการแก้ไขผ่าน RSS",
+		returnBody: "Paritsea ไม่เผยแพร่เพื่อรักษาความถี่ เมื่อมีข้อสังเกตใหม่หรือฉบับอ้างอิงเปลี่ยน การอัปเดตจะกลับมาที่บันทึกต้นทางเสมอ",
+		returnLink: "เปิด RSS",
+		workType: { journal: "Journal", concept: "Concept", framework: "Framework", protocol: "Protocol", standard: "Standard" } as Record<string, string>,
+		status: { exploring: "กำลังสำรวจ", developing: "กำลังพัฒนา", current: "ฉบับปัจจุบัน", superseded: "มีฉบับใหม่กว่า", retired: "ยุติการใช้" } as Record<string, string>,
+	}
 	: {
-			// ── HERO ──
-			eyebrow: "Paritsea",
-			headlineLine1: "Look before inherited language",
-			headlineLine2: "decides what can be seen",
-			headlineLine3: "then answer for what is named",
-			heroSub: "Paritsea is an author-led intellectual practice and public record for observations, lenses, and ideas as they develop into frameworks, protocols, standards, and governed intellectual work.",
-			readDoctrine: "Understand System",
-			exploreMethod: "Read Journal",
-			viewImplementations: "Review IP boundaries",
-
-			// ── WHAT PARITSEA COVERS ──
-			topicsLabel: "The path of an idea",
-			topicLife: "Lens",
-			topicLifeDesc: "Parit's way of reading people and systems together from real situations, not detached theory.",
-			topicWork: "Journal",
-			topicWorkDesc: "The first record of observations, tensions, human cost, and patterns not yet governed.",
-			topicHuman: "System",
-			topicHumanDesc: "The layer where recurring patterns crystallize into Framework, Protocols, and Standards.",
-			topicGrowth: "IP & Official Use",
-			topicGrowthDesc: "Boundaries for citation, adaptation, permission, licensing, and official commercial use.",
-
-			// ── WORLDVIEW ──
-			worldviewLabel: "How Paritsea works",
-			worldviewHeadline: "The crystallized system does not come first. The seeing comes first.",
-			worldviewBody1: "Paritsea begins by staying with real situations long enough to name what is happening. Journal is therefore the source layer, not a supporting blog. It records observation before observation becomes structure.",
-			worldviewBody2: "When patterns repeat, they move into System: Framework defines the root, Protocols establish obligations, Standards make conditions verifiable, and Licensing governs use without distortion.",
-			worldviewBody3: "",
-			worldviewCoda: "Paritsea is a thinking space, a public record, and a reference layer.\nIt is not a service funnel and not a generic blog.",
-
-			// ── START HERE ──
-			startHere: "Start Here",
-			startHereDesc: "New to Paritsea? Start with the Lens, then read Journal, understand System, and review IP boundaries.",
-
-			// ── REGISTRY ──
-			registry: "Journal",
-			openMethod: "Explore Journal →",
-
-			// ── ABOUT ──
-			aboutLabel: "Lens",
-			aboutHeadline1: "Paritsea has a lens-holder",
-			aboutHeadline2: "but it is not a personal portfolio",
-			aboutBody: "Paritsea is a thinking system Parit Ritchai built from observing life, work, organizations, relationships, and situations many people feel but cannot yet name.",
-			aboutInsight: "Parit's presence matters because it explains the origin of the lens. The work itself still needs to be readable, citable, and usable without becoming a personal service business.",
-
-			// ── ECOSYSTEM ──
-			ecosystemLabel: "Follow Paritsea Across Platforms",
-			ecosystemYoutube: "YouTube",
-			ecosystemYoutubeDesc: "Deep perspectives in both Thai and English",
-			ecosystemThreads: "Threads",
-			ecosystemThreadsDesc: "Short, sharp thoughts",
-			ecosystemInstagram: "Instagram",
-			ecosystemInstagramDesc: "For international audience and visual thoughts",
-			ecosystemFacebook: "Facebook",
-			ecosystemFacebookDesc: "Updates, posts, and ideas from Paritsea",
-			ecosystemLine: "LINE Group",
-			ecosystemLineDesc: "Chat, share, and follow sessions",
-			ecosystemSession: "Linkedin",
-			ecosystemSessionDesc: "Follow ideas and perspectives from Paritsea",
-
-			followOn: "Follow on",
-
-			// ── CLOSING ── / ── VIDEO / QUOTE ──
-			videoEyebrow: "Latest Videos",
-			videoCTA: "View YouTube Channel →",
-			quote: "\"The problem with problems isn't just that they are problems,\nbut how they are dealt with,\nthat's what makes them turn out differently.\"",
-			attr: "— Parit Ritchai",
+		pageDescription: "Paritsea records observations by Parit Ritchai and shows how selected ideas are named, revised, and developed into traceable public work.",
+		heroLabel: "A public record by Parit Ritchai",
+		heroTitle: "Some things are wrong before we have language for them.",
+		heroSummary: "Paritsea begins with what Parit Ritchai notices in life, work, and systems. Observations are recorded, named, and revised. Some remain open questions. Selected ideas become reference work whose source and limits can be inspected.",
+		primaryAction: "Start with an observation",
+		secondaryAction: "Browse reference work",
+		mapLabel: "How an idea may move",
+		intentLabel: "Start with what brought you here",
+		intentTitle: "What are you trying to understand?",
+		intentSummary: "There is no required reading order. Choose the entry point closest to the question you already have.",
+		intents: [
+			{ index: "01", title: "I keep noticing something I cannot yet explain", body: "Start with Journal for observations that have not been forced into conclusions.", href: "/journal", link: "Read source observations" },
+			{ index: "02", title: "I encountered a Paritsea term and need its source", body: "Concept records hold definitions, origin, relationships, and what an idea has not established.", href: "/concepts", link: "Explore concepts" },
+			{ index: "03", title: "I need work that has become structured", body: "Frameworks, Protocols, and Standards expose propositions, obligations, thresholds, and referenceable versions.", href: "/system", link: "Browse reference work" },
+			{ index: "04", title: "I want to cite, adapt, or use the work", body: "Check attribution, use boundaries, and recorded applications without displacing the source.", href: "/ip", link: "Review use and citation" },
+		],
+		journalLabel: "Questions in motion",
+		journalTitle: "Work that should not be settled too quickly",
+		journalSummary: "Journal keeps observation and uncertainty visible. An entry does not need to become a Framework or Standard to remain useful.",
+		openJournal: "View all observations",
+		formalLabel: "Structured reference work",
+		formalTitle: "Readable, citable, and traceable to its source",
+		formalSummary: "These works name their type, status, version, scope, and the reason for material change.",
+		openSystem: "View all reference work",
+		pathLabel: "From observation to reference work",
+		pathTitle: "Not every idea has to travel the whole path",
+		pathSummary: "This is a relationship map, not a required sequence. Work may remain an open question or return to an earlier stage when new evidence changes the reading.",
+		pathStages: ["Observation", "Concept", "Framework", "Protocol", "Standard"],
+		authorLabel: "Who is speaking",
+		authorTitle: "The author should remain visible without eclipsing the work",
+		authorBody: "Parit Ritchai writes the observations, names the patterns, and decides when the meaning of source work changes. Paritsea makes that work readable, inspectable, and citable without turning it into a personal portfolio or service offer.",
+		authorLink: "Read about the author and Paritsea's boundary",
+		appliedLabel: "When work is applied",
+		appliedTitle: "Application does not transfer authority over the source",
+		appliedBody: "SE Ocean may interpret and apply selected work in organizational contexts. Client work can change with the situation, but it cannot silently redefine the canonical Paritsea source.",
+		appliedLink: "See applied contexts at SE Ocean",
+		returnLabel: "Return when the work changes",
+		returnTitle: "Follow new work and revisions through RSS",
+		returnBody: "Paritsea does not publish to maintain a cadence. When a new observation appears or reference work changes, the update returns to the source record.",
+		returnLink: "Open RSS",
+		workType: { journal: "Journal", concept: "Concept", framework: "Framework", protocol: "Protocol", standard: "Standard" } as Record<string, string>,
+		status: { exploring: "Exploring", developing: "Developing", current: "Current", superseded: "Superseded", retired: "Retired" } as Record<string, string>,
 	};
 
-const homeDescription = locale === "th"
-	? "Paritsea คือพื้นที่ปฏิบัติการทางความคิดที่มีผู้เขียนชัดเจน และเป็นบันทึกสาธารณะของข้อสังเกต วิธีมอง และงานทางปัญญาที่มีการกำกับดูแล"
-	: "Paritsea is an author-led intellectual practice and public record for observations, lenses, and governed intellectual work.";
+function stageState(type: string) {
+	if (type === "journal") return "moving";
+	if (type === "concept") return "named";
+	return "governed";
+}
+
+function statusFor(item: (typeof localizedWorks)[number]) {
+	const data = item.original.data as unknown as Record<string, unknown>;
+	return String(data.lifecycle_status ?? (item.type === "journal" ? "exploring" : "current"));
+}
+
+function versionFor(item: (typeof localizedWorks)[number]) {
+	const data = item.original.data as unknown as Record<string, unknown>;
+	return String(data.document_version ?? (item.type === "journal" ? "0.1" : "1.0"));
+}
 ---
 
-<Base title={siteTitle} description={homeDescription} locale={locale}>
-	<div class="landing">
-
-		{/* ── HERO ── */}
-		<section class="hero">
-			<div class="hero-content">
-				<p class="hero-eyebrow">{home.eyebrow}</p>
-				<h1 class="hero-statement">
-					{home.headlineLine1}<br />
-					{home.headlineLine2}<br />
-					{home.headlineLine3}
-				</h1>
-				<p class="hero-sub">{home.heroSub.split("\n").map((line, index) => <>{index > 0 && <br />}{line}</>)}</p>
-
-				<div class="hero-actions">
-					{doctrinePost && <a href={localizedPath("/system", locale)} class="btn-primary">{home.readDoctrine}</a>}
-					<a href={localizedPath("/journal", locale)} class="btn-secondary">{home.exploreMethod}</a>
-					<a href={localizedPath("/ip", locale)} class="btn-text">{home.viewImplementations}</a>
-				</div>
-
-				<div class="hero-credit">
-					<img src="/images/parit-profile.jpg" alt="" class="hero-credit-img" />
-					<span class="hero-credit-name">{copy.authorName}</span>
-					<span class="hero-credit-sep">·</span>
-					<a href={localizedPath("/about", locale)} class="hero-credit-about">{copy.about} →</a>
+<Base title={siteTitle} description={copy.pageDescription} locale={locale}>
+	<div class="home-page">
+		<section class="home-hero" aria-labelledby="home-title">
+			<div class="home-hero-copy">
+				<p class="experience-label" data-state="moving">{copy.heroLabel}</p>
+				<h1 id="home-title" class="experience-title">{copy.heroTitle}</h1>
+				<p class="experience-summary">{copy.heroSummary}</p>
+				<div class="home-hero-actions">
+					<a class="home-primary-link" href={localizedPath("/journal", locale)}>{copy.primaryAction}<span aria-hidden="true">↗</span></a>
+					<a class="experience-link" href={localizedPath("/system", locale)}>{copy.secondaryAction}<span aria-hidden="true">→</span></a>
 				</div>
 			</div>
 
-			<aside class="hero-map">
-				<p class="hero-map-label">{locale === "th" ? "เส้นทางความคิด" : "Thought path"}</p>
-				<ul class="hero-map-list">
-					<li class="hero-map-item">
-						<a href={localizedPath("/about", locale)} class="hero-map-link">
-							<span class="hero-map-num">01</span>
-							<span class="hero-map-name">{navLabels.Lens}</span>
-						</a>
-					</li>
-					<li class="hero-map-item">
-						<a href={localizedPath("/journal", locale)} class="hero-map-link">
-							<span class="hero-map-num">02</span>
-							<span class="hero-map-name">{navLabels.Journal}</span>
-						</a>
-					</li>
-					<li class="hero-map-item">
-						<a href={localizedPath("/system", locale)} class="hero-map-link">
-							<span class="hero-map-num">03</span>
-							<span class="hero-map-name">{navLabels.System}</span>
-						</a>
-					</li>
-					<li class="hero-map-item">
-						<a href={localizedPath("/ip", locale)} class="hero-map-link">
-							<span class="hero-map-num">04</span>
-							<span class="hero-map-name">{navLabels.IP}</span>
-						</a>
-					</li>
-					<li class="hero-map-item">
-						<a href={localizedPath("/concepts", locale)} class="hero-map-link">
-							<span class="hero-map-num">05</span>
-							<span class="hero-map-name">Concepts</span>
-						</a>
-					</li>
-				</ul>
-			</aside>
-		</section>
-
-		{/* ── WORLDVIEW ── */}
-		<section class="worldview">
-			<div class="worldview-content">
-				<p class="worldview-eyebrow">{home.worldviewLabel}</p>
-				<h2 class="worldview-headline">{home.worldviewHeadline}</h2>
-				<div class="worldview-body">
-					<p>{home.worldviewBody1}</p>
-					<p>{home.worldviewBody2}</p>
-					{home.worldviewBody3 && <p>{home.worldviewBody3}</p>}
-				</div>
-				<p class="worldview-coda">{home.worldviewCoda.split("\n").map((line, index) => <>{index > 0 && <br />}{line}</>)}</p>
+			<div class="home-trace" aria-label={copy.mapLabel}>
+				<p>{copy.mapLabel}</p>
+				<ol>
+					<li data-state="moving"><span>01</span>{copy.pathStages[0]}</li>
+					<li data-state="named"><span>02</span>{copy.pathStages[1]}</li>
+					<li data-state="governed"><span>03</span>{copy.pathStages[2]}</li>
+				</ol>
+				<p class="home-trace-note">{locale === "th" ? "เส้นทางเปิดอยู่ และย้อนกลับได้" : "The path stays open and revisable"}</p>
 			</div>
 		</section>
 
-		<section class="lens-panel">
-			<div class="lens-panel-copy">
-				<p class="lens-eyebrow">{home.aboutLabel}</p>
-				<h2 class="lens-title">
-					{home.aboutHeadline1}<br />
-					{home.aboutHeadline2}
-				</h2>
-				<p>{home.aboutBody}</p>
-				<p>{home.aboutInsight}</p>
-				<a href={localizedPath("/about", locale)} class="lens-link">{copy.about} →</a>
+		<section class="experience-section home-intents" aria-labelledby="intent-title">
+			<div class="experience-section-heading">
+				<div>
+					<p class="experience-label" data-state="named">{copy.intentLabel}</p>
+					<h2 id="intent-title">{copy.intentTitle}</h2>
+				</div>
+				<p>{copy.intentSummary}</p>
 			</div>
-			<div class="lens-panel-source">
-				<img src="/images/parit-profile.jpg" alt={copy.authorName} class="lens-portrait" />
-				<div class="lens-source-note">
-					<span>{copy.authorName}</span>
-					<p>{copy.authorRole}</p>
-				</div>
-			</div>
-		</section>
-
-		{/* ── WHAT PARITSEA COVERS ── */}
-		<section class="topics">
-			<p class="topics-eyebrow">{home.topicsLabel}</p>
-			<div class="topics-grid">
-				<div class="topic-card">
-					<h3 class="topic-card-title">{home.topicLife}</h3>
-					<p class="topic-card-desc">{home.topicLifeDesc}</p>
-				</div>
-				<div class="topic-card">
-					<h3 class="topic-card-title">{home.topicWork}</h3>
-					<p class="topic-card-desc">{home.topicWorkDesc}</p>
-				</div>
-				<div class="topic-card">
-					<h3 class="topic-card-title">{home.topicHuman}</h3>
-					<p class="topic-card-desc">{home.topicHumanDesc}</p>
-				</div>
-				<div class="topic-card">
-					<h3 class="topic-card-title">{home.topicGrowth}</h3>
-					<p class="topic-card-desc">{home.topicGrowthDesc}</p>
-				</div>
-			</div>
-		</section>
-
-		{/* ── LATEST ENTRIES ── */}
-		{methodEntriesWithTags.length > 0 && (
-			<section class="records">
-				<header class="section-header">
-					<span class="section-eyebrow">{home.registry}</span>
-					<a href={localizedPath("/journal", locale)} class="section-more">{home.openMethod}</a>
-				</header>
-				<div class="records-list">
-					{methodEntriesWithTags.map(({ post, youtubeUrl, categories, href }, i) => (
-						<a href={href} class="record-item">
-							<span class="record-num">
-								{String(i + 1).padStart(2, "0")}
-							</span>
-							<div class="record-body">
-								<h3 class="record-title">{post.data.title}</h3>
-								{post.data.excerpt && (
-									<p class="record-excerpt">{post.data.excerpt}</p>
-								)}
-							</div>
-							<div class="record-meta">
-								{categories.length > 0 && (
-									<span class="record-tag">{categories[0].label}</span>
-								)}
-								{youtubeUrl && (
-									<span class="record-tag record-tag-video">{locale === "th" ? "วิดีโอ" : "Video"}</span>
-								)}
-								{formatDate(post.data.publishedAt) && (
-									<time class="record-date">{formatDate(post.data.publishedAt)}</time>
-								)}
-							</div>
-						</a>
-					))}
-				</div>
-			</section>
-		)}
-
-		{/* ── YOUTUBE VIDEOS ── */}
-		{youtubeVideos.length > 0 && (
-			<section class="videos">
-				<header class="section-header">
-					<span class="section-eyebrow">{home.videoEyebrow}</span>
-					<a href="https://www.youtube.com/@paritsea" target="_blank" rel="noreferrer" class="section-more">{home.videoCTA}</a>
-				</header>
-				<div class="videos-grid">
-					{youtubeVideos.map((video) => (
-						<a
-							href={`https://www.youtube.com/watch?v=${video.id}`}
-							target="_blank"
-							rel="noreferrer"
-							class="video-card"
-						>
-							<div class="video-thumb-wrap">
-								<img
-									src={`https://i3.ytimg.com/vi/${video.id}/hqdefault.jpg`}
-									alt={video.title}
-									class="video-thumb"
-									loading="lazy"
-								/>
-								<span class="video-play-icon">
-									<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 19,12 8,19"/></svg>
-								</span>
-							</div>
-							<p class="video-title">{video.title}</p>
-						</a>
-					))}
-				</div>
-			</section>
-		)}
-
-		{/* ── ECOSYSTEM ── */}
-		<section class="ecosystem">
-			<p class="ecosystem-eyebrow">{home.ecosystemLabel}</p>
-			<div class="ecosystem-grid">
-				<a href="https://www.youtube.com/@paritsea" target="_blank" rel="noreferrer" class="ecosystem-card">
-					<h3 class="ecosystem-card-title">{home.ecosystemYoutube}</h3>
-					<p class="ecosystem-card-desc">{home.ecosystemYoutubeDesc}</p>
-				</a>
-				<a href="https://www.threads.com/@paritsea" target="_blank" rel="noreferrer" class="ecosystem-card">
-					<h3 class="ecosystem-card-title">{home.ecosystemThreads}</h3>
-					<p class="ecosystem-card-desc">{home.ecosystemThreadsDesc}</p>
-				</a>
-				<a href="https://www.instagram.com/paritsea" target="_blank" rel="noreferrer" class="ecosystem-card">
-					<h3 class="ecosystem-card-title">{home.ecosystemInstagram}</h3>
-					<p class="ecosystem-card-desc">{home.ecosystemInstagramDesc}</p>
-				</a>
-				<a href="https://www.facebook.com/profile.php?id=61588809970162" target="_blank" rel="noreferrer" class="ecosystem-card">
-					<h3 class="ecosystem-card-title">{home.ecosystemFacebook}</h3>
-					<p class="ecosystem-card-desc">{home.ecosystemFacebookDesc}</p>
-				</a>
-				<a href="https://line.me/ti/g2/Cx989g5gDxh4iLU7luRYVHBAJw4s5ykMqNsY9Q" target="_blank" rel="noreferrer" class="ecosystem-card">
-					<h3 class="ecosystem-card-title">{home.ecosystemLine}</h3>
-					<p class="ecosystem-card-desc">{home.ecosystemLineDesc}</p>
-				</a>
-			<a href="https://www.linkedin.com/company/paritsea/" target="_blank" rel="noreferrer" class="ecosystem-card">
-				<h3 class="ecosystem-card-title">{home.ecosystemSession}</h3>
-				<p class="ecosystem-card-desc">{home.ecosystemSessionDesc}</p>
-			</a>
-			</div>
-		</section>
-
-		<section class="relationship-note" aria-labelledby="relationship-title">
-			<p class="relationship-label">{locale === "th" ? "ความสัมพันธ์กับการนำไปใช้" : "Relationship to application"}</p>
-			<h2 id="relationship-title">{locale === "th" ? "ต้นทางไม่จำเป็นต้องกลายเป็นข้อเสนอขาย" : "The source does not have to become an offer."}</h2>
-			<p>{locale === "th" ? "Paritsea เป็นพื้นที่กำเนิดและรักษางานความคิดต้นทาง ส่วน SE Ocean อาจตีความและนำงานบางส่วนไปใช้กับบริบทองค์กรอย่างรับผิดชอบ การนำไปใช้ไม่ได้เปลี่ยนเจ้าของหรือผู้กำกับต้นทาง" : "Paritsea originates and preserves the intellectual source. SE Ocean may interpret and apply selected work in accountable organizational contexts; application does not transfer ownership of the source."}</p>
-			<a href="https://seocean.co.th" target="_blank" rel="noreferrer">{locale === "th" ? "ดูบริบทการประยุกต์ใช้ที่ SE Ocean →" : "See applied organizational contexts at SE Ocean →"}</a>
-		</section>
-
-		{/* ── CLOSING STATEMENT ── */}
-		<section class="closing">
-			<blockquote class="closing-quote">
-				{home.quote.split("\n").map((line, index) => (
-					<>{index > 0 && <br />}{line}</>
+			<div class="intent-list">
+				{copy.intents.map((intent) => (
+					<a href={localizedPath(intent.href, locale)} class="intent-row">
+						<span class="intent-index">{intent.index}</span>
+						<div>
+							<h3>{intent.title}</h3>
+							<p>{intent.body}</p>
+						</div>
+						<span class="intent-link">{intent.link} <i aria-hidden="true">→</i></span>
+					</a>
 				))}
-			</blockquote>
-			<p class="closing-attr">{home.attr}</p>
+			</div>
 		</section>
 
+		<section class="experience-section" aria-labelledby="journal-title">
+			<div class="experience-section-heading">
+				<div>
+					<p class="experience-label" data-state="moving">{copy.journalLabel}</p>
+					<h2 id="journal-title">{copy.journalTitle}</h2>
+				</div>
+				<div>
+					<p>{copy.journalSummary}</p>
+					<a class="experience-link" href={localizedPath("/journal", locale)}>{copy.openJournal} <span aria-hidden="true">→</span></a>
+				</div>
+			</div>
+			<div class="experience-index">
+				{latestJournal.map((item) => (
+					<a class="experience-index-row" href={item.href}>
+						<div class="experience-index-meta">
+							<span>{copy.workType[item.type]}</span><br />
+							{item.original.data.publishedAt && <time>{formatDateForLocale(item.original.data.publishedAt, locale)}</time>}
+						</div>
+						<div class="experience-index-copy">
+							<h3>{item.entry.data.title}</h3>
+							{item.entry.data.excerpt && <p>{item.entry.data.excerpt}</p>}
+						</div>
+						<div class="experience-index-state">{copy.status[statusFor(item)] ?? statusFor(item)}</div>
+					</a>
+				))}
+			</div>
+		</section>
+
+		<section class="experience-section" aria-labelledby="formal-title">
+			<div class="experience-section-heading">
+				<div>
+					<p class="experience-label" data-state="governed">{copy.formalLabel}</p>
+					<h2 id="formal-title">{copy.formalTitle}</h2>
+				</div>
+				<div>
+					<p>{copy.formalSummary}</p>
+					<a class="experience-link" href={localizedPath("/system", locale)}>{copy.openSystem} <span aria-hidden="true">→</span></a>
+				</div>
+			</div>
+			<div class="experience-index">
+				{featuredFormalized.map((item) => (
+					<a class="experience-index-row" href={item.href}>
+						<div class="experience-index-meta">{copy.workType[item.type]}<br />v{versionFor(item)}</div>
+						<div class="experience-index-copy">
+							<h3>{item.entry.data.title}</h3>
+							{item.entry.data.excerpt && <p>{item.entry.data.excerpt}</p>}
+						</div>
+						<div class="experience-index-state">{copy.status[statusFor(item)] ?? statusFor(item)}</div>
+					</a>
+				))}
+			</div>
+		</section>
+
+		<section class="experience-section thought-path" aria-labelledby="path-title">
+			<div class="experience-section-heading">
+				<div>
+					<p class="experience-label" data-state="named">{copy.pathLabel}</p>
+					<h2 id="path-title">{copy.pathTitle}</h2>
+				</div>
+				<p>{copy.pathSummary}</p>
+			</div>
+			<ol class="thought-path-list">
+				{copy.pathStages.map((stage, index) => {
+					const keys = ["journal", "concept", "framework", "protocol", "standard"] as const;
+					const hrefs = ["/journal", "/concepts", "/system/frameworks", "/system/protocols", "/system/standards"];
+					return (
+						<li data-state={stageState(keys[index])}>
+							<a href={localizedPath(hrefs[index], locale)}>
+								<span>{String(index + 1).padStart(2, "0")}</span>
+								<strong>{stage}</strong>
+								<small>{counts[keys[index]]}</small>
+							</a>
+						</li>
+					);
+				})}
+			</ol>
+		</section>
+
+		<section class="experience-section home-author" aria-labelledby="author-title">
+			<div class="experience-note">
+				<div>
+					<p class="experience-label" data-state="named">{copy.authorLabel}</p>
+					<h2 id="author-title">{copy.authorTitle}</h2>
+				</div>
+				<div>
+					<p>{copy.authorBody}</p>
+					<a class="experience-link" href={localizedPath("/about", locale)}>{copy.authorLink} <span aria-hidden="true">→</span></a>
+				</div>
+			</div>
+		</section>
+
+		<section class="experience-section home-application" aria-labelledby="applied-title">
+			<div class="experience-note" data-context="applied">
+				<div>
+					<p class="experience-label" data-state="applied">{copy.appliedLabel}</p>
+					<h2 id="applied-title">{copy.appliedTitle}</h2>
+				</div>
+				<div>
+					<p>{copy.appliedBody}</p>
+					<a class="experience-link" href="https://seocean.co.th" target="_blank" rel="noreferrer">{copy.appliedLink} <span aria-hidden="true">↗</span></a>
+				</div>
+			</div>
+		</section>
+
+		<section class="home-return" aria-labelledby="return-title">
+			<p class="experience-label" data-state="moving">{copy.returnLabel}</p>
+			<h2 id="return-title">{copy.returnTitle}</h2>
+			<p>{copy.returnBody}</p>
+			<a class="experience-link" href="/rss.xml">{copy.returnLink} <span aria-hidden="true">↗</span></a>
+		</section>
 	</div>
 </Base>
 
 <style>
-	/* ─── Landing wrapper ─── */
-	.landing {
-		max-width: var(--wide-width);
-		margin: 0 auto;
-		padding: 0 var(--spacing-8) var(--spacing-24);
+	.home-page {
+		width: var(--wide-width);
+		margin-inline: auto;
+		padding-bottom: var(--spacing-24);
 	}
 
-	.relationship-note {
+	.home-hero {
 		display: grid;
-		grid-template-columns: 180px minmax(260px, .8fr) 1.2fr;
-		gap: var(--spacing-8);
-		padding: var(--spacing-12) 0;
-		border-top: 1px solid var(--color-applied);
+		grid-template-columns: minmax(0, 1.25fr) minmax(290px, 0.55fr);
+		gap: clamp(var(--spacing-12), 8vw, var(--spacing-32));
+		align-items: end;
+		min-height: min(780px, calc(100dvh - var(--nav-height)));
+		padding-block: clamp(var(--spacing-16), 9vw, var(--spacing-32));
 		border-bottom: 1px solid var(--color-border);
 	}
 
-	.relationship-label {
-		font-family: var(--font-mono);
-		font-size: var(--font-size-sm);
-		color: var(--color-applied);
+	.home-hero-copy .experience-title {
+		max-width: 12ch;
 	}
 
-	.relationship-note h2 { font-size: var(--font-size-2xl); }
-	.relationship-note > p:last-of-type { max-width: 62ch; color: var(--color-text-secondary); }
-	.relationship-note a { grid-column: 3; color: var(--color-applied); font-family: var(--font-sans); }
-	:global(:lang(th)) .relationship-label { font-family: var(--font-sans); font-size: var(--font-size-sm); letter-spacing: 0; line-height: 1.55; }
-	:global(:lang(th)) .relationship-note > p:last-of-type { font-size: 1.0625rem; line-height: 1.85; letter-spacing: 0; }
-
-	@media (max-width: 820px) {
-		.relationship-note { grid-template-columns: 1fr; }
-		.relationship-note a { grid-column: auto; }
-	}
-
-	/* ─── HERO ─── */
-	.hero {
-		display: grid;
-		grid-template-columns: 1fr 220px;
-		gap: var(--spacing-16);
+	.home-hero-actions {
+		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
-		padding: 5rem 0 var(--spacing-16);
-		border-bottom: 1px solid var(--color-border-subtle);
-		margin-bottom: var(--spacing-12);
+		gap: var(--spacing-5) var(--spacing-7);
+		margin-top: var(--spacing-10);
 	}
 
-	.hero-content {
-		max-width: 740px;
-	}
-
-	/* ─── HERO MAP (right panel) ─── */
-	.hero-map {
-		align-self: center;
-		padding-left: var(--spacing-8);
-		border-left: 1px solid var(--color-border-subtle);
-		position: relative;
-	}
-
-	.hero-map::before {
-		content: "";
-		position: absolute;
-		left: -1px;
-		top: 0;
-		width: 1px;
-		height: 34%;
-		background: var(--color-accent);
-	}
-
-	.hero-map-label {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-2xs);
-		font-weight: 600;
-		letter-spacing: var(--tracking-widest);
-		text-transform: uppercase;
-		color: var(--color-muted);
-		margin: 0 0 var(--spacing-5);
-	}
-
-	.hero-map-list {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: flex;
-		flex-direction: column;
-		gap: var(--spacing-4);
-	}
-
-	.hero-map-item {
-		margin: 0;
-	}
-
-	.hero-map-link {
-		display: flex;
-		align-items: baseline;
-		gap: var(--spacing-3);
-		text-decoration: none;
-		color: inherit;
-		transition: color var(--transition-fast);
-	}
-
-	.hero-map-link:hover {
-		color: var(--color-accent);
-		opacity: 1;
-	}
-
-	.hero-map-num {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-2xs);
-		letter-spacing: var(--tracking-widest);
-		color: var(--color-accent);
-		opacity: 0.5;
-		flex-shrink: 0;
-		transition: opacity var(--transition-fast);
-	}
-
-	.hero-map-link:hover .hero-map-num {
-		opacity: 1;
-	}
-
-	.hero-map-name {
-		font-family: var(--font-serif);
-		font-size: var(--font-size-base);
-		font-weight: 700;
-		line-height: 1.2;
-		color: var(--color-text);
-	}
-
-	.hero-eyebrow {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-xs);
-		font-weight: 600;
-		letter-spacing: var(--tracking-widest);
-		text-transform: uppercase;
-		color: var(--color-accent);
-		margin: 0 0 var(--spacing-6);
+	.home-primary-link {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.5rem;
-	}
-
-	.hero-eyebrow::before {
-		content: "◆";
-		font-size: 0.7em;
-		color: var(--color-accent);
-		opacity: 0.9;
-	}
-
-	.hero-statement {
-		font-family: var(--font-serif);
-		font-size: clamp(2.25rem, 4.5vw, 3.75rem);
-		font-weight: 700;
-		line-height: 1.15;
-		letter-spacing: var(--tracking-tight);
-		color: var(--color-text);
-		margin: 0 0 var(--spacing-6);
-	}
-
-	.hero-statement br {
-		content: "";
-		display: block;
-		margin: 0.1em 0;
-	}
-
-	.hero-sub {
-		font-size: var(--font-size-lg);
-		line-height: 1.7;
-		color: var(--color-text-secondary);
-		max-width: 640px;
-		margin: 0 0 var(--spacing-10);
-	}
-
-	.hero-actions {
-		display: flex;
-		gap: var(--spacing-4);
-		align-items: center;
-	}
-
-	.btn-primary {
-		display: inline-block;
-		padding: var(--spacing-3) var(--spacing-7);
-		background: var(--color-accent);
-		color: var(--color-on-accent);
-		text-decoration: none;
-		font-family: var(--font-sans);
-		font-size: var(--font-size-sm);
-		font-weight: 500;
-		letter-spacing: 0.02em;
-		transition: background var(--transition-fast), transform var(--transition-fast);
-	}
-
-	.btn-primary:hover {
-		background: var(--color-accent-hover);
-		transform: translateY(-1px);
-		opacity: 1;
-	}
-
-	.btn-secondary {
-		display: inline-block;
-		padding: var(--spacing-3) var(--spacing-7);
-		border: 1px solid var(--color-border);
-		color: var(--color-text-secondary);
-		text-decoration: none;
-		font-family: var(--font-sans);
-		font-size: var(--font-size-sm);
-		font-weight: 500;
-		letter-spacing: 0.02em;
-		transition: border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
-	}
-
-	.btn-secondary:hover {
-		border-color: var(--color-accent);
-		color: var(--color-text);
-		transform: translateY(-1px);
-		opacity: 1;
-	}
-
-	.btn-text {
-		display: inline-flex;
-		align-items: center;
-		min-height: 44px;
-		color: var(--color-text-secondary);
-		text-decoration: none;
-		font-family: var(--font-sans);
-		font-size: var(--font-size-sm);
-		font-weight: 500;
-		transition: color var(--transition-fast), transform var(--transition-fast);
-	}
-
-	.btn-text:hover {
-		color: var(--color-accent);
-		transform: translateX(2px);
-		opacity: 1;
-	}
-
-	/* ─── HERO MICRO-CREDIT ─── */
-	.hero-credit {
-		display: flex;
-		align-items: center;
-		gap: var(--spacing-2);
-		margin-top: var(--spacing-8);
-	}
-
-	.hero-credit-img {
-		width: 26px;
-		height: 26px;
-		border-radius: 50%;
-		object-fit: cover;
-		opacity: 0.72;
-	}
-
-	.hero-credit-name {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-xs);
-		color: var(--color-text-secondary);
-		letter-spacing: 0.01em;
-	}
-
-	.hero-credit-sep {
-		font-size: var(--font-size-xs);
-		color: var(--color-muted);
-	}
-
-	.hero-credit-about {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-xs);
-		color: var(--color-accent);
-		text-decoration: none;
-		letter-spacing: 0.01em;
-		transition: opacity var(--transition-fast);
-	}
-
-	.hero-credit-about:hover {
-		opacity: 0.7;
-	}
-
-	/* ─── WORLDVIEW ─── */
-	.worldview {
-		padding: var(--spacing-12) var(--spacing-8);
-		border-bottom: 1px solid var(--color-border-subtle);
-		margin-bottom: var(--spacing-10);
-		position: relative;
-		background:
-			linear-gradient(to right, var(--color-bg-subtle) 0%, transparent 22%),
-			linear-gradient(to bottom, color-mix(in srgb, var(--color-border-subtle) 50%, transparent) 1px, transparent 1px) 0 0 / 100% 3.75rem;
-		margin-left: calc(-1 * var(--spacing-8));
-		margin-right: calc(-1 * var(--spacing-8));
-	}
-
-	.worldview::before {
-		content: "source note";
-		position: absolute;
-		top: var(--spacing-12);
-		right: var(--spacing-8);
-		font-family: var(--font-sans);
-		font-size: var(--font-size-2xs);
-		letter-spacing: var(--tracking-widest);
-		text-transform: uppercase;
-		color: var(--color-muted);
-	}
-
-	.worldview-content {
-		max-width: 780px;
-	}
-
-	.worldview-eyebrow {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-xs);
-		font-weight: 600;
-		letter-spacing: var(--tracking-widest);
-		text-transform: uppercase;
-		color: var(--color-accent);
-		margin: 0 0 var(--spacing-5);
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-	}
-
-	.worldview-eyebrow::before {
-		content: "◆";
-		font-size: 0.7em;
-		color: var(--color-accent);
-		opacity: 0.9;
-	}
-
-	.worldview-headline {
-		font-family: var(--font-serif);
-		font-size: clamp(var(--font-size-xl), 2.5vw, var(--font-size-2xl));
-		font-weight: 700;
-		line-height: 1.2;
-		color: var(--color-text);
-		margin: 0 0 var(--spacing-6);
-		letter-spacing: var(--tracking-tight);
-		max-width: 700px;
-	}
-
-	.worldview-body {
-		display: flex;
-		flex-direction: column;
-		gap: var(--spacing-4);
-		margin-bottom: var(--spacing-6);
-	}
-
-	.worldview-body p {
-		font-size: var(--font-size-base);
-		line-height: 1.7;
-		color: var(--color-text-secondary);
-		margin: 0;
-		max-width: 700px;
-	}
-
-	.worldview-coda {
-		font-family: var(--font-serif);
-		font-size: var(--font-size-lg);
-		font-weight: 600;
-		line-height: 1.5;
-		color: var(--color-text);
-		margin: var(--spacing-6) 0 0;
-		padding-top: var(--spacing-5);
-		border-top: 1px solid var(--color-border-subtle);
-		max-width: 700px;
-	}
-
-	/* ─── LENS ─── */
-	.lens-panel {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) 320px;
-		gap: var(--spacing-14);
-		align-items: end;
-		margin-bottom: var(--spacing-14);
-		padding: var(--spacing-10) 0 var(--spacing-14);
-		border-bottom: 1px solid var(--color-border-subtle);
-	}
-
-	.lens-panel-copy {
-		max-width: 760px;
-	}
-
-	.lens-eyebrow {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-xs);
-		font-weight: 600;
-		letter-spacing: var(--tracking-widest);
-		text-transform: uppercase;
-		color: var(--color-accent);
-		margin: 0 0 var(--spacing-4);
-	}
-
-	.lens-title {
-		font-family: var(--font-serif);
-		font-size: clamp(2rem, 5vw, 4rem);
-		line-height: 1.05;
-		letter-spacing: var(--tracking-tight);
-		margin: 0 0 var(--spacing-6);
-	}
-
-	.lens-panel-copy p {
-		font-size: var(--font-size-lg);
-		line-height: var(--leading-relaxed);
-		color: var(--color-text-secondary);
-		margin: 0 0 var(--spacing-4);
-		max-width: 680px;
-	}
-
-	.lens-link {
-		display: inline-flex;
-		margin-top: var(--spacing-3);
-		font-family: var(--font-sans);
-		font-size: var(--font-size-sm);
-		color: var(--color-accent);
-		text-decoration: none;
-	}
-
-	.lens-panel-source {
-		border-left: 1px solid var(--color-border-subtle);
-		padding-left: var(--spacing-8);
-	}
-
-	.lens-portrait {
-		width: 128px;
-		height: 160px;
-		object-fit: cover;
-		filter: grayscale(0.15);
-		margin-bottom: var(--spacing-5);
-	}
-
-	.lens-source-note span {
-		font-family: var(--font-serif);
-		font-size: var(--font-size-xl);
-		color: var(--color-text);
-	}
-
-	.lens-source-note p {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-sm);
-		line-height: var(--leading-relaxed);
-		color: var(--color-muted);
-		margin: var(--spacing-2) 0 0;
-	}
-
-	:lang(th) .btn-primary,
-	:lang(th) .btn-secondary,
-	:lang(th) .btn-text,
-	:lang(th) .hero-map-label,
-	:lang(th) .hero-map-num,
-	:lang(th) .hero-eyebrow,
-	:lang(th) .worldview-eyebrow,
-	:lang(th) .lens-eyebrow,
-	:lang(th) .topics-eyebrow,
-	:lang(th) .section-eyebrow,
-	:lang(th) .section-more,
-	:lang(th) .record-num,
-	:lang(th) .record-tag,
-	:lang(th) .ecosystem-eyebrow,
-	:lang(th) .closing-attr {
-		letter-spacing: 0;
-		line-height: 1.6;
-	}
-
-	:lang(th) .hero-statement,
-	:lang(th) .worldview-headline,
-	:lang(th) .lens-title,
-	:lang(th) .topic-card-title,
-	:lang(th) .record-title,
-	:lang(th) .ecosystem-card-title,
-	:lang(th) .closing-quote {
-		letter-spacing: 0;
-		line-height: 1.4;
-	}
-
-	:lang(th) .worldview::before {
-		content: "บันทึกต้นทาง";
-		letter-spacing: 0;
-		line-height: 1.6;
-	}
-
-	:lang(th) .closing-quote {
-		font-style: normal;
-	}
-
-	/* ─── TOPICS ─── */
-	.topics {
-		padding: var(--spacing-10) 0;
-		border-bottom: 1px solid var(--color-border-subtle);
-		margin-bottom: var(--spacing-10);
-	}
-
-	.topics-eyebrow {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-xs);
-		font-weight: 600;
-		letter-spacing: var(--tracking-widest);
-		text-transform: uppercase;
-		color: var(--color-accent);
-		margin: 0 0 var(--spacing-6);
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-	}
-
-	.topics-eyebrow::before {
-		content: "◆";
-		font-size: 0.7em;
-		color: var(--color-accent);
-		opacity: 0.9;
-	}
-
-	.topics-grid {
-		display: grid;
-		grid-template-columns: repeat(4, 1fr);
-		gap: var(--spacing-8);
-		counter-reset: topic-layer;
-	}
-
-	.topic-card {
-		padding: var(--spacing-5) 0 0;
-		border-top: 1px solid var(--color-border-subtle);
-		background: transparent;
-		position: relative;
-		counter-increment: topic-layer;
-		transition: border-color var(--transition-base);
-	}
-
-	.topic-card::before {
-		content: "0" counter(topic-layer);
-		display: block;
-		font-family: var(--font-mono);
-		font-size: var(--font-size-xs);
-		color: var(--color-accent);
-		margin-bottom: var(--spacing-5);
-		opacity: 0.72;
-	}
-
-	.topic-card:hover {
-		border-color: var(--color-accent);
-	}
-
-	.topic-card-title {
-		font-family: var(--font-serif);
-		font-size: var(--font-size-lg);
-		font-weight: 700;
-		color: var(--color-text);
-		margin: 0 0 var(--spacing-3);
-		line-height: 1.2;
-	}
-
-	.topic-card-desc {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-sm);
-		line-height: var(--leading-relaxed);
-		color: var(--color-text-secondary);
-		margin: 0;
-	}
-
-	/* ─── Section common ─── */
-	.section-header {
-		display: flex;
 		justify-content: space-between;
-		align-items: baseline;
-		padding-bottom: var(--spacing-4);
-		border-bottom: 1px solid var(--color-border-subtle);
-		margin-bottom: var(--spacing-8);
+		gap: var(--spacing-8);
+		min-width: 260px;
+		min-height: 52px;
+		padding: var(--spacing-3) var(--spacing-5);
+		background: var(--color-text);
+		color: var(--color-bg);
+		text-decoration: none;
+		transition: transform var(--transition-base), background var(--transition-base);
 	}
 
-	.section-eyebrow {
-		font-family: var(--font-sans);
+	.home-primary-link:hover {
+		transform: translateY(-2px);
+		background: var(--color-accent);
+	}
+
+	.home-trace {
+		position: relative;
+		padding: var(--spacing-6) 0 var(--spacing-6) var(--spacing-7);
+		border-left: 1px solid var(--color-border);
+	}
+
+	.home-trace > p:first-child,
+	.home-trace-note {
+		font-family: var(--font-mono);
 		font-size: var(--font-size-xs);
-		font-weight: 500;
-		letter-spacing: var(--tracking-widest);
+		line-height: 1.6;
+		letter-spacing: var(--tracking-wider);
 		text-transform: uppercase;
 		color: var(--color-muted);
-		display: inline-flex;
-		align-items: center;
-		gap: 0.45rem;
 	}
 
-	.section-eyebrow::before {
-		content: "◆";
-		font-size: 0.7em;
-		color: var(--color-accent);
-		opacity: 0.8;
+	.home-trace ol {
+		list-style: none;
+		margin-top: var(--spacing-7);
 	}
 
-	.section-more {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-xs);
-		color: var(--color-text-secondary);
-		text-decoration: none;
-		letter-spacing: 0.01em;
-		transition: color var(--transition-fast);
-	}
-
-	.section-more:hover {
-		color: var(--color-text);
-	}
-
-	/* ─── RECORDS ─── */
-	.records {
-		margin-bottom: var(--spacing-14);
-	}
-
-	.record-tag-video {
-		color: var(--color-accent);
-		border: 1px solid color-mix(in srgb, var(--color-accent) 36%, transparent);
-		padding: 2px 8px;
-	}
-
-	.records-list {
-		display: flex;
-		flex-direction: column;
+	.home-trace li {
 		position: relative;
+		display: grid;
+		grid-template-columns: 2rem 1fr;
+		gap: var(--spacing-3);
+		padding: 0 0 var(--spacing-8) var(--spacing-6);
+		font-family: var(--font-serif);
+		font-size: var(--font-size-lg);
 	}
 
-	.records-list::before {
+	.home-trace li::before {
 		content: "";
 		position: absolute;
-		inset: 0 auto 0 1.25rem;
-		width: 1px;
-		background: color-mix(in srgb, var(--color-border-subtle) 80%, transparent);
-	}
-
-	.record-item {
-		display: grid;
-		grid-template-columns: 2.5rem 1fr auto;
-		gap: var(--spacing-5);
-		align-items: start;
-		padding: var(--spacing-6) 0 var(--spacing-6) var(--spacing-4);
-		border-bottom: 1px solid var(--color-border-subtle);
-		border-left: 3px solid transparent;
-		text-decoration: none;
-		color: inherit;
-		transition: border-left-color var(--transition-fast), opacity var(--transition-fast);
-		position: relative;
-	}
-
-	.record-item:first-child {
-		border-top: none;
-	}
-
-	.record-item:hover {
-		border-left-color: var(--color-accent);
-	}
-
-	.record-item:hover .record-title {
-		opacity: 0.6;
-	}
-
-	.record-num {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-xs);
-		color: var(--color-border);
-		letter-spacing: var(--tracking-wide);
-		padding-top: 3px;
-	}
-
-	.record-body {
-		flex: 1;
-	}
-
-	.record-title {
-		font-family: var(--font-serif);
-		font-size: var(--font-size-lg);
-		font-weight: 700;
-		line-height: 1.25;
-		color: var(--color-text);
-		margin: 0 0 var(--spacing-2);
-		transition: opacity var(--transition-fast);
-	}
-
-	.record-excerpt {
-		font-size: var(--font-size-sm);
-		line-height: var(--leading-relaxed);
-		color: var(--color-text-secondary);
-		margin: 0;
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
-	}
-
-	.record-meta {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-end;
-		gap: var(--spacing-2);
-		min-width: 90px;
-		padding-top: 3px;
-	}
-
-	.record-tag {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-2xs);
-		letter-spacing: var(--tracking-wide);
-		text-transform: uppercase;
-		color: var(--color-muted);
-		white-space: nowrap;
-	}
-
-	.record-date {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-xs);
-		color: var(--color-muted);
-		white-space: nowrap;
-	}
-
-	/* ─── YOUTUBE VIDEOS ─── */
-	.videos {
-		margin-bottom: var(--spacing-14);
-	}
-
-	.videos-grid {
-		display: grid;
-		grid-template-columns: repeat(4, 1fr);
-		gap: var(--spacing-5);
-	}
-
-	.video-card {
-		display: flex;
-		flex-direction: column;
-		text-decoration: none;
-		color: inherit;
-		transition: transform var(--transition-fast);
-	}
-
-	.video-card:hover {
-		transform: translateY(-2px);
-	}
-
-	.video-card:hover .video-title {
-		color: var(--color-accent);
-	}
-
-	.video-thumb-wrap {
-		position: relative;
-		aspect-ratio: 16 / 9;
-		background: var(--color-bg-subtle);
-		overflow: hidden;
-		margin-bottom: var(--spacing-3);
-		border: 1px solid var(--color-border-subtle);
-	}
-
-	.video-thumb {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		display: block;
-	}
-
-	.video-play-icon {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		width: 40px;
-		height: 40px;
-		background: rgba(0, 0, 0, 0.65);
-		color: #fff;
+		left: -4px;
+		top: 0.45rem;
+		width: 8px;
+		height: 8px;
+		border: 1px solid var(--color-accent);
 		border-radius: 50%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		transition: background var(--transition-fast);
-		opacity: 0.85;
+		background: var(--color-bg);
 	}
 
-	.video-card:hover .video-play-icon {
+	.home-trace li[data-state="named"]::before {
+		background: color-mix(in srgb, var(--color-accent) 35%, var(--color-bg));
+	}
+
+	.home-trace li[data-state="governed"]::before {
 		background: var(--color-accent);
-		opacity: 1;
 	}
 
-	.video-title {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-sm);
-		line-height: var(--leading-snug);
-		color: var(--color-text);
-		margin: 0;
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
-		transition: color var(--transition-fast);
-	}
-
-	/* ─── ECOSYSTEM ─── */
-	.ecosystem {
-		padding: var(--spacing-10) 0;
-		border-bottom: 1px solid var(--color-border-subtle);
-		margin-bottom: var(--spacing-14);
-	}
-
-	.ecosystem-eyebrow {
-		font-family: var(--font-sans);
+	.home-trace li span {
+		font-family: var(--font-mono);
 		font-size: var(--font-size-xs);
-		font-weight: 600;
-		letter-spacing: var(--tracking-widest);
-		text-transform: uppercase;
-		color: var(--color-accent);
-		margin: 0 0 var(--spacing-6);
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
+		color: var(--color-muted);
 	}
 
-	.ecosystem-eyebrow::before {
-		content: "◆";
-		font-size: 0.7em;
-		color: var(--color-accent);
-		opacity: 0.9;
+	.home-trace-note {
+		max-width: 22ch;
+		text-transform: none;
+		letter-spacing: var(--tracking-wide);
 	}
 
-	.ecosystem-grid {
+	.intent-list {
+		border-top: 1px solid var(--color-border);
+	}
+
+	.intent-row {
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: var(--spacing-5);
-	}
-
-	.ecosystem-card {
-		display: block;
-		padding: var(--spacing-6) var(--spacing-5);
-		border: 1px solid var(--color-border-subtle);
-		text-decoration: none;
+		grid-template-columns: 4rem minmax(0, 1fr) minmax(180px, 0.34fr);
+		gap: var(--spacing-6);
+		align-items: start;
+		padding-block: var(--spacing-8);
+		border-bottom: 1px solid var(--color-border-subtle);
 		color: inherit;
-		transition: border-color var(--transition-fast), background var(--transition-fast);
+		text-decoration: none;
+		transition: padding-inline var(--transition-base), background var(--transition-base);
 	}
 
-	.ecosystem-card:hover {
-		border-color: var(--color-accent);
-		background: var(--color-accent-subtle);
+	.intent-row:hover,
+	.intent-row:focus-visible {
+		padding-inline: var(--spacing-4);
+		background: color-mix(in srgb, var(--color-accent) 5%, transparent);
 	}
 
-	.ecosystem-card-title {
+	.intent-index {
+		font-family: var(--font-mono);
+		font-size: var(--font-size-xs);
+		color: var(--color-accent);
+	}
+
+	.intent-row h3 {
+		max-width: 28ch;
 		font-family: var(--font-serif);
-		font-size: var(--font-size-lg);
-		font-weight: 700;
-		color: var(--color-text);
-		margin: 0 0 var(--spacing-2);
-		line-height: 1.2;
+		font-size: clamp(1.6rem, 2.7vw, 2.75rem);
+		font-weight: 500;
+		line-height: 1.12;
+		letter-spacing: var(--tracking-snug);
+		text-wrap: balance;
 	}
 
-	.ecosystem-card-desc {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-sm);
+	.intent-row p {
+		max-width: 58ch;
+		margin-top: var(--spacing-3);
+		line-height: 1.7;
 		color: var(--color-text-secondary);
-		line-height: var(--leading-relaxed);
-		margin: 0;
 	}
 
-	/* ─── CLOSING ─── */
-	.closing {
-		padding: var(--spacing-10) 0 var(--spacing-8);
-		border-top: 1px solid var(--color-border-subtle);
-		max-width: 640px;
+	.intent-link {
+		align-self: center;
+		justify-self: end;
+		color: var(--color-text-secondary);
+		text-align: right;
 	}
 
-	.closing-quote {
+	.intent-link i {
+		font-style: normal;
+		color: var(--color-accent);
+	}
+
+	.thought-path-list {
+		display: grid;
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+		list-style: none;
+		border-top: 1px solid var(--color-border);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.thought-path-list li {
+		position: relative;
+		border-right: 1px solid var(--color-border-subtle);
+	}
+
+	.thought-path-list li:last-child {
+		border-right: 0;
+	}
+
+	.thought-path-list li::before {
+		content: "";
+		position: absolute;
+		top: -5px;
+		left: var(--spacing-5);
+		width: 9px;
+		height: 9px;
+		border: 1px solid var(--color-accent);
+		border-radius: 50%;
+		background: var(--color-bg);
+	}
+
+	.thought-path-list li[data-state="named"]::before {
+		background: color-mix(in srgb, var(--color-accent) 35%, var(--color-bg));
+	}
+
+	.thought-path-list li[data-state="governed"]::before {
+		background: var(--color-accent);
+	}
+
+	.thought-path-list a {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		gap: var(--spacing-7) var(--spacing-3);
+		min-height: 190px;
+		padding: var(--spacing-7) var(--spacing-5);
+		color: inherit;
+		text-decoration: none;
+		transition: background var(--transition-base);
+	}
+
+	.thought-path-list a:hover {
+		background: color-mix(in srgb, var(--color-accent) 6%, transparent);
+	}
+
+	.thought-path-list span,
+	.thought-path-list small {
+		font-family: var(--font-mono);
+		font-size: var(--font-size-xs);
+		color: var(--color-muted);
+	}
+
+	.thought-path-list strong {
+		align-self: end;
 		font-family: var(--font-serif);
 		font-size: var(--font-size-xl);
-		font-style: italic;
-		line-height: 1.6;
-		color: var(--color-text-secondary);
-		margin: 0 0 var(--spacing-4);
-		border: none;
-		padding: 0;
+		font-weight: 500;
 	}
 
-	.closing-attr {
+	.thought-path-list small {
+		align-self: end;
+		font-size: var(--font-size-sm);
+	}
+
+	.home-return {
+		margin-top: var(--spacing-24);
+		padding: var(--spacing-10);
+		background: var(--color-text);
+		color: var(--color-bg);
+	}
+
+	.home-return .experience-label {
+		color: color-mix(in srgb, var(--color-bg) 65%, transparent);
+	}
+
+	.home-return h2 {
+		max-width: 18ch;
+		margin-top: var(--spacing-5);
+		font-family: var(--font-serif);
+		font-size: clamp(2.25rem, 4vw, 4.5rem);
+		font-weight: 500;
+		line-height: 1.02;
+		letter-spacing: var(--tracking-tight);
+	}
+
+	.home-return > p:not(.experience-label) {
+		max-width: 58ch;
+		margin-top: var(--spacing-5);
+		font-size: var(--font-size-lg);
+		line-height: 1.75;
+		color: color-mix(in srgb, var(--color-bg) 78%, transparent);
+	}
+
+	.home-return .experience-link {
+		margin-top: var(--spacing-6);
+		color: var(--color-bg);
+		text-decoration-color: var(--color-accent);
+	}
+
+	:global(:lang(th)) .home-hero-copy .experience-title {
+		max-width: 13ch;
+	}
+
+	:global(:lang(th)) .home-primary-link,
+	:global(:lang(th)) .home-trace > p,
+	:global(:lang(th)) .home-trace li,
+	:global(:lang(th)) .home-trace li span,
+	:global(:lang(th)) .intent-index,
+	:global(:lang(th)) .thought-path-list span,
+	:global(:lang(th)) .thought-path-list small {
 		font-family: var(--font-sans);
-		font-size: var(--font-size-xs);
-		letter-spacing: var(--tracking-wide);
-		color: var(--color-muted);
-		margin: 0;
+		font-style: normal;
+		letter-spacing: 0;
+		text-transform: none;
 	}
 
-	/* ─── Responsive: 960px ─── */
+	:global(:lang(th)) .home-trace li,
+	:global(:lang(th)) .intent-row h3,
+	:global(:lang(th)) .thought-path-list strong,
+	:global(:lang(th)) .home-return h2 {
+		font-family: var(--font-sans);
+		font-weight: 300;
+		font-style: normal;
+		letter-spacing: 0;
+		line-height: 1.45;
+	}
+
+	:global(:lang(th)) .intent-row p,
+	:global(:lang(th)) .home-return > p:not(.experience-label) {
+		font-family: var(--font-sans);
+		font-size: 1.0625rem;
+		font-style: normal;
+		letter-spacing: 0;
+		line-height: 1.9;
+		word-break: keep-all;
+	}
+
 	@media (max-width: 960px) {
-		.landing {
-			padding: 0 var(--spacing-5) var(--spacing-16);
-		}
-
-		.hero {
+		.home-hero {
 			grid-template-columns: 1fr;
-			gap: 0;
-			padding: 3rem 0 var(--spacing-10);
+			min-height: auto;
 		}
 
-		.hero-map {
-			display: none;
+		.home-trace {
+			max-width: 520px;
 		}
 
-		.hero-statement {
-			font-size: clamp(1.75rem, 4vw, 2.5rem);
+		.intent-row {
+			grid-template-columns: 3rem minmax(0, 1fr);
 		}
 
-		.hero-sub {
-			font-size: var(--font-size-base);
-		}
-
-		.worldview {
-			padding: var(--spacing-8) var(--spacing-5);
-			margin-left: calc(-1 * var(--spacing-5));
-			margin-right: calc(-1 * var(--spacing-5));
-		}
-
-		.worldview::before {
-			display: none;
-		}
-
-		.topics-grid {
-			grid-template-columns: repeat(2, 1fr);
-		}
-
-		.lens-panel {
-			grid-template-columns: 1fr;
-			gap: var(--spacing-8);
-		}
-
-		.lens-panel-source {
-			border-left: 0;
-			border-top: 1px solid var(--color-border-subtle);
-			padding-left: 0;
-			padding-top: var(--spacing-6);
-		}
-
-		.videos-grid {
-			grid-template-columns: repeat(2, 1fr);
-		}
-
-		.ecosystem-grid {
-			grid-template-columns: repeat(2, 1fr);
-		}
-
-		.record-item {
-			grid-template-columns: 2rem 1fr;
-			grid-template-rows: auto auto;
-		}
-
-		.record-meta {
+		.intent-link {
 			grid-column: 2;
-			flex-direction: row;
-			align-items: center;
-			justify-content: flex-start;
-			min-width: unset;
-			padding-top: var(--spacing-2);
+			justify-self: start;
+			text-align: left;
+		}
+
+		.thought-path-list {
+			grid-template-columns: 1fr;
+			border-bottom: 0;
+		}
+
+		.thought-path-list li {
+			border-right: 0;
+			border-bottom: 1px solid var(--color-border-subtle);
+		}
+
+		.thought-path-list li::before {
+			top: var(--spacing-6);
+			left: -5px;
+		}
+
+		.thought-path-list a {
+			min-height: 0;
+			padding: var(--spacing-6);
 		}
 	}
 
-	/* ─── Responsive: 640px ─── */
 	@media (max-width: 640px) {
-		.hero {
-			padding: 2rem 0 var(--spacing-8);
+		.home-hero {
+			gap: var(--spacing-14);
+			padding-block: var(--spacing-12) var(--spacing-16);
 		}
 
-		.hero-statement {
-			font-size: var(--font-size-2xl);
+		.home-hero-copy .experience-title,
+		:global(:lang(th)) .home-hero-copy .experience-title {
+			max-width: none;
 		}
 
-		.hero-actions {
-			flex-direction: column;
+		.home-hero-actions {
 			align-items: stretch;
+			flex-direction: column;
 		}
 
-		.hero-actions a {
-			text-align: center;
+		.home-primary-link {
+			min-width: 0;
+			width: 100%;
 		}
 
-		.lens-title {
-			font-size: var(--font-size-2xl);
-			line-height: 1.25;
-		}
-
-		.topics-grid {
+		.intent-row {
 			grid-template-columns: 1fr;
+			gap: var(--spacing-3);
+			padding-block: var(--spacing-6);
 		}
 
-		.videos-grid {
-			grid-template-columns: repeat(2, 1fr);
+		.intent-link {
+			grid-column: auto;
 		}
 
-		.ecosystem-grid {
-			grid-template-columns: 1fr;
-		}
-
-		.closing-quote {
-			font-size: var(--font-size-lg);
+		.home-return {
+			margin-top: var(--spacing-20);
+			padding: var(--spacing-7) var(--spacing-5);
 		}
 	}
 </style>

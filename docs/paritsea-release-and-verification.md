@@ -58,3 +58,14 @@ No production D1 mutation or Worker deployment occurs before that approval.
 - On 2026-07-16, the existing administrator and GitHub account linkage were restored from the legacy `paritsea-site` database after the production binding was found to contain content but no EmDash owner state. No passkey credential or session token was copied.
 - The pre-repair Time Travel bookmark is `00000d52-00000000-000050aa-aad65476145e2e4174e4ca20cb0d0152`.
 - A redirect from `/_emdash/admin/device` to `/_emdash/admin/setup` now indicates a regression in `emdash:setup_complete`, owner state, or the active D1 binding; do not initialize a second owner before checking those three conditions.
+
+## 2026-07-16 whole-system experience release candidate
+
+- Public navigation now follows visitor intent: Journal, Concepts, Reference work, About, and Use and citation. The stable `/system` and `/ip` route namespaces remain canonical.
+- Home, About, all primary hubs, and the shared Journal/Protocol/Standard archive were rebuilt around the Trace / Margin / Revision grammar.
+- Detail templates no longer manufacture decorative source diagrams or expose comments and generic widgets as if intellectual records were blog posts. Source images appear only when a record has an image.
+- Thai browser QA confirmed Sarabun at 17px / 1.9 for long-form detail content, zero letter spacing, and no horizontal overflow at 390px. EN and TH were inspected at 390, 1440, and 3840px; the main frame remains capped by `--wide-width` while reading measure remains independent.
+- Light theme measured contrast: primary text 14.66:1, secondary text 7.32:1, muted text 4.59:1, and oxide accent 5.83:1 against paper. Dark theme measured 14.97:1, 9.90:1, 5.80:1, and 5.71:1 respectively. Borders are structural separators and are not the sole carrier of state.
+- Production admin currently redirects `/_emdash/admin` to GitHub login, not setup. Production Official Use and AgenSea routes both return 200 from the bound D1 data.
+- Dependency audit reports 0 critical, 15 high, 6 moderate, and 2 low production advisories. Automatic remediation requires incompatible EmDash/plugin upgrades and is therefore a separate compatibility-gated release rather than a silent change in this release.
+- The repository `a11y-audit` skill references verification assets that are not present in the installed skill directory. Browser semantic snapshots, keyboard menu operation, computed Thai styles, target-size CSS, reduced-motion CSS, and measured token contrast were used as the available fallback; full per-element hover/focus contrast automation remains a known verification limitation.

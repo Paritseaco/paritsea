@@ -1,49 +1,58 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
-import PageRoleHeader from "../../components/PageRoleHeader.astro";
 import { getAstroLocale, localizedPath } from "../../utils/i18n";
 
 const locale = getAstroLocale(Astro);
-const intro = locale === "th"
-	? "ศูนย์รวมขอบเขตการใช้ สิทธิ์การอ้างอิง และระเบียน Official Use ของงานที่ Paritsea รักษาไว้ หน้านี้ไม่ใช่ service catalogue และการมีชื่ออยู่ในระบบไม่ได้สร้าง certification โดยอัตโนมัติ"
-	: "The hub for use boundaries, citation terms, and Official Use records for work stewarded by Paritsea. This is not a service catalogue, and appearing here does not create certification by default.";
+const copy = locale === "th" ? {
+	title: "การใช้และอ้างอิง — Paritsea",
+	role: "ศูนย์รวมขอบเขตการใช้",
+	headline: "เปิดให้อ่าน ไม่ได้แปลว่าไม่มีขอบเขต",
+	summary: "พื้นที่นี้อธิบายวิธีอ้าง สอน ดัดแปลง และนำงานของ Paritsea ไปใช้ รวมถึงระเบียนการใช้ที่มีสถานะชัดเจน ไม่ใช่หน้าขายสิทธิ์หรือช่องทางรับงาน",
+	items: [
+		{ number: "01", state: "ข้อกำหนด", title: "การใช้และการอ้างอิง", body: "แยกสิ่งที่ทำได้ด้วยการให้ที่มา สิ่งที่ต้องขออนุญาต และสิ่งที่ไม่ควรอ้างว่าเป็นงานต้นฉบับ", href: "/ip/licensing", action: "อ่านขอบเขตการใช้" },
+		{ number: "02", state: "ระเบียน", title: "Official Use", body: "ตรวจสถานะ version, scope และผู้ดำเนินการของการใช้ที่ถูกบันทึกไว้ โดยไม่ตีความเป็น certification เกินกว่าข้อมูลจริง", href: "/ip/official-use", action: "เปิดระเบียน" },
+	],
+	independent: "ความเป็นอิสระโดยเจตนา",
+	independentTitle: "การใช้จริงไม่ทำให้ตลาดเป็นผู้ตัดสินต้นทาง",
+	independentBody: "Paritsea ไม่ขายบริการและไม่ปรับข้อสรุปเพื่อ conversion งานอาจถูกนำไปใช้เชิงพาณิชย์โดยผู้ประยุกต์ แต่ provenance, version และ change authority ของฉบับต้นทางยังอยู่ที่นี่",
+} : {
+	title: "Use and citation — Paritsea",
+	role: "Hub for use boundaries",
+	headline: "Open to read does not mean without boundaries",
+	summary: "This hub explains how Paritsea work may be cited, taught, adapted, and applied, and records uses with explicit status. It is not a rights storefront or a route to commission work.",
+	items: [
+		{ number: "01", state: "Terms", title: "Use and citation", body: "Distinguish what attribution permits, what needs separate permission, and what must not be represented as the source work.", href: "/ip/licensing", action: "Read use boundaries" },
+		{ number: "02", state: "Registry", title: "Official Use", body: "Inspect version, scope, and implementer records without treating an entry as certification beyond what the record states.", href: "/ip/official-use", action: "Open registry" },
+	],
+	independent: "Independent by design",
+	independentTitle: "Use in practice does not let the market decide the source",
+	independentBody: "Paritsea does not sell services or optimize conclusions for conversion. Work may be applied commercially by an interpreter, while provenance, version, and change authority for the source remain here.",
+};
 ---
 
-<Base title="IP and Official Use" description={intro} locale={locale}>
-	<div class="ip-shell">
-		<Breadcrumb crumbs={[{ label: locale === "th" ? "หน้าแรก" : "Home", href: localizedPath("/", locale) }, { label: "IP" }]} />
-		<PageRoleHeader role="Hub" eyebrow="Use boundaries and public stewardship" title="IP & Official Use" intro={intro} statusLabel={locale === "th" ? "ไม่ใช่ commercial intake" : "Not a commercial intake path"} />
-		<section class="ip-grid">
-			<a href={localizedPath("/ip/licensing", locale)}>
-				<span>01 · Policy</span>
-				<h2>{locale === "th" ? "สิทธิ์การใช้และการอ้างอิง" : "Licensing and use"}</h2>
-				<p>{locale === "th" ? "ตรวจว่าอะไรอ่าน อ้าง สอน หรือดัดแปลงได้ และอะไรต้องได้รับอนุญาตแยก" : "Check what may be read, cited, taught, or adapted, and what requires separate permission."}</p>
-			</a>
-			<a href={localizedPath("/ip/official-use", locale)}>
-				<span>02 · Registry</span>
-				<h2>Official Use</h2>
-				<p>{locale === "th" ? "ดูระเบียนการนำงานไปใช้ พร้อมสถานะ version, scope และผู้ดำเนินการ" : "Review application records with their status, version, scope, and implementer."}</p>
-			</a>
+<Base title={copy.title} description={copy.summary} locale={locale}>
+	<main class="experience-page ip-page">
+		<Breadcrumb crumbs={[{ label: locale === "th" ? "หน้าแรก" : "Home", href: localizedPath("/", locale) }, { label: locale === "th" ? "การใช้และอ้างอิง" : "Use and citation" }]} />
+		<header class="ip-header"><p class="experience-label" data-state="governed">{copy.role}</p><h1 class="experience-title">{copy.headline}</h1><p class="experience-summary">{copy.summary}</p></header>
+
+		<section class="experience-index ip-index">
+			{copy.items.map((item) => (
+				<a class="experience-index-row" href={localizedPath(item.href, locale)}>
+					<span class="experience-index-meta">{item.number} · {item.state}</span>
+					<div class="experience-index-copy"><h3>{item.title}</h3><p>{item.body}</p></div>
+					<span class="experience-index-state">{item.action} →</span>
+				</a>
+			))}
 		</section>
-		<aside class="independence-note">
-			<h2>{locale === "th" ? "ความเป็นอิสระโดยเจตนา" : "Independent by design"}</h2>
-			<p>{locale === "th" ? "Paritsea ไม่ขายบริการหรือปรับข้อสรุปเพื่อ conversion หน้าที่ของมันคือรักษาต้นทาง provenance และขอบเขตการใช้ การที่บางแนวคิดถูกนำไปใช้เชิงพาณิชย์ที่อื่นไม่ได้เปลี่ยนผู้กำกับต้นทาง" : "Paritsea does not sell services or optimize conclusions for conversion. Its role is to preserve the source, provenance, and use boundaries. Commercial application elsewhere does not transfer stewardship of the source."}</p>
-		</aside>
-	</div>
+
+		<section class="experience-section">
+			<div class="experience-note"><div><p class="experience-label" data-state="moving">{copy.independent}</p><h2>{copy.independentTitle}</h2></div><p>{copy.independentBody}</p></div>
+		</section>
+	</main>
 </Base>
 
 <style>
-	.ip-shell { width: var(--wide-width); margin: 0 auto; padding: var(--spacing-8) 0 var(--spacing-24); }
-	.ip-grid { display: grid; grid-template-columns: repeat(2, 1fr); margin-top: var(--spacing-12); border-top: 1px solid var(--color-border); }
-	.ip-grid a { min-height: 300px; padding: var(--spacing-8); border-right: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
-	.ip-grid a:last-child { border-right: 0; }
-	.ip-grid span { font-family: var(--font-mono); font-size: var(--font-size-sm); color: var(--color-accent); }
-	.ip-grid h2 { margin-top: var(--spacing-12); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 500; }
-	.ip-grid p { max-width: 50ch; margin-top: var(--spacing-5); color: var(--color-text-secondary); }
-	.independence-note { display: grid; grid-template-columns: .7fr 1.3fr; gap: var(--spacing-12); padding: var(--spacing-16) 0; border-bottom: 1px solid var(--color-border); }
-	.independence-note p { max-width: 700px; font-family: var(--font-serif); font-size: var(--font-size-xl); line-height: 1.65; }
-	:global(:lang(th)) .ip-grid span { font-family: var(--font-sans); font-size: var(--font-size-sm); letter-spacing: 0; }
-	:global(:lang(th)) .ip-grid p, :global(:lang(th)) .independence-note p { font-family: var(--font-sans); font-size: 1.0625rem; line-height: 1.9; letter-spacing: 0; }
-	@media (max-width: 700px) { .ip-grid, .independence-note { grid-template-columns: 1fr; } .ip-grid a { border-right: 0; min-height: 0; } }
+	.ip-header { max-width: 1080px; padding: var(--spacing-12) 0 var(--spacing-16); border-bottom: 1px solid var(--color-border); }
+	.ip-index { margin-top: var(--spacing-10); }
 </style>

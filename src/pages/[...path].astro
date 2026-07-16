@@ -10,9 +10,6 @@ import {
 import {
 	Image,
 	PortableText,
-	Comments,
-	CommentForm,
-	WidgetArea,
 } from "emdash/ui";
 import Base from "../layouts/Base.astro";
 import PostCard from "../components/PostCard.astro";
@@ -135,58 +132,6 @@ const docBadge = isRecord
 			: isDoctrine
 				? labels.doctrine
 				: null;
-const articleContext = locale === "th"
-	? isRecord
-		? {
-				kicker: "ต้นทางของระบบ",
-				title: "Journal บันทึกสิ่งที่เห็นก่อนจะถูกทำให้เป็น Framework, Protocol หรือ Standard",
-				body: "หน้านี้คือ first record ของ observation, tension หรือ pattern จากสถานการณ์จริง ยังไม่ใช่เอกสารกำกับ แต่เป็นหลักฐานของวิธีคิดที่อาจตกผลึกในภายหลัง",
-			}
-		: isProtocol
-			? {
-					kicker: "ชั้นข้อกำหนด",
-					title: "Protocol คือ obligation ที่สืบมาจาก Framework",
-					body: "หน้านี้ไม่ใช่บทความความเห็น แต่เป็นข้อกำหนดที่ทำให้ Framework มีผลในทางปฏิบัติ การเปลี่ยนความหมายต้นทางต้องผ่าน revision ที่เปิดเผยและกำกับด้วยเวอร์ชัน",
-				}
-			: isStandard
-				? {
-						kicker: "ชั้นเกณฑ์ตรวจสอบ",
-						title: "Standard คือ threshold ที่ทำให้ Protocol ตรวจสอบได้",
-						body: "หน้านี้วางเกณฑ์เพื่อดูว่าข้อกำหนดของ Protocol เกิดขึ้นจริงหรือไม่ ไม่ใช่ service offer และไม่ใช่ certification โดยตัวมันเอง",
-					}
-				: isImplementation
-					? {
-							kicker: "ตัวอย่างการใช้",
-							title: "Implementation คือบันทึกการแปลแนวคิดไปใช้จริง ไม่ใช่ชั้นต้นทางของ Paritsea",
-							body: "หน้าประเภทนี้เป็นหลักฐานรองของการใช้งานในโลกจริง ชั้นต้นทางยังคงอยู่ที่ Lens, Journal, System และ IP / Official Use",
-						}
-					: null
-	: isRecord
-		? {
-				kicker: "System origin",
-				title: "Journal records what is seen before it becomes Framework, Protocol, or Standard.",
-				body: "This page is a first record of an observation, tension, or pattern from real situations. It is not yet a governed instrument; it is evidence of thinking that may crystallize later.",
-			}
-		: isProtocol
-			? {
-					kicker: "Obligation layer",
-					title: "A Protocol is an obligation derived from the Framework.",
-					body: "This is not an opinion essay. It is a governed requirement that gives the Framework practical force; changes to the canonical source require an explicit, versioned revision.",
-				}
-			: isStandard
-				? {
-						kicker: "Verification layer",
-						title: "A Standard is a threshold that makes a Protocol verifiable.",
-						body: "This page defines criteria for whether Protocol obligations hold in practice. It is not a service offer and does not create certification by itself.",
-					}
-				: isImplementation
-					? {
-							kicker: "Applied record",
-							title: "Implementation documents applied use; it is not Paritsea's source layer.",
-							body: "Implementation pages are secondary evidence of real-world application. The source remains Lens, Journal, System, and IP / Official Use.",
-						}
-					: null;
-
 // Bylines are already hydrated by getEmDashEntry
 const bylines = post.data.bylines ?? [];
 
@@ -367,55 +312,12 @@ const lateralPosts = otherPosts
 >
 	<div class="article-breadcrumb"><Breadcrumb crumbs={breadcrumbCrumbs} /></div>
 	<article class="article">
-		{/* Hero: Full-width featured image or geometric illustration */}
-		<div class="article-hero">
-			{
-				post.data.featured_image ? (
-					<div {...post.edit.featured_image}>
-						<Image image={post.data.featured_image} />
-					</div>
-				) : (
-					<svg class="article-hero-illustration" viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
-						<!-- vertical grid lines -->
-						<line x1="0"   y1="0" x2="0"   y2="200" stroke="currentColor" stroke-width="0.5" opacity="0.08" />
-						<line x1="80"  y1="0" x2="80"  y2="200" stroke="currentColor" stroke-width="0.5" opacity="0.08" />
-						<line x1="160" y1="0" x2="160" y2="200" stroke="currentColor" stroke-width="0.5" opacity="0.08" />
-						<line x1="240" y1="0" x2="240" y2="200" stroke="currentColor" stroke-width="0.5" opacity="0.08" />
-						<line x1="320" y1="0" x2="320" y2="200" stroke="currentColor" stroke-width="0.5" opacity="0.08" />
-						<line x1="400" y1="0" x2="400" y2="200" stroke="currentColor" stroke-width="0.5" opacity="0.08" />
-						<line x1="480" y1="0" x2="480" y2="200" stroke="currentColor" stroke-width="0.5" opacity="0.08" />
-						<line x1="560" y1="0" x2="560" y2="200" stroke="currentColor" stroke-width="0.5" opacity="0.08" />
-						<line x1="640" y1="0" x2="640" y2="200" stroke="currentColor" stroke-width="0.5" opacity="0.08" />
-						<line x1="720" y1="0" x2="720" y2="200" stroke="currentColor" stroke-width="0.5" opacity="0.08" />
-						<line x1="800" y1="0" x2="800" y2="200" stroke="currentColor" stroke-width="0.5" opacity="0.08" />
-						<!-- horizontal grid lines -->
-						<line x1="0" y1="0"   x2="800" y2="0"   stroke="currentColor" stroke-width="0.5" opacity="0.08" />
-						<line x1="0" y1="40"  x2="800" y2="40"  stroke="currentColor" stroke-width="0.5" opacity="0.08" />
-						<line x1="0" y1="80"  x2="800" y2="80"  stroke="currentColor" stroke-width="0.5" opacity="0.08" />
-						<line x1="0" y1="120" x2="800" y2="120" stroke="currentColor" stroke-width="0.5" opacity="0.08" />
-						<line x1="0" y1="160" x2="800" y2="160" stroke="currentColor" stroke-width="0.5" opacity="0.08" />
-						<line x1="0" y1="200" x2="800" y2="200" stroke="currentColor" stroke-width="0.5" opacity="0.08" />
-						<!-- nodes -->
-						<circle cx="80"  cy="40"  r="3.5" fill="currentColor" opacity="0.55" />
-						<circle cx="240" cy="80"  r="2.5" fill="currentColor" opacity="0.35" />
-						<circle cx="400" cy="40"  r="4"   fill="currentColor" opacity="0.65" />
-						<circle cx="560" cy="120" r="3"   fill="currentColor" opacity="0.4"  />
-						<circle cx="720" cy="80"  r="3.5" fill="currentColor" opacity="0.5"  />
-						<circle cx="160" cy="160" r="2.5" fill="currentColor" opacity="0.3"  />
-						<circle cx="400" cy="160" r="3"   fill="currentColor" opacity="0.45" />
-						<circle cx="640" cy="160" r="2.5" fill="currentColor" opacity="0.35" />
-						<!-- connecting paths -->
-						<line x1="80"  y1="40"  x2="240" y2="80"  stroke="currentColor" stroke-width="1" opacity="0.18" />
-						<line x1="240" y1="80"  x2="400" y2="40"  stroke="currentColor" stroke-width="1" opacity="0.18" />
-						<line x1="400" y1="40"  x2="560" y2="120" stroke="currentColor" stroke-width="1" opacity="0.15" />
-						<line x1="560" y1="120" x2="720" y2="80"  stroke="currentColor" stroke-width="1" opacity="0.15" />
-						<line x1="80"  y1="40"  x2="160" y2="160" stroke="currentColor" stroke-width="1" opacity="0.12" />
-						<line x1="400" y1="40"  x2="400" y2="160" stroke="currentColor" stroke-width="1" opacity="0.12" />
-						<line x1="720" y1="80"  x2="640" y2="160" stroke="currentColor" stroke-width="1" opacity="0.12" />
-					</svg>
-				)
-			}
-		</div>
+		{post.data.featured_image && (
+			<figure class="article-hero" {...post.edit.featured_image}>
+				<Image image={post.data.featured_image} />
+				<figcaption>{locale === "th" ? "ภาพหรือเอกสารต้นทางที่เผยแพร่พร้อมระเบียนนี้" : "Source image or document artifact published with this record"}</figcaption>
+			</figure>
+		)}
 
 		{/* Three-column layout */}
 		<div class="article-grid">
@@ -438,6 +340,9 @@ const lateralPosts = otherPosts
 			{/* Main content */}
 			<div class={`article-main${isDoctrine ? ' article-main--doctrine' : ''}`}>
 				<header class="article-header">
+					<p class="experience-label" data-state={isRecord ? "moving" : "governed"}>
+						{isRecord ? (locale === "th" ? "บันทึกฉบับเต็ม" : "Full Journal entry") : `${contentType} · ${lifecycleStatus}`}
+					</p>
 					{isDoctrine && (
 						<div class="doctrine-authority">
 							<p class="doctrine-authority-label">{labels.constitutionalDocument}</p>
@@ -491,13 +396,6 @@ const lateralPosts = otherPosts
 							<p class="article-excerpt" {...post.edit.excerpt}>{post.data.excerpt}</p>
 						)
 					}
-					{articleContext && (
-						<aside class="article-context-panel">
-							<p class="article-context-kicker">{articleContext.kicker}</p>
-							<h2 class="article-context-title">{articleContext.title}</h2>
-							<p class="article-context-body">{articleContext.body}</p>
-						</aside>
-					)}
 					</header>
 
 				<DocumentRecordMeta
@@ -594,7 +492,7 @@ const lateralPosts = otherPosts
 					</div>
 				)}
 
-				{/* ── AUTHOR CARD ── */}
+				{/* ── AUTHOR RECORD ── */}
 				<div class="article-author-card">
 					<img src="/images/parit-profile.jpg" alt="Parit Ritchai" class="article-author-card-img" />
 					<div class="article-author-card-body">
@@ -602,17 +500,9 @@ const lateralPosts = otherPosts
 						<p class="article-author-card-role">{copy.authorRole}</p>
 						<p class="article-author-card-bio">{copy.authorBio}</p>
 						<div class="article-author-card-links">
-							<a href="https://www.instagram.com/paritsea" target="_blank" rel="noreferrer">{copy.socialInstagram}</a>
-							<a href="https://www.threads.net/@paritsea" target="_blank" rel="noreferrer">{copy.socialThreads}</a>
-							<a href="https://www.youtube.com/@paritsea" target="_blank" rel="noreferrer">{copy.socialYouTube}</a>
-							<a href={localizedPath("/about", locale)}>{copy.about} →</a>
+							<a href={localizedPath("/author/parit-ritchai", locale)}>{locale === "th" ? "ดูระเบียนผู้เขียน" : "Open author record"} →</a>
 						</div>
 					</div>
-				</div>
-
-				<div class="article-comments">
-					<Comments collection="posts" contentId={post.data.id} threaded />
-					<CommentForm collection="posts" contentId={post.data.id} />
 				</div>
 			</div>
 
@@ -625,9 +515,6 @@ const lateralPosts = otherPosts
 							<!-- Populated by JS -->
 						</div>
 					</nav>
-					<div class="sidebar-widgets">
-						<WidgetArea name="sidebar" />
-					</div>
 				</div>
 			</aside>
 		</div>
@@ -1834,6 +1721,14 @@ const lateralPosts = otherPosts
 	:lang(th) .article-author-card-bio {
 		letter-spacing: 0;
 		line-height: 1.9;
+	}
+
+	:lang(th) .article-excerpt,
+	:lang(th) .article-content {
+		font-family: var(--font-sans);
+		font-size: 1.0625rem;
+		font-style: normal;
+		word-break: keep-all;
 	}
 
 	:lang(th) .article-content :global(blockquote) {

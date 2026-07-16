@@ -3,29 +3,18 @@
 // to preserve content IDs and revision history during the IA migration.
 import {
 	getEmDashEntry,
-	getEmDashCollection,
-	getEntryTerms,
 	getSeoMeta,
 	getSiteSettings,
 } from "emdash";
 import {
 	Image,
 	PortableText,
-	Comments,
-	CommentForm,
-	WidgetArea,
 } from "emdash/ui";
 import Base from "../../../layouts/Base.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 import DocumentRecordMeta from "../../../components/DocumentRecordMeta.astro";
-import PostCard from "../../../components/PostCard.astro";
 import ArticleUtilityRail from "../../../components/ArticleUtilityRail.astro";
 import UsageGuidance from "../../../components/UsageGuidance.astro";
-import {
-	isFrameworkPageSlug,
-	resolveFrameworkPage,
-	resolvePostPath,
-} from "../../../utils/public-paths";
 import { getReadingTime } from "../../../utils/reading-time";
 import { resolveBlogSiteIdentity } from "../../../utils/site-identity";
 import { incrementPostViews } from "../../../utils/view-count";
@@ -33,7 +22,6 @@ import {
 	formatDateForLocale,
 	getAstroLocale,
 	localizeEntry,
-	localizeTermLabel,
 	localizedPath,
 	ui,
 } from "../../../utils/i18n";
@@ -71,36 +59,6 @@ const seo = getSeoMeta(post, {
 const bylines = post.data.bylines ?? [];
 const readingTime = getReadingTime(post.data.content);
 const initialViews = await incrementPostViews(post.data.id, { unique: false });
-
-const { entries: recentPosts } = await getEmDashCollection("posts", {
-	orderBy: { published_at: "desc" },
-	limit: 4,
-});
-const otherPosts = recentPosts.filter((p) => p.id !== post.id).slice(0, 3);
-const otherPostsWithTags = await Promise.all(
-	otherPosts.map(async (p) => {
-		const localizedPost = localizeEntry(p, "posts", locale);
-		const cats = await getEntryTerms("posts", p.data.id, "category");
-		const relatedFrameworkPage = resolveFrameworkPage(
-			p.data.framework_page,
-			cats.find((term) => isFrameworkPageSlug(term.slug))?.slug,
-		);
-		const visibleCategories = cats.filter((term) => !isFrameworkPageSlug(term.slug));
-		const href =
-			resolvePostPath(p.id, relatedFrameworkPage, null) ??
-			`/journal/${p.id}`;
-		const postBylines = p.data.bylines ?? [];
-		return {
-			post: localizedPost,
-			cats: (visibleCategories.length > 0 ? visibleCategories : cats).map((term) => ({
-				...term,
-				label: localizeTermLabel(term.label, locale),
-			})),
-			bylines: postBylines,
-			href: localizedPath(href, locale),
-		};
-	})
-);
 
 const lastUpdated = post.data.updatedAt ?? post.data.publishedAt ?? null;
 const lastUpdatedLabel = formatDateForLocale(lastUpdated, locale);
@@ -184,6 +142,7 @@ const lastUpdatedLabel = formatDateForLocale(lastUpdated, locale);
 
 			<div class="article-main article-main--doctrine">
 				<header class="article-header">
+					<p class="experience-label" data-state="governed">{locale === "th" ? "Framework ฉบับเต็ม · current" : "Full Framework · current"}</p>
 					<div class="doctrine-authority">
 						<p class="doctrine-authority-label">{labels.constitutionalDocument}</p>
 						<p class="doctrine-authority-statement">{labels.doctrineNotice}</p>
@@ -236,10 +195,6 @@ const lastUpdatedLabel = formatDateForLocale(lastUpdated, locale);
 					<PortableText value={post.data.content} />
 				</div>
 
-				<div class="article-comments">
-					<Comments collection="posts" contentId={post.data.id} threaded />
-					<CommentForm collection="posts" contentId={post.data.id} />
-				</div>
 			</div>
 
 			<aside class="article-sidebar">
@@ -248,36 +203,10 @@ const lastUpdatedLabel = formatDateForLocale(lastUpdated, locale);
 						<h4 class="toc-title">{labels.onThisPage}</h4>
 						<div class="toc-content" id="toc-content"></div>
 					</nav>
-					<div class="sidebar-widgets">
-						<WidgetArea name="sidebar" />
-					</div>
 				</div>
 			</aside>
 		</div>
 	</article>
-
-	{otherPostsWithTags.length > 0 && (
-		<section class="more-posts">
-			<div class="more-inner">
-				<h2 class="more-title">{labels.continueReading}</h2>
-				<div class="more-grid">
-					{otherPostsWithTags.map(({ post: p, cats: postCats, bylines: postBylines, href }) => (
-						<PostCard
-							title={p.data.title}
-							excerpt={p.data.excerpt}
-							featuredImage={p.data.featured_image}
-							href={href}
-							date={p.data.publishedAt ?? undefined}
-							readingTime={getReadingTime(p.data.content)}
-							tags={postCats.map((c) => ({ slug: c.slug, label: c.label }))}
-							bylines={postBylines}
-							locale={locale}
-						/>
-					))}
-				</div>
-			</div>
-		</section>
-	)}
 
 	<script>
 		function buildToc() {
@@ -357,6 +286,8 @@ const lastUpdatedLabel = formatDateForLocale(lastUpdated, locale);
 		object-fit: cover;
 		filter: grayscale(6%);
 	}
+
+	.article-hero-illustration { display: none; }
 
 	/* Three-column grid */
 	.article-grid {
@@ -501,6 +432,16 @@ const lastUpdatedLabel = formatDateForLocale(lastUpdated, locale);
 	.article-content {
 		font-size: var(--font-size-base);
 		line-height: var(--leading-relaxed);
+	}
+
+	:lang(th) .article-excerpt,
+	:lang(th) .article-content {
+		font-family: var(--font-sans);
+		font-size: 1.0625rem;
+		font-style: normal;
+		letter-spacing: 0;
+		line-height: 1.9;
+		word-break: keep-all;
 	}
 
 	.article-content :global(p) {

@@ -2,16 +2,13 @@
 import { getEmDashCollection, getEntryTerms } from "emdash";
 import Base from "../layouts/Base.astro";
 import Breadcrumb from "./Breadcrumb.astro";
-import UsageGuidance from "./UsageGuidance.astro";
 import { isFrameworkPageSlug, resolveFrameworkPage } from "../utils/public-paths";
 import { getReadingTime } from "../utils/reading-time";
 import {
 	formatDateForLocale,
 	getAstroLocale,
 	localizeEntry,
-	localizeTermLabel,
 	localizedPath,
-	ui,
 } from "../utils/i18n";
 
 interface Props {
@@ -20,718 +17,195 @@ interface Props {
 
 const { slug } = Astro.props;
 const locale = getAstroLocale(Astro);
-const navLabels = ui[locale].navLabels;
-
-let posts = [];
+let result;
 
 try {
-	({ entries: posts } = await getEmDashCollection("posts", {
+	result = await getEmDashCollection("posts", {
 		where: { framework_page: slug },
 		orderBy: { published_at: "desc" },
-	}));
+	});
 } catch {
-	({ entries: posts } = await getEmDashCollection("posts", {
+	result = await getEmDashCollection("posts", {
 		where: { category: slug },
 		orderBy: { published_at: "desc" },
-	}));
+	});
 }
 
-const filteredPosts = await Promise.all(
-	posts.map(async (post) => {
-		const legacyTerms = await getEntryTerms("posts", post.data.id, "category");
-		const frameworkPage = resolveFrameworkPage(
-			post.data.framework_page,
-			legacyTerms.find((term) => isFrameworkPageSlug(term.slug))?.slug,
-		);
-		const categories = legacyTerms.filter((term) => !isFrameworkPageSlug(term.slug));
-		const bylines = post.data.bylines ?? [];
-		return {
-			post: localizeEntry(post, "posts", locale),
-			frameworkPage,
-			cats: (categories.length > 0 ? categories : legacyTerms).map((term) => ({
-				...term,
-				label: localizeTermLabel(term.label, locale),
-			})),
-			bylines,
-		};
-	})
-);
+Astro.cache.set(result.cacheHint);
 
-const scopedPosts = filteredPosts.filter(({ frameworkPage }) => frameworkPage === slug);
+const resolved = await Promise.all(result.entries.map(async (entry) => {
+	const terms = await getEntryTerms("posts", entry.data.id, "category");
+	const frameworkPage = resolveFrameworkPage(
+		entry.data.framework_page,
+		terms.find((term) => isFrameworkPageSlug(term.slug))?.slug,
+	);
+	return {
+		entry: localizeEntry(entry, "posts", locale),
+		frameworkPage,
+	};
+}));
 
-const formatDate = (date: Date) =>
-	formatDateForLocale(date, locale);
-
-const isProtocols = slug === "protocols";
-const isStandards = slug === "standards";
-const isMethod = slug === "the-method";
-const pageTitle = isProtocols ? "Protocols — Paritsea" : isStandards ? "Standards — Paritsea" : "Journal — Paritsea";
-const pageDescription = locale === "th"
-	? isProtocols
-		? "Protocols คือเครื่องมืออ้างอิงเชิงโครงสร้างที่สืบเนื่องจาก Framework และออกแบบให้ปรับใช้ข้ามโดเมนได้โดยไม่เสียความหมายต้นทาง"
-		: isStandards
-			? "Standards นิยามเงื่อนไขที่ตรวจสอบได้ซึ่งสืบเนื่องจาก Protocols เพื่อทำให้ข้อกล่าวอ้างเชิงโครงสร้างประเมินได้จริง"
-			: "Journal คือ archive ของข้อสังเกต การตีความ และคำถามที่ยังเคลื่อนไหว โดยยังไม่อ้างสถานะว่าเป็น Framework, Protocol หรือ Standard"
-	: isProtocols
-		? "Protocols are public structural instruments derived from the Framework and designed for cross-domain adaptation."
-		: isStandards
-			? "Standards define verifiable conditions derived from Protocols and make structural claims assessable."
-			: "Journal is an archive of observations, interpretations, and questions still in motion; publication does not make them a Framework, Protocol, or Standard.";
-const methodFormatLabel = (format: unknown, cats: Array<{ label: string }>) => {
-	if (format === "video-reflection") return "Video Reflection";
-	if (format === "pattern-brief") return "Pattern Brief";
-	if (format === "decision-note") return "Decision Note";
-	const labels = cats.map((cat) => cat.label.toLowerCase());
-	if (labels.some((label) => label.includes("video") || label.includes("วิดีโอ"))) {
-		return "Video Reflection";
-	}
-	if (labels.some((label) => label.includes("brief"))) {
-		return "Pattern Brief";
-	}
-	return null;
-};
-
-const methodStatusLabel = (format: unknown, cats: Array<{ label: string }>) => {
-	if (format === "video-reflection") return locale === "th" ? "สังเกตผ่านวิดีโอ" : "Video observation";
-	if (format === "pattern-brief") return locale === "th" ? "รูปแบบที่เริ่มซ้ำ" : "Pattern emerging";
-	if (format === "decision-note") return locale === "th" ? "บันทึกการตัดสินใจ" : "Decision note";
-	const labels = cats.map((cat) => cat.label.toLowerCase());
-	if (labels.some((label) => label.includes("structural") || label.includes("แรงตึง"))) {
-		return locale === "th" ? "แรงตึงที่ถูกตั้งชื่อ" : "Named tension";
-	}
-	if (labels.some((label) => label.includes("human") || label.includes("มนุษย์"))) {
-		return locale === "th" ? "ต้นทุนมนุษย์ที่ถูกบันทึก" : "Human cost recorded";
-	}
-	return locale === "th" ? "Observation ต้นทาง" : "Source observation";
-};
+const entries = resolved
+	.filter(({ frameworkPage }) => frameworkPage === slug)
+	.map(({ entry }) => ({
+		entry,
+		version: entry.data.document_version ?? "",
+		status: entry.data.lifecycle_status ?? (slug === "the-method" ? "exploring" : "current"),
+		readingTime: getReadingTime(entry.data.content),
+	}));
+const kind = slug === "the-method" ? "journal" : slug === "protocols" ? "protocol" : "standard";
 
 const copy = locale === "th"
 	? {
-			referenceLayer: "ชั้นอ้างอิง",
-			protocolsDescription:
-				"โปรโตคอลคือเครื่องมือเชิงโครงสร้างที่สืบเนื่องจาก Framework แต่ละฉบับนิยามภาระหน้าที่ ขอบเขต และเงื่อนไขความโปร่งใส ที่ปรับใช้ข้ามโดเมนได้โดยไม่เสียความหมายของ Framework",
-			standardsDescription:
-				"มาตรฐานแปลงภาระหน้าที่ของ Framework ให้เป็นเงื่อนไขที่วัดได้ เมื่อโปรโตคอลกำหนดภาระหน้าที่ มาตรฐานจะนิยามเกณฑ์ที่ทำให้ข้อกล่าวอ้างเชิงโครงสร้างประเมินได้จริง",
-			methodDescription:
-				"Journal คือ first record ของ Paritsea บันทึกสิ่งที่ Parit เห็นจากสถานการณ์จริง ทั้งแรงตึงเชิงโครงสร้าง ต้นทุนมนุษย์ และ pattern ที่ยังไม่ควรถูกรีบทำให้เป็นกฎ",
-			methodSecondary:
-				"บันทึกเหล่านี้เป็นพื้นที่ก่อนตกผลึก ไม่ใช่บทความความเห็นและไม่ใช่ social feed เมื่อสิ่งที่เห็นปรากฏซ้ำพอ มันอาจถูกคัดไปเป็น Framework, Protocol, Standard หรือ IP ในอนาคต",
-			methodFlowNote:
-				"บันทึกเหล่านี้คือการสังเกตที่ถูกตั้งชื่อก่อนจะกลายเป็นกฎ การมองก่อนการจัดโครงสร้าง",
-			further: "",
-			protocolsPositionNote:
-				"โปรโตคอลสืบเนื่องจาก Framework — แต่ละฉบับนิยามภาระหน้าที่ที่ต้องคงอยู่ในทางปฏิบัติเชิงโครงสร้าง",
-			standardsPositionNote:
-				"มาตรฐานสืบเนื่องจากโปรโตคอล — แต่ละฉบับนิยามเงื่อนไขที่ตรวจสอบได้ เพื่อประเมินภาระหน้าที่ของโปรโตคอล",
-			publiclyDocumented: "เผยแพร่แล้ว",
-			noProtocols: "ยังไม่มีโปรโตคอลเผยแพร่",
-			noStandards: "ยังไม่มีมาตรฐานเผยแพร่",
-			noEntries: "ยังไม่มีบันทึก",
-			readProtocol: "อ่าน Protocol →",
-			readStandard: "อ่านมาตรฐาน →",
-			minRead: "นาที",
-			aboutProtocols: "เกี่ยวกับโปรโตคอล",
-			aboutProtocolsText:
-				"โปรโตคอลแต่ละฉบับคือเครื่องมือเชิงโครงสร้างสาธารณะ ไม่ใช่คำแนะนำหรือ best practice แต่นิยามข้อกำหนดที่ระบบต้องผ่านหากต้องการกล่าวอ้างความสอดคล้องภายใต้กรอบ Paritsea",
-			derivedFrom: "สืบเนื่องจาก",
-			derivedFromText: "โปรโตคอลทั้งหมดรับอำนาจจาก",
-			doctrineLink: "Paritsea Framework",
-			noContradiction: "และไม่มีโปรโตคอลใดขัดต่อ Framework ฐานรากได้",
-			aboutStandards: "เกี่ยวกับมาตรฐาน",
-			aboutStandardsText:
-				"มาตรฐานแปลงภาระหน้าที่เชิงโครงสร้างให้เป็นเงื่อนไขที่ตรวจสอบได้ ระบุว่าความสอดคล้องมีหน้าตาอย่างไรในทางปฏิบัติ และเปลี่ยนข้อกล่าวอ้างที่เป็นนามธรรมให้เป็นเกณฑ์ที่ทดสอบและนำไปใช้ได้",
-			relationship: "ความสัมพันธ์กับโปรโตคอล",
-			relationshipText:
-				"มาตรฐานทำงานอยู่ใต้โปรโตคอล โปรโตคอลกำหนดภาระหน้าที่ ส่วนมาตรฐานนิยามเกณฑ์ หนึ่งโดเมนโปรโตคอลอาจมีหลายมาตรฐานได้",
-			notWhat: "สิ่งที่บันทึกเหล่านี้ไม่ใช่",
-			notWhatText:
-				"บันทึกเหล่านี้ไม่ใช่คอลัมน์ความเห็น ไม่ใช่ content marketing และไม่ใช่บทวิจารณ์ข่าวอุตสาหกรรม แต่ละบันทึกคือ observation ที่เก็บที่มา น้ำหนัก และบริบทก่อนถูกทำให้เป็นทางการ",
-			whatHappens: "บันทึกเหล่านี้จะไปถึงไหน",
-			whatHappensText:
-				"รูปแบบที่เกิดซ้ำในหลายบันทึกอาจถูกทำให้เป็นโปรโตคอลหรือมาตรฐานในภายหลัง Journal คือที่ที่ปัญหากลายเป็นสิ่งที่อ่านออกได้ ก่อนกลายเป็นสิ่งที่ถูกกำกับ",
-			youtubeBridge: "ดูวิดีโอสะท้อนคิดทั้งหมด",
-		}
+		journal: {
+			pageTitle: "บันทึก — Paritsea",
+			role: "คลังข้อสังเกต",
+			title: "บันทึก",
+			summary: "สิ่งที่ถูกมองเห็นก่อนจะกลายเป็นคำอธิบายที่มั่นคง บันทึกแต่ละชิ้นอาจมีความไม่แน่ใจ เปลี่ยนแปลงได้ และไม่จำเป็นต้องพัฒนาเป็นงานอ้างอิง",
+			boundary: "การเผยแพร่ในบันทึกไม่ได้ทำให้งานชิ้นนั้นเป็น Framework, Protocol หรือ Standard โดยอัตโนมัติ",
+			empty: "ยังไม่มีบันทึกที่เผยแพร่",
+			read: "อ่านบันทึก",
+		},
+		protocol: {
+			pageTitle: "Protocol — Paritsea",
+			role: "คลังงานอ้างอิง",
+			title: "Protocol",
+			summary: "งานที่แปลงหลักการใน Framework ให้เป็นภาระหน้าที่หรือวิธีดำเนินการที่รักษาความหมายต้นทางไว้ได้",
+			boundary: "Protocol ไม่ใช่คำแนะนำทั่วไป ทุกฉบับต้องระบุ version, ขอบเขต และ Framework ที่เป็นต้นทาง",
+			empty: "ยังไม่มี Protocol ที่เผยแพร่",
+			read: "เปิดเอกสาร",
+		},
+		standard: {
+			pageTitle: "Standard — Paritsea",
+			role: "คลังเกณฑ์อ้างอิง",
+			title: "Standard",
+			summary: "เงื่อนไขหรือเกณฑ์ที่ใช้ตรวจว่าภาระหน้าที่ของ Protocol เกิดขึ้นจริงเพียงใด โดยไม่ทำให้บริบทต่างกันถูกบังคับให้เหมือนกัน",
+			boundary: "Standard ระบุสิ่งที่ตรวจสอบได้ ไม่ใช่ตรารับรอง และไม่สร้างสถานะ Official Use ด้วยตัวเอง",
+			empty: "ยังไม่มี Standard ที่เผยแพร่",
+			read: "เปิดเอกสาร",
+		},
+		count: "งานที่เผยแพร่",
+		updated: "ปรับปรุง",
+		minutes: "นาที",
+		path: "เส้นทางความคิด",
+		pathNote: "บันทึกอาจนำไปสู่ Concept และงานอ้างอิง แต่ทุกชิ้นหยุดอยู่ในขั้นที่เหมาะสมได้",
+	}
 	: {
-			referenceLayer: "Reference Layer",
-			protocolsDescription:
-				"Protocols are formal structural instruments derived from the Framework. They define obligations, boundaries, and transparency conditions that can be adapted across domains without losing Framework meaning.",
-			standardsDescription:
-				"Standards translate Framework obligations into measurable conditions. Where protocols establish obligations, standards define the thresholds by which structural claims can be meaningfully assessed.",
-			methodDescription:
-				"Journal is Paritsea's first record. It holds what Parit sees in real situations: structural tension, human cost, and patterns that should not be forced into rules too early.",
-			methodSecondary:
-				"These entries are pre-crystallization records, not opinion posts or a social feed. When an observation repeats with enough structure, it may later become Framework, Protocol, Standard, or future IP.",
-			methodFlowNote:
-				"These are observations named before they become governed. Seeing before structuring.",
-			further: "",
-			protocolsPositionNote:
-				"Protocols derive from the Framework. Each defines an obligation — what must hold in structural practice.",
-			standardsPositionNote:
-				"Standards derive from Protocols. Each defines a verifiable condition — the threshold by which a Protocol's obligation is assessed.",
-			publiclyDocumented: "publicly documented",
-			noProtocols: "No protocols published yet.",
-			noStandards: "No standards published yet.",
-			noEntries: "No entries yet.",
-			readProtocol: "Read protocol →",
-			readStandard: "Read standard →",
-			minRead: "min read",
-			aboutProtocols: "About Protocols",
-			aboutProtocolsText:
-				"Each protocol is a public structural instrument. Protocols are not tips, best practices, or style recommendations. They define the requirements a system must satisfy if it is to claim coherence under the Paritsea framework.",
-			derivedFrom: "Derived From",
-			derivedFromText: "All protocols derive authority from",
-			doctrineLink: "Paritsea Framework",
-			noContradiction: "No protocol may contradict the foundational Framework.",
-			aboutStandards: "About Standards",
-			aboutStandardsText:
-				"Standards translate structural obligations into verifiable conditions. They specify what coherence looks like in practice, turning abstract claims into criteria that can be tested, interpreted, and implemented.",
-			relationship: "Relationship to Protocols",
-			relationshipText:
-				"Standards operate beneath Protocols. A Protocol establishes the obligation; a Standard defines the threshold. Multiple standards may exist for a single protocol domain.",
-			notWhat: "What This Is Not",
-			notWhatText:
-				"These entries are not opinion columns, content marketing, or industry takes. Each entry preserves origin, weight, and context before anything becomes official.",
-			whatHappens: "What Happens to These",
-			whatHappensText:
-				"Patterns that persist across multiple entries may later be formalised into protocols or standards. Journal is where problems become legible before they become governed.",
-			youtubeBridge: "View all video reflections",
-		};
+		journal: {
+			pageTitle: "Journal — Paritsea",
+			role: "Observation archive",
+			title: "Journal",
+			summary: "What is seen before it becomes a stable explanation. An entry may remain uncertain, be revised, and never need to become reference work.",
+			boundary: "Publication in Journal does not make an entry a Framework, Protocol, or Standard.",
+			empty: "No Journal entries have been published.",
+			read: "Read entry",
+		},
+		protocol: {
+			pageTitle: "Protocols — Paritsea",
+			role: "Reference archive",
+			title: "Protocols",
+			summary: "Work that translates Framework principles into obligations or methods while preserving the meaning of the source.",
+			boundary: "A Protocol is not general advice. Each record must name its version, scope, and source Framework.",
+			empty: "No Protocols have been published.",
+			read: "Open document",
+		},
+		standard: {
+			pageTitle: "Standards — Paritsea",
+			role: "Threshold archive",
+			title: "Standards",
+			summary: "Conditions used to examine whether a Protocol obligation is present without forcing different contexts into false uniformity.",
+			boundary: "A Standard defines what can be examined. It is not a certification mark and does not create Official Use by itself.",
+			empty: "No Standards have been published.",
+			read: "Open document",
+		},
+		count: "published works",
+		updated: "Updated",
+		minutes: "min",
+		path: "Thought path",
+		pathNote: "Journal may lead to Concepts and reference work, but any work may stop at the stage appropriate to it.",
+	};
+
+const current = copy[kind];
+const entryPath = (id: string) => kind === "journal"
+	? `/journal/${id}`
+	: `/system/${kind === "protocol" ? "protocols" : "standards"}/${id}`;
 ---
 
-<Base
-	title={pageTitle}
-	description={pageDescription}
-	locale={locale}
->
-	{isProtocols && (
-		<div class="index-page">
-			<Breadcrumb crumbs={[
-				{ label: "System", href: localizedPath("/system", locale) },
-				{ label: "Protocols" }
-			]} />
-			<header class="index-header">
-				<div class="index-header-grid">
-					<div class="index-header-primary">
-						<p class="index-eyebrow">
-							{copy.referenceLayer}
-							<span class="index-count">{locale === "th" ? `${scopedPosts.length} Protocol ${copy.publiclyDocumented}` : `${scopedPosts.length} protocol${scopedPosts.length === 1 ? "" : "s"} ${copy.publiclyDocumented}`}</span>
-						</p>
-						<h1 class="index-title">{navLabels.Protocols}</h1>
-						<p class="index-position-note">{copy.protocolsPositionNote}</p>
-						<p class="index-description">{copy.protocolsDescription}</p>
-						{copy.further && <p class="index-meta-further">{copy.further}</p>}
-					</div>
-					<div class="index-header-aside">
-						<div class="aside-block">
-							<h3 class="aside-heading">{copy.aboutProtocols}</h3>
-							<p class="aside-text">{copy.aboutProtocolsText}</p>
-						</div>
-						<div class="aside-block">
-							<h3 class="aside-heading">{copy.derivedFrom}</h3>
-							<p class="aside-text">
-								{copy.derivedFromText} <a href={localizedPath("/system/frameworks/paritsea-framework", locale)} class="aside-link">{copy.doctrineLink}</a>. {copy.noContradiction}
-							</p>
-						</div>
-					</div>
-				</div>
-				<UsageGuidance variant="protocols" compact locale={locale} />
-			</header>
+<Base title={current.pageTitle} description={current.summary} locale={locale}>
+	<main class="experience-page archive-page">
+		<Breadcrumb crumbs={[
+			{ label: locale === "th" ? "หน้าแรก" : "Home", href: localizedPath("/", locale) },
+			...(kind === "journal" ? [] : [{ label: locale === "th" ? "งานอ้างอิง" : "Reference work", href: localizedPath("/system", locale) }]),
+			{ label: current.title },
+		]} />
 
-			<section class="document-registry">
-				{scopedPosts.length === 0 ? (
-					<p class="registry-empty">{copy.noProtocols}</p>
-				) : (
-					<div class="document-list">
-						{scopedPosts.map(({ post, cats }, i) => (
-							<a href={localizedPath(`/system/protocols/${post.id}`, locale)} class="document-card">
-								<div class="document-card-index">{String(i + 1).padStart(2, "0")}</div>
-								<div class="document-card-body">
-									{cats.length > 0 && (
-										<div class="document-card-tags">
-											{cats.map((c) => <span class="document-tag">{c.label}</span>)}
-										</div>
-									)}
-									<h2 class="document-card-title">{post.data.title}</h2>
-									{post.data.excerpt && <p class="document-card-excerpt">{post.data.excerpt}</p>}
-									<div class="document-card-footer">
-										{post.data.publishedAt && <time class="document-date">{formatDate(post.data.publishedAt)}</time>}
-										<span class="document-read">{copy.readProtocol}</span>
-									</div>
-								</div>
-							</a>
-						))}
-					</div>
-				)}
-			</section>
-		</div>
-	)}
+		<header class="archive-header">
+			<div>
+				<p class="experience-label" data-state={kind === "journal" ? "moving" : "governed"}>{current.role}</p>
+				<h1 class="experience-title">{current.title}</h1>
+				<p class="experience-summary">{current.summary}</p>
+			</div>
+			<dl class="archive-count">
+				<dt>{copy.count}</dt>
+				<dd>{String(entries.length).padStart(2, "0")}</dd>
+			</dl>
+		</header>
 
-	{isStandards && (
-		<div class="index-page">
-			<Breadcrumb crumbs={[
-				{ label: "System", href: localizedPath("/system", locale) },
-				{ label: "Standards" }
-			]} />
-			<header class="index-header">
-				<div class="index-header-grid">
-					<div class="index-header-primary">
-						<p class="index-eyebrow">
-							{copy.referenceLayer}
-							<span class="index-count">{locale === "th" ? `${scopedPosts.length} มาตรฐาน ${copy.publiclyDocumented}` : `${scopedPosts.length} standard${scopedPosts.length === 1 ? "" : "s"} ${copy.publiclyDocumented}`}</span>
-						</p>
-						<h1 class="index-title">{navLabels.Standards}</h1>
-						<p class="index-position-note">{copy.standardsPositionNote}</p>
-						<p class="index-description">{copy.standardsDescription}</p>
-						{copy.further && <p class="index-meta-further">{copy.further}</p>}
-					</div>
-					<div class="index-header-aside">
-						<div class="aside-block">
-							<h3 class="aside-heading">{copy.aboutStandards}</h3>
-							<p class="aside-text">{copy.aboutStandardsText}</p>
-						</div>
-						<div class="aside-block">
-							<h3 class="aside-heading">{copy.relationship}</h3>
-							<p class="aside-text">{copy.relationshipText}</p>
-						</div>
-					</div>
-				</div>
-				<UsageGuidance variant="standards" compact locale={locale} />
-			</header>
+		<p class="archive-boundary">{current.boundary}</p>
 
-			<section class="document-registry">
-				{scopedPosts.length === 0 ? (
-					<p class="registry-empty">{copy.noStandards}</p>
-				) : (
-					<div class="document-list">
-						{scopedPosts.map(({ post, cats }, i) => (
-							<a href={localizedPath(`/system/standards/${post.id}`, locale)} class="document-card">
-								<div class="document-card-index">{String(i + 1).padStart(2, "0")}</div>
-								<div class="document-card-body">
-									{cats.length > 0 && (
-										<div class="document-card-tags">
-											{cats.map((c) => <span class="document-tag">{c.label}</span>)}
-										</div>
-									)}
-									<h2 class="document-card-title">{post.data.title}</h2>
-									{post.data.excerpt && <p class="document-card-excerpt">{post.data.excerpt}</p>}
-									<div class="document-card-footer">
-										{post.data.publishedAt && <time class="document-date">{formatDate(post.data.publishedAt)}</time>}
-										<span class="document-read">{copy.readStandard}</span>
-									</div>
-								</div>
-							</a>
-						))}
-					</div>
-				)}
-			</section>
-		</div>
-	)}
-
-	{isMethod && (
-		<div class="index-page">
-			<Breadcrumb crumbs={[
-				{ label: locale === "th" ? "หน้าแรก" : "Home", href: localizedPath("/", locale) },
-				{ label: "Journal" }
-			]} />
-			<header class="index-header">
-				<div class="index-header-grid">
-					<div class="index-header-primary">
-						<p class="index-eyebrow">
-							{locale === "th" ? "Archive · งานที่ยังเคลื่อนไหว" : "Archive · Work still in motion"}
-							<span class="index-count">{locale === "th" ? `${scopedPosts.length} บันทึก ${copy.publiclyDocumented}` : `${scopedPosts.length} entr${scopedPosts.length === 1 ? "y" : "ies"} published`}</span>
-						</p>
-						<h1 class="index-title">{navLabels["The Method"]}</h1>
-						<p class="index-description">{copy.methodDescription}</p>
-						<p class="index-description-secondary">{copy.methodSecondary}</p>
-						<p class="index-meta-further">{copy.methodFlowNote}</p>
-					</div>
-					<div class="index-header-aside">
-						<div class="aside-block">
-							<h3 class="aside-heading">{copy.notWhat}</h3>
-							<p class="aside-text">{copy.notWhatText}</p>
+		<section class="experience-index" aria-label={current.title}>
+			{entries.length ? entries.map(({ entry, version, status, readingTime }, index) => (
+					<a class="experience-index-row" href={localizedPath(entryPath(entry.id), locale)}>
+						<span class="experience-index-number">{String(index + 1).padStart(2, "0")}</span>
+						<div class="experience-index-copy">
+							<p class="experience-index-meta">{kind}{version ? ` · v${version}` : ""} · {status}</p>
+							<h2>{entry.data.title}</h2>
+							{entry.data.excerpt && <p>{entry.data.excerpt}</p>}
+							<div class="archive-row-footer">
+								{entry.data.publishedAt && <time>{copy.updated} {formatDateForLocale(entry.data.publishedAt, locale)}</time>}
+								<span>{readingTime} {copy.minutes}</span>
+								<strong>{current.read} →</strong>
+							</div>
 						</div>
-						<div class="aside-block">
-							<h3 class="aside-heading">{copy.whatHappens}</h3>
-							<p class="aside-text">{copy.whatHappensText}</p>
-						</div>
-					</div>
-				</div>
-				<UsageGuidance variant="the-method" compact locale={locale} />
-			</header>
+					</a>
+				)) : <div class="experience-empty"><p>{current.empty}</p></div>}
+		</section>
 
-			<section class="document-registry">
-				{scopedPosts.length === 0 ? (
-					<p class="registry-empty">{copy.noEntries}</p>
-				) : (
-					<div class="document-list">
-						{scopedPosts.map(({ post, cats }, i) => (
-							<a href={localizedPath(`/journal/${post.id}`, locale)} class="document-card">
-								<div class="document-card-index">{String(scopedPosts.length - i).padStart(2, "0")}</div>
-								<div class="document-card-body">
-									{methodFormatLabel(post.data.format, cats) && (
-									<div class="document-card-format">{methodFormatLabel(post.data.format, cats)}</div>
-								)}
-									<div class="document-card-status">{methodStatusLabel(post.data.format, cats)}</div>
-									{cats.length > 0 && (
-										<div class="document-card-tags">
-											{cats.map((c) => <span class="document-tag">{c.label}</span>)}
-										</div>
-									)}
-									<h2 class="document-card-title">{post.data.title}</h2>
-									{post.data.excerpt && <p class="document-card-excerpt">{post.data.excerpt}</p>}
-									<div class="document-card-footer">
-										{post.data.publishedAt && <time class="document-date">{formatDate(post.data.publishedAt)}</time>}
-										<span class="document-read">{getReadingTime(post.data.content)} {copy.minRead}</span>
-									</div>
-								</div>
-							</a>
-						))}
-					</div>
-				)}
-			</section>
-			<p class="method-youtube-link-wrap">
-				<a href="https://www.youtube.com/@paritsea" target="_blank" rel="noreferrer" class="method-youtube-link">
-					{copy.youtubeBridge} →
-				</a>
-			</p>
-		</div>
-	)}
+		<aside class="archive-path">
+			<div>
+				<p class="experience-label" data-state="named">{copy.path}</p>
+				<p>{copy.pathNote}</p>
+			</div>
+			<nav aria-label={copy.path}>
+				<a href={localizedPath("/journal", locale)}>Journal</a>
+				<span aria-hidden="true">→</span>
+				<a href={localizedPath("/concepts", locale)}>Concept</a>
+				<span aria-hidden="true">→</span>
+				<a href={localizedPath("/system", locale)}>Framework · Protocol · Standard</a>
+			</nav>
+		</aside>
+	</main>
 </Base>
 
 <style>
-	/* ─── Page shell ─── */
-	.index-page {
-		max-width: var(--wide-width);
-		margin: 0 auto;
-		padding: var(--spacing-16) var(--spacing-8) var(--spacing-20);
-		position: relative;
-	}
-
-	.index-page::before {
-		content: "";
-		position: absolute;
-		inset: 0 0 auto 0;
-		height: 100%;
-		background:
-			linear-gradient(to right, color-mix(in srgb, var(--color-border-subtle) 55%, transparent) 1px, transparent 1px) 0 0 / 4rem 4rem,
-			linear-gradient(to bottom, color-mix(in srgb, var(--color-border-subtle) 42%, transparent) 1px, transparent 1px) 0 0 / 4rem 4rem;
-		mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.42), transparent 58%);
-		opacity: 0.34;
-		pointer-events: none;
-	}
-
-	/* ─── Header ─── */
-	.index-header {
-		padding-bottom: var(--spacing-10);
-		border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 30%, var(--color-border-subtle));
-		margin-bottom: var(--spacing-12);
-		position: relative;
-		z-index: 1;
-	}
-
-	.index-header::before {
-		content: "";
-		position: absolute;
-		inset: 0 auto var(--spacing-10) calc(-1 * var(--spacing-5));
-		width: 2px;
-		background: linear-gradient(to bottom, var(--color-accent), var(--color-border-subtle));
-		opacity: 0.55;
-	}
-
-	/* Two-column header: title+desc left | aside info right */
-	.index-header-grid {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) 260px;
-		gap: var(--spacing-16);
-		align-items: start;
-		margin-bottom: var(--spacing-8);
-	}
-
-	.index-header-aside {
-		padding-top: calc(var(--font-size-xs) + var(--spacing-3));
-		display: grid;
-		gap: var(--spacing-6);
-	}
-
-	/* Eyebrow row: label + count right-aligned */
-	.index-eyebrow {
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
-		font-family: var(--font-sans);
-		font-size: var(--font-size-xs);
-		text-transform: uppercase;
-		letter-spacing: var(--tracking-widest);
-		color: var(--color-muted);
-		margin-bottom: var(--spacing-4);
-	}
-
-	.index-count {
-		font-size: var(--font-size-xs);
-		letter-spacing: var(--tracking-wide);
-		text-transform: none;
-		color: var(--color-muted);
-		font-weight: 400;
-	}
-
-	/* Title */
-	.index-title {
-		font-family: var(--font-serif);
-		font-size: clamp(3rem, 7vw, 5rem);
-		line-height: .95;
-		letter-spacing: -.03em;
-		margin: 0 0 var(--spacing-5);
-	}
-
-	/* B-05 position note — layer role statement above description */
-	.index-position-note {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-base);
-		color: var(--color-text);
-		line-height: var(--leading-relaxed);
-		margin: 0 0 var(--spacing-4);
-		font-weight: 500;
-	}
-
-	/* Descriptions */
-	.index-description,
-	.index-description-secondary,
-	.index-meta-further,
-	.registry-empty,
-	.document-card-excerpt {
-		font-family: var(--font-sans);
-		color: var(--color-text-secondary);
-		line-height: var(--leading-relaxed);
-	}
-
-	.index-description-secondary {
-		margin-top: var(--spacing-4);
-	}
-
-	.index-meta-further {
-		margin-top: var(--spacing-4);
-		font-size: var(--font-size-sm);
-		color: var(--color-muted);
-	}
-
-	/* Aside info (now in header) */
-	.aside-heading {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-xs);
-		text-transform: uppercase;
-		letter-spacing: var(--tracking-widest);
-		color: var(--color-text);
-		margin: 0 0 var(--spacing-2);
-	}
-
-	.aside-block {
-		padding-top: var(--spacing-3);
-		border-top: 1px solid var(--color-border-subtle);
-	}
-
-	.aside-text {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-sm);
-		color: var(--color-text-secondary);
-		line-height: var(--leading-relaxed);
-		margin: 0;
-	}
-
-	.aside-link {
-		color: var(--color-text);
-		text-decoration: underline;
-		text-underline-offset: 2px;
-		text-decoration-thickness: 1px;
-	}
-
-	:global(:lang(th)) .index-eyebrow,
-	:global(:lang(th)) .index-count,
-	:global(:lang(th)) .aside-heading,
-	:global(:lang(th)) .document-tag,
-	:global(:lang(th)) .document-card-status,
-	:global(:lang(th)) .document-card-format,
-	:global(:lang(th)) .document-date,
-	:global(:lang(th)) .document-read {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-sm);
-		font-style: normal;
-		letter-spacing: 0;
-		line-height: 1.55;
-		text-transform: none;
-	}
-
-	/* ─── Document list ─── */
-	.document-registry {
-		max-width: 760px;
-		position: relative;
-		z-index: 1;
-	}
-
-	.document-list {
-		display: grid;
-	}
-
-	.document-card {
-		display: grid;
-		grid-template-columns: 2.5rem 1fr;
-		gap: var(--spacing-5);
-		padding: var(--spacing-7) 0 var(--spacing-7) var(--spacing-3);
-		border-top: 1px solid color-mix(in srgb, var(--color-accent) 15%, var(--color-border-subtle));
-		border-left: 3px solid transparent;
-		text-decoration: none;
-		color: inherit;
-		position: relative;
-		transition: border-left-color var(--transition-fast), background var(--transition-fast), padding-left var(--transition-fast);
-	}
-
-	.document-card:hover {
-		border-left-color: var(--color-accent);
-		background: linear-gradient(to right, color-mix(in srgb, var(--color-accent) 7%, transparent), transparent 58%);
-		padding-left: var(--spacing-4);
-	}
-
-	.document-card-index {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-xs);
-		color: var(--color-border);
-		padding-top: .3rem;
-		letter-spacing: var(--tracking-wide);
-	}
-
-	.document-card-tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: .45rem;
-		margin-bottom: var(--spacing-2);
-	}
-
-	.document-tag {
-		font-family: var(--font-sans);
-		font-size: 11px;
-		letter-spacing: var(--tracking-wide);
-		text-transform: uppercase;
-		color: var(--color-muted);
-	}
-
-	.document-card-format {
-		font-family: var(--font-sans);
-		font-size: 11px;
-		letter-spacing: var(--tracking-wide);
-		text-transform: uppercase;
-		color: var(--color-text-secondary);
-		margin-bottom: var(--spacing-2);
-	}
-
-	.document-card-status {
-		display: inline-flex;
-		width: fit-content;
-		font-family: var(--font-sans);
-		font-size: var(--font-size-xs);
-		line-height: 1.5;
-		color: var(--color-accent);
-		border-left: 2px solid var(--color-accent);
-		padding-left: var(--spacing-2);
-		margin-bottom: var(--spacing-2);
-	}
-
-	.document-card-title {
-		font-family: var(--font-serif);
-		font-size: clamp(1.25rem, 2.4vw, 1.875rem);
-		line-height: 1.15;
-		letter-spacing: -.02em;
-		margin: 0 0 var(--spacing-2);
-		transition: opacity var(--transition-fast);
-	}
-
-	.document-card:hover .document-card-title {
-		opacity: .65;
-	}
-
-	.document-card-footer {
-		display: flex;
-		flex-wrap: wrap;
-		gap: .75rem;
-		font-family: var(--font-sans);
-		font-size: var(--font-size-xs);
-		color: var(--color-muted);
-		margin-top: var(--spacing-3);
-	}
-
-	.document-read {
-		color: var(--color-text-secondary);
-	}
-
-	.method-youtube-link-wrap {
-		max-width: 760px;
-		margin-top: var(--spacing-6);
-	}
-
-	.method-youtube-link {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-sm);
-		color: var(--color-text);
-		text-decoration: underline;
-		text-underline-offset: 3px;
-	}
-
-	:lang(th) .document-card-status {
-		letter-spacing: 0;
-		line-height: 1.6;
-	}
-
-	:lang(th) .index-eyebrow,
-	:lang(th) .index-count,
-	:lang(th) .aside-heading,
-	:lang(th) .document-card-index,
-	:lang(th) .document-tag,
-	:lang(th) .document-card-format,
-	:lang(th) .document-card-footer,
-	:lang(th) .method-youtube-link {
-		letter-spacing: 0;
-		line-height: 1.6;
-	}
-
-	:lang(th) .index-title,
-	:lang(th) .document-card-title {
-		letter-spacing: 0;
-		line-height: 1.35;
-	}
-
-	:lang(th) .index-title {
-		font-size: clamp(2.35rem, 6vw, 4rem);
-	}
-
-	:lang(th) .document-card-title {
-		font-size: clamp(1.35rem, 2.3vw, 1.8rem);
-	}
-
-	/* ─── Responsive ─── */
-	@media (max-width: 960px) {
-		.index-header-grid {
-			grid-template-columns: 1fr;
-			gap: var(--spacing-8);
-		}
-
-		.index-header-aside {
-			padding-top: 0;
-			border-top: 1px solid var(--color-border-subtle);
-			padding-top: var(--spacing-6);
-			grid-template-columns: 1fr 1fr;
-		}
-	}
-
-	@media (max-width: 640px) {
-		.index-page {
-			padding: var(--spacing-10) var(--spacing-5) var(--spacing-14);
-		}
-
-		.index-header-aside {
-			grid-template-columns: 1fr;
-		}
-
-		.index-eyebrow {
-			flex-direction: column;
-			gap: var(--spacing-1);
-		}
-	}
+	.archive-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--spacing-12); align-items: end; padding: var(--spacing-12) 0 var(--spacing-14); border-bottom: 1px solid var(--color-border); }
+	.archive-count { min-width: 150px; padding-left: var(--spacing-6); border-left: 1px solid var(--color-border); }
+	.archive-count dt { font-family: var(--font-mono); font-size: var(--font-size-xs); color: var(--color-muted); text-transform: uppercase; letter-spacing: var(--tracking-wide); }
+	.archive-count dd { margin-top: var(--spacing-2); font-family: var(--font-serif); font-size: clamp(3rem, 7vw, 6rem); line-height: .9; color: var(--color-accent); }
+	.archive-boundary { max-width: 68ch; padding: var(--spacing-6) 0; color: var(--color-text-secondary); border-bottom: 1px solid var(--color-border-subtle); }
+	.archive-page .experience-index-row { grid-template-columns: 5rem minmax(0, 1fr); }
+	.archive-page .experience-index-copy h2 { font-family: var(--font-serif); font-size: clamp(1.65rem, 2.6vw, 2.65rem); font-weight: 500; line-height: 1.1; letter-spacing: var(--tracking-snug); text-wrap: balance; }
+	.archive-page .experience-index-copy > p { max-width: 58ch; margin-top: var(--spacing-3); line-height: 1.7; color: var(--color-text-secondary); text-wrap: pretty; }
+	.archive-row-footer { display: flex; flex-wrap: wrap; gap: var(--spacing-3) var(--spacing-6); margin-top: var(--spacing-5); font-family: var(--font-mono); font-size: var(--font-size-xs); color: var(--color-muted); }
+	.archive-row-footer strong { margin-left: auto; color: var(--color-accent); font-weight: 500; }
+	.archive-path { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: var(--spacing-12); margin-top: var(--spacing-20); padding: var(--spacing-8) 0; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
+	.archive-path p:last-child { max-width: 52ch; margin-top: var(--spacing-4); color: var(--color-text-secondary); line-height: 1.7; }
+	.archive-path nav { display: flex; flex-wrap: wrap; gap: var(--spacing-3); align-items: center; align-content: center; }
+	.archive-path a { text-decoration: underline; text-decoration-color: var(--color-border); text-underline-offset: .25em; }
+	:global(:lang(th)) .archive-count dt, :global(:lang(th)) .archive-row-footer { font-family: var(--font-sans); font-size: .875rem; letter-spacing: 0; text-transform: none; }
+	:global(:lang(th)) .archive-count dd { font-family: var(--font-sans); font-weight: 300; }
+	:global(:lang(th)) .archive-page .experience-index-copy h2 { font-family: var(--font-sans); font-weight: 300; font-style: normal; letter-spacing: 0; line-height: 1.45; }
+	:global(:lang(th)) .archive-page .experience-index-copy > p { font-size: 1.0625rem; line-height: 1.9; letter-spacing: 0; word-break: keep-all; }
+	:global(:lang(th)) .archive-boundary, :global(:lang(th)) .archive-path p:last-child { font-size: 1.0625rem; line-height: 1.9; letter-spacing: 0; word-break: keep-all; }
+	@media (max-width: 700px) { .archive-header, .archive-path, .archive-page .experience-index-row { grid-template-columns: 1fr; } .archive-count { padding: var(--spacing-5) 0 0; border-left: 0; border-top: 1px solid var(--color-border-subtle); } .archive-count dd { font-size: 3.5rem; } .archive-row-footer strong { width: 100%; margin-left: 0; } }
 </style>

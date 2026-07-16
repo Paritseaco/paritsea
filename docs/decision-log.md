@@ -855,6 +855,24 @@ The document contains three distinct registers: Protocol (declarations, obligati
 
 ---
 
+### D-043 — Public navigation follows visitor intent
+
+| Field | Value |
+|-------|-------|
+| **Date** | 2026-07 |
+| **Status** | ✅ Active |
+| **Type** | Navigation / UX |
+| **Resolves** | Whole-system reassessment finding that internal layer names obscured why a new reader would enter |
+| **Supersedes** | D-002 and D-003 only where they define the visible main-navigation labels |
+
+**Decision:** The public navigation is `Journal · Concepts · Reference work · About · Use and citation`, with natural Thai labels `บันทึก · แนวคิด · งานอ้างอิง · เกี่ยวกับ · การใช้และอ้างอิง`. The stable `/system` and `/ip` route namespaces remain unchanged. Search, language, and theme remain utilities.
+
+**Rationale:** A reader arrives with an observation, a need for a stable term, a need for an authoritative document, a source/authorship question, or a use-boundary question. Exposing those intents reduces the need to understand Paritsea's internal ontology before entering. Keeping the route namespaces avoids destructive migration and preserves citation continuity.
+
+**Related documents:** `docs/paritsea-information-architecture.md`, `docs/paritsea-identity-voice-and-visual-system.md`, `README.md`
+
+---
+
 ## Template for future entries
 
 When adding new decisions:

@@ -8,7 +8,7 @@ export const GET: APIRoute = async ({ site, url }) => {
 
 	const content = `# Paritsea
 
-> An author-led intellectual practice and public record: lens → journal → concepts → governed system → IP / official use.
+> An author-led intellectual practice and public record for observations, named concepts, and governed reference work.
 
 Paritsea is not a monetized service website. It publishes the original lens, journal observations, governed Framework / Protocols / Standards, and public guidance for citation, adaptation, licensing, and official use. Implementation records exist as secondary examples of application, not as the site's commercial service layer.
 
@@ -17,14 +17,15 @@ Ideas usually begin as observations from real situations. They are recorded in J
 ## Layers
 - Lens (origin and creator context): ${siteUrl}/about | Thai: ${siteUrl}/th/about
 - Journal (first record / seeing): ${siteUrl}/journal | Thai: ${siteUrl}/th/journal
-- System (structuring): ${siteUrl}/system | Thai: ${siteUrl}/th/system
+- Concepts (named patterns): ${siteUrl}/concepts | Thai: ${siteUrl}/th/concepts
+- Reference work (Frameworks, Protocols, and Standards): ${siteUrl}/system | Thai: ${siteUrl}/th/system
 - IP hub: ${siteUrl}/ip | Thai: ${siteUrl}/th/ip
 - Licensing and use boundaries: ${siteUrl}/ip/licensing | Thai: ${siteUrl}/th/ip/licensing
 - Media (videos and public reflections): ${siteUrl}/media | Thai: ${siteUrl}/th/media
 
 ## System Architecture
 - Frameworks hub: ${siteUrl}/system/frameworks | Thai: ${siteUrl}/th/system/frameworks
-- Paritsea Framework v1.1: ${siteUrl}/system/frameworks/paritsea-framework | Thai: ${siteUrl}/th/system/frameworks/paritsea-framework
+- Paritsea Framework: ${siteUrl}/system/frameworks/paritsea-framework | Thai: ${siteUrl}/th/system/frameworks/paritsea-framework
 - Protocols (obligations): ${siteUrl}/system/protocols | Thai: ${siteUrl}/th/system/protocols
 - Standards (thresholds): ${siteUrl}/system/standards | Thai: ${siteUrl}/th/system/standards
 

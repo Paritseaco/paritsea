@@ -2,44 +2,41 @@
 import { getEmDashCollection } from "emdash";
 import Base from "../../../layouts/Base.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
-import PageRoleHeader from "../../../components/PageRoleHeader.astro";
 import { getAstroLocale, localizedPath } from "../../../utils/i18n";
 
 const locale = getAstroLocale(Astro);
-let records: Array<{ id: string; title: string; implementer: string; status: string; version: string; scope: string }> = [];
-try {
-	const result = await getEmDashCollection("official_uses");
-	Astro.cache.set(result.cacheHint);
-	records = result.entries.map((entry) => {
-		const data = entry.data as unknown as Record<string, unknown>;
-		return { id: entry.id, title: String(data.title ?? entry.id), implementer: String(data.implementer ?? "—"), status: String(data.use_status ?? "provisional"), version: String(data.implementation_version ?? "—"), scope: String(data.scope_note ?? "") };
-	});
-} catch {
-	// Schema is additive; preserve a trustworthy public fallback until local/remote D1 is migrated.
-}
-if (!records.some((record) => record.id === "agensea")) records.push({ id: "agensea", title: "AgenSea", implementer: "Parit Ritchai", status: "provisional", version: "prototype", scope: locale === "th" ? "ต้นแบบที่สำรวจการใช้แนวคิดบางส่วน ยังไม่ใช่ certification หรือหลักฐานว่า Framework ใช้ได้กับทุกบริบท" : "A prototype exploring selected ideas; not certification or evidence of universal applicability." });
-const intro = locale === "th" ? "Archive ของการนำงาน Paritsea ไปใช้ที่ถูกบันทึกอย่างชัดเจน สถานะ provisional หมายถึงยังอยู่ระหว่างพัฒนา ไม่ใช่ endorsement หรือ certification" : "An archive of explicitly recorded uses of Paritsea work. Provisional means still developing; it is not endorsement or certification.";
+const result = await getEmDashCollection("official_uses");
+Astro.cache.set(result.cacheHint);
+const records = result.entries.map((entry) => ({
+	id: entry.id,
+	title: entry.data.title,
+	implementer: entry.data.implementer,
+	status: entry.data.use_status,
+	version: entry.data.implementation_version ?? "—",
+	scope: entry.data.scope_note ?? "",
+}));
+const copy = locale === "th" ? {
+	title: "Official Use — Paritsea", role: "ระเบียนการใช้", headline: "การใช้ที่ถูกบันทึก ไม่ใช่ตรารับรอง", summary: "ระเบียนนี้แสดงว่าใครนำงานใดไปใช้ ภายใต้ version, scope และสถานะอะไร คำว่า provisional หมายถึงยังอยู่ระหว่างพัฒนา และการปรากฏในหน้านี้ไม่ได้สร้าง certification หรือ endorsement", count: "ระเบียนที่เผยแพร่", empty: "ยังไม่มีระเบียนที่เผยแพร่",
+} : {
+	title: "Official Use — Paritsea", role: "Use registry", headline: "Recorded use, not a certification mark", summary: "This registry states who applied which work, under what version, scope, and status. Provisional means still developing. Appearance here does not create certification or endorsement.", count: "published records", empty: "No use records have been published.",
+};
 ---
-
-<Base title="Official Use" description={intro} locale={locale}>
-	<div class="registry-shell">
-		<Breadcrumb crumbs={[{ label: "IP", href: localizedPath("/ip", locale) }, { label: "Official Use" }]} />
-		<PageRoleHeader role="Registry" eyebrow="Recorded application, not certification" title="Official Use" intro={intro} count={records.length} statusLabel={locale === "th" ? "ทุกระเบียนระบุสถานะและขอบเขต" : "Every record names its status and scope"} />
-		<section class="registry-list">
-			{records.map((record) => <a href={localizedPath(`/ip/official-use/${record.id}`, locale)} class="registry-row"><span>{record.status}</span><h2>{record.title}</h2><p>{record.scope}</p><small>{record.implementer} · {record.version}</small></a>)}
+<Base title={copy.title} description={copy.summary} locale={locale}>
+	<main class="experience-page use-registry">
+		<Breadcrumb crumbs={[{ label: locale === "th" ? "การใช้และอ้างอิง" : "Use and citation", href: localizedPath("/ip", locale) }, { label: "Official Use" }]} />
+		<header><div><p class="experience-label" data-state="applied">{copy.role}</p><h1 class="experience-title">{copy.headline}</h1><p class="experience-summary">{copy.summary}</p></div><dl><dt>{copy.count}</dt><dd>{String(records.length).padStart(2, "0")}</dd></dl></header>
+		<section class="experience-index">
+			{records.length ? records.map((record, index) => <a class="experience-index-row" href={localizedPath(`/ip/official-use/${record.id}`, locale)}><span class="experience-index-meta">{String(index + 1).padStart(2, "0")} · {record.status}</span><div class="experience-index-copy"><h3>{record.title}</h3><p>{record.scope}</p></div><span class="experience-index-state">{record.implementer}<br />{record.version} →</span></a>) : <p class="use-empty">{copy.empty}</p>}
 		</section>
-	</div>
+	</main>
 </Base>
-
 <style>
-	.registry-shell { width: var(--wide-width); margin: 0 auto; padding: var(--spacing-8) 0 var(--spacing-24); }
-	.registry-list { margin-top: var(--spacing-12); border-top: 1px solid var(--color-border); }
-	.registry-row { display: grid; grid-template-columns: 140px minmax(180px, .7fr) 1.3fr 180px; gap: var(--spacing-8); padding: var(--spacing-8) 0; border-bottom: 1px solid var(--color-border); align-items: start; }
-	.registry-row > span, .registry-row small { font-family: var(--font-mono); font-size: var(--font-size-sm); color: var(--color-muted); }
-	.registry-row > span { color: var(--color-accent); }
-	.registry-row h2 { font-size: var(--font-size-2xl); }
-	.registry-row p { color: var(--color-text-secondary); }
-	:global(:lang(th)) .registry-row > span, :global(:lang(th)) .registry-row small { font-family: var(--font-sans); font-size: var(--font-size-sm); letter-spacing: 0; line-height: 1.55; }
-	:global(:lang(th)) .registry-row p { font-size: 1.0625rem; line-height: 1.85; }
-	@media (max-width: 860px) { .registry-row { grid-template-columns: 1fr; gap: var(--spacing-3); } }
+	.use-registry header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--spacing-12); align-items: end; padding: var(--spacing-12) 0 var(--spacing-16); border-bottom: 1px solid var(--color-border); }
+	.use-registry dl { min-width: 170px; padding-left: var(--spacing-6); border-left: 1px solid var(--color-applied); }
+	.use-registry dt { font-family: var(--font-mono); font-size: var(--font-size-xs); color: var(--color-muted); text-transform: uppercase; letter-spacing: var(--tracking-wide); }
+	.use-registry dd { margin-top: var(--spacing-2); font-family: var(--font-serif); font-size: clamp(3rem, 7vw, 6rem); line-height: .9; color: var(--color-applied); }
+	.use-empty { padding: var(--spacing-10) 0; color: var(--color-muted); }
+	:global(:lang(th)) .use-registry dt { font-family: var(--font-sans); font-size: .875rem; text-transform: none; letter-spacing: 0; }
+	:global(:lang(th)) .use-registry dd { font-family: var(--font-sans); font-weight: 300; }
+	@media (max-width: 700px) { .use-registry header { grid-template-columns: 1fr; } .use-registry dl { padding: var(--spacing-5) 0 0; border: 0; border-top: 1px solid var(--color-applied); } }
 </style>

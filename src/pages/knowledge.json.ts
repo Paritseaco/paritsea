@@ -8,6 +8,7 @@ export const GET: APIRoute = async ({ site }) => {
 
 	let relationships: Array<Record<string, unknown>> = [];
 	let appliedContexts: Array<Record<string, unknown>> = [];
+	let officialUses: Array<Record<string, unknown>> = [];
 	try {
 		const result = await getEmDashCollection("relationships");
 		relationships = result.entries.map((entry) => ({ recordId: entry.id, ...entry.data }));
@@ -21,6 +22,16 @@ export const GET: APIRoute = async ({ site }) => {
 			.filter((entry) => entry["disclosure_status"] === "reviewed-public");
 	} catch {
 		appliedContexts = [];
+	}
+	try {
+		const result = await getEmDashCollection("official_uses");
+		officialUses = result.entries.map((entry) => ({
+			recordId: entry.id,
+			url: `${origin}/ip/official-use/${entry.id}`,
+			...entry.data,
+		}));
+	} catch {
+		officialUses = [];
 	}
 
 	const works = entries.map((entry) => {
@@ -54,6 +65,7 @@ export const GET: APIRoute = async ({ site }) => {
 		works,
 		relationships,
 		appliedContexts,
+		officialUses,
 		generatedAt: new Date().toISOString(),
 	}, null, 2), {
 		headers: {

@@ -1,0 +1,318 @@
+/*
+ * Shared public-experience grammar.
+ *
+ * Paritsea pages use four roles: orientation, archive, authored reading,
+ * and governed record. These primitives keep those roles visibly related
+ * without forcing every page into the same composition.
+ */
+
+.experience-page {
+	width: var(--wide-width);
+	margin-inline: auto;
+	padding-block: clamp(var(--spacing-10), 6vw, var(--spacing-20)) var(--spacing-24);
+}
+
+.experience-measure {
+	max-width: 720px;
+}
+
+.experience-label {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--spacing-3);
+	font-family: var(--font-mono);
+	font-size: var(--font-size-xs);
+	font-weight: 500;
+	line-height: 1.5;
+	letter-spacing: var(--tracking-wider);
+	text-transform: uppercase;
+	color: var(--color-muted);
+}
+
+.experience-label::before {
+	content: "";
+	width: 7px;
+	height: 7px;
+	border: 1px solid currentColor;
+	border-radius: 50%;
+}
+
+.experience-label[data-state="moving"]::before {
+	border-color: var(--color-accent);
+}
+
+.experience-label[data-state="named"]::before {
+	background: color-mix(in srgb, var(--color-accent) 28%, transparent);
+	border-color: var(--color-accent);
+}
+
+.experience-label[data-state="governed"]::before {
+	background: var(--color-accent);
+	border-color: var(--color-accent);
+}
+
+.experience-label[data-state="applied"]::before {
+	background: var(--color-applied);
+	border-color: var(--color-applied);
+}
+
+.experience-title {
+	max-width: 15ch;
+	margin-top: var(--spacing-5);
+	font-family: var(--font-serif);
+	font-size: clamp(3rem, 7vw, 6.75rem);
+	font-weight: 500;
+	line-height: 0.96;
+	letter-spacing: var(--tracking-tightest);
+	text-wrap: balance;
+}
+
+.experience-summary {
+	max-width: 680px;
+	margin-top: var(--spacing-7);
+	font-size: clamp(1.125rem, 1.6vw, 1.35rem);
+	line-height: 1.7;
+	color: var(--color-text-secondary);
+	text-wrap: pretty;
+}
+
+.experience-section {
+	position: relative;
+	margin-top: clamp(var(--spacing-20), 10vw, var(--spacing-32));
+	padding-top: var(--spacing-6);
+	border-top: 1px solid var(--color-border);
+}
+
+.experience-section-heading {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(220px, 0.5fr);
+	gap: var(--spacing-12);
+	align-items: end;
+	margin-bottom: var(--spacing-10);
+}
+
+.experience-section-heading h2 {
+	max-width: 18ch;
+	font-family: var(--font-serif);
+	font-size: clamp(2.25rem, 4vw, 4.5rem);
+	font-weight: 500;
+	line-height: 1.02;
+	letter-spacing: var(--tracking-tight);
+	text-wrap: balance;
+}
+
+.experience-section-heading p {
+	max-width: 48ch;
+	color: var(--color-text-secondary);
+	line-height: 1.7;
+}
+
+.experience-link {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--spacing-2);
+	min-height: 44px;
+	color: var(--color-text);
+	text-decoration-color: color-mix(in srgb, var(--color-accent) 70%, transparent);
+	text-underline-offset: 0.32em;
+	transition: color var(--transition-base), text-decoration-color var(--transition-base);
+}
+
+.experience-link:hover {
+	color: var(--color-accent);
+	text-decoration-color: var(--color-accent);
+}
+
+.experience-index {
+	border-top: 1px solid var(--color-border);
+}
+
+.experience-index-row {
+	display: grid;
+	grid-template-columns: 9rem minmax(0, 1fr) minmax(10rem, 0.28fr);
+	gap: var(--spacing-6);
+	padding-block: var(--spacing-7);
+	border-bottom: 1px solid var(--color-border-subtle);
+	color: inherit;
+	text-decoration: none;
+	transition: padding-inline var(--transition-base), background var(--transition-base);
+}
+
+.experience-index-row:hover,
+.experience-index-row:focus-visible {
+	padding-inline: var(--spacing-4);
+	background: color-mix(in srgb, var(--color-accent) 5%, transparent);
+}
+
+.experience-index-meta {
+	font-family: var(--font-mono);
+	font-size: var(--font-size-xs);
+	line-height: 1.6;
+	letter-spacing: var(--tracking-wide);
+	text-transform: uppercase;
+	color: var(--color-muted);
+}
+
+.experience-index-copy h3 {
+	font-family: var(--font-serif);
+	font-size: clamp(1.65rem, 2.6vw, 2.65rem);
+	font-weight: 500;
+	line-height: 1.1;
+	letter-spacing: var(--tracking-snug);
+	text-wrap: balance;
+}
+
+.experience-index-copy p {
+	max-width: 58ch;
+	margin-top: var(--spacing-3);
+	line-height: 1.7;
+	color: var(--color-text-secondary);
+	text-wrap: pretty;
+}
+
+.experience-index-state {
+	justify-self: end;
+	text-align: right;
+	font-family: var(--font-mono);
+	font-size: var(--font-size-xs);
+	line-height: 1.7;
+	letter-spacing: var(--tracking-wide);
+	color: var(--color-muted);
+}
+
+.experience-note {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	gap: var(--spacing-10);
+	padding: var(--spacing-8) 0 var(--spacing-10) var(--spacing-6);
+	border-left: 2px solid var(--color-accent);
+}
+
+.experience-note[data-context="applied"] {
+	border-left-color: var(--color-applied);
+}
+
+.experience-note h2,
+.experience-note h3 {
+	font-family: var(--font-serif);
+	font-size: clamp(1.75rem, 3vw, 3rem);
+	font-weight: 500;
+	line-height: 1.08;
+	letter-spacing: var(--tracking-snug);
+}
+
+.experience-note p {
+	max-width: 62ch;
+	font-size: var(--font-size-lg);
+	line-height: 1.75;
+	color: var(--color-text-secondary);
+}
+
+.experience-note p + p,
+.experience-note p + a {
+	margin-top: var(--spacing-5);
+}
+
+:lang(th) .experience-label,
+:lang(th) .experience-index-meta,
+:lang(th) .experience-index-state {
+	font-family: var(--font-sans);
+	font-size: var(--font-size-sm);
+	font-style: normal;
+	letter-spacing: 0;
+	text-transform: none;
+	line-height: 1.6;
+}
+
+:lang(th) .experience-title,
+:lang(th) .experience-section-heading h2,
+:lang(th) .experience-index-copy h3,
+:lang(th) .experience-note h2,
+:lang(th) .experience-note h3 {
+	font-family: var(--font-sans);
+	font-weight: 300;
+	font-style: normal;
+	letter-spacing: 0;
+	line-height: 1.42;
+	text-wrap: pretty;
+}
+
+:lang(th) .experience-title {
+	max-width: 18ch;
+	font-size: clamp(2.5rem, 6vw, 5.25rem);
+}
+
+:lang(th) .experience-summary,
+:lang(th) .experience-section-heading p,
+:lang(th) .experience-index-copy p,
+:lang(th) .experience-note p {
+	font-family: var(--font-sans);
+	font-size: 1.0625rem;
+	font-style: normal;
+	letter-spacing: 0;
+	line-height: 1.9;
+	word-break: keep-all;
+}
+
+@media (max-width: 960px) {
+	.experience-section-heading,
+	.experience-note {
+		grid-template-columns: 1fr;
+		gap: var(--spacing-5);
+	}
+
+	.experience-index-row {
+		grid-template-columns: 7rem minmax(0, 1fr);
+	}
+
+	.experience-index-state {
+		grid-column: 2;
+		justify-self: start;
+		text-align: left;
+	}
+}
+
+@media (max-width: 640px) {
+	.experience-page {
+		padding-top: var(--spacing-8);
+	}
+
+	.experience-title {
+		max-width: none;
+		font-size: clamp(2.65rem, 14vw, 4.25rem);
+		line-height: 1.02;
+	}
+
+	:lang(th) .experience-title {
+		max-width: none;
+		font-size: clamp(2.15rem, 10.5vw, 3.25rem);
+		line-height: 1.45;
+	}
+
+	.experience-section {
+		margin-top: var(--spacing-20);
+	}
+
+	.experience-section-heading {
+		margin-bottom: var(--spacing-7);
+	}
+
+	.experience-index-row {
+		grid-template-columns: 1fr;
+		gap: var(--spacing-3);
+		padding-block: var(--spacing-6);
+	}
+
+	.experience-index-state {
+		grid-column: auto;
+	}
+
+	.experience-index-row:hover,
+	.experience-index-row:focus-visible {
+		padding-inline: var(--spacing-3);
+	}
+
+	.experience-note {
+		padding: var(--spacing-5) 0 var(--spacing-6) var(--spacing-5);
+	}
+}

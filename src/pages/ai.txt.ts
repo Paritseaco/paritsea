@@ -14,7 +14,7 @@ Canonical indexes:
 - Lens and authorship: ${origin}/about
 - Journal observations: ${origin}/journal
 - Concept records: ${origin}/concepts
-- System hub: ${origin}/system
+- Reference work hub: ${origin}/system
 - Frameworks: ${origin}/system/frameworks
 - Protocols: ${origin}/system/protocols
 - Standards: ${origin}/system/standards

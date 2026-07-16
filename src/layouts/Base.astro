@@ -7,7 +7,6 @@ import {
 } from "emdash/ui";
 import { createPublicPageContext } from "emdash/page";
 import LiveSearch from "emdash/ui/search";
-import { Font } from "astro:assets";
 import { resolveBlogSiteIdentity } from "../utils/site-identity";
 import {
 	alternatePath,
@@ -18,6 +17,7 @@ import {
 	ui,
 } from "../utils/i18n";
 import "../styles/theme.css";
+import "../styles/experience.css";
 
 interface Props {
 	title: string;
@@ -124,16 +124,16 @@ const resolvedNavItems = (() => {
 			];
 	return [
 		{
-			id: "lens",
-			label: copy.navLabels.Lens ?? "Lens",
-			url: localizedPath("/about", locale),
+			id: "journal",
+			label: copy.navLabels.Journal ?? "Journal",
+			url: localizedPath("/journal", locale),
 			target: undefined,
 			children: [],
 		},
 		{
-			id: "journal",
-			label: copy.navLabels.Journal ?? "Journal",
-			url: localizedPath("/journal", locale),
+			id: "concepts",
+			label: copy.navLabels.Concepts ?? "Concepts",
+			url: localizedPath("/concepts", locale),
 			target: undefined,
 			children: [],
 		},
@@ -145,8 +145,15 @@ const resolvedNavItems = (() => {
 			children: systemChildren,
 		},
 		{
+			id: "about",
+			label: copy.navLabels.About ?? "About",
+			url: localizedPath("/about", locale),
+			target: undefined,
+			children: [],
+		},
+		{
 			id: "ip",
-			label: copy.navLabels.IP ?? "IP",
+			label: copy.navLabels.Use,
 			url: localizedPath("/ip", locale),
 			target: undefined,
 			children: [],
@@ -227,8 +234,6 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet" />
-		<Font cssVariable="--font-sans" preload />
-		<Font cssVariable="--font-mono" />
   <title>{fullTitle}</title>
   <link rel="alternate" hreflang="en" href={enAlternateUrl} />
   <link rel="alternate" hreflang="th" href={thAlternateUrl} />
@@ -384,39 +389,39 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 							<span>{siteTitle}</span>
 						</a>
 						<p class="footer-tagline">{copy.footerTagline}</p>
+						<p class="footer-application-note">
+							{locale === "th"
+								? "Paritsea เก็บงานต้นทาง ส่วน SE Ocean นำงานบางส่วนไปใช้กับบริบทองค์กร"
+								: "Paritsea keeps the source. SE Ocean applies selected work in organizational contexts."}
+						</p>
 					</div>
 					<div class="footer-nav">
 						<h4 class="footer-heading">{copy.thoughtPath}</h4>
 						<ul class="footer-links">
-							<li><a href={localizedPath("/about", locale)}>{copy.navLabels.Lens}</a></li>
 							<li><a href={localizedPath("/journal", locale)}>{copy.navLabels.Journal}</a></li>
-							<li><a href={localizedPath("/system", locale)}>{copy.navLabels.System}</a></li>
-							<li><a href={localizedPath("/ip", locale)}>{copy.navLabels.IP}</a></li>
+							<li><a href={localizedPath("/concepts", locale)}>{copy.navLabels.Concepts}</a></li>
 							<li><a href={localizedPath("/media", locale)}>{copy.navLabels.Media}</a></li>
 						</ul>
 					</div>
 					<div class="footer-nav">
 						<h4 class="footer-heading">{copy.frameworkLayers}</h4>
 						<ul class="footer-links">
+							<li><a href={localizedPath("/system", locale)}>{copy.navLabels.System}</a></li>
 							<li><a href={localizedPath("/system/frameworks", locale)}>{copy.navLabels.Frameworks ?? copy.navLabels.Framework}</a></li>
 							<li><a href={localizedPath("/system/protocols", locale)}>{copy.navLabels.Protocols}</a></li>
 							<li><a href={localizedPath("/system/standards", locale)}>{copy.navLabels.Standards}</a></li>
 						</ul>
 					</div>
-				<div class="footer-nav">
-					<h4 class="footer-heading">{copy.legalContact}</h4>
-					<ul class="footer-links">
-						<li><a href={localizedPath("/about", locale)}>{copy.about}</a></li>
-						<li><a href={localizedPath("/ip/licensing", locale)}>{copy.licensing}</a></li>
-						<li><a href={localizedPath("/contact", locale)}>{copy.contact}</a></li>
-					</ul>
-				</div>
-				<div class="footer-nav">
-					<h4 class="footer-heading">{locale === "th" ? "บริบทการประยุกต์ใช้" : "Applied context"}</h4>
-					<ul class="footer-links">
-						<li><a href="https://seocean.co.th" target="_blank" rel="noreferrer">{locale === "th" ? "SE Ocean นำงานบางส่วนไปใช้กับบริบทองค์กร →" : "SE Ocean applies selected work in organizational contexts →"}</a></li>
-					</ul>
-				</div>
+					<div class="footer-nav">
+						<h4 class="footer-heading">{copy.legalContact}</h4>
+						<ul class="footer-links">
+							<li><a href={localizedPath("/about", locale)}>{copy.navLabels.About}</a></li>
+							<li><a href={localizedPath("/ip", locale)}>{copy.navLabels.Use}</a></li>
+							<li><a href={localizedPath("/ip/licensing", locale)}>{copy.licensing}</a></li>
+							<li><a href={localizedPath("/contact", locale)}>{copy.contact}</a></li>
+							<li><a href="https://seocean.co.th" target="_blank" rel="noreferrer">SE Ocean ↗</a></li>
+						</ul>
+					</div>
 				</div>
 				<div class="footer-bottom">
 					<p class="footer-copyright">
@@ -1252,7 +1257,7 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 
 			.footer-grid {
 				display: grid;
-				grid-template-columns: 2fr repeat(4, 1fr);
+				grid-template-columns: minmax(260px, 1.6fr) repeat(3, minmax(150px, 1fr));
 				gap: var(--spacing-10);
 				margin-bottom: var(--spacing-8);
 			}
@@ -1295,6 +1300,25 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 				color: var(--color-muted);
 				line-height: var(--leading-relaxed);
 				max-width: 220px;
+			}
+
+			.footer-application-note {
+				max-width: 32ch;
+				margin-top: var(--spacing-5);
+				padding-left: var(--spacing-4);
+				border-left: 2px solid var(--color-applied);
+				font-size: var(--font-size-sm);
+				line-height: var(--leading-relaxed);
+				color: var(--color-text-secondary);
+			}
+
+			:global(:lang(th)) .footer-application-note {
+				font-family: var(--font-sans);
+				font-size: var(--font-size-sm);
+				font-style: normal;
+				line-height: 1.85;
+				letter-spacing: 0;
+				word-break: keep-all;
 			}
 
 			.footer-tagline-short {
@@ -1622,10 +1646,6 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 					grid-template-columns: 1fr;
 				}
 
-				.footer-nav {
-					display: none;
-				}
-
 				.footer-brand {
 					grid-column: span 1;
 					max-width: none;
@@ -1633,7 +1653,7 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 
 				.footer-tagline {
 					max-width: 18rem;
-					font-size: var(--font-size-xs);
+					font-size: var(--font-size-sm);
 					line-height: 1.6;
 				}
 

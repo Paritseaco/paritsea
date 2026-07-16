@@ -2,54 +2,83 @@
 import { getEmDashCollection } from "emdash";
 import Base from "../../layouts/Base.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
-import PageRoleHeader from "../../components/PageRoleHeader.astro";
 import { getAstroLocale, localizeEntry, localizedPath } from "../../utils/i18n";
 
 const locale = getAstroLocale(Astro);
 const { entries, cacheHint } = await getEmDashCollection("posts");
 Astro.cache.set(cacheHint);
 const concepts = entries
-	.filter((entry) => (entry.data as unknown as Record<string, unknown>).content_type === "concept")
-	.map((entry) => {
-		const localized = localizeEntry(entry, "posts", locale);
-		return { entry: localized, lifecycle: String((entry.data as unknown as Record<string, unknown>).lifecycle_status ?? "developing") };
-	});
-const intro = locale === "th"
-	? "Concept คือรูปแบบที่ถูกตั้งชื่อจนสามารถอ้างถึงได้ แต่ยังไม่ใช่ Framework หรือเอกสารกำกับ หน้านี้เป็น archive สำหรับค้นหาความสัมพันธ์ ไม่ใช่ขั้นบังคับของทุกแนวคิด"
-	: "A Concept is a named pattern stable enough to reference but not yet a Framework or governed instrument. This archive supports relationship discovery; it is not a required stage for every idea.";
+	.filter((entry) => entry.data.content_type === "concept")
+	.map((entry) => localizeEntry(entry, "posts", locale));
+const copy = locale === "th" ? {
+	title: "แนวคิด — Paritsea",
+	role: "คลังรูปแบบที่ถูกตั้งชื่อ",
+	headline: "คำเรียกที่ทำให้รูปแบบหนึ่งกลับมาถูกมองเห็นได้",
+	summary: "Concept คือข้อสังเกตหรือรูปแบบที่ถูกตั้งชื่อจนสามารถอ้างถึงและเชื่อมกับงานอื่นได้ แต่ยังไม่ใช่ Framework หรือเอกสารกำกับ และไม่จำเป็นต้องพัฒนาไปถึงขั้นนั้น",
+	count: "Concept ที่เผยแพร่",
+	emptyTitle: "ยังไม่มี Concept record ที่เผยแพร่",
+	emptyBody: "รูปแบบที่ยังไม่มั่นคงพอจะถูกตั้งชื่อยังอยู่ใน Journal การไม่มีระเบียนในหน้านี้จึงเป็นสถานะของงาน ไม่ใช่ช่องว่างที่ต้องรีบเติม",
+	emptyLink: "อ่านข้อสังเกตที่ยังเคลื่อนไหว",
+	pathTitle: "Concept อยู่ตรงไหน",
+	pathBody: "มันอยู่ระหว่างการเห็นรูปแบบกับการจัดระบบ เป็นจุดที่มีชื่อมากพอให้ตรวจสอบ แต่ยังเปิดให้ความหมายเปลี่ยนได้",
+} : {
+	title: "Concepts — Paritsea",
+	role: "Archive of named patterns",
+	headline: "Names that make a pattern available to be seen again",
+	summary: "A Concept is an observation or pattern named clearly enough to reference and relate to other work. It is not yet a Framework or governed instrument, and it may never need to become one.",
+	count: "published Concepts",
+	emptyTitle: "No Concept records have been published",
+	emptyBody: "Patterns not yet stable enough to name remain in Journal. An empty archive is therefore a state of the work, not a gap that must be filled.",
+	emptyLink: "Read observations still in motion",
+	pathTitle: "Where a Concept sits",
+	pathBody: "It sits between seeing a pattern and structuring it: named enough to examine, open enough for its meaning to change.",
+};
 ---
 
-<Base title="Concepts" description={intro} locale={locale}>
-	<div class="archive-shell">
-		<Breadcrumb crumbs={[{ label: locale === "th" ? "หน้าแรก" : "Home", href: localizedPath("/", locale) }, { label: "Concepts" }]} />
-		<PageRoleHeader role="Archive" eyebrow="Relationship discovery" title="Concepts" intro={intro} count={concepts.length} statusLabel={locale === "th" ? "ค้นพบผ่าน Journal และ System" : "Discovered through Journal and System"} />
-		<section class="concept-list">
-			{concepts.length ? concepts.map(({ entry: concept, lifecycle }) => (
-				<a href={localizedPath(`/concepts/${concept.id}`, locale)} class="concept-row">
-					<span>Concept · {lifecycle}</span>
-					<h2>{concept.data.title}</h2>
-					<p>{concept.data.excerpt}</p>
+<Base title={copy.title} description={copy.summary} locale={locale}>
+	<main class="experience-page concept-page">
+		<Breadcrumb crumbs={[{ label: locale === "th" ? "หน้าแรก" : "Home", href: localizedPath("/", locale) }, { label: locale === "th" ? "แนวคิด" : "Concepts" }]} />
+		<header class="concept-header">
+			<div><p class="experience-label" data-state="named">{copy.role}</p><h1 class="experience-title">{copy.headline}</h1><p class="experience-summary">{copy.summary}</p></div>
+			<dl><dt>{copy.count}</dt><dd>{String(concepts.length).padStart(2, "0")}</dd></dl>
+		</header>
+
+		<section class="experience-index concept-list">
+			{concepts.length ? concepts.map((concept, index) => (
+				<a class="experience-index-row" href={localizedPath(`/concepts/${concept.id}`, locale)}>
+					<span class="experience-index-meta">{String(index + 1).padStart(2, "0")} · Concept</span>
+					<div class="experience-index-copy"><h3>{concept.data.title}</h3>{concept.data.excerpt && <p>{concept.data.excerpt}</p>}</div>
+					<span class="experience-index-state">{concept.data.lifecycle_status ?? "developing"} →</span>
 				</a>
 			)) : (
-				<div class="empty-state">
-					<p>{locale === "th" ? "ยังไม่มี Concept record ที่ผ่านการเผยแพร่" : "No Concept records have been published yet."}</p>
-					<a href={localizedPath("/journal", locale)}>{locale === "th" ? "อ่าน observation ที่ยังเคลื่อนไหว →" : "Read observations still in motion →"}</a>
+				<div class="concept-empty">
+					<p class="experience-label" data-state="moving">00 · open</p>
+					<h2>{copy.emptyTitle}</h2>
+					<p>{copy.emptyBody}</p>
+					<a class="experience-link" href={localizedPath("/journal", locale)}>{copy.emptyLink} <span aria-hidden="true">→</span></a>
 				</div>
 			)}
 		</section>
-	</div>
+
+		<aside class="experience-note concept-note">
+			<div><p class="experience-label" data-state="named">Journal → Concept</p><h2>{copy.pathTitle}</h2></div>
+			<p>{copy.pathBody}</p>
+		</aside>
+	</main>
 </Base>
 
 <style>
-	.archive-shell { width: var(--wide-width); margin: 0 auto; padding: var(--spacing-8) 0 var(--spacing-24); }
-	.concept-list { margin-top: var(--spacing-12); border-top: 1px solid var(--color-border); }
-	.concept-row { display: grid; grid-template-columns: 190px 1fr; gap: var(--spacing-5) var(--spacing-8); padding: var(--spacing-8) 0; border-bottom: 1px solid var(--color-border-subtle); }
-	.concept-row span { font-family: var(--font-mono); font-size: var(--font-size-sm); color: var(--color-muted); }
-	.concept-row h2 { font-size: var(--font-size-2xl); font-weight: 500; }
-	.concept-row p { grid-column: 2; color: var(--color-text-secondary); }
-	.empty-state { max-width: 680px; padding: var(--spacing-12) 0; font-size: var(--font-size-lg); }
-	.empty-state a { display: inline-block; margin-top: var(--spacing-5); color: var(--color-accent); }
-	:global(:lang(th)) .concept-row span { font-family: var(--font-sans); font-size: var(--font-size-sm); letter-spacing: 0; }
-	:global(:lang(th)) .concept-row p, :global(:lang(th)) .empty-state { font-size: 1.0625rem; line-height: 1.85; }
-	@media (max-width: 700px) { .concept-row { grid-template-columns: 1fr; } .concept-row p { grid-column: auto; } }
+	.concept-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--spacing-12); align-items: end; padding: var(--spacing-12) 0 var(--spacing-16); border-bottom: 1px solid var(--color-border); }
+	.concept-header dl { min-width: 170px; padding-left: var(--spacing-6); border-left: 1px solid var(--color-border); }
+	.concept-header dt { font-family: var(--font-mono); font-size: var(--font-size-xs); color: var(--color-muted); text-transform: uppercase; letter-spacing: var(--tracking-wide); }
+	.concept-header dd { margin-top: var(--spacing-2); font-family: var(--font-serif); font-size: clamp(3rem, 7vw, 6rem); line-height: .9; color: var(--color-accent); }
+	.concept-empty { max-width: 760px; padding: var(--spacing-14) 0; }
+	.concept-empty h2 { margin-top: var(--spacing-5); font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3.75rem); font-weight: 500; }
+	.concept-empty > p:not(.experience-label) { max-width: 58ch; margin-top: var(--spacing-5); font-size: var(--font-size-lg); line-height: 1.75; color: var(--color-text-secondary); }
+	.concept-empty .experience-link { margin-top: var(--spacing-5); }
+	.concept-note { margin-top: var(--spacing-20); border-top: 1px solid var(--color-border); }
+	:global(:lang(th)) .concept-header dt { font-family: var(--font-sans); font-size: .875rem; text-transform: none; letter-spacing: 0; }
+	:global(:lang(th)) .concept-header dd, :global(:lang(th)) .concept-empty h2 { font-family: var(--font-sans); font-weight: 300; letter-spacing: 0; line-height: 1.45; }
+	:global(:lang(th)) .concept-empty > p:not(.experience-label) { font-size: 1.0625rem; line-height: 1.9; letter-spacing: 0; word-break: keep-all; }
+	@media (max-width: 700px) { .concept-header { grid-template-columns: 1fr; } .concept-header dl { padding: var(--spacing-5) 0 0; border-left: 0; border-top: 1px solid var(--color-border-subtle); } }
 </style>

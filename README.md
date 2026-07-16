@@ -17,14 +17,14 @@ documents covering boundary, identity, IA, content governance, and release.
 | Layer | Route | Role |
 | --- | --- | --- |
 | Home | `/` | First orientation to Paritsea as the source-of-record |
-| Lens | `/about` | Authorship, way of seeing, and project boundary |
 | Journal | `/journal` | Observations before they become governed instruments |
 | Concepts | `/concepts` | Named patterns not yet governed instruments |
-| System | `/system` | Structuring layer for Framework, Protocols, and Standards |
+| Reference work | `/system` | Hub for Frameworks, Protocols, and Standards |
+| About | `/about` | Authorship, way of seeing, and project boundary |
 | Frameworks | `/system/frameworks` | Hub for versioned canonical frameworks |
 | Protocols | `/system/protocols` | Obligations derived from the Framework |
 | Standards | `/system/standards` | Verifiable conditions derived from Protocols |
-| IP | `/ip` | Use boundaries and public stewardship hub |
+| Use and citation | `/ip` | Use boundaries and public stewardship hub |
 | Official Use | `/ip/official-use` | Recorded application, not certification |
 | Licensing | `/ip/licensing` | Citation, adaptation, commercial use, and official-status rules |
 

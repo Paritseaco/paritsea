@@ -14,5 +14,9 @@ data.db
 # Wrangler/Cloudflare dev
 .wrangler
 
+# Browser QA artifacts
+.playwright-cli
+output/playwright
+
 # Claude
 .claude

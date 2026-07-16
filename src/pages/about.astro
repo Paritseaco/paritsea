@@ -1,0 +1,366 @@
+---
+import { getEmDashCollection } from "emdash";
+import Base from "../layouts/Base.astro";
+import { getAstroLocale, localizedPath } from "../utils/i18n";
+
+const locale = getAstroLocale(Astro);
+const { entries, cacheHint } = await getEmDashCollection("posts");
+Astro.cache.set(cacheHint);
+
+const copy = locale === "th"
+	? {
+		title: "เกี่ยวกับ Paritsea",
+		description: "Paritsea คือพื้นที่ที่ Parit Ritchai บันทึกสิ่งที่เห็น ตั้งชื่อรูปแบบที่ยังอธิบายยาก และพัฒนาบางส่วนให้กลายเป็นงานอ้างอิงที่ตรวจสอบที่มาได้",
+		label: "ผู้เขียน ต้นทาง และบันทึกสาธารณะ",
+		headline: "ที่นี่มีผู้เขียนชัดเจน แต่งานไม่ได้หยุดอยู่ที่ตัวผู้เขียน",
+		intro: "Parit Ritchai เป็นผู้สังเกต ตั้งชื่อ และตัดสินใจเมื่อความหมายของงานต้นทางเปลี่ยน ส่วน Paritsea เก็บข้อสังเกต การแก้ไข ความสัมพันธ์ และขอบเขตของงานไว้ให้ผู้อื่นอ่านและตรวจสอบได้",
+		sections: [
+			{
+				index: "01",
+				label: "Paritsea ทำหน้าที่อะไร",
+				title: "รักษาร่องรอยของความคิด ไม่ใช่เพียงข้อสรุป",
+				body: "งานเริ่มจากสิ่งที่พบในชีวิต งาน ความสัมพันธ์ และระบบ Journal เก็บข้อสังเกตไว้ก่อน บางรูปแบบจึงถูกตั้งชื่อเป็น Concept และบางส่วนค่อยพัฒนาเป็น Framework, Protocol หรือ Standard ที่มีเวอร์ชันและขอบเขตชัดเจน",
+			},
+			{
+				index: "02",
+				label: "บทบาทของผู้เขียน",
+				title: "การมองและการตัดสินใจต้องระบุที่มา",
+				body: "ข้อสังเกตและการตั้งชื่อไม่เกิดขึ้นเอง Parit Ritchai จึงปรากฏในฐานะผู้เขียนและผู้รับผิดชอบต่อดุลยพินิจ ไม่ใช่ในฐานะบุคคลที่ต้องเป็นศูนย์กลางของทุกหน้า",
+			},
+			{
+				index: "03",
+				label: "บทบาทของ Paritsea",
+				title: "ทำให้งานอ่านได้โดยไม่ต้องรู้จักผู้เขียนเป็นการส่วนตัว",
+				body: "Paritsea จัดเก็บสถานะ เวอร์ชัน ที่มา สิ่งที่งานกล่าวอ้าง และสิ่งที่ยังไม่ได้พิสูจน์ เพื่อให้งานหนึ่งชิ้นถูกอ้าง ทบทวน หรือโต้แย้งได้จากตัวงานเอง",
+			},
+			{
+				index: "04",
+				label: "ความเป็นอิสระ",
+				title: "ไม่ต้องผลิตคำตอบเพราะตลาดต้องการคำตอบ",
+				body: "Paritsea ไม่ขายบริการ ไม่มีราคา และไม่ปรับข้อสรุปเพื่อเพิ่ม conversion ความคิดที่ยังไม่พร้อมสรุปสามารถอยู่ในสถานะกำลังสำรวจได้ และงานที่เปลี่ยนความหมายต้องออกฉบับใหม่พร้อมเหตุผล",
+			},
+		],
+		refusesLabel: "สิ่งที่ Paritsea ปฏิเสธ",
+		refusesTitle: "ความชัดเจนไม่จำเป็นต้องแลกกับการทำให้ทุกอย่างง่ายเกินจริง",
+		refuses: [
+			"ไม่เปลี่ยนงานความคิดเป็นประวัติผลงานส่วนตัว",
+			"ไม่ใช้ความลึกลับสร้างอำนาจให้ผู้เขียน",
+			"ไม่อ้างว่า Framework ใช้ได้กับทุกสถานการณ์",
+			"ไม่ลบประวัติเดิมเมื่อความเข้าใจเปลี่ยน",
+			"ไม่ทำให้การประยุกต์ใช้เชิงพาณิชย์กลายเป็นเจ้าของต้นทาง",
+		],
+		governanceLabel: "เมื่อความคิดเปลี่ยน",
+		governanceTitle: "การเปลี่ยนใจต้องมองเห็นได้",
+		governanceBody: "Journal อาจแสดงความไม่แน่ใจได้โดยตรง ส่วนงานอ้างอิงต้องระบุ revision, version และเหตุผลของการเปลี่ยนแปลง การแก้คำเพื่อความชัดเจนทำได้ แต่การเปลี่ยนความหมายอย่างเงียบ ๆ ทำไม่ได้",
+		authorLink: "ดูระเบียนผู้เขียน",
+		useLink: "ตรวจวิธีใช้และอ้างอิง",
+		applicationLabel: "ความสัมพันธ์กับ SE Ocean",
+		applicationTitle: "ต้นทางกับการประยุกต์ใช้มีความรับผิดชอบคนละแบบ",
+		applicationBody: "Paritsea เป็นพื้นที่กำเนิดและเก็บงานต้นทาง ส่วน SE Ocean อาจตีความงานบางส่วนเพื่อใช้กับปัญหาองค์กรจริง การประยุกต์ใช้เปลี่ยนได้ตามลูกค้าและบริบท แต่ไม่เปลี่ยนฉบับอ้างอิงหลักของ Paritsea โดยอัตโนมัติ",
+		applicationLink: "ดูบริบทองค์กรที่ SE Ocean",
+		recordLabel: "บันทึกสาธารณะปัจจุบัน",
+		recordValue: `${entries.length} งานที่เผยแพร่`,
+	}
+	: {
+		title: "About Paritsea",
+		description: "Paritsea is where observations by Parit Ritchai are recorded, named, revised, and developed into traceable public work.",
+		label: "Author, source, and public record",
+		headline: "The author is explicit. The work does not end at the author.",
+		intro: "Parit Ritchai observes, names, and decides when the meaning of source work changes. Paritsea keeps the observations, revisions, relationships, and limits visible so the work can be read and inspected by others.",
+		sections: [
+			{ index: "01", label: "What Paritsea does", title: "Preserve the trace of thought, not only its conclusion", body: "Work begins with situations encountered in life, work, relationships, and systems. Journal holds observations first. Some patterns become Concepts. Selected work develops into versioned Frameworks, Protocols, or Standards with explicit scope." },
+			{ index: "02", label: "The author's role", title: "Observation and judgement must remain attributable", body: "Observations and names do not appear on their own. Parit Ritchai remains visible as the author responsible for judgement, not as a personality that needs to dominate every page." },
+			{ index: "03", label: "Paritsea's role", title: "Make the work readable without personal access to the author", body: "Paritsea records status, version, provenance, claims, and unresolved limits so a work can be cited, examined, or challenged on its own terms." },
+			{ index: "04", label: "Independence", title: "No obligation to manufacture answers for a market", body: "Paritsea sells no services, lists no prices, and does not optimize conclusions for conversion. Unsettled work can remain exploring. A semantic change requires a new version and a reason." },
+		],
+		refusesLabel: "What Paritsea refuses",
+		refusesTitle: "Clarity does not require making everything falsely simple",
+		refuses: [
+			"Turning intellectual work into a personal portfolio",
+			"Using mystery to manufacture authority around the author",
+			"Claiming that a Framework applies to every situation",
+			"Erasing prior records when understanding changes",
+			"Allowing commercial application to take ownership of the source",
+		],
+		governanceLabel: "When thought changes",
+		governanceTitle: "A change of mind should be visible",
+		governanceBody: "Journal can expose uncertainty directly. Reference work must name its revision, version, and reason for change. Language may be clarified, but meaning cannot be silently rewritten.",
+		authorLink: "Open the author record",
+		useLink: "Review use and citation",
+		applicationLabel: "Relationship with SE Ocean",
+		applicationTitle: "Source and application carry different responsibilities",
+		applicationBody: "Paritsea originates and keeps the source. SE Ocean may interpret selected work for real organizational problems. Application can change with a client and context, but it does not automatically alter the canonical Paritsea record.",
+		applicationLink: "See organizational contexts at SE Ocean",
+		recordLabel: "Current public record",
+		recordValue: `${entries.length} published works`,
+	};
+---
+
+<Base title={copy.title} description={copy.description} locale={locale}>
+	<article class="experience-page about-page">
+		<header class="about-intro">
+			<div class="about-intro-copy">
+				<p class="experience-label" data-state="named">{copy.label}</p>
+				<h1 class="experience-title">{copy.headline}</h1>
+				<p class="experience-summary">{copy.intro}</p>
+			</div>
+			<aside class="about-author-stamp" aria-label={copy.recordLabel}>
+				<img src="/images/parit-profile.jpg" alt="Parit Ritchai" />
+				<div>
+					<strong>Parit Ritchai</strong>
+					<span>{locale === "th" ? "ผู้เขียนและผู้ตัดสินใจต่องานต้นทาง" : "Author and change authority"}</span>
+				</div>
+				<dl>
+					<dt>{copy.recordLabel}</dt>
+					<dd>{copy.recordValue}</dd>
+				</dl>
+			</aside>
+		</header>
+
+		<section class="about-roles" aria-label={locale === "th" ? "บทบาทของผู้เขียนและ Paritsea" : "Roles of the author and Paritsea"}>
+			{copy.sections.map((section) => (
+				<div class="about-role">
+					<p><span>{section.index}</span>{section.label}</p>
+					<h2>{section.title}</h2>
+					<p>{section.body}</p>
+				</div>
+			))}
+		</section>
+
+		<section class="experience-section about-refuses" aria-labelledby="refuses-title">
+			<div class="experience-section-heading">
+				<div>
+					<p class="experience-label" data-state="moving">{copy.refusesLabel}</p>
+					<h2 id="refuses-title">{copy.refusesTitle}</h2>
+				</div>
+			</div>
+			<ul>
+				{copy.refuses.map((item, index) => <li><span>{String(index + 1).padStart(2, "0")}</span>{item}</li>)}
+			</ul>
+		</section>
+
+		<section class="experience-section" aria-labelledby="governance-title">
+			<div class="experience-note">
+				<div>
+					<p class="experience-label" data-state="governed">{copy.governanceLabel}</p>
+					<h2 id="governance-title">{copy.governanceTitle}</h2>
+				</div>
+				<div>
+					<p>{copy.governanceBody}</p>
+					<div class="about-links">
+						<a class="experience-link" href={localizedPath("/author/parit-ritchai", locale)}>{copy.authorLink} <span aria-hidden="true">→</span></a>
+						<a class="experience-link" href={localizedPath("/ip", locale)}>{copy.useLink} <span aria-hidden="true">→</span></a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="experience-section" aria-labelledby="application-title">
+			<div class="experience-note" data-context="applied">
+				<div>
+					<p class="experience-label" data-state="applied">{copy.applicationLabel}</p>
+					<h2 id="application-title">{copy.applicationTitle}</h2>
+				</div>
+				<div>
+					<p>{copy.applicationBody}</p>
+					<a class="experience-link" href="https://seocean.co.th" target="_blank" rel="noreferrer">{copy.applicationLink} <span aria-hidden="true">↗</span></a>
+				</div>
+			</div>
+		</section>
+	</article>
+</Base>
+
+<style>
+	.about-intro {
+		display: grid;
+		grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.5fr);
+		gap: clamp(var(--spacing-12), 8vw, var(--spacing-32));
+		align-items: end;
+		padding-bottom: var(--spacing-20);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.about-author-stamp {
+		display: grid;
+		grid-template-columns: 64px 1fr;
+		gap: var(--spacing-4);
+		padding: var(--spacing-6) 0 var(--spacing-6) var(--spacing-6);
+		border-left: 2px solid var(--color-accent);
+	}
+
+	.about-author-stamp img {
+		width: 64px;
+		height: 76px;
+		object-fit: cover;
+		filter: grayscale(18%);
+	}
+
+	.about-author-stamp strong,
+	.about-author-stamp span {
+		display: block;
+	}
+
+	.about-author-stamp strong {
+		font-family: var(--font-serif);
+		font-size: var(--font-size-xl);
+		font-weight: 500;
+	}
+
+	.about-author-stamp span,
+	.about-author-stamp dt,
+	.about-author-stamp dd {
+		font-size: var(--font-size-sm);
+		line-height: 1.6;
+		color: var(--color-muted);
+	}
+
+	.about-author-stamp dl {
+		grid-column: 1 / -1;
+		padding-top: var(--spacing-5);
+		border-top: 1px solid var(--color-border-subtle);
+	}
+
+	.about-author-stamp dd {
+		color: var(--color-text-secondary);
+	}
+
+	.about-roles {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		margin-top: var(--spacing-20);
+		border-top: 1px solid var(--color-border);
+		border-left: 1px solid var(--color-border);
+	}
+
+	.about-role {
+		min-height: 360px;
+		padding: var(--spacing-7);
+		border-right: 1px solid var(--color-border);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.about-role > p:first-child {
+		display: flex;
+		gap: var(--spacing-4);
+		font-family: var(--font-mono);
+		font-size: var(--font-size-xs);
+		line-height: 1.6;
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+		color: var(--color-muted);
+	}
+
+	.about-role > p:first-child span {
+		color: var(--color-accent);
+	}
+
+	.about-role h2 {
+		max-width: 20ch;
+		margin-top: var(--spacing-10);
+		font-family: var(--font-serif);
+		font-size: clamp(2rem, 3.2vw, 3.5rem);
+		font-weight: 500;
+		line-height: 1.06;
+		letter-spacing: var(--tracking-tight);
+		text-wrap: balance;
+	}
+
+	.about-role > p:last-child {
+		max-width: 58ch;
+		margin-top: var(--spacing-7);
+		font-size: var(--font-size-lg);
+		line-height: 1.75;
+		color: var(--color-text-secondary);
+	}
+
+	.about-refuses ul {
+		list-style: none;
+		border-top: 1px solid var(--color-border);
+	}
+
+	.about-refuses li {
+		display: grid;
+		grid-template-columns: 4rem 1fr;
+		gap: var(--spacing-5);
+		padding-block: var(--spacing-5);
+		border-bottom: 1px solid var(--color-border-subtle);
+		font-family: var(--font-serif);
+		font-size: clamp(1.4rem, 2.5vw, 2.35rem);
+		line-height: 1.25;
+	}
+
+	.about-refuses li span {
+		font-family: var(--font-mono);
+		font-size: var(--font-size-xs);
+		color: var(--color-accent);
+	}
+
+	.about-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--spacing-4) var(--spacing-7);
+		margin-top: var(--spacing-5);
+	}
+
+	:global(:lang(th)) .about-author-stamp strong,
+	:global(:lang(th)) .about-role h2,
+	:global(:lang(th)) .about-refuses li {
+		font-family: var(--font-sans);
+		font-weight: 300;
+		font-style: normal;
+		letter-spacing: 0;
+		line-height: 1.45;
+	}
+
+	:global(:lang(th)) .about-author-stamp span,
+	:global(:lang(th)) .about-author-stamp dt,
+	:global(:lang(th)) .about-author-stamp dd,
+	:global(:lang(th)) .about-role > p:first-child,
+	:global(:lang(th)) .about-refuses li span {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		font-style: normal;
+		letter-spacing: 0;
+		line-height: 1.6;
+		text-transform: none;
+	}
+
+	:global(:lang(th)) .about-role > p:last-child {
+		font-family: var(--font-sans);
+		font-size: 1.0625rem;
+		font-style: normal;
+		letter-spacing: 0;
+		line-height: 1.9;
+		word-break: keep-all;
+	}
+
+	@media (max-width: 960px) {
+		.about-intro {
+			grid-template-columns: 1fr;
+		}
+
+		.about-author-stamp {
+			max-width: 520px;
+		}
+	}
+
+	@media (max-width: 700px) {
+		.about-roles {
+			grid-template-columns: 1fr;
+		}
+
+		.about-role {
+			min-height: 0;
+			padding: var(--spacing-6) var(--spacing-5);
+		}
+
+		.about-role h2 {
+			margin-top: var(--spacing-6);
+		}
+
+		.about-refuses li {
+			grid-template-columns: 2.5rem 1fr;
+			font-size: var(--font-size-xl);
+		}
+	}
+</style>

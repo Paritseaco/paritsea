@@ -22,10 +22,7 @@
           "label": "Related Intellectual Work",
           "type": "reference",
           "required": true,
-          "unique": false,
-          "options": {
-            "collection": "posts"
-          }
+          "unique": false
         },
         {
           "slug": "context_type",
@@ -86,7 +83,8 @@
       "supports": [
         "drafts",
         "revisions",
-        "search"
+        "search",
+        "seo"
       ],
       "fields": [
         {
@@ -101,10 +99,7 @@
           "label": "Related Intellectual Work",
           "type": "reference",
           "required": false,
-          "unique": false,
-          "options": {
-            "collection": "posts"
-          }
+          "unique": false
         },
         {
           "slug": "implementer",
@@ -182,6 +177,13 @@
           "unique": false
         },
         {
+          "slug": "content",
+          "label": "Content",
+          "type": "portableText",
+          "required": false,
+          "unique": false
+        },
+        {
           "slug": "page_role",
           "label": "Page Role",
           "type": "select",
@@ -202,13 +204,6 @@
           "type": "text",
           "required": false,
           "unique": false
-        },
-        {
-          "slug": "content",
-          "label": "Content",
-          "type": "portableText",
-          "required": false,
-          "unique": false
         }
       ]
     },
@@ -219,7 +214,8 @@
       "supports": [
         "drafts",
         "revisions",
-        "search"
+        "search",
+        "seo"
       ],
       "fields": [
         {
@@ -227,6 +223,27 @@
           "label": "Title",
           "type": "string",
           "required": true,
+          "unique": false
+        },
+        {
+          "slug": "featured_image",
+          "label": "Featured Image",
+          "type": "image",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "content",
+          "label": "Content",
+          "type": "portableText",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "excerpt",
+          "label": "Excerpt",
+          "type": "text",
+          "required": false,
           "unique": false
         },
         {
@@ -244,6 +261,42 @@
               "implementations"
             ]
           }
+        },
+        {
+          "slug": "format",
+          "label": "Content Format",
+          "type": "select",
+          "required": false,
+          "unique": false,
+          "validation": {
+            "options": [
+              "essay",
+              "video-reflection",
+              "pattern-brief",
+              "decision-note"
+            ]
+          }
+        },
+        {
+          "slug": "youtube_url",
+          "label": "YouTube URL",
+          "type": "string",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "system_bridge_url",
+          "label": "System Bridge URL",
+          "type": "string",
+          "required": false,
+          "unique": false
+        },
+        {
+          "slug": "protocol_url",
+          "label": "Protocol URL",
+          "type": "string",
+          "required": false,
+          "unique": false
         },
         {
           "slug": "content_type",
@@ -333,63 +386,6 @@
           "type": "datetime",
           "required": false,
           "unique": false
-        },
-        {
-          "slug": "featured_image",
-          "label": "Featured Image",
-          "type": "image",
-          "required": false,
-          "unique": false
-        },
-        {
-          "slug": "content",
-          "label": "Content",
-          "type": "portableText",
-          "required": false,
-          "unique": false
-        },
-        {
-          "slug": "excerpt",
-          "label": "Excerpt",
-          "type": "text",
-          "required": false,
-          "unique": false
-        },
-        {
-          "slug": "format",
-          "label": "Content Format",
-          "type": "select",
-          "required": false,
-          "unique": false,
-          "validation": {
-            "options": [
-              "essay",
-              "video-reflection",
-              "pattern-brief",
-              "decision-note"
-            ]
-          }
-        },
-        {
-          "slug": "youtube_url",
-          "label": "YouTube URL",
-          "type": "string",
-          "required": false,
-          "unique": false
-        },
-        {
-          "slug": "system_bridge_url",
-          "label": "System Bridge URL",
-          "type": "string",
-          "required": false,
-          "unique": false
-        },
-        {
-          "slug": "protocol_url",
-          "label": "Protocol URL",
-          "type": "string",
-          "required": false,
-          "unique": false
         }
       ]
     },
@@ -414,20 +410,14 @@
           "label": "Source Work",
           "type": "reference",
           "required": true,
-          "unique": false,
-          "options": {
-            "collection": "posts"
-          }
+          "unique": false
         },
         {
           "slug": "target_work",
           "label": "Target Work",
           "type": "reference",
           "required": true,
-          "unique": false,
-          "options": {
-            "collection": "posts"
-          }
+          "unique": false
         },
         {
           "slug": "relationship_type",
@@ -464,5 +454,5 @@
       ]
     }
   ],
-  "version": "8a805e1c5b27d4a2"
+  "version": "ba5bd9c090aabef8"
 }

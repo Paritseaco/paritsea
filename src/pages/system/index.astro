@@ -1,510 +1,120 @@
 ---
-/**
- * /system — Structuring layer hub.
- *
- * Architecture: Lens (origin) → Journal (seeing) → System (structuring) → IP / Official Use
- * System holds what has been observed in Journal and formalized into governed
- * knowledge — Framework, Protocols, and Standards.
- *
- * ux-blueprint.md §4 required sections (in order):
- * 1. Layer definition — what "structuring" means
- * 2. Framework card — canonical version-governed root, one-line role
- * 3. Protocols card — obligations, one-line role
- * 4. Standards card — thresholds, one-line role
- * 5. Derivation order made explicit
- */
+import { getEmDashCollection } from "emdash";
 import Base from "../../layouts/Base.astro";
-import { getSiteSettings } from "emdash";
+import Breadcrumb from "../../components/Breadcrumb.astro";
 import { getAstroLocale, localizedPath } from "../../utils/i18n";
-import { resolveBlogSiteIdentity } from "../../utils/site-identity";
 
 const locale = getAstroLocale(Astro);
-const { siteTitle } = resolveBlogSiteIdentity(await getSiteSettings());
+const { entries, cacheHint } = await getEmDashCollection("posts");
+Astro.cache.set(cacheHint);
+
+const count = (type: string) => entries.filter((entry) => entry.data.content_type === type).length;
+const layers = locale === "th"
+	? [
+		{ number: "01", state: "จัดระบบแล้ว", name: "Framework", count: count("framework"), href: "/system/frameworks", description: "โครงสร้างที่จัดความสัมพันธ์ของแนวคิด หลักการ และข้อจำกัดให้เป็นระบบเดียวกัน" },
+		{ number: "02", state: "นำไปดำเนินการได้", name: "Protocol", count: count("protocol"), href: "/system/protocols", description: "ภาระหน้าที่หรือวิธีดำเนินการที่สืบจาก Framework และต้องรักษาความหมายต้นทาง" },
+		{ number: "03", state: "ตรวจสอบได้", name: "Standard", count: count("standard"), href: "/system/standards", description: "เงื่อนไขที่ใช้ตรวจว่าภาระหน้าที่ของ Protocol เกิดขึ้นจริงภายในขอบเขตที่ระบุ" },
+	]
+	: [
+		{ number: "01", state: "Structured", name: "Frameworks", count: count("framework"), href: "/system/frameworks", description: "Structures that organise concepts, principles, and constraints into a coherent reference." },
+		{ number: "02", state: "Operable", name: "Protocols", count: count("protocol"), href: "/system/protocols", description: "Obligations or methods derived from a Framework while preserving the meaning of the source." },
+		{ number: "03", state: "Verifiable", name: "Standards", count: count("standard"), href: "/system/standards", description: "Conditions used to examine whether a Protocol obligation is present within its stated scope." },
+	];
 
 const copy = locale === "th" ? {
-	title: `System — ${siteTitle}`,
-	description: "System คือชั้นของการจัดโครงสร้าง — การสังเกตจาก Journal ที่ถูกกำหนดเป็นความรู้ที่มีกฎกำกับ ประกอบด้วย Framework, Protocols และ Standards",
-	eyebrow: "HUB · STRUCTURING",
-	intro: "เมื่อ observation จาก Journal ปรากฏซ้ำพอจนไม่ใช่แค่บันทึกส่วนตัว มันจะถูกคัดและจัดโครงสร้างที่นี่",
-	introSub: "System คือชั้นที่รูปแบบจากชีวิตจริงถูกทำให้เป็นความรู้ที่อ้างอิง ใช้ซ้ำ และตรวจสอบได้ — ไม่ใช่ blog ไม่ใช่ personal opinion และไม่ใช่บริการเชิงพาณิชย์",
-	cardsLabel: "เลือกชั้นที่คุณต้องการ",
-	framework: {
-		name: "Framework",
-		role: "รากฐาน canonical ที่มี version",
-		desc: "Framework จัดระเบียบแนวคิดและข้อจำกัด ทุก semantic change ต้องมีเหตุผล ประวัติ และ version ใหม่ ไม่เขียนทับอดีต",
-	},
-	protocols: {
-		name: "Protocols",
-		role: "ข้อกำหนดที่ปฏิบัติได้",
-		desc: "สิ่งที่ต้องคงอยู่ในทางปฏิบัติ Protocol มาจาก Framework และกำหนดสิ่งที่ต้องเป็น",
-	},
-	standards: {
-		name: "Standards",
-		role: "เกณฑ์ที่วัดได้",
-		desc: "วิธีตรวจสอบว่าข้อกำหนดของ Protocol เป็นจริง Standard อยู่ใต้ Protocol และวางเกณฑ์ที่ชัดเจน",
-	},
-	derivationHeading: "ลำดับที่มา",
-	derivationText: "Journal เป็นพื้นที่ที่ observation ถูกบันทึก บางรูปแบบถูกตั้งชื่อเป็น Concept และบางส่วนจึงถูก formalize เป็น Framework, Protocol หรือ Standard แต่ไม่มีแนวคิดใดถูกบังคับให้เดินจนสุดเส้นทาง",
-	layerHeading: "System อยู่ในเส้นทางนี้",
-	layerLens: "Lens",
-	layerLensRole: "ที่มา — สายตาและบริบทของผู้สร้าง",
-	layerJournal: "Journal",
-	layerJournalRole: "การสังเกต — ปัญหาที่ถูกตั้งชื่อก่อนจะมีกฎกำกับ",
-	layerSystem: "System",
-	layerSystemRole: "การจัดโครงสร้าง — การสังเกตที่ถูกกำหนดเป็นความรู้ที่มีกฎกำกับ",
-	layerIp: "IP",
-	layerIpRole: "ขอบเขตการใช้ — การอ้างอิง ดัดแปลง ขอสิทธิ์ และ official use",
-	notDesc: "System ไม่ใช่แหล่งรวบรวมความเห็น และไม่ใช่หน้าเสนอขายบริการ — มันคือโครงสร้างที่ทำให้ข้อสังเกตกลายเป็นสิ่งที่อ้างอิงได้",
-	systemNoteHeading: "ไม่ใช่ blog และไม่ใช่บริการ",
-	systemNoteText: "เนื้อหาใน System ถูกเขียนใน register ของเอกสารอ้างอิง สิ่งที่อยู่ในชั้นนี้ต้องคงความหมายเมื่อถูกอ้าง ดัดแปลง หรือขอสิทธิ์ใช้อย่างเป็นทางการ",
+	title: "งานอ้างอิง — Paritsea",
+	role: "ศูนย์รวมงานที่จัดระบบแล้ว",
+	headline: "เมื่อข้อสังเกตต้องรับผิดชอบมากกว่าการเป็นข้อสังเกต",
+	summary: "พื้นที่นี้รวม Framework, Protocol และ Standard ที่มีสถานะ เวอร์ชัน ที่มา และขอบเขตชัดเจน งานเหล่านี้อ่านเพื่ออ้าง ตรวจสอบ หรือประยุกต์ภายใต้เงื่อนไขของแต่ละฉบับ",
+	choose: "เลือกตามบทบาทของงาน",
+	chooseNote: "ทั้งสามประเภทไม่ใช่ระดับคุณค่าที่สูงขึ้นตามลำดับ แต่ตอบคำถามคนละแบบ",
+	path: "งานเกิดขึ้นอย่างไร",
+	pathTitle: "เส้นทางนี้เป็นแผนที่ ไม่ใช่สายพาน",
+	pathBody: "บันทึกหนึ่งชิ้นอาจหยุดอยู่ใน Journal รูปแบบหนึ่งอาจถูกตั้งชื่อเป็น Concept โดยไม่กลายเป็น Framework และ Standard จะเกิดขึ้นต่อเมื่อมีสิ่งที่ควรตรวจจริง การ formalize คือการเพิ่มภาระความรับผิดชอบ ไม่ใช่การประกาศว่างานสำคัญกว่าเดิม",
+	boundary: "ขอบเขต",
+	boundaryTitle: "เอกสารอ้างอิงไม่ใช่บริการ",
+	boundaryBody: "Paritsea รักษาฉบับต้นทางและประวัติการเปลี่ยนแปลง การนำงานไปใช้กับองค์กรอยู่ในบริบทของผู้ประยุกต์ และไม่แก้ canonical record โดยอัตโนมัติ",
+	useLink: "ตรวจวิธีใช้และอ้างอิง",
 } : {
-	title: `System — ${siteTitle}`,
-	description: "System is the structuring layer — observations from Journal formalized into governed knowledge: Framework, Protocols, and Standards.",
-	eyebrow: "HUB · STRUCTURING",
-	intro: "When observations from Journal repeat strongly enough to become more than personal notes, they are selected and structured here.",
-	introSub: "System is where patterns from lived reality become citable, repeatable, and verifiable knowledge — not a blog, not personal opinion, and not a commercial service.",
-	cardsLabel: "Choose a layer",
-	framework: {
-		name: "Framework",
-		role: "The versioned canonical root",
-		desc: "A Framework organises concepts and constraints. Semantic change requires rationale, history, and a new version rather than rewriting the past.",
-	},
-	protocols: {
-		name: "Protocols",
-		role: "Actionable obligations",
-		desc: "What must hold in practice. Protocols derive from the Framework and define what must be true.",
-	},
-	standards: {
-		name: "Standards",
-		role: "Measurable thresholds",
-		desc: "How Protocol obligations are verified. Standards sit beneath Protocols and set concrete criteria.",
-	},
-	derivationHeading: "Derivation order",
-	derivationText: "Journal records observation. Some patterns become named Concepts and selected work may be formalized into a Framework, Protocol, or Standard. No idea is required to travel through the entire path.",
-	layerHeading: "System within the thought path",
-	layerLens: "Lens",
-	layerLensRole: "Origin — creator context and way of seeing",
-	layerJournal: "Journal",
-	layerJournalRole: "Observation — problems named before they are governed",
-	layerSystem: "System",
-	layerSystemRole: "Structuring — observation formalized into governed knowledge",
-	layerIp: "IP",
-	layerIpRole: "Use boundaries — citation, adaptation, licensing, and official use",
-	notDesc: "System is not an opinion archive. And it is not a service offer. It is the structure that makes observation citable.",
-	systemNoteHeading: "Not a blog and not a service",
-	systemNoteText: "System pages use reference-document register. Anything here must preserve meaning when it is cited, adapted, licensed, or used officially.",
+	title: "Reference work — Paritsea",
+	role: "Hub for structured work",
+	headline: "When an observation must carry more responsibility than observation alone",
+	summary: "This hub holds Frameworks, Protocols, and Standards with explicit status, version, provenance, and scope. They are read to cite, examine, or apply under the conditions of each record.",
+	choose: "Choose by the role of the work",
+	chooseNote: "The three types are not ascending levels of value. They answer different questions.",
+	path: "How work develops",
+	pathTitle: "The path is a map, not a production line",
+	pathBody: "A Journal entry may remain a Journal entry. A pattern may become a Concept without becoming a Framework. A Standard only emerges when something genuinely needs to be examined. Formalising adds responsibility; it does not declare the work more important.",
+	boundary: "Boundary",
+	boundaryTitle: "Reference work is not a service",
+	boundaryBody: "Paritsea keeps the source record and its history of change. Organizational application belongs to the interpreter's context and does not automatically revise the canonical record.",
+	useLink: "Review use and citation",
 };
 ---
 
-<Base title={copy.title} description={copy.description} locale={locale}>
-	<div class="system-hub">
-
-		{/* ── Layer definition ── */}
-		<header class="system-hub-header">
-			<p class="system-hub-eyebrow">{copy.eyebrow}</p>
-			<h1 class="system-hub-title">System</h1>
-			<p class="system-hub-intro">{copy.intro}</p>
-			<p class="system-hub-intro-sub">{copy.introSub}</p>
+<Base title={copy.title} description={copy.summary} locale={locale}>
+	<main class="experience-page system-page">
+		<Breadcrumb crumbs={[{ label: locale === "th" ? "หน้าแรก" : "Home", href: localizedPath("/", locale) }, { label: locale === "th" ? "งานอ้างอิง" : "Reference work" }]} />
+		<header class="system-intro">
+			<p class="experience-label" data-state="governed">{copy.role}</p>
+			<h1 class="experience-title">{copy.headline}</h1>
+			<p class="experience-summary">{copy.summary}</p>
 		</header>
 
-		{/* ── Three destination cards ── */}
-		<nav class="system-hub-cards" aria-label={copy.cardsLabel}>
-			<a href={localizedPath("/system/frameworks", locale)} class="system-hub-card system-hub-card--framework">
-				<p class="system-hub-card-role">{copy.framework.role}</p>
-				<h2 class="system-hub-card-title">{copy.framework.name}</h2>
-				<p class="system-hub-card-desc">{copy.framework.desc}</p>
-			</a>
-
-			<a href={localizedPath("/system/protocols", locale)} class="system-hub-card">
-				<p class="system-hub-card-role">{copy.protocols.role}</p>
-				<h2 class="system-hub-card-title">{copy.protocols.name}</h2>
-				<p class="system-hub-card-desc">{copy.protocols.desc}</p>
-			</a>
-
-			<a href={localizedPath("/system/standards", locale)} class="system-hub-card">
-				<p class="system-hub-card-role">{copy.standards.role}</p>
-				<h2 class="system-hub-card-title">{copy.standards.name}</h2>
-				<p class="system-hub-card-desc">{copy.standards.desc}</p>
-			</a>
-		</nav>
-
-		{/* ── Derivation order ── */}
-		<section class="system-hub-derivation">
-			<h3 class="system-hub-section-heading">{copy.derivationHeading}</h3>
-			<div class="system-hub-derivation-chain">
-				<div class="derivation-node derivation-node--journal">
-					<span class="derivation-label">Journal</span>
-					<span class="derivation-tag">{locale === "th" ? "observation · ต้นทาง" : "observation · origin"}</span>
-				</div>
-				<div class="derivation-arrow" aria-hidden="true">↓</div>
-				<div class="derivation-node">
-					<span class="derivation-label">Concept</span>
-					<span class="derivation-tag">{locale === "th" ? "pattern · ตั้งชื่อแล้ว" : "pattern · named"}</span>
-				</div>
-				<div class="derivation-arrow" aria-hidden="true">↓</div>
-				<div class="derivation-node derivation-node--root">
-					<span class="derivation-label">Framework</span>
-					<span class="derivation-tag">{locale === "th" ? "รากฐาน · มี version" : "root · versioned"}</span>
-				</div>
-				<div class="derivation-arrow" aria-hidden="true">↓</div>
-				<div class="derivation-node">
-					<span class="derivation-label">Protocols</span>
-					<span class="derivation-tag">{locale === "th" ? "ข้อกำหนด · มาจาก Framework" : "obligations · from Framework"}</span>
-				</div>
-				<div class="derivation-arrow" aria-hidden="true">↓</div>
-				<div class="derivation-node">
-					<span class="derivation-label">Standards</span>
-					<span class="derivation-tag">{locale === "th" ? "เกณฑ์ · มาจาก Protocols" : "thresholds · from Protocols"}</span>
-				</div>
+		<section class="experience-section" aria-labelledby="layers-title">
+			<div class="experience-section-heading">
+				<h2 id="layers-title">{copy.choose}</h2>
+				<p>{copy.chooseNote}</p>
 			</div>
-			<p class="system-hub-derivation-text">{copy.derivationText}</p>
-			<div class="system-hub-note">
-				<h3 class="system-hub-section-heading">{copy.systemNoteHeading}</h3>
-				<p>{copy.systemNoteText}</p>
+			<div class="experience-index">
+				{layers.map((layer) => (
+					<a class="experience-index-row" href={localizedPath(layer.href, locale)}>
+						<span class="experience-index-meta">{layer.number} · {layer.state}</span>
+						<div class="experience-index-copy">
+							<h3>{layer.name}</h3>
+							<p>{layer.description}</p>
+						</div>
+						<span class="experience-index-state">{String(layer.count).padStart(2, "0")} {locale === "th" ? "งาน" : "works"} →</span>
+					</a>
+				))}
 			</div>
 		</section>
 
-		{/* ── Layer relationship ── */}
-		<section class="system-hub-spine">
-			<h3 class="system-hub-section-heading">{copy.layerHeading}</h3>
-			<div class="spine-layers">
-				<a href={localizedPath("/about", locale)} class="spine-layer">
-					<span class="spine-layer-name">{copy.layerLens}</span>
-					<span class="spine-layer-role">{copy.layerLensRole}</span>
-				</a>
-				<div class="spine-arrow" aria-hidden="true">↓</div>
-				<a href={localizedPath("/journal", locale)} class="spine-layer">
-					<span class="spine-layer-name">{copy.layerJournal}</span>
-					<span class="spine-layer-role">{copy.layerJournalRole}</span>
-				</a>
-				<div class="spine-arrow" aria-hidden="true">↓</div>
-				<div class="spine-layer spine-layer--current">
-					<span class="spine-layer-name">{copy.layerSystem}</span>
-					<span class="spine-layer-role">{copy.layerSystemRole}</span>
-				</div>
-				<div class="spine-arrow" aria-hidden="true">↓</div>
-				<a href={localizedPath("/ip", locale)} class="spine-layer">
-					<span class="spine-layer-name">{copy.layerIp}</span>
-					<span class="spine-layer-role">{copy.layerIpRole}</span>
-				</a>
+		<section class="experience-section system-path" aria-labelledby="path-title">
+			<div>
+				<p class="experience-label" data-state="moving">{copy.path}</p>
+				<h2 id="path-title">{copy.pathTitle}</h2>
+				<p>{copy.pathBody}</p>
 			</div>
-			<p class="system-hub-not">{copy.notDesc}</p>
+			<ol aria-label={copy.path}>
+				{["Journal", "Concept", "Framework", "Protocol", "Standard"].map((label, index) => (
+					<li data-state={index === 0 ? "open" : index === 1 ? "named" : "governed"}><span>{String(index + 1).padStart(2, "0")}</span>{label}</li>
+				))}
+			</ol>
 		</section>
 
-	</div>
+		<section class="experience-section">
+			<div class="experience-note">
+				<div><p class="experience-label" data-state="governed">{copy.boundary}</p><h2>{copy.boundaryTitle}</h2></div>
+				<div><p>{copy.boundaryBody}</p><a class="experience-link" href={localizedPath("/ip", locale)}>{copy.useLink} <span aria-hidden="true">→</span></a></div>
+			</div>
+		</section>
+	</main>
 </Base>
 
 <style>
-	.system-hub {
-		max-width: 720px;
-		margin: 0 auto;
-		padding: var(--spacing-16) var(--spacing-6) var(--spacing-24);
-	}
-
-	/* ── Header ── */
-	.system-hub-header {
-		margin-bottom: var(--spacing-12);
-		padding-bottom: var(--spacing-10);
-		border-bottom: 1px solid var(--color-border-subtle);
-	}
-
-	.system-hub-eyebrow {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-sm);
-		font-weight: 500;
-		color: var(--color-accent);
-		letter-spacing: var(--tracking-wider);
-		text-transform: uppercase;
-		margin: 0 0 var(--spacing-3);
-	}
-
-	.system-hub-title {
-		font-family: var(--font-serif);
-		font-size: clamp(var(--font-size-2xl), 5vw, var(--font-size-3xl));
-		font-weight: 500;
-		color: var(--color-text);
-		margin: 0 0 var(--spacing-5);
-		letter-spacing: var(--tracking-tight);
-	}
-
-	.system-hub-intro {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-lg);
-		line-height: var(--leading-relaxed);
-		color: var(--color-text);
-		margin: 0 0 var(--spacing-3);
-	}
-
-	.system-hub-intro-sub {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-base);
-		line-height: var(--leading-relaxed);
-		color: var(--color-text-secondary);
-		margin: 0;
-	}
-
-	/* ── Cards ── */
-	.system-hub-cards {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: var(--spacing-8);
-		margin-bottom: var(--spacing-14);
-		counter-reset: system-layer;
-	}
-
-	.system-hub-card {
-		display: flex;
-		flex-direction: column;
-		gap: var(--spacing-2);
-		padding: var(--spacing-5) 0 0;
-		border-top: 1px solid var(--color-border);
-		text-decoration: none;
-		color: inherit;
-		position: relative;
-		counter-increment: system-layer;
-		transition: border-color 0.15s, transform 0.15s;
-	}
-
-	.system-hub-card::before {
-		content: "0" counter(system-layer);
-		font-family: var(--font-mono);
-		font-size: var(--font-size-xs);
-		color: var(--color-accent);
-		margin-bottom: var(--spacing-4);
-		opacity: 0.72;
-	}
-
-	.system-hub-card:hover {
-		border-color: var(--color-accent);
-		transform: translateY(-2px);
-		opacity: 1;
-	}
-
-	.system-hub-card--framework {
-		border-top-color: color-mix(in srgb, var(--color-accent) 60%, transparent);
-	}
-
-	.system-hub-card-role {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-xs);
-		font-weight: 500;
-		color: var(--color-accent);
-		letter-spacing: var(--tracking-wide);
-		text-transform: uppercase;
-		margin: 0;
-	}
-
-	.system-hub-card-title {
-		font-family: var(--font-serif);
-		font-size: var(--font-size-xl);
-		font-weight: 700;
-		color: var(--color-text);
-		margin: 0;
-		letter-spacing: var(--tracking-tight);
-	}
-
-	.system-hub-card-desc {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-sm);
-		line-height: var(--leading-relaxed);
-		color: var(--color-text-secondary);
-		margin: var(--spacing-1) 0 0;
-	}
-
-	/* ── Section heading ── */
-	.system-hub-section-heading {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-xs);
-		font-weight: 600;
-		color: var(--color-muted);
-		letter-spacing: var(--tracking-wider);
-		text-transform: uppercase;
-		margin: 0 0 var(--spacing-5);
-	}
-
-	/* ── Derivation ── */
-	.system-hub-derivation {
-		margin-bottom: var(--spacing-14);
-		padding-bottom: var(--spacing-10);
-		border-bottom: 1px solid var(--color-border-subtle);
-	}
-
-	.system-hub-derivation-chain {
-		display: flex;
-		flex-direction: column;
-		gap: var(--spacing-1);
-		margin-bottom: var(--spacing-5);
-		position: relative;
-	}
-
-	.system-hub-derivation-chain::before {
-		content: "";
-		position: absolute;
-		inset: var(--spacing-3) auto var(--spacing-3) 0;
-		width: 1px;
-		background: color-mix(in srgb, var(--color-border-subtle) 80%, transparent);
-	}
-
-	.derivation-node {
-		display: flex;
-		align-items: baseline;
-		gap: var(--spacing-3);
-		padding: var(--spacing-3) var(--spacing-4);
-		border-left: 2px solid var(--color-border);
-	}
-
-	.derivation-node--root {
-		border-left-color: var(--color-accent);
-	}
-
-	.derivation-node--journal {
-		border-left-color: color-mix(in srgb, var(--color-sea) 70%, var(--color-border));
-	}
-
-	.derivation-label {
-		font-family: var(--font-serif);
-		font-size: var(--font-size-base);
-		font-weight: 600;
-		color: var(--color-text);
-	}
-
-	.derivation-tag {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-xs);
-		color: var(--color-muted);
-		letter-spacing: var(--tracking-wide);
-	}
-
-	.derivation-arrow {
-		font-size: var(--font-size-sm);
-		color: var(--color-border);
-		padding-left: var(--spacing-4);
-		line-height: 1;
-	}
-
-	.system-hub-derivation-text {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-sm);
-		line-height: var(--leading-relaxed);
-		color: var(--color-text-secondary);
-		margin: 0;
-	}
-
-	.system-hub-note {
-		margin-top: var(--spacing-8);
-		padding: var(--spacing-5) 0 0 var(--spacing-5);
-		border-left: 2px solid var(--color-border-subtle);
-	}
-
-	.system-hub-note p {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-sm);
-		line-height: var(--leading-relaxed);
-		color: var(--color-text-secondary);
-		margin: 0;
-	}
-
-	:lang(th) .derivation-tag {
-		letter-spacing: 0;
-		line-height: 1.6;
-	}
-
-	/* ── Layer spine ── */
-	.system-hub-spine {
-		margin-bottom: var(--spacing-10);
-	}
-
-	.spine-layers {
-		display: flex;
-		flex-direction: column;
-		gap: var(--spacing-1);
-		margin-bottom: var(--spacing-5);
-	}
-
-	.spine-layer {
-		display: flex;
-		align-items: baseline;
-		gap: var(--spacing-4);
-		padding: var(--spacing-3) var(--spacing-4);
-		border: 1px solid var(--color-border-subtle);
-		text-decoration: none;
-		color: inherit;
-		transition: border-color 0.15s, background 0.15s;
-	}
-
-	.spine-layer:hover {
-		border-color: var(--color-accent);
-		background: var(--color-accent-subtle);
-		opacity: 1;
-	}
-
-	.spine-layer--current {
-		border-color: var(--color-accent);
-		background: var(--color-accent-subtle);
-		cursor: default;
-	}
-
-	.spine-layer-name {
-		font-family: var(--font-serif);
-		font-size: var(--font-size-base);
-		font-weight: 600;
-		color: var(--color-text);
-		min-width: 120px;
-		flex-shrink: 0;
-	}
-
-	.spine-layer-role {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-sm);
-		color: var(--color-text-secondary);
-		line-height: var(--leading-snug);
-	}
-
-	.spine-arrow {
-		font-size: var(--font-size-sm);
-		color: var(--color-border);
-		padding-left: var(--spacing-4);
-		line-height: 1;
-	}
-
-	.system-hub-not {
-		font-family: var(--font-sans);
-		font-size: var(--font-size-sm);
-		line-height: var(--leading-relaxed);
-		color: var(--color-muted);
-		margin: 0;
-		font-style: normal;
-	}
-
-	:lang(th) .system-hub-eyebrow,
-	:lang(th) .system-hub-card-role,
-	:lang(th) .system-hub-section-heading,
-	:lang(th) .derivation-tag {
-		letter-spacing: 0;
-		line-height: 1.6;
-	}
-
-	:lang(th) .system-hub-title,
-	:lang(th) .system-hub-card-title,
-	:lang(th) .derivation-label,
-	:lang(th) .spine-layer-name {
-		letter-spacing: 0;
-		line-height: 1.4;
-	}
-
-	/* ── Responsive ── */
-	@media (max-width: 640px) {
-		.system-hub-cards {
-			grid-template-columns: 1fr;
-		}
-
-		.spine-layer {
-			flex-direction: column;
-			gap: var(--spacing-1);
-		}
-
-		.spine-layer-name {
-			min-width: unset;
-		}
-	}
+	.system-intro { max-width: 1080px; padding: var(--spacing-12) 0 var(--spacing-16); border-bottom: 1px solid var(--color-border); }
+	.system-path { display: grid; grid-template-columns: minmax(0, .8fr) minmax(320px, 1.2fr); gap: clamp(var(--spacing-10), 8vw, var(--spacing-24)); }
+	.system-path h2 { max-width: 14ch; margin-top: var(--spacing-5); font-family: var(--font-serif); font-size: clamp(2.2rem, 4vw, 4rem); font-weight: 500; line-height: 1.05; }
+	.system-path > div > p:last-child { max-width: 56ch; margin-top: var(--spacing-6); color: var(--color-text-secondary); line-height: 1.75; }
+	.system-path ol { list-style: none; align-self: start; border-top: 1px solid var(--color-border); }
+	.system-path li { position: relative; display: grid; grid-template-columns: 4rem 1fr; padding: var(--spacing-5) 0; border-bottom: 1px solid var(--color-border-subtle); font-family: var(--font-serif); font-size: var(--font-size-2xl); }
+	.system-path li::after { content: ""; position: absolute; right: 0; top: 50%; width: 8px; height: 8px; border: 1px solid var(--color-muted); border-radius: 50%; }
+	.system-path li[data-state="named"]::after { background: color-mix(in srgb, var(--color-accent) 28%, transparent); border-color: var(--color-accent); }
+	.system-path li[data-state="governed"]::after { background: var(--color-accent); border-color: var(--color-accent); }
+	.system-path li span { font-family: var(--font-mono); font-size: var(--font-size-xs); color: var(--color-muted); }
+	:global(:lang(th)) .system-path h2, :global(:lang(th)) .system-path li { font-family: var(--font-sans); font-weight: 300; letter-spacing: 0; line-height: 1.45; }
+	:global(:lang(th)) .system-path > div > p:last-child { font-size: 1.0625rem; line-height: 1.9; letter-spacing: 0; word-break: keep-all; }
+	:global(:lang(th)) .system-path li span { font-family: var(--font-sans); font-size: .875rem; letter-spacing: 0; }
+	@media (max-width: 800px) { .system-path { grid-template-columns: 1fr; } }
 </style>
