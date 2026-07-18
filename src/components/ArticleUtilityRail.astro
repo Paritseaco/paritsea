@@ -260,6 +260,16 @@ const labels = ui[locale].labels;
 		color: var(--color-muted);
 	}
 
+	:global(:lang(th)) .article-utility-label,
+	:global(:lang(th)) .article-utility-byline-role {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		font-style: normal;
+		letter-spacing: 0;
+		line-height: 1.55;
+		text-transform: none;
+	}
+
 	@media (max-width: 1100px) {
 		.article-utility-rail {
 			display: grid;
