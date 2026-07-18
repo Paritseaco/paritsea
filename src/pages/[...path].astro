@@ -27,6 +27,11 @@ import { getReadingTime } from "../utils/reading-time";
 import { resolveBlogSiteIdentity } from "../utils/site-identity";
 import { incrementPostViews } from "../utils/view-count";
 import {
+	localizeAppliedContext,
+	localizeRecordMetadata,
+	localizeRecordValue,
+} from "../utils/intellectual-localization";
+import {
 	formatDateForLocale,
 	getAstroLocale,
 	localizeEntry,
@@ -46,10 +51,13 @@ const segments = pathParam.split("/").filter(Boolean);
 const rawSlug = segments.pop() ?? "";
 const publicSegment = segments.join("/");
 const taxonomySlug = frameworkPageFromSegment(publicSegment);
-if (!taxonomySlug || taxonomySlug === "the-doctrine") return new Response(locale === "th" ? "ไม่พบหน้า" : "Not found", { status: 404 });
+if (!taxonomySlug) return new Response(locale === "th" ? "ไม่พบหน้า" : "Not found", { status: 404 });
 
-const slug = decodeSlug(rawSlug);
-if (!slug) return new Response(locale === "th" ? "ไม่พบหน้า" : "Not found", { status: 404 });
+const decodedSlug = decodeSlug(rawSlug);
+if (!decodedSlug) return new Response(locale === "th" ? "ไม่พบหน้า" : "Not found", { status: 404 });
+const slug = taxonomySlug === "the-doctrine" && decodedSlug === "paritsea-framework"
+	? "doctrine"
+	: decodedSlug;
 
 const { entry: emdashPost, cacheHint } = await getEmDashEntry("posts", slug);
 const matchingEntry =
@@ -197,6 +205,12 @@ const lastUpdatedLabel = formatDateForLocale(lastUpdated, locale);
 // Phase 5 — contextual tails
 const postDataUntyped = post.data as unknown as Record<string, unknown>;
 const fallbackRecord = (() => {
+	if (isDoctrine) return {
+		type: "Framework", stage: "formalized", status: "current", version: "1.1",
+		provenance: "Authored by Parit Ritchai from recurring observations about structural coherence and legitimacy; revision 1.1 replaces absolute immutability with explicit, attributable, versioned change governance.",
+		scope: "A canonical lens for examining structural coherence and legitimacy. It does not determine moral virtue, commercial success, or universal applicability.",
+		nonClaims: "This Framework is not a regulator, certification, audit result, or permission for an applied interpreter to alter the canonical source.",
+	};
 	if (isProtocol) return {
 		type: "Protocol", stage: "formalized", status: "current", version: "1.0",
 		provenance: locale === "th" ? "สืบเนื่องจาก Paritsea Framework และ observation เรื่อง aesthetic transparency" : "Derived from the Paritsea Framework and the Journal observation on aesthetic transparency.",
@@ -219,10 +233,17 @@ const fallbackRecord = (() => {
 const contentType = String(postDataUntyped.content_type ?? fallbackRecord.type);
 const intellectualStage = String(postDataUntyped.intellectual_stage ?? fallbackRecord.stage);
 const lifecycleStatus = String(postDataUntyped.lifecycle_status ?? fallbackRecord.status);
-const documentVersion = String(postDataUntyped.document_version ?? fallbackRecord.version);
-const provenanceSummary = String(postDataUntyped.provenance_summary ?? fallbackRecord.provenance);
-const scopeNote = String(postDataUntyped.scope_note ?? fallbackRecord.scope);
-const nonClaims = String(postDataUntyped.non_claims ?? fallbackRecord.nonClaims);
+const documentVersion = isDoctrine
+	? "1.1"
+	: String(postDataUntyped.document_version ?? fallbackRecord.version);
+const localizedRecordMetadata = localizeRecordMetadata(locale, slug, contentType, {
+	provenance: String(postDataUntyped.provenance_summary ?? fallbackRecord.provenance),
+	scope: String(postDataUntyped.scope_note ?? fallbackRecord.scope),
+	nonClaims: String(postDataUntyped.non_claims ?? fallbackRecord.nonClaims),
+});
+const provenanceSummary = localizedRecordMetadata.provenance;
+const scopeNote = localizedRecordMetadata.scope;
+const nonClaims = localizedRecordMetadata.nonClaims;
 const lastReviewedValue = postDataUntyped.last_reviewed_at instanceof Date
 	? formatDateForLocale(postDataUntyped.last_reviewed_at, locale)
 	: lastUpdatedLabel;
@@ -240,7 +261,7 @@ try {
 	appliedContexts = result.entries
 		.map((entry) => entry.data as unknown as Record<string, unknown>)
 		.filter((data) => data.disclosure_status === "reviewed-public")
-		.map((data) => ({ title: String(data.title ?? "Applied context"), url: String(data.public_url ?? ""), summary: String(data.context_summary ?? ""), type: String(data.context_type ?? "field-evidence") }))
+		.map((data) => localizeAppliedContext(locale, { title: String(data.title ?? "Applied context"), url: String(data.public_url ?? ""), summary: String(data.context_summary ?? ""), type: String(data.context_type ?? "field-evidence") }))
 		.filter((context) => context.url.startsWith("https://"));
 } catch {
 	appliedContexts = [];
@@ -252,15 +273,17 @@ if (appliedContexts.length === 0) {
 		"on-automation-that-still-requires-fear": { title: "Tools accelerate confusion", url: "https://seocean.co.th/problems/tools-accelerate-confusion", summary: "A related organizational problem context maintained by SE Ocean.", type: "se-ocean-problem" },
 		"when-monitoring-becomes-emotional-labour": { title: "Invisible fixers hold the system", url: "https://seocean.co.th/problems/invisible-fixers-hold-system", summary: "A related organizational problem context maintained by SE Ocean.", type: "se-ocean-problem" },
 	};
-	if (fallbackApplied[slug]) appliedContexts = [fallbackApplied[slug]];
+	if (fallbackApplied[slug]) appliedContexts = [localizeAppliedContext(locale, fallbackApplied[slug])];
 }
 
 const breadcrumbCrumbs = isRecord
-	? [{ label: "Journal", href: localizedPath("/journal", locale) }, { label: post.data.title }]
+	? [{ label: locale === "th" ? "บันทึก" : "Journal", href: localizedPath("/journal", locale) }, { label: post.data.title }]
+	: isDoctrine
+		? [{ label: locale === "th" ? "งานอ้างอิง" : "Reference work", href: localizedPath("/system", locale) }, { label: "Framework", href: localizedPath("/system/frameworks", locale) }, { label: post.data.title }]
 	: isProtocol
-		? [{ label: "System", href: localizedPath("/system", locale) }, { label: "Protocols", href: localizedPath("/system/protocols", locale) }, { label: post.data.title }]
+		? [{ label: locale === "th" ? "งานอ้างอิง" : "Reference work", href: localizedPath("/system", locale) }, { label: "Protocol", href: localizedPath("/system/protocols", locale) }, { label: post.data.title }]
 		: isStandard
-			? [{ label: "System", href: localizedPath("/system", locale) }, { label: "Standards", href: localizedPath("/system/standards", locale) }, { label: post.data.title }]
+			? [{ label: locale === "th" ? "งานอ้างอิง" : "Reference work", href: localizedPath("/system", locale) }, { label: "Standard", href: localizedPath("/system/standards", locale) }, { label: post.data.title }]
 			: [{ label: locale === "th" ? "หน้าแรก" : "Home", href: localizedPath("/", locale) }, { label: post.data.title }];
 
 const documentStructuredData = {
@@ -341,7 +364,7 @@ const lateralPosts = otherPosts
 			<div class={`article-main${isDoctrine ? ' article-main--doctrine' : ''}`}>
 				<header class="article-header">
 					<p class="experience-label" data-state={isRecord ? "moving" : "governed"}>
-						{isRecord ? (locale === "th" ? "บันทึกฉบับเต็ม" : "Full Journal entry") : `${contentType} · ${lifecycleStatus}`}
+						{isRecord ? (locale === "th" ? "บันทึกฉบับเต็ม" : "Full Journal entry") : `${localizeRecordValue(locale, contentType)} · ${localizeRecordValue(locale, lifecycleStatus)}`}
 					</p>
 					{isDoctrine && (
 						<div class="doctrine-authority">
@@ -1526,6 +1549,9 @@ const lateralPosts = otherPosts
 	}
 
 	.article-reference-note-link {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
 		color: var(--color-text-secondary);
 		text-decoration: none;
 		margin-left: 0.25rem;
@@ -1711,6 +1737,25 @@ const lateralPosts = otherPosts
 	:lang(th) .article-author-card-links a {
 		letter-spacing: 0;
 		line-height: 1.6;
+	}
+
+	:lang(th) .doctrine-authority-label,
+	:lang(th) .article-doc-badge,
+	:lang(th) .article-author-card-role,
+	:lang(th) .article-author-card-links a,
+	:lang(th) .more-title {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		font-style: normal;
+		letter-spacing: 0;
+		line-height: 1.55;
+		text-transform: none;
+	}
+
+	:lang(th) .article-author-card-links a {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
 	}
 
 	:lang(th) .article-excerpt,

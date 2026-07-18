@@ -80,6 +80,19 @@ try {
 	const framework = await read("/system/frameworks/paritsea-framework");
 	check(/(?:Version:?\s*1\.1|v1\.1)/.test(framework.body), "Framework page must expose version 1.1");
 	check(!framework.body.includes("It is immutable — it is referenced, not revised"), "Framework wrapper still claims absolute immutability");
+	check(!framework.body.includes("article-hero-illustration"), "Framework still renders the retired decorative detail template");
+
+	const thaiFramework = await read("/th/system/frameworks/paritsea-framework");
+	check(thaiFramework.body.includes("เวอร์ชัน"), "Thai Framework missing localized version label");
+	check(!thaiFramework.body.includes("— Consensus"), "Thai Framework retains untranslated content blocks");
+	const thaiProtocol = await read("/th/system/protocols/stp");
+	for (const fragment of ["The observation that named this gap", "Protocol Position", "Any agency that cannot publicly commit"]) {
+		check(!thaiProtocol.body.includes(fragment), `Thai STP retains untranslated fragment: ${fragment}`);
+	}
+	const thaiStandard = await read("/th/system/standards/asls-01");
+	for (const fragment of ["A. Structurally Aligned", "B. Structurally Incomplete", "C. Structurally Misaligned", "D. Structurally Opaque"]) {
+		check(!thaiStandard.body.includes(fragment), `Thai ASLS-01 retains untranslated fragment: ${fragment}`);
+	}
 
 	const redirects = new Map([
 		["/system/framework", "/system/frameworks/paritsea-framework"],

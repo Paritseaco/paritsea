@@ -3,6 +3,7 @@ import { getEmDashCollection } from "emdash";
 import Base from "../../../layouts/Base.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 import { getAstroLocale, localizeEntry, localizedPath } from "../../../utils/i18n";
+import { localizeRecordValue } from "../../../utils/intellectual-localization";
 
 const locale = getAstroLocale(Astro);
 const { entries, cacheHint } = await getEmDashCollection("posts", { where: { framework_page: "the-doctrine" } });
@@ -19,7 +20,7 @@ const copy = locale === "th" ? {
 		<Breadcrumb crumbs={[{ label: locale === "th" ? "งานอ้างอิง" : "Reference work", href: localizedPath("/system", locale) }, { label: "Framework" }]} />
 		<header><div><p class="experience-label" data-state="governed">{copy.role}</p><h1 class="experience-title">{copy.headline}</h1><p class="experience-summary">{copy.summary}</p></div><dl><dt>{copy.count}</dt><dd>{String(works.length).padStart(2, "0")}</dd></dl></header>
 		<section class="experience-index">
-			{works.map((work, index) => <a class="experience-index-row" href={localizedPath("/system/frameworks/paritsea-framework", locale)}><span class="experience-index-meta">{String(index + 1).padStart(2, "0")} · Framework</span><div class="experience-index-copy"><h3>{work.data.title}</h3>{work.data.excerpt && <p>{work.data.excerpt}</p>}</div><span class="experience-index-state">v{work.data.document_version ?? "1.0"} · {work.data.lifecycle_status ?? "current"}<br />{copy.open} →</span></a>)}
+			{works.map((work, index) => <a class="experience-index-row" href={localizedPath("/system/frameworks/paritsea-framework", locale)}><span class="experience-index-meta">{String(index + 1).padStart(2, "0")} · Framework</span><div class="experience-index-copy"><h3>{work.data.title}</h3>{work.data.excerpt && <p>{work.data.excerpt}</p>}</div><span class="experience-index-state">v{work.id === "doctrine" ? "1.1" : work.data.document_version ?? "1.0"} · {localizeRecordValue(locale, work.data.lifecycle_status ?? "current")}<br />{copy.open} →</span></a>)}
 		</section>
 	</main>
 </Base>

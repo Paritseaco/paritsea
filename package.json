@@ -15,6 +15,7 @@
 		"migrate:intellectual-schema": "node scripts/migrate-intellectual-schema.mjs",
 		"migrate:intellectual-registry": "node scripts/migrate-intellectual-registry.mjs",
 		"test:smoke": "node scripts/smoke.mjs",
+		"test:production": "node scripts/production-qa.mjs",
 		"bootstrap": "emdash init && emdash seed",
 		"seed": "emdash seed"
 	},

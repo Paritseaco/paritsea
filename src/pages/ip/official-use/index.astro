@@ -3,6 +3,7 @@ import { getEmDashCollection } from "emdash";
 import Base from "../../../layouts/Base.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 import { getAstroLocale, localizedPath } from "../../../utils/i18n";
+import { localizeRecordValue } from "../../../utils/intellectual-localization";
 
 const locale = getAstroLocale(Astro);
 const result = await getEmDashCollection("official_uses");
@@ -11,9 +12,11 @@ const records = result.entries.map((entry) => ({
 	id: entry.id,
 	title: entry.data.title,
 	implementer: entry.data.implementer,
-	status: entry.data.use_status,
-	version: entry.data.implementation_version ?? "—",
-	scope: entry.data.scope_note ?? "",
+	status: localizeRecordValue(locale, entry.data.use_status),
+	version: localizeRecordValue(locale, entry.data.implementation_version ?? "—"),
+	scope: locale === "th" && entry.id === "agensea"
+		? "ต้นแบบที่สำรวจแนวคิดบางส่วนของ Paritsea ระเบียนนี้ไม่ใช่การรับรอง การสนับสนุน หรือหลักฐานว่าสามารถใช้ได้กับทุกบริบท"
+		: entry.data.scope_note ?? "",
 }));
 const copy = locale === "th" ? {
 	title: "Official Use — Paritsea", role: "ระเบียนการใช้", headline: "การใช้ที่ถูกบันทึก ไม่ใช่ตรารับรอง", summary: "ระเบียนนี้แสดงว่าใครนำงานใดไปใช้ ภายใต้ version, scope และสถานะอะไร คำว่า provisional หมายถึงยังอยู่ระหว่างพัฒนา และการปรากฏในหน้านี้ไม่ได้สร้าง certification หรือ endorsement", count: "ระเบียนที่เผยแพร่", empty: "ยังไม่มีระเบียนที่เผยแพร่",
@@ -23,7 +26,7 @@ const copy = locale === "th" ? {
 ---
 <Base title={copy.title} description={copy.summary} locale={locale}>
 	<main class="experience-page use-registry">
-		<Breadcrumb crumbs={[{ label: locale === "th" ? "การใช้และอ้างอิง" : "Use and citation", href: localizedPath("/ip", locale) }, { label: "Official Use" }]} />
+		<Breadcrumb crumbs={[{ label: locale === "th" ? "การใช้และอ้างอิง" : "Use and citation", href: localizedPath("/ip", locale) }, { label: locale === "th" ? "ระเบียนการใช้ (Official Use)" : "Official Use" }]} />
 		<header><div><p class="experience-label" data-state="applied">{copy.role}</p><h1 class="experience-title">{copy.headline}</h1><p class="experience-summary">{copy.summary}</p></div><dl><dt>{copy.count}</dt><dd>{String(records.length).padStart(2, "0")}</dd></dl></header>
 		<section class="experience-index">
 			{records.length ? records.map((record, index) => <a class="experience-index-row" href={localizedPath(`/ip/official-use/${record.id}`, locale)}><span class="experience-index-meta">{String(index + 1).padStart(2, "0")} · {record.status}</span><div class="experience-index-copy"><h3>{record.title}</h3><p>{record.scope}</p></div><span class="experience-index-state">{record.implementer}<br />{record.version} →</span></a>) : <p class="use-empty">{copy.empty}</p>}

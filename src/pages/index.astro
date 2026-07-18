@@ -648,6 +648,15 @@ function versionFor(item: (typeof localizedWorks)[number]) {
 		line-height: 1.45;
 	}
 
+	:global(:lang(th)) .home-trace > p,
+	:global(:lang(th)) .home-trace li span,
+	:global(:lang(th)) .intent-index,
+	:global(:lang(th)) .thought-path-list span,
+	:global(:lang(th)) .thought-path-list small {
+		font-size: var(--font-size-sm);
+		line-height: 1.55;
+	}
+
 	:global(:lang(th)) .intent-row p,
 	:global(:lang(th)) .home-return > p:not(.experience-label) {
 		font-family: var(--font-sans);

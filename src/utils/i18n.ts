@@ -214,6 +214,11 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 			"Legitimacy is not conferred by:": "ความชอบธรรมไม่ได้มาจาก:",
 			"— Consensus\n— Popularity\n— Longevity\n— Institutional endorsement\n— Market scale":
 				"— ฉันทามติ\n— ความนิยม\n— การอยู่มานาน\n— การรับรองจากสถาบัน\n— ขนาดของตลาด",
+			"— Consensus": "— ฉันทามติ",
+			"— Popularity": "— ความนิยม",
+			"— Longevity": "— การอยู่มานาน",
+			"— Institutional endorsement": "— การรับรองจากสถาบัน",
+			"— Market scale": "— ขนาดของตลาด",
 			"Legitimacy arises from structural coherence.": "ความชอบธรรมเกิดจากความสอดคล้องของโครงสร้าง",
 			"Legitimacy, within Paritsea, is a structural condition — not a moral endorsement.":
 				"ในกรอบ Paritsea ความชอบธรรมคือสภาวะที่โครงสร้างกำหนด ไม่ใช่การรับรองทางศีลธรรม",
@@ -221,6 +226,13 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 			"Structural coherence requires:": "ความสอดคล้องเชิงโครงสร้างต้องมี:",
 			"— Internal consistency\n— Defined authority\n— Defined accountability\n— Alignment between declared function and operational behaviour\n— Transparent allocation of responsibility\n— Logical integrity across decision layers":
 				"— ความสอดคล้องภายใน\n— อำนาจที่กำหนดชัด\n— ความรับผิดที่กำหนดชัด\n— ความตรงกันระหว่างหน้าที่ที่ประกาศไว้กับสิ่งที่ทำจริง\n— การจัดสรรความรับผิดอย่างโปร่งใส\n— ความสมเหตุสมผลทางตรรกะข้ามชั้นการตัดสินใจ",
+			"— Internal consistency": "— ความสอดคล้องภายใน",
+			"— Defined authority": "— อำนาจที่กำหนดชัด",
+			"— Defined accountability": "— ความรับผิดที่กำหนดชัด",
+			"— Alignment between declared function and operational behaviour":
+				"— ความตรงกันระหว่างหน้าที่ที่ประกาศไว้กับสิ่งที่ทำจริง",
+			"— Transparent allocation of responsibility": "— การจัดสรรความรับผิดอย่างโปร่งใส",
+			"— Logical integrity across decision layers": "— ความสมเหตุสมผลทางตรรกะข้ามชั้นการตัดสินใจ",
 			"A structure may be widely accepted yet internally incoherent. Institutionalisation does not resolve incoherence.":
 				"โครงสร้างที่ได้รับการยอมรับอย่างกว้างขวางอาจยังไม่สอดคล้องภายในก็ได้ การกลายเป็นสถาบันไม่ได้แก้ไขความไม่สอดคล้องนั้น",
 			"Section III — Distortion and Normalisation": "หมวด III — การบิดเบือนและการทำให้เป็นปกติ",
@@ -234,6 +246,13 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 				"Paritsea ประเมินเฉพาะความสอดคล้องเชิงโครงสร้าง ไม่ประเมินผลลัพธ์ ความนิยม สมรรถนะ หรือความสำเร็จ",
 			"It does not evaluate:\n— Moral virtue\n— Political ideology\n— Cultural preference\n— Financial scale\n— Popular support\n— Strategic success":
 				"กรอบนี้ไม่ประเมิน:\n— คุณค่าทางศีลธรรม\n— อุดมการณ์ทางการเมือง\n— ความชอบทางวัฒนธรรม\n— ขนาดทางการเงิน\n— ความนิยมจากสาธารณะ\n— ความสำเร็จเชิงกลยุทธ์",
+			"It does not evaluate:": "กรอบนี้ไม่ประเมิน:",
+			"— Moral virtue": "— คุณค่าทางศีลธรรม",
+			"— Political ideology": "— อุดมการณ์ทางการเมือง",
+			"— Cultural preference": "— ความชอบทางวัฒนธรรม",
+			"— Financial scale": "— ขนาดทางการเงิน",
+			"— Popular support": "— ความนิยมจากสาธารณะ",
+			"— Strategic success": "— ความสำเร็จเชิงกลยุทธ์",
 			"Section VI — Immutability": "หมวด VI — ความไม่เปลี่ยนรูป",
 			"The Paritsea Framework is immutable. It forms the constitutional foundation for all derived protocols and standards. Derived instruments may evolve, provided they do not contradict the Framework.":
 				"Paritsea Framework ไม่เปลี่ยนรูป มันเป็นรากฐานของโปรโตคอลและมาตรฐานทุกฉบับที่สืบเนื่องมา เครื่องมือที่สืบเนื่องสามารถพัฒนาได้ ตราบเท่าที่ไม่ขัดต่อ Framework",
@@ -253,6 +272,11 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 			"v1.0 · Foundational · Authored by Parit Ritchai": "v1.0 · ฐานราก · เขียนโดย Parit Ritchai",
 			"This protocol establishes foundational principles of structural transparency as a constitutional requirement.":
 				"STP กำหนดเงื่อนไขพื้นฐานที่เอเจนซีต้องผ่าน เพื่อกล่าวอ้างความโปร่งใสเชิงโครงสร้างได้อย่างมีความหมาย",
+			"The observation that named this gap is in the Journal:":
+				"ข้อสังเกตที่ตั้งชื่อช่องว่างนี้ถูกเก็บไว้ใน Journal:",
+			"Transparency Is Often Aesthetic. Rarely Structural.":
+				"ความโปร่งใสที่มองเห็นได้ มักไม่ใช่ความโปร่งใสเชิงโครงสร้าง",
+			"Protocol Position": "จุดยืนของ Protocol",
 			"An Industry Challenge to Agencies": "คำท้าถึงอุตสาหกรรมเอเจนซี",
 			"Most agencies speak about transparency. Very few structure themselves around it.":
 				"เอเจนซีพูดถึงความโปร่งใสกันมาก แต่น้อยมากที่จัดโครงสร้างตัวเองรอบมัน",
@@ -310,6 +334,8 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 				"STP ไม่ใช่การรับรอง ไม่ใช่ตรา และไม่ใช่จุดขายในเด็คการตลาด — มันคือจุดยืนเชิงโครงสร้าง",
 			"If an agency cannot publicly commit to these five exposures, it must reconsider how it defines transparency. If it can, it changes the power relationship between agency and client.":
 				"ถ้าเอเจนซีไม่สามารถประกาศยึดเงื่อนไขทั้งห้าได้ ต้องทบทวนว่าตัวเองนิยามความโปร่งใสว่าอะไร\n\nถ้าทำได้ — ความสัมพันธ์เชิงอำนาจระหว่างเอเจนซีกับลูกค้าจะเปลี่ยนไป",
+			"Any agency that cannot publicly commit to these five exposures must reconsider how it defines transparency. Any agency that can, changes the power relationship between agency and client.":
+				"เอเจนซีที่ไม่สามารถประกาศยึดเงื่อนไขทั้งห้าได้ ต้องทบทวนว่าตัวเองนิยามความโปร่งใสว่าอะไร\n\nเอเจนซีที่ทำได้จะเปลี่ยนความสัมพันธ์เชิงอำนาจระหว่างเอเจนซีกับลูกค้า",
 			"The industry will not reform through better language. It will reform through structural disclosure. The challenge stands.":
 				"อุตสาหกรรมไม่ได้ปฏิรูปด้วยภาษาที่ดีขึ้น — มันปฏิรูปด้วยการเปิดเผย คำท้านี้ยังอยู่",
 		},
@@ -364,6 +390,14 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 				"เอเจนซีอาจถูกสังเกตในสภาวะใดสภาวะหนึ่งต่อไปนี้:",
 			"A. Structurally Aligned: All five domains meet required disclosure conditions. No structural contradictions observed.\n\nB. Structurally Incomplete: One or more domains lack required disclosure. No evidence of contradiction.\n\nC. Structurally Misaligned: Declared structure conflicts with observable operational reality.\n\nD. Structurally Opaque: Required disclosures are absent or intentionally withheld.":
 				"A. สอดคล้อง — ทั้งห้าด้านผ่านเงื่อนไขการเปิดเผย ไม่มีความขัดแย้งที่สังเกตได้\n\nB. ไม่ครบ — บางด้านขาดการเปิดเผย แต่ยังไม่พบหลักฐานของความขัดแย้ง\n\nC. ไม่ตรงกัน — สิ่งที่ประกาศขัดกับสิ่งที่เกิดขึ้นจริง\n\nD. ปิดบัง — การเปิดเผยที่จำเป็นขาดหาย หรือถูกกักไว้โดยเจตนา",
+			"A. Structurally Aligned: All five domains meet required disclosure conditions. No structural contradictions observed.":
+				"A. สอดคล้อง — ทั้งห้าด้านผ่านเงื่อนไขการเปิดเผย และไม่พบความขัดแย้งเชิงโครงสร้าง",
+			"B. Structurally Incomplete: One or more domains lack required disclosure. No evidence of contradiction.":
+				"B. ไม่ครบ — มีอย่างน้อยหนึ่งด้านที่ขาดการเปิดเผย แต่ยังไม่พบหลักฐานของความขัดแย้ง",
+			"C. Structurally Misaligned: Declared structure conflicts with observable operational reality.":
+				"C. ไม่ตรงกัน — โครงสร้างที่ประกาศไว้ขัดกับสิ่งที่สังเกตได้ในการปฏิบัติจริง",
+			"D. Structurally Opaque: Required disclosures are absent or intentionally withheld.":
+				"D. ปิดบัง — การเปิดเผยที่จำเป็นขาดหาย หรือถูกกักไว้โดยเจตนา",
 			"Structural states describe exposure condition — not moral judgement.":
 				"สภาวะเหล่านี้อธิบายเงื่อนไขการเปิดเผย ไม่ใช่การตัดสินทางศีลธรรม",
 			"VI. Version Governance": "VI. การกำกับเวอร์ชัน",
@@ -583,6 +617,8 @@ const pageTranslations: Record<string, { title: string; content: Record<string, 
 				"ทุกข้อความจะได้รับการพิจารณา การตอบกลับขึ้นอยู่กับดุลยพินิจ",
 			"Paritsea is an independent framework reference authored by Parit Ritchai.":
 				"Paritsea เป็นกรอบอ้างอิงอิสระ เขียนโดย Parit Ritchai",
+			"Paritsea is an author-led intellectual practice and public record stewarded by Parit Ritchai.":
+				"Paritsea คือพื้นที่ปฏิบัติการทางความคิดที่มีผู้เขียนชัดเจน และเป็นบันทึกสาธารณะที่ Parit Ritchai รับผิดชอบดูแล",
 		},
 	},
 };
@@ -602,7 +638,9 @@ function translateBlocks(value: unknown, translations: Record<string, string>) {
 		children: Array.isArray(block.children)
 			? block.children.map((child) => ({
 					...child,
-					text: typeof child.text === "string" ? translations[child.text] ?? child.text : child.text,
+					text: typeof child.text === "string"
+						? translations[child.text] ?? translations[child.text.trim()] ?? child.text
+						: child.text,
 				}))
 			: block.children,
 	}));

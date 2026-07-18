@@ -1,4 +1,6 @@
 ---
+import { localizeRecordValue } from "../utils/intellectual-localization";
+
 interface Props {
 	locale: "en" | "th";
 	contentType: string;
@@ -13,16 +15,19 @@ interface Props {
 
 const { locale, contentType, stage, status, version, provenance, scope, nonClaims, lastReviewed } = Astro.props;
 const labels = locale === "th"
-	? { title: "ระเบียนเอกสาร", type: "ประเภท", stage: "สถานะทางความคิด", status: "วงจรงาน", version: "Version", provenance: "ที่มา", scope: "ขอบเขต", nonClaims: "สิ่งที่เอกสารนี้ยังไม่ยืนยัน", reviewed: "ทบทวนล่าสุด" }
+	? { title: "ระเบียนเอกสาร", type: "ประเภท", stage: "สถานะทางความคิด", status: "วงจรงาน", version: "เวอร์ชัน", provenance: "ที่มา", scope: "ขอบเขต", nonClaims: "สิ่งที่เอกสารนี้ยังไม่ยืนยัน", reviewed: "ทบทวนล่าสุด" }
 	: { title: "Document record", type: "Type", stage: "Intellectual stage", status: "Lifecycle", version: "Version", provenance: "Provenance", scope: "Scope", nonClaims: "What this does not establish", reviewed: "Last reviewed" };
+const localizedContentType = localizeRecordValue(locale, contentType);
+const localizedStage = localizeRecordValue(locale, stage);
+const localizedStatus = localizeRecordValue(locale, status);
 ---
 
 <aside class="record-meta" aria-labelledby="document-record-title">
 	<h2 id="document-record-title">{labels.title}</h2>
 	<dl>
-		<div><dt>{labels.type}</dt><dd>{contentType}</dd></div>
-		<div><dt>{labels.stage}</dt><dd>{stage}</dd></div>
-		<div><dt>{labels.status}</dt><dd><span class="status-dot" aria-hidden="true"></span>{status}</dd></div>
+		<div><dt>{labels.type}</dt><dd>{localizedContentType}</dd></div>
+		<div><dt>{labels.stage}</dt><dd>{localizedStage}</dd></div>
+		<div><dt>{labels.status}</dt><dd><span class="status-dot" aria-hidden="true"></span>{localizedStatus}</dd></div>
 		<div><dt>{labels.version}</dt><dd>{version}</dd></div>
 		<div class="record-wide"><dt>{labels.provenance}</dt><dd>{provenance}</dd></div>
 		<div class="record-wide"><dt>{labels.scope}</dt><dd>{scope}</dd></div>

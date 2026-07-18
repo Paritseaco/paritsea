@@ -858,6 +858,7 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 			.site-title {
 				display: inline-flex;
 				align-items: center;
+				min-height: 44px;
 				color: var(--color-text);
 				text-decoration: none;
 				transition: opacity var(--transition-fast);
@@ -1026,6 +1027,9 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 				background: none;
 				border: none;
 				cursor: pointer;
+				min-width: 44px;
+				min-height: 44px;
+				justify-content: center;
 				color: var(--color-text-secondary);
 				transition: color var(--transition-fast);
 			}
@@ -1277,6 +1281,7 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 				transition: opacity var(--transition-fast);
 				display: inline-flex;
 				align-items: center;
+				min-height: 44px;
 				gap: 0.65rem;
 			}
 
@@ -1348,6 +1353,10 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 			}
 
 			.footer-links a {
+				display: inline-flex;
+				align-items: center;
+				min-height: 44px;
+				min-width: 44px;
 				color: var(--color-text-secondary);
 				text-decoration: none;
 				font-size: var(--font-size-sm);
@@ -1399,6 +1408,10 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 			}
 
 			.footer-copyright a {
+				display: inline-flex;
+				align-items: center;
+				min-height: 44px;
+				min-width: 44px;
 				color: var(--color-text-secondary);
 				transition: color var(--transition-fast);
 			}

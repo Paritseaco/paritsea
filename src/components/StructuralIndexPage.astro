@@ -10,6 +10,7 @@ import {
 	localizeEntry,
 	localizedPath,
 } from "../utils/i18n";
+import { localizeRecordValue } from "../utils/intellectual-localization";
 
 interface Props {
 	slug: "protocols" | "standards" | "the-method";
@@ -158,7 +159,7 @@ const entryPath = (id: string) => kind === "journal"
 					<a class="experience-index-row" href={localizedPath(entryPath(entry.id), locale)}>
 						<span class="experience-index-number">{String(index + 1).padStart(2, "0")}</span>
 						<div class="experience-index-copy">
-							<p class="experience-index-meta">{kind}{version ? ` · v${version}` : ""} · {status}</p>
+							<p class="experience-index-meta">{locale === "th" && kind === "journal" ? "บันทึก" : localizeRecordValue(locale, kind)}{version ? ` · v${version}` : ""} · {localizeRecordValue(locale, status)}</p>
 							<h2>{entry.data.title}</h2>
 							{entry.data.excerpt && <p>{entry.data.excerpt}</p>}
 							<div class="archive-row-footer">

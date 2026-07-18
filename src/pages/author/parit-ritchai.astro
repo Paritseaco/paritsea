@@ -5,6 +5,7 @@ import Breadcrumb from "../../components/Breadcrumb.astro";
 import PageRoleHeader from "../../components/PageRoleHeader.astro";
 import { getAstroLocale, localizeEntry, localizedPath } from "../../utils/i18n";
 import { resolvePostPath } from "../../utils/public-paths";
+import { localizeWorkFamily } from "../../utils/intellectual-localization";
 
 const locale = getAstroLocale(Astro);
 const { entries, cacheHint } = await getEmDashCollection("posts", { orderBy: { published_at: "desc" } });
@@ -15,17 +16,17 @@ const intro = locale === "th"
 	: "Parit Ritchai is the author, namer, and decision authority for semantic change in the source work. Paritsea preserves that work as a versioned public record. This is an author record, not a portfolio.";
 ---
 
-<Base title="Parit Ritchai — Author record" description={intro} locale={locale}>
+<Base title={locale === "th" ? "Parit Ritchai — ระเบียนผู้เขียน" : "Parit Ritchai — Author record"} description={intro} locale={locale}>
 	<div class="author-shell">
-		<Breadcrumb crumbs={[{ label: "Lens", href: localizedPath("/about", locale) }, { label: "Parit Ritchai" }]} />
-		<PageRoleHeader role="Author record" eyebrow="Authorship and change authority" title="Parit Ritchai" intro={intro} count={works.length} statusLabel={locale === "th" ? "ผู้เขียนต้นทาง" : "Source author"} />
+		<Breadcrumb crumbs={[{ label: locale === "th" ? "วิธีมอง" : "Lens", href: localizedPath("/about", locale) }, { label: "Parit Ritchai" }]} />
+		<PageRoleHeader role={locale === "th" ? "ระเบียนผู้เขียน" : "Author record"} eyebrow={locale === "th" ? "ผู้เขียนและอำนาจเปลี่ยนงานต้นทาง" : "Authorship and change authority"} title="Parit Ritchai" intro={intro} count={works.length} statusLabel={locale === "th" ? "ผู้เขียนต้นทาง" : "Source author"} />
 		<section class="author-boundary">
 			<h2>{locale === "th" ? "สิ่งที่ผูกกับชื่อผู้เขียน" : "What remains attached to the author"}</h2>
 			<p>{locale === "th" ? "Observation, judgment, naming และเหตุผลของการเปลี่ยน canonical work ต้องมี attribution ที่ตรวจสอบได้ ขณะเดียวกัน Framework, Protocol และ Standard ต้องอ่านและอ้างอิงได้โดยไม่ต้องซื้อบริการจากผู้เขียน" : "Observation, judgement, naming, and the rationale for changing canonical work remain attributable. Frameworks, Protocols, and Standards must still be readable and citable without purchasing a service from the author."}</p>
 		</section>
 		<section class="bibliography" aria-labelledby="bibliography-title">
 			<h2 id="bibliography-title">{locale === "th" ? "งานที่เผยแพร่" : "Published record"}</h2>
-			{works.map((work) => <a href={localizedPath(resolvePostPath(work.id, work.data.framework_page) ?? `/journal/${work.id}`, locale)}><span>{work.data.framework_page}</span><strong>{work.data.title}</strong></a>)}
+			{works.map((work) => <a href={localizedPath(resolvePostPath(work.id, work.data.framework_page) ?? `/journal/${work.id}`, locale)}><span>{localizeWorkFamily(locale, work.data.framework_page)}</span><strong>{work.data.title}</strong></a>)}
 		</section>
 	</div>
 </Base>

@@ -178,4 +178,21 @@ const primaryTag = tags && tags.length > 0 ? tags[0] : null;
 	.card-reading-time {
 		white-space: nowrap;
 	}
+
+	:global(:lang(th)) .card-tag,
+	:global(:lang(th)) .card-meta,
+	:global(:lang(th)) .card-date,
+	:global(:lang(th)) .card-reading-time {
+		font-size: var(--font-size-sm);
+		font-style: normal;
+		letter-spacing: 0;
+		line-height: 1.55;
+		text-transform: none;
+	}
+
+	:global(:lang(th)) a.card-tag {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+	}
 </style>

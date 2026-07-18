@@ -3,6 +3,7 @@ import { getEmDashCollection } from "emdash";
 import Base from "../../layouts/Base.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import { getAstroLocale, localizeEntry, localizedPath } from "../../utils/i18n";
+import { localizeRecordValue } from "../../utils/intellectual-localization";
 
 const locale = getAstroLocale(Astro);
 const { entries, cacheHint } = await getEmDashCollection("posts");
@@ -48,11 +49,11 @@ const copy = locale === "th" ? {
 				<a class="experience-index-row" href={localizedPath(`/concepts/${concept.id}`, locale)}>
 					<span class="experience-index-meta">{String(index + 1).padStart(2, "0")} · Concept</span>
 					<div class="experience-index-copy"><h3>{concept.data.title}</h3>{concept.data.excerpt && <p>{concept.data.excerpt}</p>}</div>
-					<span class="experience-index-state">{concept.data.lifecycle_status ?? "developing"} →</span>
+					<span class="experience-index-state">{localizeRecordValue(locale, concept.data.lifecycle_status ?? "developing")} →</span>
 				</a>
 			)) : (
 				<div class="concept-empty">
-					<p class="experience-label" data-state="moving">00 · open</p>
+					<p class="experience-label" data-state="moving">00 · {locale === "th" ? "ยังเปิดอยู่" : "open"}</p>
 					<h2>{copy.emptyTitle}</h2>
 					<p>{copy.emptyBody}</p>
 					<a class="experience-link" href={localizedPath("/journal", locale)}>{copy.emptyLink} <span aria-hidden="true">→</span></a>
@@ -61,7 +62,7 @@ const copy = locale === "th" ? {
 		</section>
 
 		<aside class="experience-note concept-note">
-			<div><p class="experience-label" data-state="named">Journal → Concept</p><h2>{copy.pathTitle}</h2></div>
+			<div><p class="experience-label" data-state="named">{locale === "th" ? "บันทึก → Concept" : "Journal → Concept"}</p><h2>{copy.pathTitle}</h2></div>
 			<p>{copy.pathBody}</p>
 		</aside>
 	</main>

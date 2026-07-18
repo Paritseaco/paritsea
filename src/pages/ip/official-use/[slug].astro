@@ -5,6 +5,7 @@ import Base from "../../../layouts/Base.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 import DocumentRecordMeta from "../../../components/DocumentRecordMeta.astro";
 import { getAstroLocale, localizedPath } from "../../../utils/i18n";
+import { localizeRecordValue } from "../../../utils/intellectual-localization";
 
 const locale = getAstroLocale(Astro);
 const slug = Astro.params.slug ?? "";
@@ -13,19 +14,23 @@ try { const result = await getEmDashEntry("official_uses", slug); cmsEntry = res
 if (!cmsEntry) return new Response("Not found", { status: 404 });
 const data = cmsEntry.data;
 const title = data.title;
-const status = data.use_status;
-const version = data.implementation_version ?? "—";
-const scope = data.scope_note ?? (locale === "th" ? "ระเบียนนี้ยังไม่มีคำอธิบายขอบเขตภาษาไทย" : "No public scope note is available for this record.");
+const status = localizeRecordValue(locale, data.use_status);
+const version = localizeRecordValue(locale, data.implementation_version ?? "—");
+const scope = locale === "th" && slug === "agensea"
+	? "ต้นแบบที่สำรวจแนวคิดบางส่วนของ Paritsea ระเบียนนี้ไม่ใช่การรับรอง การสนับสนุน หรือหลักฐานว่าสามารถใช้ได้กับทุกบริบท"
+	: data.scope_note ?? (locale === "th" ? "ระเบียนนี้ยังไม่มีคำอธิบายขอบเขตภาษาไทย" : "No public scope note is available for this record.");
 ---
 
 <Base title={`${title} — Official Use`} description={scope} locale={locale} type="article">
 	<article class="use-record">
-		<Breadcrumb crumbs={[{ label: "IP", href: localizedPath("/ip", locale) }, { label: "Official Use", href: localizedPath("/ip/official-use", locale) }, { label: title }]} />
-		<p class="role">Official Use · Full record</p>
+		<Breadcrumb crumbs={[{ label: "IP", href: localizedPath("/ip", locale) }, { label: locale === "th" ? "ระเบียนการใช้ (Official Use)" : "Official Use", href: localizedPath("/ip/official-use", locale) }, { label: title }]} />
+		<p class="role">{locale === "th" ? "ระเบียนการใช้ · ระเบียนฉบับเต็ม" : "Official Use · Full record"}</p>
 		<h1>{title}</h1>
 		<p class="lead">{scope}</p>
-		<DocumentRecordMeta locale={locale} contentType="Official Use" stage="application record" status={status} version={version} provenance={locale === "th" ? "บันทึกโดย Paritsea จากต้นแบบที่ Parit Ritchai พัฒนา ข้อมูลนี้ไม่ใช่ client case" : "Recorded by Paritsea from a prototype developed by Parit Ritchai. This is not a client case."} scope={scope} nonClaims={locale === "th" ? "ไม่สร้าง endorsement, certification หรือสิทธิ์ในการเปลี่ยน canonical source" : "Does not create endorsement, certification, or authority to alter the canonical source."} />
-		{Array.isArray(data.public_note) ? <div class="article-content"><PortableText value={data.public_note} /></div> : <div class="article-content"><h2>{locale === "th" ? "สถานะปัจจุบัน" : "Current state"}</h2><p>{locale === "th" ? "ระเบียนนี้ยังเป็น provisional งานที่เผยแพร่มีไว้เพื่อแสดงขอบเขตและที่มาของการทดลอง ไม่ใช่เพื่อกล่าวอ้างผลลัพธ์หรือชักชวนให้ซื้อบริการ" : "This record remains provisional. It is published to show the scope and provenance of the experiment, not to claim outcomes or invite a service purchase."}</p></div>}
+		<DocumentRecordMeta locale={locale} contentType="Official Use" stage="application record" status={status} version={version} provenance={locale === "th" ? "บันทึกโดย Paritsea จากต้นแบบที่ Parit Ritchai พัฒนา ข้อมูลนี้ไม่ใช่กรณีศึกษาของลูกค้า" : "Recorded by Paritsea from a prototype developed by Parit Ritchai. This is not a client case."} scope={scope} nonClaims={locale === "th" ? "ไม่สร้างการรับรอง การสนับสนุน หรือสิทธิ์ในการเปลี่ยนต้นทาง canonical" : "Does not create endorsement, certification, or authority to alter the canonical source."} />
+		{locale === "th" && slug === "agensea"
+			? <div class="article-content"><h2>สถานะปัจจุบัน</h2><p>AgenSea ถูกบันทึกในฐานะการสำรวจชั่วคราว การอยู่ในระเบียนนี้มีไว้เพื่อบอกความสัมพันธ์และขอบเขต ไม่ได้ทำให้การนำไปใช้นี้เป็นฉบับสมบูรณ์หรือเป็นต้นทาง canonical</p></div>
+			: Array.isArray(data.public_note) ? <div class="article-content"><PortableText value={data.public_note} /></div> : <div class="article-content"><h2>{locale === "th" ? "สถานะปัจจุบัน" : "Current state"}</h2><p>{locale === "th" ? "ระเบียนนี้ยังเป็นสถานะชั่วคราว งานที่เผยแพร่มีไว้เพื่อแสดงขอบเขตและที่มาของการทดลอง ไม่ใช่เพื่อกล่าวอ้างผลลัพธ์หรือชักชวนให้ซื้อบริการ" : "This record remains provisional. It is published to show the scope and provenance of the experiment, not to claim outcomes or invite a service purchase."}</p></div>}
 	</article>
 </Base>
 
