@@ -42,8 +42,9 @@ check(englishHome.body.includes("Some things are wrong before we have language f
 check(englishHome.body.includes("Parit Ritchai"), "English Home missing author attribution");
 
 const thaiHome = await read("/th");
-check(thaiHome.body.includes("บางอย่างผิดอยู่ ก่อนที่เราจะมีคำเรียกมัน"), "Thai Home missing author-led proposition");
-check(thaiHome.body.includes("Parit Ritchai"), "Thai Home missing author attribution");
+check(thaiHome.body.includes("สิ่งที่ยังไม่มีชื่อ ไม่ได้แปลว่าเรายังมองไม่เห็น"), "Thai Home missing author-led proposition");
+check(thaiHome.body.includes("ฉันใช้บันทึกสิ่งที่สังเกต"), "Thai Home missing first-person authorial voice");
+check(thaiHome.body.includes("ปาริศ ฤทธิ์ชัย"), "Thai Home missing localized author attribution");
 
 const detailRoutes = [
 	"/system/frameworks/paritsea-framework", "/th/system/frameworks/paritsea-framework",
