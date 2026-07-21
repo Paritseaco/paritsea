@@ -8,6 +8,7 @@ import {
 	localizedPath,
 } from "../utils/i18n";
 import { resolveBlogSiteIdentity } from "../utils/site-identity";
+import IntellectualField from "../components/IntellectualField.astro";
 
 const locale = getAstroLocale(Astro);
 const { entries, cacheHint } = await getEmDashCollection("posts", {
@@ -58,12 +59,17 @@ const counts = {
 
 const copy = locale === "th"
 	? {
-		pageDescription: "Paritsea บันทึกข้อสังเกตของ Parit Ritchai และเปิดให้เห็นว่าความคิดหนึ่งค่อย ๆ ถูกตั้งชื่อ ทบทวน และพัฒนาเป็นงานอ้างอิงอย่างไร",
-		heroLabel: "บันทึกสาธารณะโดย Parit Ritchai",
-		heroTitle: "บางอย่างผิดอยู่ ก่อนที่เราจะมีคำเรียกมัน",
-		heroSummary: "Paritsea เริ่มจากสิ่งที่ Parit Ritchai เห็นในชีวิต งาน และระบบ จากนั้นจึงบันทึก ตั้งชื่อ และทบทวน บางแนวคิดหยุดอยู่ที่คำถาม บางแนวคิดค่อย ๆ กลายเป็นงานอ้างอิงที่ตรวจสอบที่มาได้",
-		primaryAction: "เริ่มจากข้อสังเกต",
-		secondaryAction: "ดูงานอ้างอิง",
+		pageDescription: "Paritsea คือพื้นที่ที่ฉันใช้บันทึกสิ่งที่สังเกต ตั้งชื่อสิ่งที่ยังไม่มีภาษา และเปิดให้เห็นว่าแนวคิดหนึ่งค่อย ๆ เปลี่ยนรูปอย่างไร",
+		heroLabel: "โดย ปาริศ ฤทธิ์ชัย — ผู้เขียนและผู้ดูแลต้นทาง",
+		heroTitle: "สิ่งที่ยังไม่มีชื่อ ไม่ได้แปลว่าเรายังมองไม่เห็น",
+		heroSummary: "Paritsea คือพื้นที่ที่ฉันใช้บันทึกสิ่งที่สังเกต ตั้งชื่อสิ่งที่ยังไม่มีภาษา และเปิดให้เห็นว่าแนวคิดหนึ่งค่อย ๆ เปลี่ยนรูปอย่างไร",
+		heroPrinciples: [
+			"ฉันเผยแพร่คำถามก่อนคำตอบ เมื่อคำถามนั้นช่วยให้มองเห็นบางอย่างได้ชัดขึ้น",
+			"แนวคิดทุกชิ้นย้อนกลับไปดูที่มา เหตุผล และสิ่งที่เปลี่ยนไปได้",
+			"งานบางชิ้นยังเปิดอยู่ บางชิ้นจึงค่อยกลายเป็น Framework, Protocol หรือ Standard",
+		],
+		primaryAction: "สำรวจแผนที่ความคิด",
+		secondaryAction: "อ่านบันทึกล่าสุด",
 		mapLabel: "ความคิดหนึ่งอาจเดินทางอย่างไร",
 		intentLabel: "เริ่มจากเหตุผลที่มาที่นี่",
 		intentTitle: "คุณกำลังพยายามเข้าใจอะไร",
@@ -112,7 +118,7 @@ const copy = locale === "th"
 		pathStages: ["ข้อสังเกต", "แนวคิด", "Framework", "Protocol", "Standard"],
 		authorLabel: "ใครกำลังพูด",
 		authorTitle: "ผู้เขียนต้องมองเห็นได้ แต่ไม่ควรกลบงาน",
-		authorBody: "Parit Ritchai เป็นผู้เขียนข้อสังเกต ผู้ตั้งชื่อ และผู้ตัดสินใจเมื่อความหมายของงานต้นทางเปลี่ยน ส่วน Paritsea ทำให้งานเหล่านั้นอ่าน ตรวจสอบ และอ้างอิงได้โดยไม่ต้องกลายเป็นประวัติส่วนตัวหรือข้อเสนอขายบริการ",
+		authorBody: "ฉันเป็นคนเขียนข้อสังเกต ตั้งชื่อสิ่งที่มองเห็น และรับผิดชอบเมื่อความหมายของงานต้นทางเปลี่ยน ส่วน Paritsea ทำให้งานเหล่านั้นอ่าน ตรวจสอบ และอ้างอิงได้ โดยไม่เปลี่ยนให้เป็นประวัติส่วนตัวหรือข้อเสนอขายบริการ",
 		authorLink: "อ่านเรื่องผู้เขียนและขอบเขตของ Paritsea",
 		appliedLabel: "เมื่องานถูกนำไปใช้",
 		appliedTitle: "การประยุกต์ใช้ไม่เปลี่ยนเจ้าของต้นทาง",
@@ -130,6 +136,11 @@ const copy = locale === "th"
 		heroLabel: "A public record by Parit Ritchai",
 		heroTitle: "Some things are wrong before we have language for them.",
 		heroSummary: "Paritsea begins with what Parit Ritchai notices in life, work, and systems. Observations are recorded, named, and revised. Some remain open questions. Selected ideas become reference work whose source and limits can be inspected.",
+		heroPrinciples: [
+			"I publish questions before answers when the question makes something newly visible.",
+			"Every idea can be traced to its source, rationale, and material changes.",
+			"Some work remains open. Some becomes a Framework, Protocol, or Standard.",
+		],
 		primaryAction: "Start with an observation",
 		secondaryAction: "Browse reference work",
 		mapLabel: "How an idea may move",
@@ -185,29 +196,39 @@ function versionFor(item: (typeof localizedWorks)[number]) {
 	const data = item.original.data as unknown as Record<string, unknown>;
 	return String(data.document_version ?? (item.type === "journal" ? "0.1" : "1.0"));
 }
+
+const fieldQuestions = latestJournal.map((item) => ({
+	title: item.entry.data.title,
+	meta: item.original.data.publishedAt
+		? `${locale === "th" ? "บันทึก" : "Journal"} · ${formatDateForLocale(item.original.data.publishedAt, locale)}`
+		: locale === "th" ? "บันทึกที่ยังเปิดอยู่" : "Open Journal entry",
+}));
 ---
 
 <Base title={siteTitle} description={copy.pageDescription} locale={locale}>
 	<div class="home-page">
-		<section class="home-hero" aria-labelledby="home-title">
-			<div class="home-hero-copy">
-				<p class="experience-label" data-state="moving">{copy.heroLabel}</p>
-				<h1 id="home-title" class="experience-title">{copy.heroTitle}</h1>
-				<p class="experience-summary">{copy.heroSummary}</p>
+		<section class="home-opening" aria-labelledby="home-title">
+			<div class="home-authored">
+				<p class="home-byline">{copy.heroLabel}</p>
+				<h1 id="home-title">{copy.heroTitle}</h1>
+				<p class="home-descriptor">{copy.heroSummary}</p>
+				<ul class="home-principles">
+					{copy.heroPrinciples.map((principle) => <li>{principle}</li>)}
+				</ul>
 				<div class="home-hero-actions">
-					<a class="home-primary-link" href={localizedPath("/journal", locale)}>{copy.primaryAction}<span aria-hidden="true">↗</span></a>
-					<a class="experience-link" href={localizedPath("/system", locale)}>{copy.secondaryAction}<span aria-hidden="true">→</span></a>
+					<a class="home-primary-link" href="#thought-field">{copy.primaryAction}<span aria-hidden="true">→</span></a>
+					<a class="home-secondary-link" href={latestJournal[0]?.href ?? localizedPath("/journal", locale)}>{copy.secondaryAction}<span aria-hidden="true">→</span></a>
 				</div>
+				<aside class="home-applied-boundary">
+					<span aria-hidden="true"></span>
+					<p>{locale === "th"
+						? "SE Ocean นำงานบางส่วนไปปรับใช้ในบริบทองค์กร โดยไม่เปลี่ยนเจ้าของหรือความหมายของต้นทาง"
+						: "SE Ocean applies selected work in organizational contexts without taking ownership of or redefining the source."}</p>
+				</aside>
 			</div>
 
-			<div class="home-trace" aria-label={copy.mapLabel}>
-				<p>{copy.mapLabel}</p>
-				<ol>
-					<li data-state="moving"><span>01</span>{copy.pathStages[0]}</li>
-					<li data-state="named"><span>02</span>{copy.pathStages[1]}</li>
-					<li data-state="governed"><span>03</span>{copy.pathStages[2]}</li>
-				</ol>
-				<p class="home-trace-note">{locale === "th" ? "เส้นทางเปิดอยู่ และย้อนกลับได้" : "The path stays open and revisable"}</p>
+			<div id="thought-field" class="home-field">
+				<IntellectualField locale={locale} questions={fieldQuestions} counts={counts} />
 			</div>
 		</section>
 
@@ -351,6 +372,120 @@ function versionFor(item: (typeof localizedWorks)[number]) {
 		width: var(--wide-width);
 		margin-inline: auto;
 		padding-bottom: var(--spacing-24);
+	}
+
+	.home-opening {
+		display: grid;
+		grid-template-columns: minmax(360px, 5fr) minmax(620px, 7fr);
+		min-height: min(820px, calc(100dvh - var(--nav-height)));
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.home-authored {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		min-width: 0;
+		padding: clamp(var(--spacing-14), 6vw, var(--spacing-24)) clamp(var(--spacing-8), 5vw, var(--spacing-20)) clamp(var(--spacing-12), 5vw, var(--spacing-20)) 0;
+	}
+
+	.home-byline {
+		font-family: var(--font-mono);
+		font-size: var(--font-size-sm);
+		line-height: 1.6;
+		letter-spacing: var(--tracking-wide);
+		color: var(--color-accent);
+	}
+
+	.home-authored h1 {
+		max-width: 13ch;
+		margin-top: clamp(var(--spacing-8), 4vw, var(--spacing-14));
+		font-family: var(--font-serif);
+		font-size: clamp(3.25rem, 4.7vw, 5.25rem);
+		font-weight: 500;
+		line-height: 1.02;
+		letter-spacing: var(--tracking-tightest);
+		text-wrap: balance;
+	}
+
+	.home-authored h1::after {
+		content: "";
+		display: block;
+		width: 2.5rem;
+		margin-top: var(--spacing-7);
+		border-top: 3px solid var(--color-accent);
+	}
+
+	.home-descriptor {
+		max-width: 46ch;
+		margin-top: var(--spacing-7);
+		font-size: var(--font-size-lg);
+		line-height: 1.75;
+		color: var(--color-text-secondary);
+	}
+
+	.home-principles {
+		list-style: none;
+		display: grid;
+		gap: var(--spacing-3);
+		max-width: 48ch;
+		margin-top: var(--spacing-7);
+	}
+
+	.home-principles li {
+		display: grid;
+		grid-template-columns: 9px minmax(0, 1fr);
+		gap: var(--spacing-4);
+		align-items: start;
+		font-size: var(--font-size-sm);
+		line-height: 1.7;
+		color: var(--color-text-secondary);
+	}
+
+	.home-principles li::before {
+		content: "";
+		width: 8px;
+		height: 8px;
+		margin-top: 0.5rem;
+		border: 1px solid var(--color-accent);
+		border-radius: 50%;
+	}
+
+	.home-field {
+		min-width: 0;
+		display: flex;
+		align-items: center;
+	}
+
+	.home-field > :global(*) { width: 100%; }
+
+	.home-secondary-link {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--spacing-4);
+		min-height: 52px;
+		color: var(--color-accent);
+		text-decoration: none;
+	}
+
+	.home-applied-boundary {
+		display: grid;
+		grid-template-columns: 10px minmax(0, 1fr);
+		gap: var(--spacing-3);
+		max-width: 48ch;
+		margin-top: auto;
+		padding-top: var(--spacing-8);
+		font-size: var(--font-size-sm);
+		line-height: 1.7;
+		color: var(--color-applied);
+	}
+
+	.home-applied-boundary > span {
+		width: 9px;
+		height: 9px;
+		margin-top: 0.45rem;
+		border: 1px solid var(--color-applied);
+		border-radius: 50%;
 	}
 
 	.home-hero {
@@ -624,6 +759,37 @@ function versionFor(item: (typeof localizedWorks)[number]) {
 		max-width: 13ch;
 	}
 
+	:global(:lang(th)) .home-byline,
+	:global(:lang(th)) .home-descriptor,
+	:global(:lang(th)) .home-principles li,
+	:global(:lang(th)) .home-primary-link,
+	:global(:lang(th)) .home-secondary-link,
+	:global(:lang(th)) .home-applied-boundary {
+		font-family: var(--font-sans);
+		font-style: normal;
+		letter-spacing: 0;
+		word-break: keep-all;
+	}
+
+	:global(:lang(th)) .home-byline { font-size: var(--font-size-sm); line-height: 1.6; }
+
+	:global(:lang(th)) .home-authored h1 {
+		max-width: 14ch;
+		font-family: var(--font-sans);
+		font-size: clamp(2.65rem, 4.35vw, 4.6rem);
+		font-weight: 300;
+		font-style: normal;
+		letter-spacing: 0;
+		line-height: 1.45;
+	}
+
+	:global(:lang(th)) .home-descriptor,
+	:global(:lang(th)) .home-principles li,
+	:global(:lang(th)) .home-applied-boundary {
+		font-size: 1.0625rem;
+		line-height: 1.9;
+	}
+
 	:global(:lang(th)) .home-primary-link,
 	:global(:lang(th)) .home-trace > p,
 	:global(:lang(th)) .home-trace li,
@@ -668,6 +834,20 @@ function versionFor(item: (typeof localizedWorks)[number]) {
 	}
 
 	@media (max-width: 960px) {
+		.home-opening {
+			grid-template-columns: 1fr;
+			min-height: 0;
+		}
+
+		.home-authored {
+			padding-right: 0;
+		}
+
+		.home-authored h1,
+		:global(:lang(th)) .home-authored h1 { max-width: 16ch; }
+
+		.home-applied-boundary { margin-top: var(--spacing-8); }
+
 		.home-hero {
 			grid-template-columns: 1fr;
 			min-height: auto;
@@ -709,6 +889,23 @@ function versionFor(item: (typeof localizedWorks)[number]) {
 	}
 
 	@media (max-width: 640px) {
+		.home-authored { padding-block: var(--spacing-12); }
+
+		.home-authored h1 {
+			max-width: none;
+			font-size: clamp(2.6rem, 13vw, 4rem);
+		}
+
+		:global(:lang(th)) .home-authored h1 {
+			max-width: none;
+			font-size: clamp(2.25rem, 10.5vw, 3.25rem);
+			line-height: 1.5;
+		}
+
+		.home-principles { gap: var(--spacing-4); }
+
+		.home-secondary-link { width: 100%; }
+
 		.home-hero {
 			gap: var(--spacing-14);
 			padding-block: var(--spacing-12) var(--spacing-16);

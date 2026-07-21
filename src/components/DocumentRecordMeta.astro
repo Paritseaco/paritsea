@@ -15,16 +15,19 @@ interface Props {
 
 const { locale, contentType, stage, status, version, provenance, scope, nonClaims, lastReviewed } = Astro.props;
 const labels = locale === "th"
-	? { title: "ระเบียนเอกสาร", type: "ประเภท", stage: "สถานะทางความคิด", status: "วงจรงาน", version: "เวอร์ชัน", provenance: "ที่มา", scope: "ขอบเขต", nonClaims: "สิ่งที่เอกสารนี้ยังไม่ยืนยัน", reviewed: "ทบทวนล่าสุด" }
-	: { title: "Document record", type: "Type", stage: "Intellectual stage", status: "Lifecycle", version: "Version", provenance: "Provenance", scope: "Scope", nonClaims: "What this does not establish", reviewed: "Last reviewed" };
+	? { title: "ระเบียนเอกสาร — ดูที่มา สถานะ และขอบเขต", type: "ประเภท", stage: "ระดับการพัฒนา", status: "สถานะปัจจุบัน", version: "เวอร์ชัน", provenance: "ที่มาของงาน", scope: "ขอบเขตที่ใช้ได้", nonClaims: "สิ่งที่งานนี้ยังไม่ได้ยืนยัน", reviewed: "ทบทวนล่าสุด" }
+	: { title: "Document record — inspect provenance, status, and scope", type: "Type", stage: "Intellectual stage", status: "Lifecycle", version: "Version", provenance: "Provenance", scope: "Scope", nonClaims: "What this does not establish", reviewed: "Last reviewed" };
 const localizedContentType = localizeRecordValue(locale, contentType);
 const localizedStage = localizeRecordValue(locale, stage);
 const localizedStatus = localizeRecordValue(locale, status);
 ---
 
-<aside class="record-meta" aria-labelledby="document-record-title">
-	<h2 id="document-record-title">{labels.title}</h2>
-	<dl>
+<details class="record-meta">
+	<summary id="document-record-title">
+		<span>{labels.title}</span>
+		<span class="record-meta-toggle" aria-hidden="true"></span>
+	</summary>
+	<dl aria-labelledby="document-record-title">
 		<div><dt>{labels.type}</dt><dd>{localizedContentType}</dd></div>
 		<div><dt>{labels.stage}</dt><dd>{localizedStage}</dd></div>
 		<div><dt>{labels.status}</dt><dd><span class="status-dot" aria-hidden="true"></span>{localizedStatus}</dd></div>
@@ -34,29 +37,62 @@ const localizedStatus = localizeRecordValue(locale, status);
 		<div class="record-wide"><dt>{labels.nonClaims}</dt><dd>{nonClaims}</dd></div>
 		{lastReviewed && <div><dt>{labels.reviewed}</dt><dd>{lastReviewed}</dd></div>}
 	</dl>
-</aside>
+</details>
 
 <style>
 	.record-meta {
-		margin: var(--spacing-10) 0;
-		padding: var(--spacing-6) 0;
-		border-top: 1px solid var(--color-accent);
+		margin: var(--spacing-8) 0 var(--spacing-10);
+		border-top: 1px solid var(--color-border);
 		border-bottom: 1px solid var(--color-border);
 	}
 
-	h2 {
+	summary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--spacing-4);
+		min-height: 44px;
+		padding: var(--spacing-4) 0;
 		font-family: var(--font-mono);
 		font-size: var(--font-size-sm);
 		font-weight: 500;
 		letter-spacing: var(--tracking-wide);
 		text-transform: uppercase;
+		cursor: pointer;
+		list-style: none;
 	}
+
+	summary::-webkit-details-marker { display: none; }
+	summary:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+
+	.record-meta-toggle {
+		position: relative;
+		width: 1rem;
+		height: 1rem;
+		flex: 0 0 1rem;
+	}
+
+	.record-meta-toggle::before,
+	.record-meta-toggle::after {
+		content: "";
+		position: absolute;
+		left: 0;
+		top: calc(50% - .5px);
+		width: 100%;
+		height: 1px;
+		background: currentColor;
+	}
+
+	.record-meta-toggle::after { transform: rotate(90deg); transition: transform 180ms ease; }
+	.record-meta[open] .record-meta-toggle::after { transform: rotate(0); }
 
 	dl {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: var(--spacing-6) var(--spacing-8);
-		margin-top: var(--spacing-6);
+		margin: 0;
+		padding: var(--spacing-6) 0 var(--spacing-8);
+		border-top: 1px solid var(--color-border-subtle);
 	}
 
 	.record-wide { grid-column: 1 / -1; }
@@ -84,7 +120,7 @@ const localizedStatus = localizeRecordValue(locale, status);
 		background: var(--color-accent);
 	}
 
-	:global(:lang(th)) h2,
+	:global(:lang(th)) summary,
 	:global(:lang(th)) dt,
 	:global(:lang(th)) dd {
 		font-family: var(--font-sans);
@@ -92,7 +128,7 @@ const localizedStatus = localizeRecordValue(locale, status);
 		letter-spacing: 0;
 	}
 
-	:global(:lang(th)) h2,
+	:global(:lang(th)) summary,
 	:global(:lang(th)) dt { font-size: var(--font-size-sm); line-height: 1.55; }
 	:global(:lang(th)) dd { font-size: 1.0625rem; line-height: 1.85; }
 

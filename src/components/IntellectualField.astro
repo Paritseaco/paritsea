@@ -1,0 +1,289 @@
+---
+interface Question {
+	title: string;
+	meta: string;
+}
+
+interface Props {
+	locale: "th" | "en";
+	questions: Question[];
+	counts?: Partial<Record<"journal" | "concept" | "framework" | "protocol" | "standard", number>>;
+	compact?: boolean;
+}
+
+const { locale, questions, counts = {}, compact = false } = Astro.props;
+const stages = locale === "th"
+	? [
+		{ key: "journal", label: "ข้อสังเกต", en: "Observation", state: "open" },
+		{ key: "concept", label: "แนวคิด", en: "Concept", state: "named" },
+		{ key: "framework", label: "โครงสร้าง", en: "Framework", state: "governed" },
+		{ key: "protocol", label: "แนวปฏิบัติ", en: "Protocol", state: "governed" },
+		{ key: "standard", label: "เกณฑ์อ้างอิง", en: "Standard", state: "current" },
+	]
+	: [
+		{ key: "journal", label: "Observation", en: "Journal", state: "open" },
+		{ key: "concept", label: "Concept", en: "Named idea", state: "named" },
+		{ key: "framework", label: "Framework", en: "Structure", state: "governed" },
+		{ key: "protocol", label: "Protocol", en: "Practice", state: "governed" },
+		{ key: "standard", label: "Standard", en: "Reference threshold", state: "current" },
+	];
+---
+
+<section class:list={["intellectual-field", { "intellectual-field--compact": compact }]} aria-labelledby="field-title">
+	<header class="field-header">
+		<div>
+			<p class="field-kicker">{locale === "th" ? "แผนที่ความคิด" : "Intellectual field"}</p>
+			<h2 id="field-title">{locale === "th" ? "ความคิดเปลี่ยนรูปได้ โดยไม่ต้องเดินเป็นเส้นตรง" : "Ideas can change form without following a straight line"}</h2>
+		</div>
+		<ul class="field-legend" aria-label={locale === "th" ? "คำอธิบายสถานะ" : "Status legend"}>
+			<li data-state="open">{locale === "th" ? "ยังเปิดอยู่" : "Open"}</li>
+			<li data-state="governed">{locale === "th" ? "ผ่านการกำกับแล้ว" : "Governed"}</li>
+			<li data-state="current">{locale === "th" ? "พร้อมใช้อ้างอิง" : "Reference-ready"}</li>
+		</ul>
+	</header>
+
+	<div class="field-questions" aria-label={locale === "th" ? "คำถามที่ยังเคลื่อนไหว" : "Questions still in motion"}>
+		{questions.slice(0, 3).map((question, index) => (
+			<article class="field-question" data-question={index + 1}>
+				<span aria-hidden="true"></span>
+				<div>
+					<h3>{question.title}</h3>
+					<p>{question.meta}</p>
+				</div>
+			</article>
+		))}
+	</div>
+
+	<ol class="field-stages" aria-label={locale === "th" ? "รูปแบบของงานทางความคิด" : "Forms of intellectual work"}>
+		{stages.map((stage, index) => (
+			<li data-state={stage.state}>
+				<span class="field-node" aria-hidden="true"></span>
+				<div>
+					<strong>{stage.label}</strong>
+					<small lang={locale === "th" ? "en" : undefined}>{stage.en}</small>
+					{typeof counts[stage.key as keyof typeof counts] === "number" && (
+						<em>{String(counts[stage.key as keyof typeof counts]).padStart(2, "0")}</em>
+					)}
+				</div>
+				{index < stages.length - 1 && <i aria-hidden="true"></i>}
+			</li>
+		))}
+	</ol>
+
+	<footer class="field-return">
+		<span aria-hidden="true"></span>
+		<p>{locale === "th" ? "หลักฐานจากโลกจริงอาจพางานย้อนกลับไปตั้งคำถามใหม่" : "Evidence from practice may return the work to an earlier question."}</p>
+	</footer>
+</section>
+
+<style>
+	.intellectual-field {
+		min-width: 0;
+		padding: clamp(var(--spacing-6), 3vw, var(--spacing-10));
+		border-left: 1px solid var(--color-border-subtle);
+		background:
+			radial-gradient(circle, color-mix(in srgb, var(--color-muted) 18%, transparent) 0.7px, transparent 0.8px) 0 0 / 12px 12px;
+	}
+
+	.field-header {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: var(--spacing-8);
+		align-items: start;
+	}
+
+	.field-kicker,
+	.field-question p,
+	.field-legend,
+	.field-stages small,
+	.field-stages em,
+	.field-return {
+		font-family: var(--font-mono);
+		font-size: var(--font-size-xs);
+		font-style: normal;
+		line-height: 1.6;
+		color: var(--color-muted);
+	}
+
+	.field-kicker { color: var(--color-text-secondary); }
+
+	.field-header h2 {
+		max-width: 24ch;
+		margin-top: var(--spacing-3);
+		font-size: clamp(1.25rem, 1.7vw, 1.75rem);
+		font-weight: 500;
+		line-height: 1.2;
+	}
+
+	.field-legend {
+		list-style: none;
+		display: grid;
+		gap: var(--spacing-2);
+		min-width: 10rem;
+	}
+
+	.field-legend li {
+		display: grid;
+		grid-template-columns: 10px 1fr;
+		gap: var(--spacing-3);
+		align-items: center;
+	}
+
+	.field-legend li::before,
+	.field-question > span,
+	.field-node {
+		content: "";
+		display: block;
+		width: 9px;
+		height: 9px;
+		border: 1px solid var(--color-muted);
+		border-radius: 50%;
+		background: var(--color-bg);
+	}
+
+	.field-legend li[data-state="governed"]::before,
+	.field-stages li[data-state="governed"] .field-node {
+		border-color: var(--color-accent);
+		background: var(--color-accent);
+	}
+
+	.field-legend li[data-state="current"]::before,
+	.field-stages li[data-state="current"] .field-node {
+		border-color: var(--color-text);
+		background: var(--color-text);
+	}
+
+	.field-questions {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: clamp(var(--spacing-5), 3vw, var(--spacing-10));
+		margin-top: clamp(var(--spacing-10), 6vw, var(--spacing-20));
+		padding-bottom: clamp(var(--spacing-8), 5vw, var(--spacing-14));
+		border-bottom: 1px dashed var(--color-border);
+	}
+
+	.field-question {
+		display: grid;
+		grid-template-columns: 10px minmax(0, 1fr);
+		gap: var(--spacing-3);
+		align-items: start;
+	}
+
+	.field-question h3 {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-base);
+		font-weight: 450;
+		line-height: 1.5;
+		letter-spacing: 0;
+	}
+
+	.field-question p { margin-top: var(--spacing-2); }
+
+	.field-stages {
+		list-style: none;
+		display: grid;
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+		margin-top: clamp(var(--spacing-8), 5vw, var(--spacing-14));
+	}
+
+	.field-stages li {
+		position: relative;
+		display: grid;
+		grid-template-columns: 12px minmax(0, 1fr);
+		gap: var(--spacing-3);
+		min-width: 0;
+		padding-right: var(--spacing-5);
+		color: var(--color-accent);
+	}
+
+	.field-stages li:last-child { color: var(--color-text); padding-right: 0; }
+
+	.field-stages strong,
+	.field-stages small,
+	.field-stages em { display: block; }
+
+	.field-stages strong {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-base);
+		font-weight: 500;
+		line-height: 1.45;
+	}
+
+	.field-stages em { margin-top: var(--spacing-2); color: currentColor; }
+
+	.field-stages i {
+		position: absolute;
+		z-index: -1;
+		top: 4px;
+		left: 9px;
+		width: calc(100% - 4px);
+		border-top: 1px solid color-mix(in srgb, var(--color-accent) 75%, var(--color-border));
+	}
+
+	.field-return {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-3);
+		max-width: 42ch;
+		margin: clamp(var(--spacing-8), 5vw, var(--spacing-14)) 0 0 auto;
+		padding-top: var(--spacing-5);
+		border-top: 1px dashed var(--color-border);
+	}
+
+	.field-return > span {
+		width: 2rem;
+		flex: 0 0 auto;
+		border-top: 1px solid var(--color-muted);
+	}
+
+	:global(:lang(th)) .field-kicker,
+	:global(:lang(th)) .field-question p,
+	:global(:lang(th)) .field-legend,
+	:global(:lang(th)) .field-stages small,
+	:global(:lang(th)) .field-stages em,
+	:global(:lang(th)) .field-return {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		font-style: normal;
+		letter-spacing: 0;
+		line-height: 1.6;
+	}
+
+	:global(:lang(th)) .field-header h2,
+	:global(:lang(th)) .field-question h3,
+	:global(:lang(th)) .field-stages strong {
+		font-family: var(--font-sans);
+		font-weight: 300;
+		font-style: normal;
+		letter-spacing: 0;
+		line-height: 1.5;
+		word-break: keep-all;
+	}
+
+	.intellectual-field--compact .field-questions { margin-top: var(--spacing-8); }
+
+	@media (max-width: 1180px) {
+		.intellectual-field { border-top: 1px solid var(--color-border-subtle); border-left: 0; }
+	}
+
+	@media (max-width: 760px) {
+		.field-header { grid-template-columns: 1fr; gap: var(--spacing-5); }
+		.field-legend { grid-template-columns: repeat(3, minmax(0, 1fr)); min-width: 0; }
+		.field-questions { grid-template-columns: 1fr; gap: var(--spacing-5); }
+		.field-stages { grid-template-columns: 1fr; gap: 0; }
+		.field-stages li { min-height: 78px; padding: 0 0 var(--spacing-6); }
+		.field-stages i {
+			top: 8px;
+			left: 4px;
+			width: 1px;
+			height: 100%;
+			border-top: 0;
+			border-left: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--color-border));
+		}
+	}
+
+	@media (max-width: 480px) {
+		.intellectual-field { padding-inline: 0; background: none; }
+		.field-legend { grid-template-columns: 1fr; }
+	}
+</style>

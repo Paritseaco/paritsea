@@ -33,6 +33,7 @@ const {
 } = Astro.props;
 
 const labels = ui[locale].labels;
+const localizeBylineName = (name: string) => locale === "th" && name === "Parit Ritchai" ? "ปาริศ ฤทธิ์ชัย" : name;
 ---
 
 <div
@@ -72,12 +73,12 @@ const labels = ui[locale].labels;
 							{credit.byline.avatarMediaId && (
 								<img
 									src={`/_emdash/api/media/file/${credit.byline.avatarMediaId}`}
-									alt={credit.byline.displayName}
+									alt={localizeBylineName(credit.byline.displayName)}
 									class="article-utility-avatar"
 								/>
 							)}
 							<div class="article-utility-byline-info">
-								<span class="article-utility-byline-name">{credit.byline.displayName}</span>
+								<span class="article-utility-byline-name">{localizeBylineName(credit.byline.displayName)}</span>
 								{credit.roleLabel && (
 									<span class="article-utility-byline-role">{credit.roleLabel}</span>
 								)}
@@ -222,6 +223,41 @@ const labels = ui[locale].labels;
 		font-size: var(--font-size-sm);
 		color: var(--color-text-secondary);
 		line-height: 1.6;
+	}
+
+	:global(:lang(th)) .article-utility-action,
+	:global(:lang(th)) .article-utility-label,
+	:global(:lang(th)) .article-utility-value,
+	:global(:lang(th)) .article-utility-byline-name,
+	:global(:lang(th)) .article-utility-byline-role {
+		font-family: var(--font-sans);
+		font-style: normal;
+		letter-spacing: 0;
+	}
+
+	:global(:lang(th)) .article-utility-action,
+	:global(:lang(th)) .article-utility-label { font-size: .875rem; line-height: 1.55; }
+	:global(:lang(th)) .article-utility-value,
+	:global(:lang(th)) .article-utility-byline-name,
+	:global(:lang(th)) .article-utility-byline-role { font-size: .875rem; line-height: 1.7; }
+
+	@media (max-width: 1100px) {
+		.article-utility-rail {
+			display: grid;
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+			gap: var(--spacing-4);
+		}
+
+		.article-utility-actions {
+			padding-bottom: 0;
+			border-bottom: 0;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.article-utility-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+		.article-utility-block--byline { grid-column: 1 / -1; }
+		.article-utility-action { min-height: 44px; align-items: center; }
 	}
 
 	.article-utility-bylines {

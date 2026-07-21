@@ -189,17 +189,17 @@ const entryPath = (id: string) => kind === "journal"
 </Base>
 
 <style>
-	.archive-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--spacing-12); align-items: end; padding: var(--spacing-12) 0 var(--spacing-14); border-bottom: 1px solid var(--color-border); }
-	.archive-count { min-width: 150px; padding-left: var(--spacing-6); border-left: 1px solid var(--color-border); }
+	.archive-header { display: grid; grid-template-columns: minmax(0, 1fr) minmax(110px, .2fr); gap: var(--spacing-10); align-items: end; padding: var(--spacing-8) 0 var(--spacing-10); border-bottom: 1px solid var(--color-border); }
+	.archive-count { min-width: 0; padding-left: var(--spacing-5); border-left: 1px solid var(--color-border); }
 	.archive-count dt { font-family: var(--font-mono); font-size: var(--font-size-xs); color: var(--color-muted); text-transform: uppercase; letter-spacing: var(--tracking-wide); }
-	.archive-count dd { margin-top: var(--spacing-2); font-family: var(--font-serif); font-size: clamp(3rem, 7vw, 6rem); line-height: .9; color: var(--color-accent); }
-	.archive-boundary { max-width: 68ch; padding: var(--spacing-6) 0; color: var(--color-text-secondary); border-bottom: 1px solid var(--color-border-subtle); }
-	.archive-page .experience-index-row { grid-template-columns: 5rem minmax(0, 1fr); }
-	.archive-page .experience-index-copy h2 { font-family: var(--font-serif); font-size: clamp(1.65rem, 2.6vw, 2.65rem); font-weight: 500; line-height: 1.1; letter-spacing: var(--tracking-snug); text-wrap: balance; }
+	.archive-count dd { margin-top: var(--spacing-2); font-family: var(--font-serif); font-size: clamp(2.2rem, 4vw, 3.75rem); line-height: 1; color: var(--color-accent); }
+	.archive-boundary { max-width: 70ch; padding: var(--spacing-5) 0; color: var(--color-text-secondary); border-bottom: 1px solid var(--color-border-subtle); }
+	.archive-page .experience-index-row { grid-template-columns: 3.5rem minmax(0, 1fr); }
+	.archive-page .experience-index-copy h2 { max-width: 34ch; font-family: var(--font-serif); font-size: clamp(1.45rem, 2.1vw, 2.25rem); font-weight: 500; line-height: 1.18; letter-spacing: var(--tracking-snug); text-wrap: pretty; }
 	.archive-page .experience-index-copy > p { max-width: 58ch; margin-top: var(--spacing-3); line-height: 1.7; color: var(--color-text-secondary); text-wrap: pretty; }
 	.archive-row-footer { display: flex; flex-wrap: wrap; gap: var(--spacing-3) var(--spacing-6); margin-top: var(--spacing-5); font-family: var(--font-mono); font-size: var(--font-size-xs); color: var(--color-muted); }
 	.archive-row-footer strong { margin-left: auto; color: var(--color-accent); font-weight: 500; }
-	.archive-path { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: var(--spacing-12); margin-top: var(--spacing-20); padding: var(--spacing-8) 0; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
+	.archive-path { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: var(--spacing-12); margin-top: var(--spacing-14); padding: var(--spacing-7) 0; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
 	.archive-path p:last-child { max-width: 52ch; margin-top: var(--spacing-4); color: var(--color-text-secondary); line-height: 1.7; }
 	.archive-path nav { display: flex; flex-wrap: wrap; gap: var(--spacing-3); align-items: center; align-content: center; }
 	.archive-path a { text-decoration: underline; text-decoration-color: var(--color-border); text-underline-offset: .25em; }
@@ -208,5 +208,5 @@ const entryPath = (id: string) => kind === "journal"
 	:global(:lang(th)) .archive-page .experience-index-copy h2 { font-family: var(--font-sans); font-weight: 300; font-style: normal; letter-spacing: 0; line-height: 1.45; }
 	:global(:lang(th)) .archive-page .experience-index-copy > p { font-size: 1.0625rem; line-height: 1.9; letter-spacing: 0; word-break: keep-all; }
 	:global(:lang(th)) .archive-boundary, :global(:lang(th)) .archive-path p:last-child { font-size: 1.0625rem; line-height: 1.9; letter-spacing: 0; word-break: keep-all; }
-	@media (max-width: 700px) { .archive-header, .archive-path, .archive-page .experience-index-row { grid-template-columns: 1fr; } .archive-count { padding: var(--spacing-5) 0 0; border-left: 0; border-top: 1px solid var(--color-border-subtle); } .archive-count dd { font-size: 3.5rem; } .archive-row-footer strong { width: 100%; margin-left: 0; } }
+	@media (max-width: 700px) { .archive-header, .archive-path, .archive-page .experience-index-row { grid-template-columns: 1fr; } .archive-count { padding: var(--spacing-5) 0 0; border-left: 0; border-top: 1px solid var(--color-border-subtle); } .archive-count dd { font-size: 2.75rem; } .archive-row-footer strong { width: 100%; margin-left: 0; } }
 </style>

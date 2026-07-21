@@ -127,7 +127,7 @@ export const ui = {
     themeDark: "มืด",
     themeSystem: "ตามระบบ",
     admin: "จัดการเว็บ",
-    footerTagline: "ข้อสังเกตของ Parit Ritchai ที่เก็บที่มา การเปลี่ยนแปลง และขอบเขตไว้ให้ตรวจสอบได้",
+	footerTagline: "ข้อสังเกตของปาริศ ฤทธิ์ชัย ที่เก็บที่มา การเปลี่ยนแปลง และขอบเขตไว้ให้ตรวจสอบได้",
     frameworkLayers: "งานอ้างอิง",
     thoughtPath: "สำรวจ",
     legalContact: "เกี่ยวกับและการใช้",
@@ -140,9 +140,9 @@ export const ui = {
     socialInstagram: "Instagram",
     socialThreads: "Threads",
     socialYouTube: "YouTube",
-    authorName: "Parit Ritchai",
-    authorRole: "ผู้เขียนและผู้ตัดสินใจต่องานต้นทาง",
-    authorBio: "Parit Ritchai เขียนข้อสังเกตและตัดสินใจต่อความหมายของงานที่เผยแพร่ที่นี่ ส่วน Paritsea เก็บที่มา การแก้ไข และขอบเขตของงานไว้เป็นบันทึกสาธารณะ",
+	    authorName: "ปาริศ ฤทธิ์ชัย",
+	    authorRole: "ผู้เขียนและผู้ดูแลความหมายของงานต้นทาง",
+	    authorBio: "ฉันเขียนข้อสังเกต ตั้งชื่อสิ่งที่มองเห็น และตัดสินใจเมื่อความหมายของงานต้นทางเปลี่ยน ส่วน Paritsea เก็บที่มา การแก้ไข และขอบเขตของงานเหล่านั้นไว้ให้ตรวจสอบได้",
     readDoctrine: "อ่าน Framework",
     exploreMethod: "สำรวจ Journal",
     viewImplementations: "ดูขอบเขต Official Use",
@@ -261,7 +261,7 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 			"Framework Version: 1.0 — Constitutional Text": "Framework เวอร์ชัน 1.0 — ข้อความรากฐาน",
 			"Section VI — Canonical change": "หมวด VI — การเปลี่ยน canonical source",
 			"The Paritsea Framework is a canonical, version-governed source. Its meaning may change only through an explicit revision authored by Parit Ritchai and published by Paritsea with the prior record preserved. Applied adaptations and commercial agreements cannot silently redefine it.":
-				"Paritsea Framework เป็นแหล่งต้นทาง canonical ที่กำกับด้วยเวอร์ชัน ความหมายจะเปลี่ยนได้เฉพาะผ่าน revision ที่ Parit Ritchai เป็นผู้เขียนและ Paritsea เผยแพร่โดยรักษาระเบียนเดิมไว้ การดัดแปลงเพื่อใช้งานและข้อตกลงเชิงพาณิชย์ไม่อาจเปลี่ยนนิยามต้นทางอย่างเงียบ ๆ",
+				"Paritsea Framework เป็นงานต้นทางที่กำกับด้วยเวอร์ชัน หากฉันเปลี่ยนความหมาย ต้องเผยแพร่เป็นฉบับแก้ไขใหม่พร้อมเหตุผล และ Paritsea ต้องรักษาระเบียนเดิมไว้ การดัดแปลงเพื่อนำไปใช้หรือข้อตกลงเชิงพาณิชย์ไม่อาจเปลี่ยนนิยามต้นทางอย่างเงียบ ๆ",
 			"Framework Version: 1.1 — Version-governed canonical text": "Framework เวอร์ชัน 1.1 — ข้อความ canonical ที่กำกับด้วยเวอร์ชัน",
 		},
 	},
@@ -269,7 +269,7 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 		title: "โปรโตคอลความโปร่งใสเชิงโครงสร้าง (STP)",
 		excerpt: "STP กำหนดให้ความโปร่งใสเชิงโครงสร้างเป็นข้อกำหนดพื้นฐาน ไม่ใช่ทางเลือก",
 		content: {
-			"v1.0 · Foundational · Authored by Parit Ritchai": "v1.0 · ฐานราก · เขียนโดย Parit Ritchai",
+			"v1.0 · Foundational · Authored by Parit Ritchai": "v1.0 · ฐานราก · เขียนโดย ปาริศ ฤทธิ์ชัย",
 			"This protocol establishes foundational principles of structural transparency as a constitutional requirement.":
 				"STP กำหนดเงื่อนไขพื้นฐานที่เอเจนซีต้องผ่าน เพื่อกล่าวอ้างความโปร่งใสเชิงโครงสร้างได้อย่างมีความหมาย",
 			"The observation that named this gap is in the Journal:":
@@ -345,7 +345,7 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 		excerpt: "ASLS-01 แปลง STP ให้เป็นเกณฑ์ที่ตรวจสอบได้จริงในองค์กรเอเจนซีและธุรกิจบริการ",
 		content: {
 			"v1.0 · Active · Derived from: Structural Transparency Protocol (STP) v1.0 · Authored by Parit Ritchai":
-				"v1.0 · ใช้งานอยู่ · สืบเนื่องจาก STP v1.0 · เขียนโดย Parit Ritchai",
+				"v1.0 · ใช้งานอยู่ · สืบเนื่องจาก STP v1.0 · เขียนโดย ปาริศ ฤทธิ์ชัย",
 			"I. Purpose": "I. จุดประสงค์",
 			"The Agency Structural Legitimacy Standard (ASLS-01) operationalises the Structural Transparency Protocol (STP) within agency and service-based organisations. It defines observable structural conditions under which an agency may be evaluated for legitimacy in relation to Human Visibility, Capacity Integrity, Choice & Representation Rights, Conflict & Competitive Boundaries, and Power & Responsibility Mapping.":
 				"ASLS-01 แปลง STP ให้ใช้งานได้จริงในเอเจนซีและองค์กรบริการ โดยกำหนดเงื่อนไขที่สังเกตและตรวจสอบได้ใน 5 ด้าน ได้แก่ การมองเห็นคนที่ทำงานจริง ความซื่อตรงของกำลังการทำงาน สิทธิในการเลือกตัวแทน ขอบเขตความขัดแย้งทางผลประโยชน์ และการแมปอำนาจกับความรับผิด",
@@ -560,7 +560,7 @@ const pageTranslations: Record<string, { title: string; content: Record<string, 
 		content: {
 			"Constitutional Position": "ตำแหน่งเชิงรัฐธรรมนูญ",
 			"Paritsea is an independent framework of structural coherence and legitimacy authored by Parit Ritchai.":
-				"Paritsea เป็น framework อิสระว่าด้วยความสอดคล้องเชิงโครงสร้างและความชอบธรรม เขียนโดย Parit Ritchai",
+				"Paritsea เป็นกรอบอิสระว่าด้วยความสอดคล้องเชิงโครงสร้างและความชอบธรรม เขียนโดย ปาริศ ฤทธิ์ชัย",
 			"The Paritsea Framework and all derived Protocols and Standards are made publicly accessible in order to preserve structural clarity and prevent distortion through opacity or exclusivity.":
 				"Paritsea Framework รวมถึงโปรโตคอลและมาตรฐานที่สืบเนื่องทั้งหมดเปิดให้เข้าถึงสาธารณะ เพื่อรักษาความชัดเจนเชิงโครงสร้างและป้องกันการบิดเบือนผ่านความทึบแสงหรือความผูกขาด",
 			"Licensing exists to protect Framework integrity, not to restrict legitimate reference.":
@@ -575,7 +575,7 @@ const pageTranslations: Record<string, { title: string; content: Record<string, 
 				"สิทธิการใช้นี้ครอบคลุม: Paritsea Framework — มาตรฐานที่เผยแพร่ทั้งหมด — โปรโตคอลที่เผยแพร่ทั้งหมด — ข้อความอธิบายสาธารณะ — แผนภาพและแบบจำลองโครงสร้างอย่างเป็นทางการ",
 			"Attribution Requirements": "ข้อกำหนดการให้เครดิต",
 			"Attribution must clearly include: The name \"Paritsea\" — Author: Parit Ritchai — Reference to the original source — A link to the official Paritsea website":
-				"การให้เครดิตต้องระบุอย่างชัดเจน: ชื่อ \"Paritsea\" — ผู้เขียน: Parit Ritchai — การอ้างถึงแหล่งต้นทาง — ลิงก์ไปยังเว็บไซต์ Paritsea อย่างเป็นทางการ",
+				"การให้เครดิตต้องระบุชื่อ \"Paritsea\" ชื่อผู้เขียน \"ปาริศ ฤทธิ์ชัย\" ลิงก์ไปยังงานต้นทาง และลิงก์เว็บไซต์ Paritsea",
 			"Attribution must not imply endorsement, partnership, certification, or institutional affiliation unless explicitly authorised.":
 				"การให้เครดิตต้องไม่ทำให้เข้าใจว่าได้รับการรับรอง เป็นพันธมิตร ได้รับ certification หรือมีความเกี่ยวข้องเชิงสถาบัน เว้นแต่ได้รับอนุญาตชัดเจน",
 			"Commercial Implementation": "การนำไปใช้เชิงพาณิชย์",
@@ -616,9 +616,9 @@ const pageTranslations: Record<string, { title: string; content: Record<string, 
 			"All correspondence is reviewed. Response is discretionary.":
 				"ทุกข้อความจะได้รับการพิจารณา การตอบกลับขึ้นอยู่กับดุลยพินิจ",
 			"Paritsea is an independent framework reference authored by Parit Ritchai.":
-				"Paritsea เป็นกรอบอ้างอิงอิสระ เขียนโดย Parit Ritchai",
+				"Paritsea เป็นกรอบอ้างอิงอิสระ เขียนโดย ปาริศ ฤทธิ์ชัย",
 			"Paritsea is an author-led intellectual practice and public record stewarded by Parit Ritchai.":
-				"Paritsea คือพื้นที่ปฏิบัติการทางความคิดที่มีผู้เขียนชัดเจน และเป็นบันทึกสาธารณะที่ Parit Ritchai รับผิดชอบดูแล",
+				"Paritsea คือพื้นที่ปฏิบัติการทางความคิดที่มีผู้เขียนชัดเจน และเป็นบันทึกสาธารณะที่ฉันรับผิดชอบดูแล",
 		},
 	},
 };

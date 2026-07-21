@@ -2,6 +2,7 @@
 import { getEmDashCollection } from "emdash";
 import Base from "../../layouts/Base.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
+import IntellectualField from "../../components/IntellectualField.astro";
 import { getAstroLocale, localizedPath } from "../../utils/i18n";
 
 const locale = getAstroLocale(Astro);
@@ -50,6 +51,26 @@ const copy = locale === "th" ? {
 	boundaryBody: "Paritsea keeps the source record and its history of change. Organizational application belongs to the interpreter's context and does not automatically revise the canonical record.",
 	useLink: "Review use and citation",
 };
+
+const fieldQuestions = locale === "th"
+	? [
+		{ title: "แนวคิดนี้กำลังช่วยให้มองเห็นอะไร", meta: "คำถามก่อนเลือกประเภทเอกสาร" },
+		{ title: "เมื่อใดที่ข้อเสนอควรกลายเป็นภาระหน้าที่", meta: "Framework → Protocol" },
+		{ title: "อะไรควรถูกตรวจจริง และอะไรควรปล่อยให้ต่างกัน", meta: "Protocol → Standard" },
+	]
+	: [
+		{ title: "What is this idea helping us see?", meta: "Before choosing a document type" },
+		{ title: "When should a proposition become an obligation?", meta: "Framework → Protocol" },
+		{ title: "What should be tested, and what should remain contextual?", meta: "Protocol → Standard" },
+	];
+
+const fieldCounts = {
+	journal: count("journal"),
+	concept: count("concept"),
+	framework: count("framework"),
+	protocol: count("protocol"),
+	standard: count("standard"),
+};
 ---
 
 <Base title={copy.title} description={copy.summary} locale={locale}>
@@ -80,17 +101,13 @@ const copy = locale === "th" ? {
 			</div>
 		</section>
 
-		<section class="experience-section system-path" aria-labelledby="path-title">
-			<div>
+		<section class="experience-section system-field" aria-labelledby="system-field-title">
+			<div class="system-field-intro">
 				<p class="experience-label" data-state="moving">{copy.path}</p>
-				<h2 id="path-title">{copy.pathTitle}</h2>
+				<h2 id="system-field-title">{copy.pathTitle}</h2>
 				<p>{copy.pathBody}</p>
 			</div>
-			<ol aria-label={copy.path}>
-				{["Journal", "Concept", "Framework", "Protocol", "Standard"].map((label, index) => (
-					<li data-state={index === 0 ? "open" : index === 1 ? "named" : "governed"}><span>{String(index + 1).padStart(2, "0")}</span>{label}</li>
-				))}
-			</ol>
+			<IntellectualField locale={locale} questions={fieldQuestions} counts={fieldCounts} compact />
 		</section>
 
 		<section class="experience-section">
@@ -103,18 +120,11 @@ const copy = locale === "th" ? {
 </Base>
 
 <style>
-	.system-intro { max-width: 1080px; padding: var(--spacing-12) 0 var(--spacing-16); border-bottom: 1px solid var(--color-border); }
-	.system-path { display: grid; grid-template-columns: minmax(0, .8fr) minmax(320px, 1.2fr); gap: clamp(var(--spacing-10), 8vw, var(--spacing-24)); }
-	.system-path h2 { max-width: 14ch; margin-top: var(--spacing-5); font-family: var(--font-serif); font-size: clamp(2.2rem, 4vw, 4rem); font-weight: 500; line-height: 1.05; }
-	.system-path > div > p:last-child { max-width: 56ch; margin-top: var(--spacing-6); color: var(--color-text-secondary); line-height: 1.75; }
-	.system-path ol { list-style: none; align-self: start; border-top: 1px solid var(--color-border); }
-	.system-path li { position: relative; display: grid; grid-template-columns: 4rem 1fr; padding: var(--spacing-5) 0; border-bottom: 1px solid var(--color-border-subtle); font-family: var(--font-serif); font-size: var(--font-size-2xl); }
-	.system-path li::after { content: ""; position: absolute; right: 0; top: 50%; width: 8px; height: 8px; border: 1px solid var(--color-muted); border-radius: 50%; }
-	.system-path li[data-state="named"]::after { background: color-mix(in srgb, var(--color-accent) 28%, transparent); border-color: var(--color-accent); }
-	.system-path li[data-state="governed"]::after { background: var(--color-accent); border-color: var(--color-accent); }
-	.system-path li span { font-family: var(--font-mono); font-size: var(--font-size-xs); color: var(--color-muted); }
-	:global(:lang(th)) .system-path h2, :global(:lang(th)) .system-path li { font-family: var(--font-sans); font-weight: 300; letter-spacing: 0; line-height: 1.45; }
-	:global(:lang(th)) .system-path > div > p:last-child { font-size: 1.0625rem; line-height: 1.9; letter-spacing: 0; word-break: keep-all; }
-	:global(:lang(th)) .system-path li span { font-family: var(--font-sans); font-size: .875rem; letter-spacing: 0; }
-	@media (max-width: 800px) { .system-path { grid-template-columns: 1fr; } }
+	.system-intro { max-width: 1080px; padding: var(--spacing-8) 0 var(--spacing-10); border-bottom: 1px solid var(--color-border); }
+	.system-field-intro { display: grid; grid-template-columns: minmax(0, .75fr) minmax(0, 1fr); gap: var(--spacing-8); align-items: end; margin-bottom: var(--spacing-8); }
+	.system-field-intro h2 { max-width: 18ch; font-size: clamp(1.9rem, 3vw, 3.25rem); line-height: 1.15; }
+	.system-field-intro > p:last-child { max-width: 60ch; color: var(--color-text-secondary); line-height: 1.75; }
+	:global(:lang(th)) .system-field-intro h2 { font-family: var(--font-sans); font-weight: 300; font-style: normal; letter-spacing: 0; line-height: 1.5; }
+	:global(:lang(th)) .system-field-intro > p:last-child { font-size: 1.0625rem; line-height: 1.9; letter-spacing: 0; word-break: keep-all; }
+	@media (max-width: 800px) { .system-field-intro { grid-template-columns: 1fr; } }
 </style>

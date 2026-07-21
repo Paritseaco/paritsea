@@ -29,7 +29,7 @@ const copy = locale === "th" ? {
 <Base title={copy.title} description={copy.intro} locale={locale}>
 	<div class="policy-shell">
 		<Breadcrumb crumbs={[{ label: "IP", href: localizedPath("/ip", locale) }, { label: copy.title }]} />
-		<PageRoleHeader role={locale === "th" ? "นโยบาย · เอกสารฉบับเต็ม" : "Policy · Full document"} eyebrow={locale === "th" ? "เวอร์ชัน 1.0 · ฉบับปัจจุบัน" : "Version 1.0 · current"} title={copy.title} intro={copy.intro} statusLabel={locale === "th" ? "ผู้เขียน: Parit Ritchai · ผู้รักษาระเบียน: Paritsea" : "Author: Parit Ritchai · Public steward: Paritsea"} />
+		<PageRoleHeader role={locale === "th" ? "นโยบาย · เอกสารฉบับเต็ม" : "Policy · Full document"} eyebrow={locale === "th" ? "เวอร์ชัน 1.0 · ฉบับปัจจุบัน" : "Version 1.0 · current"} title={copy.title} intro={copy.intro} statusLabel={locale === "th" ? "ผู้เขียน: ปาริศ ฤทธิ์ชัย · ผู้ดูแลระเบียน: Paritsea" : "Author: Parit Ritchai · Public steward: Paritsea"} />
 		<div class="policy-sections">
 			<section><span>01</span><h2>{copy.open}</h2><ul>{copy.openItems.map((item) => <li>{item}</li>)}</ul></section>
 			<section><span>02</span><h2>{copy.permission}</h2><ul>{copy.permissionItems.map((item) => <li>{item}</li>)}</ul></section>

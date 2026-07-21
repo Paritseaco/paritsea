@@ -225,7 +225,7 @@ const fallbackRecord = (() => {
 	};
 	return {
 		type: "Journal", stage: "observation", status: "exploring", version: "1.0",
-		provenance: locale === "th" ? "ข้อสังเกตที่เขียนโดย Parit Ritchai และเก็บใน Journal ก่อนการ formalize" : "An observation authored by Parit Ritchai and preserved in Journal before formalization.",
+		provenance: locale === "th" ? "ข้อสังเกตที่ฉันเขียนและเก็บไว้ใน Journal ก่อนพัฒนาเป็นงานที่มีรูปแบบชัดเจน" : "An observation authored by Parit Ritchai and preserved in Journal before formalization.",
 		scope: locale === "th" ? "บันทึกสิ่งที่เห็น การตีความ และคำถามจากบริบทที่ระบุในเนื้อหา" : "Records what was seen, interpreted, and questioned in the context named by the entry.",
 		nonClaims: locale === "th" ? "การเผยแพร่ยังไม่ทำให้งานชิ้นนี้เป็น Framework, Protocol หรือ Standard" : "Publication does not make this entry a Framework, Protocol, or Standard.",
 	};
@@ -275,6 +275,10 @@ if (appliedContexts.length === 0) {
 	};
 	if (fallbackApplied[slug]) appliedContexts = [localizeAppliedContext(locale, fallbackApplied[slug])];
 }
+
+appliedContexts = appliedContexts.filter(
+	(context, index, all) => all.findIndex((candidate) => candidate.url === context.url) === index,
+);
 
 const breadcrumbCrumbs = isRecord
 	? [{ label: locale === "th" ? "บันทึก" : "Journal", href: localizedPath("/journal", locale) }, { label: post.data.title }]
@@ -335,16 +339,16 @@ const lateralPosts = otherPosts
 >
 	<div class="article-breadcrumb"><Breadcrumb crumbs={breadcrumbCrumbs} /></div>
 	<article class="article">
-		{post.data.featured_image && (
+		{post.data.featured_image?.src && (
 			<figure class="article-hero" {...post.edit.featured_image}>
 				<Image image={post.data.featured_image} />
 				<figcaption>{locale === "th" ? "ภาพหรือเอกสารต้นทางที่เผยแพร่พร้อมระเบียนนี้" : "Source image or document artifact published with this record"}</figcaption>
 			</figure>
 		)}
 
-		{/* Three-column layout */}
+		{/* Reading column with a compact document rail */}
 		<div class="article-grid">
-			{/* Left gutter: Meta information */}
+			{/* Document utilities */}
 			<aside class="article-meta-col">
 				<div class="meta-sticky">
 					<ArticleUtilityRail
@@ -395,7 +399,7 @@ const lateralPosts = otherPosts
 										{bylines.map((credit, i) => (
 											<>
 												{i > 0 && ", "}
-												{credit.byline.displayName}
+												{locale === "th" && credit.byline.displayName === "Parit Ritchai" ? "ปาริศ ฤทธิ์ชัย" : credit.byline.displayName}
 											</>
 										))}
 									</span>
@@ -517,7 +521,7 @@ const lateralPosts = otherPosts
 
 				{/* ── AUTHOR RECORD ── */}
 				<div class="article-author-card">
-					<img src="/images/parit-profile.jpg" alt="Parit Ritchai" class="article-author-card-img" />
+					<img src="/images/parit-profile.jpg" alt={locale === "th" ? "ปาริศ ฤทธิ์ชัย" : "Parit Ritchai"} class="article-author-card-img" />
 					<div class="article-author-card-body">
 						<p class="article-author-card-name">{copy.authorName}</p>
 						<p class="article-author-card-role">{copy.authorRole}</p>
@@ -1783,5 +1787,81 @@ const lateralPosts = otherPosts
 		font-weight: 300;
 		letter-spacing: 0;
 		line-height: 1.75;
+	}
+
+	/* Reading-first layout: a stable measure with provenance and navigation nearby. */
+	.article::before { display: none; }
+
+	.article-grid {
+		grid-template-columns: minmax(0, var(--content-width)) minmax(220px, 280px);
+		gap: clamp(var(--spacing-10), 5vw, var(--spacing-20));
+		align-items: start;
+		padding: 0 clamp(var(--spacing-4), 4vw, var(--spacing-10));
+		margin: clamp(var(--spacing-10), 7vw, var(--spacing-16)) 0 var(--spacing-16);
+	}
+
+	.article-main {
+		grid-column: 1;
+		grid-row: 1 / span 2;
+		padding: var(--spacing-6) 0 0;
+	}
+
+	.article-meta-col {
+		grid-column: 2;
+		grid-row: 1;
+		padding-top: var(--spacing-6);
+		border-top: 1px solid var(--color-border);
+	}
+
+	.article-sidebar {
+		grid-column: 2;
+		grid-row: 2;
+	}
+
+	.article-header { margin-bottom: var(--spacing-8); }
+
+	.article-title {
+		max-width: 18ch;
+		font-size: clamp(2.25rem, 4vw, 4.6rem);
+		font-weight: 500;
+		line-height: 1.05;
+	}
+
+	.article-excerpt { max-width: 62ch; }
+
+	:lang(th) .article-title {
+		max-width: 20ch;
+		font-family: var(--font-sans);
+		font-size: clamp(2.1rem, 4vw, 3.9rem);
+		font-weight: 300;
+		line-height: 1.45;
+		word-break: keep-all;
+	}
+
+	@media (max-width: 1100px) {
+		.article-grid {
+			grid-template-columns: minmax(0, var(--content-width));
+			gap: var(--spacing-6);
+		}
+
+		.article-meta-col,
+		.article-main {
+			grid-column: 1;
+			grid-row: auto;
+		}
+
+		.article-meta-col {
+			padding: var(--spacing-4) 0;
+			border-bottom: 1px solid var(--color-border);
+		}
+
+		.article-main { padding-inline: 0; }
+	}
+
+	@media (max-width: 600px) {
+		.article-meta-col { display: block; margin-bottom: 0; }
+		.article-grid { margin-top: var(--spacing-6); }
+		.article-title { font-size: 2.15rem; }
+		:lang(th) .article-title { font-size: 2rem; line-height: 1.48; }
 	}
 </style>

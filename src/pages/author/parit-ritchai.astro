@@ -12,17 +12,17 @@ const { entries, cacheHint } = await getEmDashCollection("posts", { orderBy: { p
 Astro.cache.set(cacheHint);
 const works = entries.map((entry) => localizeEntry(entry, "posts", locale));
 const intro = locale === "th"
-	? "Parit Ritchai เป็นผู้เขียน ผู้ตั้งชื่อ และผู้มีอำนาจตัดสินใจต่อ semantic change ของงานต้นทาง ส่วน Paritsea ทำหน้าที่รักษางานเหล่านั้นเป็น public record ที่มี version และ provenance หน้านี้เป็นระเบียนผู้เขียน ไม่ใช่ portfolio"
+	? "ฉันเป็นผู้เขียนและผู้ตั้งชื่อสิ่งที่เผยแพร่ที่นี่ เมื่อความหมายของงานต้นทางเปลี่ยน ฉันต้องรับผิดชอบต่อการตัดสินใจนั้น ส่วน Paritsea ทำหน้าที่เก็บฉบับ ที่มา และเหตุผลของการเปลี่ยนแปลงไว้ให้ตรวจสอบได้ หน้านี้เป็นระเบียนผู้เขียน ไม่ใช่แฟ้มผลงานส่วนตัว"
 	: "Parit Ritchai is the author, namer, and decision authority for semantic change in the source work. Paritsea preserves that work as a versioned public record. This is an author record, not a portfolio.";
 ---
 
-<Base title={locale === "th" ? "Parit Ritchai — ระเบียนผู้เขียน" : "Parit Ritchai — Author record"} description={intro} locale={locale}>
+<Base title={locale === "th" ? "ปาริศ ฤทธิ์ชัย — ระเบียนผู้เขียน" : "Parit Ritchai — Author record"} description={intro} locale={locale}>
 	<div class="author-shell">
-		<Breadcrumb crumbs={[{ label: locale === "th" ? "วิธีมอง" : "Lens", href: localizedPath("/about", locale) }, { label: "Parit Ritchai" }]} />
-		<PageRoleHeader role={locale === "th" ? "ระเบียนผู้เขียน" : "Author record"} eyebrow={locale === "th" ? "ผู้เขียนและอำนาจเปลี่ยนงานต้นทาง" : "Authorship and change authority"} title="Parit Ritchai" intro={intro} count={works.length} statusLabel={locale === "th" ? "ผู้เขียนต้นทาง" : "Source author"} />
+		<Breadcrumb crumbs={[{ label: locale === "th" ? "วิธีมอง" : "Lens", href: localizedPath("/about", locale) }, { label: locale === "th" ? "ปาริศ ฤทธิ์ชัย" : "Parit Ritchai" }]} />
+		<PageRoleHeader role={locale === "th" ? "ระเบียนผู้เขียน" : "Author record"} eyebrow={locale === "th" ? "ผู้เขียนและผู้ดูแลความหมายของงานต้นทาง" : "Authorship and change authority"} title={locale === "th" ? "ปาริศ ฤทธิ์ชัย" : "Parit Ritchai"} intro={intro} count={works.length} statusLabel={locale === "th" ? "ผู้เขียนต้นทาง" : "Source author"} />
 		<section class="author-boundary">
 			<h2>{locale === "th" ? "สิ่งที่ผูกกับชื่อผู้เขียน" : "What remains attached to the author"}</h2>
-			<p>{locale === "th" ? "Observation, judgment, naming และเหตุผลของการเปลี่ยน canonical work ต้องมี attribution ที่ตรวจสอบได้ ขณะเดียวกัน Framework, Protocol และ Standard ต้องอ่านและอ้างอิงได้โดยไม่ต้องซื้อบริการจากผู้เขียน" : "Observation, judgement, naming, and the rationale for changing canonical work remain attributable. Frameworks, Protocols, and Standards must still be readable and citable without purchasing a service from the author."}</p>
+			<p>{locale === "th" ? "ข้อสังเกต การตัดสินใจ การตั้งชื่อ และเหตุผลที่ทำให้งานต้นทางเปลี่ยน ต้องย้อนกลับมาหาผู้เขียนได้เสมอ ขณะเดียวกัน Framework, Protocol และ Standard ต้องอ่านและอ้างอิงได้โดยไม่ต้องซื้อบริการจากฉัน" : "Observation, judgement, naming, and the rationale for changing canonical work remain attributable. Frameworks, Protocols, and Standards must still be readable and citable without purchasing a service from the author."}</p>
 		</section>
 		<section class="bibliography" aria-labelledby="bibliography-title">
 			<h2 id="bibliography-title">{locale === "th" ? "งานที่เผยแพร่" : "Published record"}</h2>
@@ -32,7 +32,7 @@ const intro = locale === "th"
 </Base>
 
 <style>
-	.author-shell { width: var(--wide-width); margin: 0 auto; padding: var(--spacing-8) 0 var(--spacing-24); }
+	.author-shell { width: var(--wide-width); margin: 0 auto; padding: var(--spacing-8) 0 var(--spacing-20); }
 	.author-boundary { display: grid; grid-template-columns: minmax(220px, .6fr) 1.4fr; gap: var(--spacing-12); padding: var(--spacing-16) 0; border-bottom: 1px solid var(--color-border); }
 	.author-boundary h2 { font-size: var(--font-size-2xl); }
 	.author-boundary p { max-width: 700px; font-family: var(--font-serif); font-size: var(--font-size-xl); line-height: 1.65; }
@@ -41,7 +41,8 @@ const intro = locale === "th"
 	.bibliography a { display: grid; grid-template-columns: 180px 1fr; gap: var(--spacing-6); padding: var(--spacing-5) 0; border-top: 1px solid var(--color-border-subtle); }
 	.bibliography span { font-family: var(--font-mono); font-size: var(--font-size-sm); color: var(--color-muted); }
 	.bibliography strong { font-family: var(--font-serif); font-size: var(--font-size-xl); font-weight: 500; }
-	:global(:lang(th)) .author-boundary p { font-family: var(--font-sans); font-size: 1.0625rem; line-height: 1.9; }
+	:global(:lang(th)) .author-boundary h2, :global(:lang(th)) .bibliography strong { font-family: var(--font-sans); font-weight: 300; line-height: 1.48; letter-spacing: 0; }
+	:global(:lang(th)) .author-boundary p { font-family: var(--font-sans); font-size: 1.0625rem; line-height: 1.9; letter-spacing: 0; word-break: keep-all; }
 	:global(:lang(th)) .bibliography span { font-family: var(--font-sans); font-size: var(--font-size-sm); letter-spacing: 0; }
 	@media (max-width: 700px) { .author-boundary, .bibliography a { grid-template-columns: 1fr; gap: var(--spacing-3); } }
 </style>

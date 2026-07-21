@@ -124,6 +124,13 @@ const resolvedNavItems = (() => {
 			];
 	return [
 		{
+			id: "map",
+			label: locale === "th" ? "แผนที่ความคิด" : "Thought map",
+			url: localizedPath("/", locale) + "#thought-field",
+			target: undefined,
+			children: [],
+		},
+		{
 			id: "journal",
 			label: copy.navLabels.Journal ?? "Journal",
 			url: localizedPath("/journal", locale),
@@ -131,15 +138,8 @@ const resolvedNavItems = (() => {
 			children: [],
 		},
 		{
-			id: "concepts",
-			label: copy.navLabels.Concepts ?? "Concepts",
-			url: localizedPath("/concepts", locale),
-			target: undefined,
-			children: [],
-		},
-		{
 			id: "system",
-			label: copy.navLabels.System ?? "System",
+			label: locale === "th" ? "งานอ้างอิง" : "Reference work",
 			url: localizedPath("/system", locale),
 			target: undefined,
 			children: systemChildren,
@@ -273,6 +273,8 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 					aria-expanded="false"
 					aria-controls="site-navigation-panel"
 					aria-label={copy.menuOpen}
+					data-open-label={copy.menuOpen}
+					data-close-label={copy.menuClose}
 				>
 					<span class="nav-toggle-box" aria-hidden="true">
 						<span class="nav-toggle-line"></span>
@@ -281,14 +283,6 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 					</span>
 				</button>
 				<div class="nav-right" id="site-navigation-panel">
-					<LiveSearch
-						placeholder={copy.search}
-						class="site-search"
-						inputClass="site-search-input"
-						resultsClass="site-search-results"
-						resultClass="site-search-result"
-						collections={["posts", "pages"]}
-					/>
 					<div class="nav-links">
 						{resolvedNavItems.map((item) =>
 							item.children && item.children.length > 0 ? (
@@ -356,6 +350,14 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 							)
 						)}
 					</div>
+					<LiveSearch
+						placeholder={copy.search}
+						class="site-search"
+						inputClass="site-search-input"
+						resultsClass="site-search-results"
+						resultClass="site-search-result"
+						collections={["posts", "pages"]}
+					/>
 					{
 						isLoggedIn && (
 							<a href="/_emdash/admin" class="nav-admin">
@@ -738,10 +740,11 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 				:lang(th) .article-title,
 				:lang(th) .implementation-title {
 					font-family: 'Sarabun', system-ui, sans-serif !important;
-					font-size: clamp(1.625rem, 3.25vw, 2.5rem) !important;
-					font-weight: 400 !important;
+					font-size: clamp(2rem, 3.5vw, 3.25rem) !important;
+					font-weight: 300 !important;
 					letter-spacing: 0 !important;
-					line-height: 1.42 !important;
+					line-height: 1.48 !important;
+					word-break: keep-all;
 				}
 
 				:lang(th) .document-card-title {
@@ -839,8 +842,7 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 				position: sticky;
 				top: 0;
 				z-index: 100;
-				background: color-mix(in srgb, var(--color-bg) 94%, transparent);
-				backdrop-filter: blur(10px);
+				background: var(--color-bg);
 				border-bottom: 1px solid var(--color-border-subtle);
 			}
 
@@ -850,7 +852,7 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 				align-items: center;
 				max-width: var(--wide-width);
 				margin: 0 auto;
-				padding: 0 var(--spacing-6);
+				padding: 0;
 				height: var(--nav-height);
 				gap: var(--spacing-6);
 			}
@@ -920,10 +922,10 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 			}
 
 			.site-logo-word {
-				font-family: var(--font-serif);
+				font-family: var(--font-sans);
 				font-size: 1.35rem;
 				font-weight: 500;
-				letter-spacing: -0.025em;
+				letter-spacing: -0.015em;
 				line-height: 1;
 			}
 
@@ -936,13 +938,13 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 			.nav-right {
 				display: flex;
 				align-items: center;
-				gap: var(--spacing-6);
+				gap: var(--spacing-5);
 				margin-left: auto;
 			}
 
 			.nav-links {
 				display: flex;
-				gap: var(--spacing-5);
+				gap: var(--spacing-6);
 				font-size: var(--font-size-sm);
 				font-family: var(--font-sans);
 				letter-spacing: 0.01em;
@@ -953,17 +955,18 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 				text-decoration: none;
 				color: var(--color-text-secondary);
 				transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
-				padding: 0.35rem 0.55rem;
-				border-radius: var(--radius-sm);
-				border: 1px solid transparent;
+				min-height: var(--nav-height);
+				padding: 0;
+				border-bottom: 2px solid transparent;
+				display: inline-flex;
+				align-items: center;
 			}
 
 			.nav-links a:hover,
 			.nav-links a[aria-current="page"] {
 				color: var(--color-text);
-				background: color-mix(in srgb, var(--color-surface) 68%, transparent);
-				border-color: color-mix(in srgb, var(--color-accent) 28%, transparent);
-				transform: translateY(-1px);
+				background: transparent;
+				border-bottom-color: var(--color-accent);
 				opacity: 1;
 			}
 
@@ -987,23 +990,24 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 			.nav-dropdown-btn {
 				display: inline-flex;
 				align-items: stretch;
-				border: 1px solid transparent;
-				border-radius: var(--radius-sm);
+				border: 0;
+				border-radius: 0;
 				transition: border-color var(--transition-fast), background var(--transition-fast);
 			}
 
 			.nav-dropdown:hover .nav-dropdown-btn,
 			.nav-dropdown:focus-within .nav-dropdown-btn,
 			.nav-dropdown.is-active .nav-dropdown-btn {
-				background: color-mix(in srgb, var(--color-surface) 68%, transparent);
-				border-color: color-mix(in srgb, var(--color-accent) 28%, transparent);
+				background: transparent;
 			}
 
 			/* Label link — navigates to /system */
 			.nav-dropdown-label {
 				display: inline-flex;
 				align-items: center;
-				padding: 0.35rem 0.4rem 0.35rem 0.55rem;
+				min-height: var(--nav-height);
+				padding: 0;
+				border-bottom: 2px solid transparent;
 				font-family: var(--font-sans);
 				font-size: var(--font-size-sm);
 				font-weight: 450;
@@ -1016,6 +1020,7 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 			.nav-dropdown-label:hover,
 			.nav-dropdown-label[aria-current="page"] {
 				color: var(--color-text);
+				border-bottom-color: var(--color-accent);
 				opacity: 1;
 			}
 
@@ -1023,7 +1028,7 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 			.nav-dropdown-chevron-btn {
 				display: inline-flex;
 				align-items: center;
-				padding: 0.35rem 0.45rem 0.35rem 0.2rem;
+				padding: 0 var(--spacing-2);
 				background: none;
 				border: none;
 				cursor: pointer;
@@ -1056,8 +1061,8 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 				min-width: 160px;
 				background: var(--color-bg);
 				border: 1px solid var(--color-border);
-				border-radius: var(--radius-md);
-				box-shadow: var(--shadow-dropdown);
+				border-radius: 0;
+				box-shadow: none;
 				padding: var(--spacing-1);
 				opacity: 0;
 				visibility: hidden;
@@ -1115,22 +1120,21 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 				display: inline-flex;
 				align-items: center;
 				justify-content: center;
-				min-width: 2.4rem;
-				height: 2rem;
-				border: 1px solid color-mix(in srgb, var(--color-accent) 35%, var(--color-border-subtle));
+				min-width: 44px;
+				height: 44px;
+				border: 0;
 				color: var(--color-text-secondary);
 				text-decoration: none;
 				font-size: var(--font-size-xs);
 				font-weight: 600;
 				letter-spacing: 0.06em;
-				background: color-mix(in srgb, var(--color-surface) 40%, transparent);
+				background: transparent;
 				transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
 			}
 
 			.nav-language:hover {
 				color: var(--color-text);
-				border-color: var(--color-accent);
-				background: color-mix(in srgb, var(--color-accent) 16%, transparent);
+				background: transparent;
 			}
 
 			.nav-backdrop {
@@ -1247,10 +1251,8 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 			/* ─── Footer ─── */
 			.site-footer {
 				border-top: 1px solid color-mix(in srgb, var(--color-accent) 30%, var(--color-border-subtle));
-				margin-top: var(--spacing-24);
-				background:
-					radial-gradient(circle at 90% 10%, color-mix(in srgb, var(--color-accent) 10%, transparent), transparent 50%),
-					linear-gradient(180deg, color-mix(in srgb, var(--color-bg) 88%, #0a0f20 12%), var(--color-bg));
+				margin-top: var(--spacing-20);
+				background: var(--color-bg-subtle);
 			}
 
 			.footer-inner {
@@ -1706,17 +1708,19 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 			// Include dropdown labels (nav-dropdown-label) so they close menu on mobile click
 			const mobileNavLinks = document.querySelectorAll(".nav-links a, .nav-dropdown-label, .nav-admin");
 			const mobileBreakpoint = window.matchMedia("(max-width: 960px)");
+			const menuOpenLabel = navToggle?.getAttribute("data-open-label") ?? "Open navigation menu";
+			const menuCloseLabel = navToggle?.getAttribute("data-close-label") ?? "Close navigation menu";
 
 			const closeMenu = () => {
 				body.removeAttribute("data-menu-open");
 				navToggle?.setAttribute("aria-expanded", "false");
-				navToggle?.setAttribute("aria-label", "Open navigation menu");
+				navToggle?.setAttribute("aria-label", menuOpenLabel);
 			};
 
 			const openMenu = () => {
 				body.setAttribute("data-menu-open", "true");
 				navToggle?.setAttribute("aria-expanded", "true");
-				navToggle?.setAttribute("aria-label", "Close navigation menu");
+				navToggle?.setAttribute("aria-label", menuCloseLabel);
 			};
 
 			navToggle?.addEventListener("click", () => {
