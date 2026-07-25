@@ -121,3 +121,13 @@ No production D1 mutation or Worker deployment occurs before that approval.
 - Live browser QA confirmed the new Thai Home at 390, 1440, and 3840px and the English Home at 390px. Both locales had zero horizontal overflow. The intended reading order, localized fonts, mobile menu, direct definition, intent paths, permission boundary, and optimized source/author images rendered correctly from production.
 - The 3840px layout retained a bounded reading frame and capped headline scale instead of stretching copy across the display. The author portrait loaded at its lazy-loading threshold with a natural width of 1440px.
 - The release retains the known Vite large-chunk advisory and the compatibility-gated dependency backlog of 19 high, 7 moderate, and 3 low advisories. The critical advisory count is zero.
+
+## Responsive layout rebalance — 2026-07-26
+
+- A follow-up UI audit confirmed that the clarity-first Home still behaved too much like a wide editorial poster: the hero type, image, section headings, vertical intervals, and desktop edge distance competed for attention.
+- Home is now capped at 1520px while the global frame uses a shared responsive gutter. Mobile retains 24px per side; a 1440px viewport uses approximately 58px per side; 4K keeps the Home at 1520px and the shared navigation at 1760px rather than stretching either across the display.
+- Thai Home headline sizing is now approximately 35px at 390px, 46px at 768px, 53px at 1440px, and 66px at 3840px. Thai line height remains intentionally generous, letter spacing remains zero, and the English display scale is independently tuned.
+- The hero copy is capped at 670px, the source image at 620px on normal desktop widths, section heading scale and spacing are reduced, and the first navigation section follows the hero with a clearer vertical reading rhythm.
+- Responsive browser QA covered Thai at 390, 768, 1440, and 3840px plus English at 390 and 1440px. All measured viewports reported zero horizontal overflow. The 390px layout keeps the definition, supporting copy, primary action, use boundary, and the beginning of the source image in the first screen sequence.
+- Local verification passed Astro typecheck with zero diagnostics, production build, smoke coverage for 41 canonical routes and five redirects, and `git diff --check`. The known Vite large-chunk warning remains.
+- Worker version `ebcd6cce-ef9c-41b2-82a6-9449980f9f18` is the verified preview artifact for this refinement. It does not change D1, CMS content, schema, owner state, or authentication state.

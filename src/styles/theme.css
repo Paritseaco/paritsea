@@ -77,7 +77,8 @@
 
 	/* --- Layout --- */
 	--content-width: 680px;
-	--wide-width: min(1760px, calc(100vw - 64px));
+	--page-gutter: clamp(3rem, 8vw, 10rem);
+	--wide-width: min(1760px, calc(100vw - var(--page-gutter)));
 	--nav-height: 68px;
 	--gutter-width: 196px;
 	--meta-col-width: 196px;
@@ -173,7 +174,8 @@
 
 @media (max-width: 640px) {
 	:root {
-		--wide-width: calc(100vw - 32px);
+		--page-gutter: 48px;
+		--wide-width: calc(100vw - var(--page-gutter));
 	}
 }
 

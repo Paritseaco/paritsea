@@ -1,21 +1,21 @@
 .library-home {
-	width: var(--wide-width);
-	max-width: 1760px;
+	width: min(1520px, calc(100vw - var(--page-gutter)));
+	max-width: none;
 	margin: 0 auto;
-	padding-bottom: clamp(5rem, 8vw, 9rem);
+	padding-bottom: clamp(4.5rem, 7vw, 7rem);
 }
 
 .library-hero {
 	display: grid;
-	grid-template-columns: minmax(0, 1.04fr) minmax(380px, 0.96fr);
+	grid-template-columns: minmax(0, 0.96fr) minmax(340px, 0.84fr);
 	align-items: center;
-	gap: clamp(2.5rem, 6vw, 8rem);
-	min-height: min(760px, calc(100svh - var(--nav-height)));
-	padding: clamp(4rem, 6vw, 7rem) 0 clamp(4rem, 5vw, 5.5rem);
+	gap: clamp(2.5rem, 4vw, 4.5rem);
+	min-height: min(680px, calc(100svh - var(--nav-height)));
+	padding: clamp(3.5rem, 4.5vw, 5.5rem) 0 clamp(3.5rem, 4vw, 4.5rem);
 }
 
 .library-hero-copy {
-	max-width: 760px;
+	max-width: 670px;
 }
 
 .library-eyebrow {
@@ -30,9 +30,9 @@
 .library-hero h1 {
 	margin: 0;
 	font-family: var(--font-serif);
-	font-size: clamp(3.35rem, 5.1vw, 6.6rem);
+	font-size: clamp(3rem, 4.4vw, 5.35rem);
 	font-weight: 500;
-	line-height: 0.98;
+	line-height: 1.02;
 	letter-spacing: -0.035em;
 	text-wrap: balance;
 }
@@ -43,8 +43,8 @@
 
 .library-hero-summary {
 	max-width: 680px;
-	margin: var(--spacing-8) 0 0;
-	font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
+	margin: var(--spacing-6) 0 0;
+	font-size: clamp(1.0625rem, 1vw, 1.1875rem);
 	line-height: 1.75;
 	color: var(--color-text-secondary);
 }
@@ -53,7 +53,7 @@
 	display: flex;
 	align-items: center;
 	gap: var(--spacing-4);
-	margin-top: var(--spacing-8);
+	margin-top: var(--spacing-6);
 }
 
 .library-button {
@@ -95,7 +95,7 @@
 }
 
 .library-hero-figure img {
-	width: min(100%, 760px);
+	width: min(100%, 620px);
 	height: auto;
 	object-fit: contain;
 	mix-blend-mode: multiply;
@@ -108,16 +108,17 @@
 
 .library-section {
 	border-top: 1px solid var(--color-border-subtle);
-	padding: clamp(4rem, 7vw, 7.5rem) 0;
+	padding: clamp(3.5rem, 5vw, 5.75rem) 0;
 }
 
 .library-section-heading {
 	display: grid;
 	grid-template-columns: minmax(0, 0.92fr) minmax(320px, 0.52fr);
 	justify-content: space-between;
-	gap: clamp(2rem, 6vw, 8rem);
+	gap: clamp(2rem, 4vw, 5rem);
 	align-items: end;
-	margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+	max-width: 1320px;
+	margin-bottom: clamp(2.25rem, 3.5vw, 3.5rem);
 }
 
 .library-section-heading h2,
@@ -125,9 +126,9 @@
 .library-author-copy h2 {
 	margin: 0;
 	font-family: var(--font-serif);
-	font-size: clamp(2.35rem, 3.65vw, 4.75rem);
+	font-size: clamp(2.25rem, 3vw, 3.85rem);
 	font-weight: 500;
-	line-height: 1.02;
+	line-height: 1.08;
 	letter-spacing: -0.025em;
 	text-wrap: balance;
 }
@@ -272,8 +273,8 @@
 }
 
 .library-use {
-	margin: clamp(1rem, 3vw, 3rem) 0;
-	padding: clamp(3rem, 6vw, 6rem);
+	margin: clamp(1rem, 2vw, 2rem) 0;
+	padding: clamp(2.5rem, 4vw, 4.5rem);
 	border: 1px solid var(--color-border-subtle);
 	background: color-mix(in srgb, var(--color-bg-subtle) 58%, var(--color-bg));
 }
@@ -281,9 +282,9 @@
 .library-use-heading {
 	display: grid;
 	grid-template-columns: minmax(0, 0.9fr) minmax(280px, 0.45fr);
-	column-gap: clamp(2rem, 6vw, 8rem);
+	column-gap: clamp(2rem, 4vw, 5rem);
 	align-items: end;
-	margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+	margin-bottom: clamp(2.25rem, 3.5vw, 3.5rem);
 }
 
 .library-use-heading .library-eyebrow {
@@ -380,7 +381,7 @@
 .library-author {
 	display: grid;
 	grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.28fr);
-	gap: clamp(2.5rem, 7vw, 8rem);
+	gap: clamp(2.5rem, 5vw, 6rem);
 	align-items: center;
 }
 
@@ -417,7 +418,7 @@
 .library-channels {
 	display: grid;
 	grid-template-columns: minmax(220px, 0.42fr) minmax(0, 1fr);
-	gap: clamp(2rem, 6vw, 8rem);
+	gap: clamp(2rem, 4vw, 5rem);
 	align-items: start;
 }
 
@@ -461,12 +462,12 @@
 
 @media (min-width: 2200px) {
 	.library-hero {
-		grid-template-columns: minmax(0, 760px) minmax(640px, 820px);
+		grid-template-columns: minmax(0, 670px) minmax(560px, 680px);
 		justify-content: space-between;
 	}
 
 	.library-hero h1 {
-		font-size: 6.9rem;
+		font-size: 4.5rem;
 	}
 }
 
@@ -477,7 +478,7 @@
 	}
 
 	.library-hero h1 {
-		font-size: clamp(3rem, 5.7vw, 4.75rem);
+		font-size: clamp(2.8rem, 5vw, 4rem);
 	}
 
 	.library-section-heading,
@@ -504,12 +505,12 @@
 	}
 
 	.library-hero-copy {
-		max-width: 720px;
+		max-width: 640px;
 	}
 
 	.library-hero-figure {
 		justify-content: flex-start;
-		max-width: 680px;
+		max-width: 580px;
 	}
 
 	.library-section-heading,
@@ -575,22 +576,26 @@
 
 @media (max-width: 640px) {
 	.library-home {
-		width: calc(100vw - 32px);
+		width: var(--wide-width);
 		padding-bottom: var(--spacing-20);
 	}
 
 	.library-hero {
-		gap: var(--spacing-10);
-		padding: var(--spacing-16) 0 var(--spacing-14);
+		gap: var(--spacing-8);
+		padding: var(--spacing-12) 0 var(--spacing-12);
 	}
 
 	.library-hero h1 {
-		font-size: clamp(2.55rem, 12vw, 3.65rem);
-		line-height: 1.04;
+		font-size: clamp(2.25rem, 10vw, 2.9rem);
+		line-height: 1.08;
+	}
+
+	.library-hero h1 span {
+		display: inline;
 	}
 
 	.library-hero-summary {
-		margin-top: var(--spacing-6);
+		margin-top: var(--spacing-5);
 		font-size: 1rem;
 	}
 
@@ -604,7 +609,7 @@
 	}
 
 	.library-section {
-		padding: var(--spacing-16) 0;
+		padding: var(--spacing-12) 0;
 	}
 
 	.library-section-heading {
@@ -615,8 +620,8 @@
 	.library-section-heading h2,
 	.library-use-heading h2,
 	.library-author-copy h2 {
-		font-size: clamp(2rem, 10vw, 3rem);
-		line-height: 1.12;
+		font-size: clamp(1.9rem, 8vw, 2.5rem);
+		line-height: 1.16;
 	}
 
 	.library-entrance {
@@ -647,7 +652,7 @@
 
 	.library-use {
 		margin: 0;
-		padding: var(--spacing-8) var(--spacing-5);
+		padding: var(--spacing-6);
 	}
 
 	.library-use-level {
@@ -718,7 +723,8 @@
 }
 
 :lang(th) .library-hero h1 {
-	font-size: clamp(3rem, 4.8vw, 4.8rem);
+	font-size: clamp(2.85rem, 3.7vw, 4.15rem);
+	line-height: 1.42;
 }
 
 :lang(th) .library-hero-summary,
@@ -742,7 +748,7 @@
 
 @media (max-width: 640px) {
 	:lang(th) .library-hero h1 {
-		font-size: clamp(2.35rem, 10.8vw, 3.25rem);
+		font-size: clamp(2.15rem, 9vw, 2.7rem);
 		line-height: 1.45;
 	}
 
