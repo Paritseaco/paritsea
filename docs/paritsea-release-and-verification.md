@@ -112,3 +112,12 @@ No production D1 mutation or Worker deployment occurs before that approval.
 - Browser QA covered Thai at 390, 768, 1440, 1920, and 3840px plus English at 1440px. It verified no horizontal overflow, localized mobile navigation, minimum touch targets, Thai zero tracking, and a centered 1760px 4K frame.
 - A newly published critical `seroval` deserialization advisory was remediated through the compatible `1.5.6` patch override. Production audit is now 0 critical, 19 high, 7 moderate, and 3 low advisories. Remaining automatic fixes require broader EmDash/Astro compatibility work and remain a separate release gate.
 - The production QA contract now requires the direct Paritsea definition, intent-led entry paths, permission boundary, first-person Thai voice, and localized author attribution.
+
+### Final production outcome
+
+- Commit `1b6f15a` was pushed to `main` before deployment. Worker version `b368e3d4-f783-4e0c-aa9d-f233e01709ce` is deployed at 100% traffic.
+- The immediately preceding stable Worker version `b70bd095-0f58-4529-9629-e0549fe3223d` is the application rollback target. This release did not mutate D1, CMS content, schema, owner state, or authentication state.
+- Production QA passed 41 canonical routes, five one-hop redirects, all 48 sitemap URLs, canonical/hreflang, structured content records, Framework/Protocol/Standard metadata, Official Use/AgenSea, machine-readable endpoints, real 404 behavior, and admin authentication. `/_emdash/admin` continues to redirect to the existing login route rather than setup.
+- Live browser QA confirmed the new Thai Home at 390, 1440, and 3840px and the English Home at 390px. Both locales had zero horizontal overflow. The intended reading order, localized fonts, mobile menu, direct definition, intent paths, permission boundary, and optimized source/author images rendered correctly from production.
+- The 3840px layout retained a bounded reading frame and capped headline scale instead of stretching copy across the display. The author portrait loaded at its lazy-loading threshold with a natural width of 1440px.
+- The release retains the known Vite large-chunk advisory and the compatibility-gated dependency backlog of 19 high, 7 moderate, and 3 low advisories. The critical advisory count is zero.
