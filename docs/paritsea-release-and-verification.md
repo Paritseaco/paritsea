@@ -100,3 +100,15 @@ No production D1 mutation or Worker deployment occurs before that approval.
 - Worker version `b70bd095-0f58-4529-9629-e0549fe3223d` was deployed at 100% traffic. Production QA passed 41 canonical routes, five one-hop redirects, 48 sitemap URLs, canonical/hreflang, structured content records, Framework/Protocol/Standard metadata, Official Use/AgenSea, machine-readable endpoints, real 404 behavior, and admin authentication.
 - Live browser QA confirmed no horizontal overflow on Thai Home at 390px and 1440px. At 3840px the full-document frame remained 1760px, prose remained 680px, the utility rail remained 280px, the document record was closed by default, breadcrumbs were present, and no console warnings or errors were observed.
 - The production QA contract was updated to require the new Thai proposition, first-person voice, and localized author attribution so future releases cannot silently regress to the superseded copy.
+
+## Clarity-first Home release candidate — 2026-07-26
+
+- Home now answers the visitor's first questions directly: what Paritsea is, which work can be read or applied, and when commercial permission becomes relevant. The process narrative remains available through other channels rather than occupying the landing page.
+- The main navigation now follows visitor intent: Ideas, Applicable work, Use and permission, and About. YouTube and SE Ocean remain distinct channels at the edge of the Home narrative.
+- The supplied portrait of ปาริศ ฤทธิ์ชัย appears as authorship and stewardship evidence below the work and permission sections; it does not turn Paritsea into a personal portfolio.
+- A generated set of Journal, Framework, Protocol, and Standard volumes gives the intellectual system one clear visual anchor. The optimized WebP is 192 KB; the author portrait is a 524 KB optimized JPEG.
+- No production schema, content, owner, or D1 state changes are required. A pre-deployment read-only query against `paritsea-site-prod` succeeded from the APAC/SIN primary with `changes: 0`; Home and Thai Home returned 200, and admin redirected to the existing GitHub login route.
+- Local release verification passed seed validation, EmDash dev type generation, Astro typecheck with zero diagnostics, build, smoke coverage for 41 canonical routes and five redirects, and `git diff --check`. The known Vite large-chunk warning remains.
+- Browser QA covered Thai at 390, 768, 1440, 1920, and 3840px plus English at 1440px. It verified no horizontal overflow, localized mobile navigation, minimum touch targets, Thai zero tracking, and a centered 1760px 4K frame.
+- A newly published critical `seroval` deserialization advisory was remediated through the compatible `1.5.6` patch override. Production audit is now 0 critical, 19 high, 7 moderate, and 3 low advisories. Remaining automatic fixes require broader EmDash/Astro compatibility work and remain a separate release gate.
+- The production QA contract now requires the direct Paritsea definition, intent-led entry paths, permission boundary, first-person Thai voice, and localized author attribution.

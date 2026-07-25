@@ -17,6 +17,7 @@ data.db
 # Browser QA artifacts
 .playwright-cli
 output/playwright
+.codex-qa
 
 # Claude
 .claude

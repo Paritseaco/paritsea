@@ -8,7 +8,7 @@ import {
 	localizedPath,
 } from "../utils/i18n";
 import { resolveBlogSiteIdentity } from "../utils/site-identity";
-import IntellectualField from "../components/IntellectualField.astro";
+import "../styles/home.css";
 
 const locale = getAstroLocale(Astro);
 const { entries, cacheHint } = await getEmDashCollection("posts", {
@@ -37,908 +37,264 @@ function workPath(entry: (typeof entries)[number]) {
 	return `/journal/${entry.id}`;
 }
 
-const localizedWorks = entries.map((entry) => ({
+const works = entries.map((entry) => ({
 	original: entry,
 	entry: localizeEntry(entry, "posts", locale),
 	type: contentType(entry),
 	href: localizedPath(workPath(entry), locale),
 }));
 
-const journal = localizedWorks.filter((item) => item.type === "journal");
-const formalized = localizedWorks.filter((item) => ["framework", "protocol", "standard"].includes(item.type));
-const latestJournal = journal.slice(0, 3);
-const featuredFormalized = formalized.slice(0, 3);
+const featuredWorks = [
+	works.find((item) => item.type === "journal"),
+	works.find((item) => item.type === "framework"),
+	works.find((item) => item.type === "protocol"),
+	works.find((item) => item.type === "standard"),
+].filter((item): item is NonNullable<typeof item> => Boolean(item));
 
-const counts = {
-	journal: journal.length,
-	concept: localizedWorks.filter((item) => item.type === "concept").length,
-	framework: localizedWorks.filter((item) => item.type === "framework").length,
-	protocol: localizedWorks.filter((item) => item.type === "protocol").length,
-	standard: localizedWorks.filter((item) => item.type === "standard").length,
-};
-
-const copy = locale === "th"
-	? {
-		pageDescription: "Paritsea คือพื้นที่ที่ฉันใช้บันทึกสิ่งที่สังเกต ตั้งชื่อสิ่งที่ยังไม่มีภาษา และเปิดให้เห็นว่าแนวคิดหนึ่งค่อย ๆ เปลี่ยนรูปอย่างไร",
-		heroLabel: "โดย ปาริศ ฤทธิ์ชัย — ผู้เขียนและผู้ดูแลต้นทาง",
-		heroTitle: "สิ่งที่ยังไม่มีชื่อ ไม่ได้แปลว่าเรายังมองไม่เห็น",
-		heroSummary: "Paritsea คือพื้นที่ที่ฉันใช้บันทึกสิ่งที่สังเกต ตั้งชื่อสิ่งที่ยังไม่มีภาษา และเปิดให้เห็นว่าแนวคิดหนึ่งค่อย ๆ เปลี่ยนรูปอย่างไร",
-		heroPrinciples: [
-			"ฉันเผยแพร่คำถามก่อนคำตอบ เมื่อคำถามนั้นช่วยให้มองเห็นบางอย่างได้ชัดขึ้น",
-			"แนวคิดทุกชิ้นย้อนกลับไปดูที่มา เหตุผล และสิ่งที่เปลี่ยนไปได้",
-			"งานบางชิ้นยังเปิดอยู่ บางชิ้นจึงค่อยกลายเป็น Framework, Protocol หรือ Standard",
-		],
-		primaryAction: "สำรวจแผนที่ความคิด",
-		secondaryAction: "อ่านบันทึกล่าสุด",
-		mapLabel: "ความคิดหนึ่งอาจเดินทางอย่างไร",
-		intentLabel: "เริ่มจากเหตุผลที่มาที่นี่",
-		intentTitle: "คุณกำลังพยายามเข้าใจอะไร",
-		intentSummary: "ไม่จำเป็นต้องอ่านตามลำดับ เลือกทางเข้าที่ตรงกับคำถามของคุณมากที่สุด",
-		intents: [
-			{
-				index: "01",
-				title: "ฉันเห็นบางอย่างซ้ำ ๆ แต่ยังอธิบายไม่ได้",
-				body: "เริ่มจาก Journal เพื่ออ่านข้อสังเกตที่ยังไม่ถูกบังคับให้เป็นข้อสรุป",
-				href: "/journal",
-				link: "อ่านบันทึกต้นทาง",
-			},
-			{
-				index: "02",
-				title: "ฉันพบคำของ Paritsea และต้องการรู้ว่ามาจากไหน",
-				body: "Concept records เก็บนิยาม ที่มา ความสัมพันธ์ และสิ่งที่แนวคิดนั้นยังไม่ได้พิสูจน์",
-				href: "/concepts",
-				link: "สำรวจแนวคิด",
-			},
-			{
-				index: "03",
-				title: "ฉันต้องการงานที่จัดระบบแล้ว",
-				body: "Framework, Protocol และ Standard แสดงข้อเสนอ ภาระหน้าที่ เกณฑ์ และเวอร์ชันที่อ้างอิงได้",
-				href: "/system",
-				link: "ดูงานอ้างอิง",
-			},
-			{
-				index: "04",
-				title: "ฉันต้องการอ้างอิง ดัดแปลง หรือนำงานไปใช้",
-				body: "ตรวจขอบเขตการใช้ วิธีระบุที่มา และระเบียนการนำงานไปใช้โดยไม่บิดความหมายต้นทาง",
-				href: "/ip",
-				link: "ตรวจการใช้และอ้างอิง",
-			},
-		],
-		journalLabel: "คำถามที่กำลังเคลื่อนไหว",
-		journalTitle: "สิ่งที่ยังไม่ควรถูกสรุปเร็วเกินไป",
-		journalSummary: "Journal รักษาข้อสังเกตและความไม่แน่นอนไว้ก่อน บันทึกแต่ละชิ้นจึงไม่จำเป็นต้องกลายเป็น Framework หรือ Standard",
-		openJournal: "ดูบันทึกทั้งหมด",
-		formalLabel: "งานที่ผ่านการจัดระบบแล้ว",
-		formalTitle: "อ่านได้ อ้างอิงได้ และตรวจที่มาได้",
-		formalSummary: "งานกลุ่มนี้ระบุประเภท สถานะ เวอร์ชัน ขอบเขต และเหตุผลของการเปลี่ยนแปลงอย่างชัดเจน",
-		openSystem: "ดูงานอ้างอิงทั้งหมด",
-		pathLabel: "จากข้อสังเกตสู่งานอ้างอิง",
-		pathTitle: "ไม่ใช่ทุกความคิดต้องเดินไปจนสุดทาง",
-		pathSummary: "เส้นทางนี้แสดงความสัมพันธ์ ไม่ใช่ลำดับบังคับ งานหนึ่งอาจยังคงเป็นคำถาม หรือย้อนกลับไปแก้ความเข้าใจเดิมเมื่อมีหลักฐานใหม่",
-		pathStages: ["ข้อสังเกต", "แนวคิด", "Framework", "Protocol", "Standard"],
-		authorLabel: "ใครกำลังพูด",
-		authorTitle: "ผู้เขียนต้องมองเห็นได้ แต่ไม่ควรกลบงาน",
-		authorBody: "ฉันเป็นคนเขียนข้อสังเกต ตั้งชื่อสิ่งที่มองเห็น และรับผิดชอบเมื่อความหมายของงานต้นทางเปลี่ยน ส่วน Paritsea ทำให้งานเหล่านั้นอ่าน ตรวจสอบ และอ้างอิงได้ โดยไม่เปลี่ยนให้เป็นประวัติส่วนตัวหรือข้อเสนอขายบริการ",
-		authorLink: "อ่านเรื่องผู้เขียนและขอบเขตของ Paritsea",
-		appliedLabel: "เมื่องานถูกนำไปใช้",
-		appliedTitle: "การประยุกต์ใช้ไม่เปลี่ยนเจ้าของต้นทาง",
-		appliedBody: "SE Ocean อาจตีความและนำงานบางส่วนไปใช้กับบริบทองค์กร งานที่ทำกับลูกค้าเปลี่ยนได้ตามสถานการณ์ แต่ไม่สามารถแก้ความหมายของฉบับอ้างอิงหลักใน Paritsea ได้โดยอัตโนมัติ",
-		appliedLink: "ดูบริบทการประยุกต์ใช้ที่ SE Ocean",
-		returnLabel: "กลับมาเมื่อความคิดเปลี่ยน",
-		returnTitle: "ติดตามงานใหม่และการแก้ไขผ่าน RSS",
-		returnBody: "Paritsea ไม่เผยแพร่เพื่อรักษาความถี่ เมื่อมีข้อสังเกตใหม่หรือฉบับอ้างอิงเปลี่ยน การอัปเดตจะกลับมาที่บันทึกต้นทางเสมอ",
-		returnLink: "เปิด RSS",
-		workType: { journal: "Journal", concept: "Concept", framework: "Framework", protocol: "Protocol", standard: "Standard" } as Record<string, string>,
-		status: { exploring: "กำลังสำรวจ", developing: "กำลังพัฒนา", current: "ฉบับปัจจุบัน", superseded: "มีฉบับใหม่กว่า", retired: "ยุติการใช้" } as Record<string, string>,
-	}
-	: {
-		pageDescription: "Paritsea records observations by Parit Ritchai and shows how selected ideas are named, revised, and developed into traceable public work.",
-		heroLabel: "A public record by Parit Ritchai",
-		heroTitle: "Some things are wrong before we have language for them.",
-		heroSummary: "Paritsea begins with what Parit Ritchai notices in life, work, and systems. Observations are recorded, named, and revised. Some remain open questions. Selected ideas become reference work whose source and limits can be inspected.",
-		heroPrinciples: [
-			"I publish questions before answers when the question makes something newly visible.",
-			"Every idea can be traced to its source, rationale, and material changes.",
-			"Some work remains open. Some becomes a Framework, Protocol, or Standard.",
-		],
-		primaryAction: "Start with an observation",
-		secondaryAction: "Browse reference work",
-		mapLabel: "How an idea may move",
-		intentLabel: "Start with what brought you here",
-		intentTitle: "What are you trying to understand?",
-		intentSummary: "There is no required reading order. Choose the entry point closest to the question you already have.",
-		intents: [
-			{ index: "01", title: "I keep noticing something I cannot yet explain", body: "Start with Journal for observations that have not been forced into conclusions.", href: "/journal", link: "Read source observations" },
-			{ index: "02", title: "I encountered a Paritsea term and need its source", body: "Concept records hold definitions, origin, relationships, and what an idea has not established.", href: "/concepts", link: "Explore concepts" },
-			{ index: "03", title: "I need work that has become structured", body: "Frameworks, Protocols, and Standards expose propositions, obligations, thresholds, and referenceable versions.", href: "/system", link: "Browse reference work" },
-			{ index: "04", title: "I want to cite, adapt, or use the work", body: "Check attribution, use boundaries, and recorded applications without displacing the source.", href: "/ip", link: "Review use and citation" },
-		],
-		journalLabel: "Questions in motion",
-		journalTitle: "Work that should not be settled too quickly",
-		journalSummary: "Journal keeps observation and uncertainty visible. An entry does not need to become a Framework or Standard to remain useful.",
-		openJournal: "View all observations",
-		formalLabel: "Structured reference work",
-		formalTitle: "Readable, citable, and traceable to its source",
-		formalSummary: "These works name their type, status, version, scope, and the reason for material change.",
-		openSystem: "View all reference work",
-		pathLabel: "From observation to reference work",
-		pathTitle: "Not every idea has to travel the whole path",
-		pathSummary: "This is a relationship map, not a required sequence. Work may remain an open question or return to an earlier stage when new evidence changes the reading.",
-		pathStages: ["Observation", "Concept", "Framework", "Protocol", "Standard"],
-		authorLabel: "Who is speaking",
-		authorTitle: "The author should remain visible without eclipsing the work",
-		authorBody: "Parit Ritchai writes the observations, names the patterns, and decides when the meaning of source work changes. Paritsea makes that work readable, inspectable, and citable without turning it into a personal portfolio or service offer.",
-		authorLink: "Read about the author and Paritsea's boundary",
-		appliedLabel: "When work is applied",
-		appliedTitle: "Application does not transfer authority over the source",
-		appliedBody: "SE Ocean may interpret and apply selected work in organizational contexts. Client work can change with the situation, but it cannot silently redefine the canonical Paritsea source.",
-		appliedLink: "See applied contexts at SE Ocean",
-		returnLabel: "Return when the work changes",
-		returnTitle: "Follow new work and revisions through RSS",
-		returnBody: "Paritsea does not publish to maintain a cadence. When a new observation appears or reference work changes, the update returns to the source record.",
-		returnLink: "Open RSS",
-		workType: { journal: "Journal", concept: "Concept", framework: "Framework", protocol: "Protocol", standard: "Standard" } as Record<string, string>,
-		status: { exploring: "Exploring", developing: "Developing", current: "Current", superseded: "Superseded", retired: "Retired" } as Record<string, string>,
-	};
-
-function stageState(type: string) {
-	if (type === "journal") return "moving";
-	if (type === "concept") return "named";
-	return "governed";
-}
-
-function statusFor(item: (typeof localizedWorks)[number]) {
+function statusFor(item: (typeof works)[number]) {
 	const data = item.original.data as unknown as Record<string, unknown>;
 	return String(data.lifecycle_status ?? (item.type === "journal" ? "exploring" : "current"));
 }
 
-function versionFor(item: (typeof localizedWorks)[number]) {
+function versionFor(item: (typeof works)[number]) {
 	const data = item.original.data as unknown as Record<string, unknown>;
 	return String(data.document_version ?? (item.type === "journal" ? "0.1" : "1.0"));
 }
 
-const fieldQuestions = latestJournal.map((item) => ({
-	title: item.entry.data.title,
-	meta: item.original.data.publishedAt
-		? `${locale === "th" ? "บันทึก" : "Journal"} · ${formatDateForLocale(item.original.data.publishedAt, locale)}`
-		: locale === "th" ? "บันทึกที่ยังเปิดอยู่" : "Open Journal entry",
-}));
+const copy = locale === "th"
+	? {
+		pageDescription: "Paritsea รวมงานความคิดของ ปาริศ ฤทธิ์ชัย ที่ช่วยให้มองปัญหาใหม่ ศึกษาที่มา และนำไปปรับใช้โดยรู้ขอบเขตและเงื่อนไขการใช้",
+		heroEyebrow: "งานความคิดต้นทางของ ปาริศ ฤทธิ์ชัย",
+		heroTitle: ["Paritsea คือพื้นที่รวมแนวคิด", "ที่ช่วยให้มองปัญหาใหม่", "และนำไปใช้ได้จริง"],
+		heroSummary: "ฉันรวบรวมข้อสังเกต วิธีมอง และงานที่ช่วยให้เห็นต้นเหตุของปัญหาชัดขึ้น ก่อนตัดสินใจว่าควรแก้อะไร งานแต่ละชิ้นระบุที่มา เวอร์ชัน และขอบเขตการใช้ เพื่อให้ศึกษาและนำไปปรับใช้โดยไม่ทำให้ความหมายต้นทางหายไป",
+		heroAction: "สำรวจแนวคิดทั้งหมด",
+		heroUseNote: "อ่านและศึกษาได้ · อ้างอิงโดยระบุที่มา · ขออนุญาตเมื่อนำไปใช้เชิงพาณิชย์",
+		startEyebrow: "เลือกจากสิ่งที่ต้องการ",
+		startTitle: "มาที่นี่เพื่อทำอะไร",
+		startSummary: "ไม่ต้องเรียนรู้โครงสร้างของ Paritsea ก่อน เลือกจากสิ่งที่ต้องการทำ แล้วไปยังงานที่เกี่ยวข้องได้เลย",
+		entrances: [
+			{ number: "01", title: "อ่านมุมมองและคำถาม", body: "เริ่มจาก Journal เมื่อต้องการเห็นปัญหาจากมุมที่ต่างออกไป", action: "อ่าน Journal", href: "/journal" },
+			{ number: "02", title: "ศึกษางานที่นำไปใช้ได้", body: "เลือก Framework, Protocol หรือ Standard เมื่อต้องการวิธีคิด เกณฑ์ หรือแนวทางที่จัดระบบแล้ว", action: "ดูงานที่นำไปใช้ได้", href: "/system" },
+			{ number: "03", title: "ตรวจขอบเขตและสิทธิ์การใช้", body: "ดูว่าใช้ได้แค่ไหน ต้องให้เครดิตอย่างไร และกรณีใดควรติดต่อเพื่อขออนุญาต", action: "ดูวิธีใช้และสิทธิ์", href: "/ip/licensing" },
+		],
+		worksEyebrow: "งานที่เผยแพร่แล้ว",
+		worksTitle: "เริ่มอ่านจากงานที่พร้อมใช้งาน",
+		worksSummary: "แต่ละรายการระบุประเภท สถานะ และฉบับที่ใช้อ้างอิงได้ เพื่อให้แยกงานที่กำลังสำรวจออกจากงานที่จัดระบบแล้ว",
+		worksAction: "ดูแนวคิดทั้งหมด",
+		tableTitle: "ชื่อเรื่อง",
+		tableType: "ประเภท",
+		tableState: "ฉบับ / สถานะ",
+		tableAction: "เปิดอ่าน",
+		useEyebrow: "วิธีใช้และสิทธิ์",
+		useTitle: "ใช้ได้แค่ไหน และเมื่อใดต้องขออนุญาต",
+		useSummary: "จุดแบ่งไม่ใช่ว่าแนวคิดมีคนอ่านมากแค่ไหน แต่อยู่ที่งานนั้นถูกนำไปสร้างมูลค่าในบริบทใด",
+		useLevels: [
+			{ number: "01", title: "อ่าน ศึกษา และอ้างอิง", body: "อ่าน แบ่งปันลิงก์ และอ้างอิงโดยระบุชื่อผู้เขียนกับแหล่งที่มาได้ ภายใต้เงื่อนไขของงานแต่ละชิ้น", state: "ไม่ใช่การใช้เชิงพาณิชย์", tone: "open" },
+			{ number: "02", title: "ทดลองหรือปรับใช้เพื่อประเมิน", body: "ใช้ภายในเพื่อเรียนรู้หรือประเมินความเหมาะสมได้บางกรณี แต่ต้องไม่อ้างว่าเป็นฉบับทางการหรือได้รับการรับรอง", state: "ตรวจเงื่อนไขของงาน", tone: "review" },
+			{ number: "03", title: "ใช้สร้างมูลค่าเชิงพาณิชย์", body: "เมื่อแนวคิดกลายเป็นส่วนหนึ่งของสินค้า บริการ งานลูกค้า การอบรม เครื่องมือ หรือระบบที่สร้างรายได้ ต้องขออนุญาตก่อน", state: "ต้องขออนุญาต", tone: "permission" },
+		],
+		useAction: "อ่านเงื่อนไขและขออนุญาตใช้",
+		useNote: "ค่าอนุญาตไม่ได้เกิดจากการอ่านแนวคิด แต่เกิดเมื่อมีการนำงานไปสร้างมูลค่าเชิงพาณิชย์ ขอบเขตและค่าอนุญาตพิจารณาจากวิธีใช้จริง",
+		authorEyebrow: "ผู้เขียน",
+		authorTitle: "ปาริศ ฤทธิ์ชัย",
+		authorBody: "ฉันเป็นผู้เขียนงานใน Paritsea และดูแลการเปลี่ยนแปลงของฉบับต้นทาง เว็บไซต์นี้ทำให้งานเหล่านั้นค้น อ่าน และอ้างอิงได้ โดยไม่เปลี่ยนให้เป็นเว็บไซต์ขายบริการหรือประวัติส่วนตัว",
+		authorAction: "รู้จักผู้เขียนและขอบเขตของ Paritsea",
+		channelsEyebrow: "แต่ละช่องทางมีหน้าที่ต่างกัน",
+		channels: [
+			{ label: "YouTube", title: "ดูว่าฉันคิดอย่างไร", body: "มุมมอง เบื้องหลัง และกระบวนการที่เหมาะกับการเล่ามากกว่าการบันทึกเป็นเอกสาร", href: "https://www.youtube.com/@paritsea" },
+			{ label: "SE Ocean", title: "ดูการนำไปแก้ปัญหาองค์กรจริง", body: "บริบทการประยุกต์ใช้บางส่วน ซึ่งเปลี่ยนตามสถานการณ์โดยไม่เปลี่ยนความหมายของงานต้นทาง", href: "https://seocean.co.th" },
+		],
+		workType: { journal: "Journal", concept: "Concept", framework: "Framework", protocol: "Protocol", standard: "Standard" } as Record<string, string>,
+		status: { exploring: "กำลังสำรวจ", developing: "กำลังพัฒนา", current: "ฉบับปัจจุบัน", superseded: "มีฉบับใหม่กว่า", retired: "ยุติการใช้" } as Record<string, string>,
+	}
+	: {
+		pageDescription: "Paritsea is the public home of Parit Ritchai's ideas: work for seeing problems differently, studying the source, and applying selected material within clear use boundaries.",
+		heroEyebrow: "Source work by Parit Ritchai",
+		heroTitle: ["Ideas for seeing a problem differently", "and choosing what to change."],
+		heroSummary: "Paritsea brings together observations, lenses, and structured intellectual work that can be read, studied, and applied. Each work names its source, current version, and use boundary so the idea can travel without losing its meaning.",
+		heroAction: "Explore all ideas",
+		heroUseNote: "Read and study · Cite the source · Ask permission for commercial use",
+		startEyebrow: "Choose by intent",
+		startTitle: "What do you want to do with the work?",
+		startSummary: "You do not need to learn Paritsea's internal structure first. Start with the action that brought you here.",
+		entrances: [
+			{ number: "01", title: "Read a perspective or question", body: "Start with Journal when you want to see a problem from a different angle.", action: "Read Journal", href: "/journal" },
+			{ number: "02", title: "Study work you can apply", body: "Use Frameworks, Protocols, and Standards when you need a structured lens, method, or threshold.", action: "Browse applicable work", href: "/system" },
+			{ number: "03", title: "Check use and permission", body: "See how to attribute the work, what adaptation permits, and when commercial use needs an agreement.", action: "Review use rights", href: "/ip/licensing" },
+		],
+		worksEyebrow: "Published work",
+		worksTitle: "Start with work that is ready to use",
+		worksSummary: "Each record states its type, status, and reference version so exploration remains distinct from governed work.",
+		worksAction: "Browse all ideas",
+		tableTitle: "Title",
+		tableType: "Type",
+		tableState: "Version / status",
+		tableAction: "Open",
+		useEyebrow: "Use and permission",
+		useTitle: "What can you use, and when should you ask?",
+		useSummary: "The boundary is not how widely an idea is read. It is how the work is being used to create value.",
+		useLevels: [
+			{ number: "01", title: "Read, study, and cite", body: "Read, share a link, and cite the author and source under the terms attached to each work.", state: "Not commercial use", tone: "open" },
+			{ number: "02", title: "Test or adapt for evaluation", body: "Some internal learning and evaluation are permitted, but adaptation does not create official or endorsed status.", state: "Check the work's terms", tone: "review" },
+			{ number: "03", title: "Use the work to create commercial value", body: "Permission is required when the work becomes part of a product, service, client engagement, training, tool, or revenue-generating system.", state: "Permission required", tone: "permission" },
+		],
+		useAction: "Read terms and request permission",
+		useNote: "A fee is not triggered by reading an idea. It becomes relevant when the work is used to create commercial value. Scope and permission are considered against the actual use.",
+		authorEyebrow: "Author",
+		authorTitle: "Parit Ritchai",
+		authorBody: "I write the work in Paritsea and remain responsible for changes to the source. The site makes that work findable, readable, and citable without becoming a service catalogue or personal portfolio.",
+		authorAction: "Meet the author and understand Paritsea's boundary",
+		channelsEyebrow: "Each channel has a different job",
+		channels: [
+			{ label: "YouTube", title: "See how I think", body: "Perspectives, background, and unfinished thinking that benefit from being spoken rather than documented here.", href: "https://www.youtube.com/@paritsea" },
+			{ label: "SE Ocean", title: "See selected ideas applied to organizational problems", body: "Application contexts may change with the situation without redefining the Paritsea source.", href: "https://seocean.co.th" },
+		],
+		workType: { journal: "Journal", concept: "Concept", framework: "Framework", protocol: "Protocol", standard: "Standard" } as Record<string, string>,
+		status: { exploring: "Exploring", developing: "Developing", current: "Current", superseded: "Superseded", retired: "Retired" } as Record<string, string>,
+	};
 ---
 
 <Base title={siteTitle} description={copy.pageDescription} locale={locale}>
-	<div class="home-page">
-		<section class="home-opening" aria-labelledby="home-title">
-			<div class="home-authored">
-				<p class="home-byline">{copy.heroLabel}</p>
-				<h1 id="home-title">{copy.heroTitle}</h1>
-				<p class="home-descriptor">{copy.heroSummary}</p>
-				<ul class="home-principles">
-					{copy.heroPrinciples.map((principle) => <li>{principle}</li>)}
-				</ul>
-				<div class="home-hero-actions">
-					<a class="home-primary-link" href="#thought-field">{copy.primaryAction}<span aria-hidden="true">→</span></a>
-					<a class="home-secondary-link" href={latestJournal[0]?.href ?? localizedPath("/journal", locale)}>{copy.secondaryAction}<span aria-hidden="true">→</span></a>
+	<div class="library-home">
+		<section class="library-hero" aria-labelledby="home-title">
+			<div class="library-hero-copy">
+				<p class="library-eyebrow">{copy.heroEyebrow}</p>
+				<h1 id="home-title">
+					{copy.heroTitle.map((line, index) => <span>{line}{index < copy.heroTitle.length - 1 ? " " : ""}</span>)}
+				</h1>
+				<p class="library-hero-summary">{copy.heroSummary}</p>
+				<div class="library-hero-actions">
+					<a class="library-button" href={localizedPath("/journal", locale)}>
+						{copy.heroAction}
+					</a>
 				</div>
-				<aside class="home-applied-boundary">
-					<span aria-hidden="true"></span>
-					<p>{locale === "th"
-						? "SE Ocean นำงานบางส่วนไปปรับใช้ในบริบทองค์กร โดยไม่เปลี่ยนเจ้าของหรือความหมายของต้นทาง"
-						: "SE Ocean applies selected work in organizational contexts without taking ownership of or redefining the source."}</p>
-				</aside>
+				<p class="library-use-note">{copy.heroUseNote}</p>
 			</div>
+			<figure class="library-hero-figure">
+				<img
+					src="/images/home/paritsea-intellectual-volumes.webp"
+					alt={locale === "th" ? "ชุดสมุด Journal, Framework, Protocol และ Standard" : "Four Paritsea volumes: Journal, Framework, Protocol, and Standard"}
+					width="1448"
+					height="1086"
+					loading="eager"
+					fetchpriority="high"
+				/>
+			</figure>
+		</section>
 
-			<div id="thought-field" class="home-field">
-				<IntellectualField locale={locale} questions={fieldQuestions} counts={counts} />
+		<section class="library-section library-start" aria-labelledby="start-title">
+			<header class="library-section-heading">
+				<div>
+					<p class="library-eyebrow">{copy.startEyebrow}</p>
+					<h2 id="start-title">{copy.startTitle}</h2>
+				</div>
+				<p>{copy.startSummary}</p>
+			</header>
+			<div class="library-entrances">
+				{copy.entrances.map((entrance) => (
+					<a class="library-entrance" href={localizedPath(entrance.href, locale)}>
+						<span class="library-entrance-number" aria-hidden="true">{entrance.number}</span>
+						<span class="library-entrance-copy">
+							<strong>{entrance.title}</strong>
+							<small>{entrance.body}</small>
+						</span>
+						<span class="library-inline-action">{entrance.action}</span>
+					</a>
+				))}
 			</div>
 		</section>
 
-		<section class="experience-section home-intents" aria-labelledby="intent-title">
-			<div class="experience-section-heading">
+		<section class="library-section library-works" aria-labelledby="works-title">
+			<header class="library-section-heading">
 				<div>
-					<p class="experience-label" data-state="named">{copy.intentLabel}</p>
-					<h2 id="intent-title">{copy.intentTitle}</h2>
+					<p class="library-eyebrow">{copy.worksEyebrow}</p>
+					<h2 id="works-title">{copy.worksTitle}</h2>
 				</div>
-				<p>{copy.intentSummary}</p>
+				<div>
+					<p>{copy.worksSummary}</p>
+					<a class="library-text-link" href={localizedPath("/system", locale)}>{copy.worksAction}</a>
+				</div>
+			</header>
+			<div class="library-work-index" role="table" aria-label={copy.worksTitle}>
+				<div class="library-work-head" role="row">
+					<span role="columnheader">{copy.tableTitle}</span>
+					<span role="columnheader">{copy.tableType}</span>
+					<span role="columnheader">{copy.tableState}</span>
+					<span role="columnheader">{copy.tableAction}</span>
+				</div>
+				{featuredWorks.map((item) => (
+					<a class="library-work-row" href={item.href} role="row">
+						<span class="library-work-title" role="cell">
+							<strong>{item.entry.data.title}</strong>
+							{item.entry.data.excerpt && <small>{item.entry.data.excerpt}</small>}
+						</span>
+						<span class="library-work-type" role="cell" lang="en">{copy.workType[item.type]}</span>
+						<span class="library-work-state" role="cell">
+							{item.type === "journal" && item.original.data.publishedAt
+								? formatDateForLocale(item.original.data.publishedAt, locale)
+								: `v${versionFor(item)} · ${copy.status[statusFor(item)] ?? statusFor(item)}`}
+						</span>
+						<span class="library-work-action" role="cell"><span>{copy.tableAction}</span></span>
+					</a>
+				))}
 			</div>
-			<div class="intent-list">
-				{copy.intents.map((intent) => (
-					<a href={localizedPath(intent.href, locale)} class="intent-row">
-						<span class="intent-index">{intent.index}</span>
+		</section>
+
+		<section class="library-section library-use" aria-labelledby="use-title">
+			<header class="library-use-heading">
+				<p class="library-eyebrow">{copy.useEyebrow}</p>
+				<h2 id="use-title">{copy.useTitle}</h2>
+				<p>{copy.useSummary}</p>
+			</header>
+			<div class="library-use-levels">
+				{copy.useLevels.map((level) => (
+					<article class="library-use-level" data-tone={level.tone}>
+						<span class="library-level-number">{level.number}</span>
 						<div>
-							<h3>{intent.title}</h3>
-							<p>{intent.body}</p>
+							<h3>{level.title}</h3>
+							<p>{level.body}</p>
 						</div>
-						<span class="intent-link">{intent.link} <i aria-hidden="true">→</i></span>
+						<strong class="library-level-state">{level.state}</strong>
+					</article>
+				))}
+			</div>
+			<div class="library-use-footer">
+				<a class="library-button" href={localizedPath("/ip/licensing", locale)}>{copy.useAction}</a>
+				<p>{copy.useNote}</p>
+			</div>
+		</section>
+
+		<section class="library-section library-author" aria-labelledby="author-title">
+			<figure class="library-author-portrait">
+				<img
+					src="/images/home/parit-ritchai-portrait.jpg"
+					alt={locale === "th" ? "ปาริศ ฤทธิ์ชัย ผู้เขียน Paritsea" : "Parit Ritchai, author of Paritsea"}
+					width="1440"
+					height="1800"
+					loading="lazy"
+				/>
+			</figure>
+			<div class="library-author-copy">
+				<p class="library-eyebrow">{copy.authorEyebrow}</p>
+				<h2 id="author-title">{copy.authorTitle}</h2>
+				<p>{copy.authorBody}</p>
+				<a class="library-text-link" href={localizedPath("/about", locale)}>{copy.authorAction}</a>
+			</div>
+		</section>
+
+		<section class="library-section library-channels" aria-labelledby="channels-title">
+			<h2 id="channels-title" class="library-eyebrow">{copy.channelsEyebrow}</h2>
+			<div class="library-channel-list">
+				{copy.channels.map((channel) => (
+					<a class="library-channel" href={channel.href} target="_blank" rel="noreferrer">
+						<span class="library-channel-label" lang="en">{channel.label}</span>
+						<span>
+							<strong>{channel.title}</strong>
+							<small>{channel.body}</small>
+						</span>
 					</a>
 				))}
 			</div>
-		</section>
-
-		<section class="experience-section" aria-labelledby="journal-title">
-			<div class="experience-section-heading">
-				<div>
-					<p class="experience-label" data-state="moving">{copy.journalLabel}</p>
-					<h2 id="journal-title">{copy.journalTitle}</h2>
-				</div>
-				<div>
-					<p>{copy.journalSummary}</p>
-					<a class="experience-link" href={localizedPath("/journal", locale)}>{copy.openJournal} <span aria-hidden="true">→</span></a>
-				</div>
-			</div>
-			<div class="experience-index">
-				{latestJournal.map((item) => (
-					<a class="experience-index-row" href={item.href}>
-						<div class="experience-index-meta">
-							<span>{copy.workType[item.type]}</span><br />
-							{item.original.data.publishedAt && <time>{formatDateForLocale(item.original.data.publishedAt, locale)}</time>}
-						</div>
-						<div class="experience-index-copy">
-							<h3>{item.entry.data.title}</h3>
-							{item.entry.data.excerpt && <p>{item.entry.data.excerpt}</p>}
-						</div>
-						<div class="experience-index-state">{copy.status[statusFor(item)] ?? statusFor(item)}</div>
-					</a>
-				))}
-			</div>
-		</section>
-
-		<section class="experience-section" aria-labelledby="formal-title">
-			<div class="experience-section-heading">
-				<div>
-					<p class="experience-label" data-state="governed">{copy.formalLabel}</p>
-					<h2 id="formal-title">{copy.formalTitle}</h2>
-				</div>
-				<div>
-					<p>{copy.formalSummary}</p>
-					<a class="experience-link" href={localizedPath("/system", locale)}>{copy.openSystem} <span aria-hidden="true">→</span></a>
-				</div>
-			</div>
-			<div class="experience-index">
-				{featuredFormalized.map((item) => (
-					<a class="experience-index-row" href={item.href}>
-						<div class="experience-index-meta">{copy.workType[item.type]}<br />v{versionFor(item)}</div>
-						<div class="experience-index-copy">
-							<h3>{item.entry.data.title}</h3>
-							{item.entry.data.excerpt && <p>{item.entry.data.excerpt}</p>}
-						</div>
-						<div class="experience-index-state">{copy.status[statusFor(item)] ?? statusFor(item)}</div>
-					</a>
-				))}
-			</div>
-		</section>
-
-		<section class="experience-section thought-path" aria-labelledby="path-title">
-			<div class="experience-section-heading">
-				<div>
-					<p class="experience-label" data-state="named">{copy.pathLabel}</p>
-					<h2 id="path-title">{copy.pathTitle}</h2>
-				</div>
-				<p>{copy.pathSummary}</p>
-			</div>
-			<ol class="thought-path-list">
-				{copy.pathStages.map((stage, index) => {
-					const keys = ["journal", "concept", "framework", "protocol", "standard"] as const;
-					const hrefs = ["/journal", "/concepts", "/system/frameworks", "/system/protocols", "/system/standards"];
-					return (
-						<li data-state={stageState(keys[index])}>
-							<a href={localizedPath(hrefs[index], locale)}>
-								<span>{String(index + 1).padStart(2, "0")}</span>
-								<strong>{stage}</strong>
-								<small>{counts[keys[index]]}</small>
-							</a>
-						</li>
-					);
-				})}
-			</ol>
-		</section>
-
-		<section class="experience-section home-author" aria-labelledby="author-title">
-			<div class="experience-note">
-				<div>
-					<p class="experience-label" data-state="named">{copy.authorLabel}</p>
-					<h2 id="author-title">{copy.authorTitle}</h2>
-				</div>
-				<div>
-					<p>{copy.authorBody}</p>
-					<a class="experience-link" href={localizedPath("/about", locale)}>{copy.authorLink} <span aria-hidden="true">→</span></a>
-				</div>
-			</div>
-		</section>
-
-		<section class="experience-section home-application" aria-labelledby="applied-title">
-			<div class="experience-note" data-context="applied">
-				<div>
-					<p class="experience-label" data-state="applied">{copy.appliedLabel}</p>
-					<h2 id="applied-title">{copy.appliedTitle}</h2>
-				</div>
-				<div>
-					<p>{copy.appliedBody}</p>
-					<a class="experience-link" href="https://seocean.co.th" target="_blank" rel="noreferrer">{copy.appliedLink} <span aria-hidden="true">↗</span></a>
-				</div>
-			</div>
-		</section>
-
-		<section class="home-return" aria-labelledby="return-title">
-			<p class="experience-label" data-state="moving">{copy.returnLabel}</p>
-			<h2 id="return-title">{copy.returnTitle}</h2>
-			<p>{copy.returnBody}</p>
-			<a class="experience-link" href="/rss.xml">{copy.returnLink} <span aria-hidden="true">↗</span></a>
 		</section>
 	</div>
 </Base>
-
-<style>
-	.home-page {
-		width: var(--wide-width);
-		margin-inline: auto;
-		padding-bottom: var(--spacing-24);
-	}
-
-	.home-opening {
-		display: grid;
-		grid-template-columns: minmax(360px, 5fr) minmax(620px, 7fr);
-		min-height: min(820px, calc(100dvh - var(--nav-height)));
-		border-bottom: 1px solid var(--color-border);
-	}
-
-	.home-authored {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		min-width: 0;
-		padding: clamp(var(--spacing-14), 6vw, var(--spacing-24)) clamp(var(--spacing-8), 5vw, var(--spacing-20)) clamp(var(--spacing-12), 5vw, var(--spacing-20)) 0;
-	}
-
-	.home-byline {
-		font-family: var(--font-mono);
-		font-size: var(--font-size-sm);
-		line-height: 1.6;
-		letter-spacing: var(--tracking-wide);
-		color: var(--color-accent);
-	}
-
-	.home-authored h1 {
-		max-width: 13ch;
-		margin-top: clamp(var(--spacing-8), 4vw, var(--spacing-14));
-		font-family: var(--font-serif);
-		font-size: clamp(3.25rem, 4.7vw, 5.25rem);
-		font-weight: 500;
-		line-height: 1.02;
-		letter-spacing: var(--tracking-tightest);
-		text-wrap: balance;
-	}
-
-	.home-authored h1::after {
-		content: "";
-		display: block;
-		width: 2.5rem;
-		margin-top: var(--spacing-7);
-		border-top: 3px solid var(--color-accent);
-	}
-
-	.home-descriptor {
-		max-width: 46ch;
-		margin-top: var(--spacing-7);
-		font-size: var(--font-size-lg);
-		line-height: 1.75;
-		color: var(--color-text-secondary);
-	}
-
-	.home-principles {
-		list-style: none;
-		display: grid;
-		gap: var(--spacing-3);
-		max-width: 48ch;
-		margin-top: var(--spacing-7);
-	}
-
-	.home-principles li {
-		display: grid;
-		grid-template-columns: 9px minmax(0, 1fr);
-		gap: var(--spacing-4);
-		align-items: start;
-		font-size: var(--font-size-sm);
-		line-height: 1.7;
-		color: var(--color-text-secondary);
-	}
-
-	.home-principles li::before {
-		content: "";
-		width: 8px;
-		height: 8px;
-		margin-top: 0.5rem;
-		border: 1px solid var(--color-accent);
-		border-radius: 50%;
-	}
-
-	.home-field {
-		min-width: 0;
-		display: flex;
-		align-items: center;
-	}
-
-	.home-field > :global(*) { width: 100%; }
-
-	.home-secondary-link {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--spacing-4);
-		min-height: 52px;
-		color: var(--color-accent);
-		text-decoration: none;
-	}
-
-	.home-applied-boundary {
-		display: grid;
-		grid-template-columns: 10px minmax(0, 1fr);
-		gap: var(--spacing-3);
-		max-width: 48ch;
-		margin-top: auto;
-		padding-top: var(--spacing-8);
-		font-size: var(--font-size-sm);
-		line-height: 1.7;
-		color: var(--color-applied);
-	}
-
-	.home-applied-boundary > span {
-		width: 9px;
-		height: 9px;
-		margin-top: 0.45rem;
-		border: 1px solid var(--color-applied);
-		border-radius: 50%;
-	}
-
-	.home-hero {
-		display: grid;
-		grid-template-columns: minmax(0, 1.25fr) minmax(290px, 0.55fr);
-		gap: clamp(var(--spacing-12), 8vw, var(--spacing-32));
-		align-items: end;
-		min-height: min(780px, calc(100dvh - var(--nav-height)));
-		padding-block: clamp(var(--spacing-16), 9vw, var(--spacing-32));
-		border-bottom: 1px solid var(--color-border);
-	}
-
-	.home-hero-copy .experience-title {
-		max-width: 12ch;
-	}
-
-	.home-hero-actions {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: var(--spacing-5) var(--spacing-7);
-		margin-top: var(--spacing-10);
-	}
-
-	.home-primary-link {
-		display: inline-flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: var(--spacing-8);
-		min-width: 260px;
-		min-height: 52px;
-		padding: var(--spacing-3) var(--spacing-5);
-		background: var(--color-text);
-		color: var(--color-bg);
-		text-decoration: none;
-		transition: transform var(--transition-base), background var(--transition-base);
-	}
-
-	.home-primary-link:hover {
-		transform: translateY(-2px);
-		background: var(--color-accent);
-	}
-
-	.home-trace {
-		position: relative;
-		padding: var(--spacing-6) 0 var(--spacing-6) var(--spacing-7);
-		border-left: 1px solid var(--color-border);
-	}
-
-	.home-trace > p:first-child,
-	.home-trace-note {
-		font-family: var(--font-mono);
-		font-size: var(--font-size-xs);
-		line-height: 1.6;
-		letter-spacing: var(--tracking-wider);
-		text-transform: uppercase;
-		color: var(--color-muted);
-	}
-
-	.home-trace ol {
-		list-style: none;
-		margin-top: var(--spacing-7);
-	}
-
-	.home-trace li {
-		position: relative;
-		display: grid;
-		grid-template-columns: 2rem 1fr;
-		gap: var(--spacing-3);
-		padding: 0 0 var(--spacing-8) var(--spacing-6);
-		font-family: var(--font-serif);
-		font-size: var(--font-size-lg);
-	}
-
-	.home-trace li::before {
-		content: "";
-		position: absolute;
-		left: -4px;
-		top: 0.45rem;
-		width: 8px;
-		height: 8px;
-		border: 1px solid var(--color-accent);
-		border-radius: 50%;
-		background: var(--color-bg);
-	}
-
-	.home-trace li[data-state="named"]::before {
-		background: color-mix(in srgb, var(--color-accent) 35%, var(--color-bg));
-	}
-
-	.home-trace li[data-state="governed"]::before {
-		background: var(--color-accent);
-	}
-
-	.home-trace li span {
-		font-family: var(--font-mono);
-		font-size: var(--font-size-xs);
-		color: var(--color-muted);
-	}
-
-	.home-trace-note {
-		max-width: 22ch;
-		text-transform: none;
-		letter-spacing: var(--tracking-wide);
-	}
-
-	.intent-list {
-		border-top: 1px solid var(--color-border);
-	}
-
-	.intent-row {
-		display: grid;
-		grid-template-columns: 4rem minmax(0, 1fr) minmax(180px, 0.34fr);
-		gap: var(--spacing-6);
-		align-items: start;
-		padding-block: var(--spacing-8);
-		border-bottom: 1px solid var(--color-border-subtle);
-		color: inherit;
-		text-decoration: none;
-		transition: padding-inline var(--transition-base), background var(--transition-base);
-	}
-
-	.intent-row:hover,
-	.intent-row:focus-visible {
-		padding-inline: var(--spacing-4);
-		background: color-mix(in srgb, var(--color-accent) 5%, transparent);
-	}
-
-	.intent-index {
-		font-family: var(--font-mono);
-		font-size: var(--font-size-xs);
-		color: var(--color-accent);
-	}
-
-	.intent-row h3 {
-		max-width: 28ch;
-		font-family: var(--font-serif);
-		font-size: clamp(1.6rem, 2.7vw, 2.75rem);
-		font-weight: 500;
-		line-height: 1.12;
-		letter-spacing: var(--tracking-snug);
-		text-wrap: balance;
-	}
-
-	.intent-row p {
-		max-width: 58ch;
-		margin-top: var(--spacing-3);
-		line-height: 1.7;
-		color: var(--color-text-secondary);
-	}
-
-	.intent-link {
-		align-self: center;
-		justify-self: end;
-		color: var(--color-text-secondary);
-		text-align: right;
-	}
-
-	.intent-link i {
-		font-style: normal;
-		color: var(--color-accent);
-	}
-
-	.thought-path-list {
-		display: grid;
-		grid-template-columns: repeat(5, minmax(0, 1fr));
-		list-style: none;
-		border-top: 1px solid var(--color-border);
-		border-bottom: 1px solid var(--color-border);
-	}
-
-	.thought-path-list li {
-		position: relative;
-		border-right: 1px solid var(--color-border-subtle);
-	}
-
-	.thought-path-list li:last-child {
-		border-right: 0;
-	}
-
-	.thought-path-list li::before {
-		content: "";
-		position: absolute;
-		top: -5px;
-		left: var(--spacing-5);
-		width: 9px;
-		height: 9px;
-		border: 1px solid var(--color-accent);
-		border-radius: 50%;
-		background: var(--color-bg);
-	}
-
-	.thought-path-list li[data-state="named"]::before {
-		background: color-mix(in srgb, var(--color-accent) 35%, var(--color-bg));
-	}
-
-	.thought-path-list li[data-state="governed"]::before {
-		background: var(--color-accent);
-	}
-
-	.thought-path-list a {
-		display: grid;
-		grid-template-columns: 1fr auto;
-		gap: var(--spacing-7) var(--spacing-3);
-		min-height: 190px;
-		padding: var(--spacing-7) var(--spacing-5);
-		color: inherit;
-		text-decoration: none;
-		transition: background var(--transition-base);
-	}
-
-	.thought-path-list a:hover {
-		background: color-mix(in srgb, var(--color-accent) 6%, transparent);
-	}
-
-	.thought-path-list span,
-	.thought-path-list small {
-		font-family: var(--font-mono);
-		font-size: var(--font-size-xs);
-		color: var(--color-muted);
-	}
-
-	.thought-path-list strong {
-		align-self: end;
-		font-family: var(--font-serif);
-		font-size: var(--font-size-xl);
-		font-weight: 500;
-	}
-
-	.thought-path-list small {
-		align-self: end;
-		font-size: var(--font-size-sm);
-	}
-
-	.home-return {
-		margin-top: var(--spacing-24);
-		padding: var(--spacing-10);
-		background: var(--color-text);
-		color: var(--color-bg);
-	}
-
-	.home-return .experience-label {
-		color: color-mix(in srgb, var(--color-bg) 65%, transparent);
-	}
-
-	.home-return h2 {
-		max-width: 18ch;
-		margin-top: var(--spacing-5);
-		font-family: var(--font-serif);
-		font-size: clamp(2.25rem, 4vw, 4.5rem);
-		font-weight: 500;
-		line-height: 1.02;
-		letter-spacing: var(--tracking-tight);
-	}
-
-	.home-return > p:not(.experience-label) {
-		max-width: 58ch;
-		margin-top: var(--spacing-5);
-		font-size: var(--font-size-lg);
-		line-height: 1.75;
-		color: color-mix(in srgb, var(--color-bg) 78%, transparent);
-	}
-
-	.home-return .experience-link {
-		margin-top: var(--spacing-6);
-		color: var(--color-bg);
-		text-decoration-color: var(--color-accent);
-	}
-
-	:global(:lang(th)) .home-hero-copy .experience-title {
-		max-width: 13ch;
-	}
-
-	:global(:lang(th)) .home-byline,
-	:global(:lang(th)) .home-descriptor,
-	:global(:lang(th)) .home-principles li,
-	:global(:lang(th)) .home-primary-link,
-	:global(:lang(th)) .home-secondary-link,
-	:global(:lang(th)) .home-applied-boundary {
-		font-family: var(--font-sans);
-		font-style: normal;
-		letter-spacing: 0;
-		word-break: keep-all;
-	}
-
-	:global(:lang(th)) .home-byline { font-size: var(--font-size-sm); line-height: 1.6; }
-
-	:global(:lang(th)) .home-authored h1 {
-		max-width: 14ch;
-		font-family: var(--font-sans);
-		font-size: clamp(2.65rem, 4.35vw, 4.6rem);
-		font-weight: 300;
-		font-style: normal;
-		letter-spacing: 0;
-		line-height: 1.45;
-	}
-
-	:global(:lang(th)) .home-descriptor,
-	:global(:lang(th)) .home-principles li,
-	:global(:lang(th)) .home-applied-boundary {
-		font-size: 1.0625rem;
-		line-height: 1.9;
-	}
-
-	:global(:lang(th)) .home-primary-link,
-	:global(:lang(th)) .home-trace > p,
-	:global(:lang(th)) .home-trace li,
-	:global(:lang(th)) .home-trace li span,
-	:global(:lang(th)) .intent-index,
-	:global(:lang(th)) .thought-path-list span,
-	:global(:lang(th)) .thought-path-list small {
-		font-family: var(--font-sans);
-		font-style: normal;
-		letter-spacing: 0;
-		text-transform: none;
-	}
-
-	:global(:lang(th)) .home-trace li,
-	:global(:lang(th)) .intent-row h3,
-	:global(:lang(th)) .thought-path-list strong,
-	:global(:lang(th)) .home-return h2 {
-		font-family: var(--font-sans);
-		font-weight: 300;
-		font-style: normal;
-		letter-spacing: 0;
-		line-height: 1.45;
-	}
-
-	:global(:lang(th)) .home-trace > p,
-	:global(:lang(th)) .home-trace li span,
-	:global(:lang(th)) .intent-index,
-	:global(:lang(th)) .thought-path-list span,
-	:global(:lang(th)) .thought-path-list small {
-		font-size: var(--font-size-sm);
-		line-height: 1.55;
-	}
-
-	:global(:lang(th)) .intent-row p,
-	:global(:lang(th)) .home-return > p:not(.experience-label) {
-		font-family: var(--font-sans);
-		font-size: 1.0625rem;
-		font-style: normal;
-		letter-spacing: 0;
-		line-height: 1.9;
-		word-break: keep-all;
-	}
-
-	@media (max-width: 960px) {
-		.home-opening {
-			grid-template-columns: 1fr;
-			min-height: 0;
-		}
-
-		.home-authored {
-			padding-right: 0;
-		}
-
-		.home-authored h1,
-		:global(:lang(th)) .home-authored h1 { max-width: 16ch; }
-
-		.home-applied-boundary { margin-top: var(--spacing-8); }
-
-		.home-hero {
-			grid-template-columns: 1fr;
-			min-height: auto;
-		}
-
-		.home-trace {
-			max-width: 520px;
-		}
-
-		.intent-row {
-			grid-template-columns: 3rem minmax(0, 1fr);
-		}
-
-		.intent-link {
-			grid-column: 2;
-			justify-self: start;
-			text-align: left;
-		}
-
-		.thought-path-list {
-			grid-template-columns: 1fr;
-			border-bottom: 0;
-		}
-
-		.thought-path-list li {
-			border-right: 0;
-			border-bottom: 1px solid var(--color-border-subtle);
-		}
-
-		.thought-path-list li::before {
-			top: var(--spacing-6);
-			left: -5px;
-		}
-
-		.thought-path-list a {
-			min-height: 0;
-			padding: var(--spacing-6);
-		}
-	}
-
-	@media (max-width: 640px) {
-		.home-authored { padding-block: var(--spacing-12); }
-
-		.home-authored h1 {
-			max-width: none;
-			font-size: clamp(2.6rem, 13vw, 4rem);
-		}
-
-		:global(:lang(th)) .home-authored h1 {
-			max-width: none;
-			font-size: clamp(2.25rem, 10.5vw, 3.25rem);
-			line-height: 1.5;
-		}
-
-		.home-principles { gap: var(--spacing-4); }
-
-		.home-secondary-link { width: 100%; }
-
-		.home-hero {
-			gap: var(--spacing-14);
-			padding-block: var(--spacing-12) var(--spacing-16);
-		}
-
-		.home-hero-copy .experience-title,
-		:global(:lang(th)) .home-hero-copy .experience-title {
-			max-width: none;
-		}
-
-		.home-hero-actions {
-			align-items: stretch;
-			flex-direction: column;
-		}
-
-		.home-primary-link {
-			min-width: 0;
-			width: 100%;
-		}
-
-		.intent-row {
-			grid-template-columns: 1fr;
-			gap: var(--spacing-3);
-			padding-block: var(--spacing-6);
-		}
-
-		.intent-link {
-			grid-column: auto;
-		}
-
-		.home-return {
-			margin-top: var(--spacing-20);
-			padding: var(--spacing-7) var(--spacing-5);
-		}
-	}
-</style>

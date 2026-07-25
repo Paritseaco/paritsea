@@ -38,12 +38,16 @@ await Promise.all(canonicalRoutes.map(async (path) => {
 }));
 
 const englishHome = await read("/");
-check(englishHome.body.includes("Some things are wrong before we have language for them."), "English Home missing author-led proposition");
+check(englishHome.body.includes("Ideas for seeing a problem differently"), "English Home missing problem-led proposition");
+check(englishHome.body.includes("What do you want to do with the work?"), "English Home missing intent-led entry paths");
+check(englishHome.body.includes("What can you use, and when should you ask?"), "English Home missing use and permission boundary");
 check(englishHome.body.includes("Parit Ritchai"), "English Home missing author attribution");
 
 const thaiHome = await read("/th");
-check(thaiHome.body.includes("สิ่งที่ยังไม่มีชื่อ ไม่ได้แปลว่าเรายังมองไม่เห็น"), "Thai Home missing author-led proposition");
-check(thaiHome.body.includes("ฉันใช้บันทึกสิ่งที่สังเกต"), "Thai Home missing first-person authorial voice");
+check(thaiHome.body.includes("Paritsea คือพื้นที่รวมแนวคิด"), "Thai Home missing direct Paritsea definition");
+check(thaiHome.body.includes("ฉันรวบรวมข้อสังเกต"), "Thai Home missing first-person authorial voice");
+check(thaiHome.body.includes("มาที่นี่เพื่อทำอะไร"), "Thai Home missing intent-led entry paths");
+check(thaiHome.body.includes("ใช้ได้แค่ไหน และเมื่อใดต้องขออนุญาต"), "Thai Home missing use and permission boundary");
 check(thaiHome.body.includes("ปาริศ ฤทธิ์ชัย"), "Thai Home missing localized author attribution");
 
 const detailRoutes = [

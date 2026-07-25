@@ -1,5 +1,5 @@
 ---
-import { getMenu, getSiteSettings } from "emdash";
+import { getSiteSettings } from "emdash";
 import {
 	EmDashHead,
 	EmDashBodyStart,
@@ -75,11 +75,6 @@ const languageAlternatePath = alternatePath(requestPath, locale);
 const thAlternateUrl = new URL(localizedPath(canonicalPath, "th"), Astro.url.origin).toString();
 const enAlternateUrl = new URL(localizedPath(canonicalPath, "en"), Astro.url.origin).toString();
 
-// Fetch primary menu defined in seed
-const menu = await getMenu("primary");
-
-// Helper: resolve one menu item's label + URL (used recursively for children).
-// Return type is explicit to avoid ts(7023)/ts(7024) implicit-any on recursive call.
 type ResolvedMenuItem = {
 	label: string;
 	url: string;
@@ -87,79 +82,36 @@ type ResolvedMenuItem = {
 	[k: string]: unknown;
 };
 
-function resolveMenuItem(item: { label?: string; url?: string; children?: unknown[]; [k: string]: unknown }): ResolvedMenuItem {
-	return {
-		...item,
-		label: copy.navLabels[item.label as keyof typeof copy.navLabels] ?? item.label ?? "",
-		url: localizedPath(item.url ?? "/", locale),
-		children: (item.children ?? []).map((child) =>
-			resolveMenuItem(child as typeof item)
-		),
-	};
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const navItems: ResolvedMenuItem[] = (menu?.items ?? []).map((item) => resolveMenuItem(item as any));
-
-const resolvedNavItems = (() => {
-	const systemItem = navItems.find((item) => stripLocalePrefix(item.url) === "/system");
-	const systemChildren = systemItem?.children?.length
-		? systemItem.children
-		: [
-				{
-					label: copy.navLabels.Frameworks ?? copy.navLabels.Framework,
-					url: localizedPath("/system/frameworks", locale),
-					children: [],
-				},
-				{
-					label: copy.navLabels.Protocols,
-					url: localizedPath("/system/protocols", locale),
-					children: [],
-				},
-				{
-					label: copy.navLabels.Standards,
-					url: localizedPath("/system/standards", locale),
-					children: [],
-				},
-			];
-	return [
-		{
-			id: "map",
-			label: locale === "th" ? "แผนที่ความคิด" : "Thought map",
-			url: localizedPath("/", locale) + "#thought-field",
-			target: undefined,
-			children: [],
-		},
-		{
-			id: "journal",
-			label: copy.navLabels.Journal ?? "Journal",
-			url: localizedPath("/journal", locale),
-			target: undefined,
-			children: [],
-		},
-		{
-			id: "system",
-			label: locale === "th" ? "งานอ้างอิง" : "Reference work",
-			url: localizedPath("/system", locale),
-			target: undefined,
-			children: systemChildren,
-		},
-		{
-			id: "about",
-			label: copy.navLabels.About ?? "About",
-			url: localizedPath("/about", locale),
-			target: undefined,
-			children: [],
-		},
-		{
-			id: "ip",
-			label: copy.navLabels.Use,
-			url: localizedPath("/ip", locale),
-			target: undefined,
-			children: [],
-		},
-	] as ResolvedMenuItem[];
-})();
+const resolvedNavItems = [
+	{
+		id: "ideas",
+		label: locale === "th" ? "แนวคิด" : "Ideas",
+		url: localizedPath("/journal", locale),
+		target: undefined,
+		children: [],
+	},
+	{
+		id: "system",
+		label: locale === "th" ? "งานที่นำไปใช้ได้" : "Applicable work",
+		url: localizedPath("/system", locale),
+		target: undefined,
+		children: [],
+	},
+	{
+		id: "ip",
+		label: locale === "th" ? "วิธีใช้และสิทธิ์" : "Use and permission",
+		url: localizedPath("/ip/licensing", locale),
+		target: undefined,
+		children: [],
+	},
+	{
+		id: "about",
+		label: locale === "th" ? "เกี่ยวกับ" : "About",
+		url: localizedPath("/about", locale),
+		target: undefined,
+		children: [],
+	},
+] as ResolvedMenuItem[];
 
 // Active-state helper: used to apply nav-framework and system dropdown is-active classes
 const currentPath = stripLocalePrefix(Astro.url.pathname);
@@ -393,8 +345,8 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 						<p class="footer-tagline">{copy.footerTagline}</p>
 						<p class="footer-application-note">
 							{locale === "th"
-								? "Paritsea เก็บงานต้นทาง ส่วน SE Ocean นำงานบางส่วนไปใช้กับบริบทองค์กร"
-								: "Paritsea keeps the source. SE Ocean applies selected work in organizational contexts."}
+								? "พื้นที่รวมงานความคิดของ ปาริศ ฤทธิ์ชัย สำหรับอ่าน ศึกษา อ้างอิง และนำไปใช้ภายใต้ขอบเขตที่ชัดเจน"
+								: "The public home of Parit Ritchai's work: ideas to read, study, cite, and apply within clear use boundaries."}
 						</p>
 					</div>
 					<div class="footer-nav">
