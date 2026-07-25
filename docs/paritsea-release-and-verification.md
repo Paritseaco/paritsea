@@ -144,3 +144,11 @@ No production D1 mutation or Worker deployment occurs before that approval.
 - No D1, CMS content, schema, owner, or authentication mutation is required. Thai localization remains a presentation-layer mapping over the existing English source records.
 - Local verification passed seed validation, EmDash type generation against the running local instance, Astro typecheck with zero diagnostics, production build, smoke coverage for 41 canonical routes and five redirects, and `git diff --check`. The known Vite large-chunk warning remains.
 - Browser QA inspected About at 390, 1440, and 3840px and the revised Journal detail at 390px. All measured viewports reported zero horizontal overflow. Thai used Sarabun with zero tracking; long-form copy measured 17px with 32.3px line height. The 4K frame remained capped at 1760px.
+
+### Final production outcome
+
+- Commit `28caa32` was pushed to `main`. Worker version `d13e183b-fca2-4277-9bc2-e7db6f566077` is deployed at 100% traffic; the immediately preceding stable Worker `ebcd6cce-ef9c-41b2-82a6-9449980f9f18` is the application rollback target.
+- Before deployment, a remote read-only query against `paritsea-site-prod` succeeded from the APAC/SIN primary with `changes: 0`. The public Home returned 200 and `/_emdash/admin` redirected to the existing login route rather than setup.
+- Production QA passed 41 canonical routes, five one-hop redirects, all 48 sitemap URLs, the content registry, metadata, real 404 behavior, and admin authentication.
+- Targeted live checks confirmed the revised About, Journal transparency entry, and IP headline. The Thai Framework hub returned one Framework record and did not leak Journal records.
+- This release did not mutate D1, CMS content, schema, owner state, or authentication state. The known Vite large-chunk warning remains.
