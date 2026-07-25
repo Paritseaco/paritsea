@@ -12,17 +12,17 @@ const { entries, cacheHint } = await getEmDashCollection("posts", { orderBy: { p
 Astro.cache.set(cacheHint);
 const works = entries.map((entry) => localizeEntry(entry, "posts", locale));
 const intro = locale === "th"
-	? "ฉันเป็นผู้เขียนและผู้ตั้งชื่อสิ่งที่เผยแพร่ที่นี่ เมื่อความหมายของงานต้นทางเปลี่ยน ฉันต้องรับผิดชอบต่อการตัดสินใจนั้น ส่วน Paritsea ทำหน้าที่เก็บฉบับ ที่มา และเหตุผลของการเปลี่ยนแปลงไว้ให้ตรวจสอบได้ หน้านี้เป็นระเบียนผู้เขียน ไม่ใช่แฟ้มผลงานส่วนตัว"
+	? "ฉันเขียนและตั้งชื่อแนวคิดที่เผยแพร่ใน Paritsea หากความหมายของงานเปลี่ยน ฉันต้องบอกว่าเปลี่ยนอะไรและเพราะอะไร ส่วนเว็บไซต์นี้เก็บฉบับเดิมและที่มาไว้ให้ตรวจสอบ หน้านี้จึงบอกว่าใครรับผิดชอบเนื้อหา ไม่ใช่แฟ้มผลงานส่วนตัว"
 	: "Parit Ritchai is the author, namer, and decision authority for semantic change in the source work. Paritsea preserves that work as a versioned public record. This is an author record, not a portfolio.";
 ---
 
 <Base title={locale === "th" ? "ปาริศ ฤทธิ์ชัย — ระเบียนผู้เขียน" : "Parit Ritchai — Author record"} description={intro} locale={locale}>
 	<div class="author-shell">
 		<Breadcrumb crumbs={[{ label: locale === "th" ? "วิธีมอง" : "Lens", href: localizedPath("/about", locale) }, { label: locale === "th" ? "ปาริศ ฤทธิ์ชัย" : "Parit Ritchai" }]} />
-		<PageRoleHeader role={locale === "th" ? "ระเบียนผู้เขียน" : "Author record"} eyebrow={locale === "th" ? "ผู้เขียนและผู้ดูแลความหมายของงานต้นทาง" : "Authorship and change authority"} title={locale === "th" ? "ปาริศ ฤทธิ์ชัย" : "Parit Ritchai"} intro={intro} count={works.length} statusLabel={locale === "th" ? "ผู้เขียนต้นทาง" : "Source author"} />
+		<PageRoleHeader role={locale === "th" ? "ข้อมูลผู้เขียน" : "Author record"} eyebrow={locale === "th" ? "ผู้เขียนและผู้รับผิดชอบเนื้อหา" : "Authorship and change authority"} title={locale === "th" ? "ปาริศ ฤทธิ์ชัย" : "Parit Ritchai"} intro={intro} count={works.length} statusLabel={locale === "th" ? "ผู้เขียน" : "Source author"} />
 		<section class="author-boundary">
-			<h2>{locale === "th" ? "สิ่งที่ผูกกับชื่อผู้เขียน" : "What remains attached to the author"}</h2>
-			<p>{locale === "th" ? "ข้อสังเกต การตัดสินใจ การตั้งชื่อ และเหตุผลที่ทำให้งานต้นทางเปลี่ยน ต้องย้อนกลับมาหาผู้เขียนได้เสมอ ขณะเดียวกัน Framework, Protocol และ Standard ต้องอ่านและอ้างอิงได้โดยไม่ต้องซื้อบริการจากฉัน" : "Observation, judgement, naming, and the rationale for changing canonical work remain attributable. Frameworks, Protocols, and Standards must still be readable and citable without purchasing a service from the author."}</p>
+			<h2>{locale === "th" ? "ฉันรับผิดชอบอะไร" : "What remains attached to the author"}</h2>
+			<p>{locale === "th" ? "ฉันรับผิดชอบต่อข้อสังเกต ชื่อเรียก และเหตุผลที่ทำให้งานเปลี่ยนความหมาย ขณะเดียวกัน Framework, Protocol และ Standard ต้องเปิดให้อ่านและอ้างอิงได้ โดยไม่บังคับให้ผู้อ่านซื้อบริการจากฉัน" : "Observation, judgement, naming, and the rationale for changing canonical work remain attributable. Frameworks, Protocols, and Standards must still be readable and citable without purchasing a service from the author."}</p>
 		</section>
 		<section class="bibliography" aria-labelledby="bibliography-title">
 			<h2 id="bibliography-title">{locale === "th" ? "งานที่เผยแพร่" : "Published record"}</h2>

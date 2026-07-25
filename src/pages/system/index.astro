@@ -12,9 +12,9 @@ Astro.cache.set(cacheHint);
 const count = (type: string) => entries.filter((entry) => entry.data.content_type === type).length;
 const layers = locale === "th"
 	? [
-		{ number: "01", state: "จัดระบบแล้ว", name: "Framework", count: count("framework"), href: "/system/frameworks", description: "โครงสร้างที่จัดความสัมพันธ์ของแนวคิด หลักการ และข้อจำกัดให้เป็นระบบเดียวกัน" },
-		{ number: "02", state: "นำไปดำเนินการได้", name: "Protocol", count: count("protocol"), href: "/system/protocols", description: "ภาระหน้าที่หรือวิธีดำเนินการที่สืบจาก Framework และต้องรักษาความหมายต้นทาง" },
-		{ number: "03", state: "ตรวจสอบได้", name: "Standard", count: count("standard"), href: "/system/standards", description: "เงื่อนไขที่ใช้ตรวจว่าภาระหน้าที่ของ Protocol เกิดขึ้นจริงภายในขอบเขตที่ระบุ" },
+		{ number: "01", state: "วิธีคิด", name: "Framework", count: count("framework"), href: "/system/frameworks", description: "ช่วยจัดวิธีมองและหลักการให้เห็นความสัมพันธ์ของปัญหาอย่างเป็นระบบ" },
+		{ number: "02", state: "วิธีนำไปใช้", name: "Protocol", count: count("protocol"), href: "/system/protocols", description: "บอกว่าสิ่งใดควรถูกทำหรือรับผิดชอบ เมื่อต้องนำ Framework ไปใช้จริง" },
+		{ number: "03", state: "เกณฑ์ตรวจสอบ", name: "Standard", count: count("standard"), href: "/system/standards", description: "บอกว่าควรดูคำถามหรือหลักฐานใด เพื่อตรวจว่าสิ่งที่กำหนดไว้เกิดขึ้นจริงหรือไม่" },
 	]
 	: [
 		{ number: "01", state: "Structured", name: "Frameworks", count: count("framework"), href: "/system/frameworks", description: "Structures that organise concepts, principles, and constraints into a coherent reference." },
@@ -25,16 +25,16 @@ const layers = locale === "th"
 const copy = locale === "th" ? {
 	title: "งานอ้างอิง — Paritsea",
 	role: "ศูนย์รวมงานที่จัดระบบแล้ว",
-	headline: "เมื่อข้อสังเกตต้องรับผิดชอบมากกว่าการเป็นข้อสังเกต",
-	summary: "พื้นที่นี้รวม Framework, Protocol และ Standard ที่มีสถานะ เวอร์ชัน ที่มา และขอบเขตชัดเจน งานเหล่านี้อ่านเพื่ออ้าง ตรวจสอบ หรือประยุกต์ภายใต้เงื่อนไขของแต่ละฉบับ",
-	choose: "เลือกตามบทบาทของงาน",
-	chooseNote: "ทั้งสามประเภทไม่ใช่ระดับคุณค่าที่สูงขึ้นตามลำดับ แต่ตอบคำถามคนละแบบ",
-	path: "งานเกิดขึ้นอย่างไร",
-	pathTitle: "เส้นทางนี้เป็นแผนที่ ไม่ใช่สายพาน",
-	pathBody: "บันทึกหนึ่งชิ้นอาจหยุดอยู่ใน Journal รูปแบบหนึ่งอาจถูกตั้งชื่อเป็น Concept โดยไม่กลายเป็น Framework และ Standard จะเกิดขึ้นต่อเมื่อมีสิ่งที่ควรตรวจจริง การ formalize คือการเพิ่มภาระความรับผิดชอบ ไม่ใช่การประกาศว่างานสำคัญกว่าเดิม",
+	headline: "เลือกงานให้ตรงกับสิ่งที่ต้องการ: วิธีคิด วิธีนำไปใช้ หรือเกณฑ์ตรวจสอบ",
+	summary: "Framework ช่วยจัดวิธีมอง Protocol บอกสิ่งที่ควรทำ และ Standard ให้เกณฑ์สำหรับตรวจสอบ ทุกฉบับระบุที่มา สถานะ และขอบเขตการใช้ไว้ชัดเจน",
+	choose: "งานแต่ละประเภทช่วยต่างกัน",
+	chooseNote: "เลือกจากสิ่งที่ต้องการใช้ ไม่จำเป็นต้องอ่านตามลำดับ",
+	path: "เลือกเอกสารให้ถูกประเภท",
+	pathTitle: "ไม่ต้องอ่านตามลำดับ และไม่ใช่ทุกแนวคิดต้องมีครบทั้งสามแบบ",
+	pathBody: "หากต้องการทำความเข้าใจปัญหา ให้เริ่มจาก Framework หากต้องการแนวทางนำไปใช้ ให้ดู Protocol และหากต้องการตรวจว่าสิ่งที่กำหนดไว้เกิดขึ้นจริงหรือไม่ ให้ดู Standard",
 	boundary: "ขอบเขต",
-	boundaryTitle: "เอกสารอ้างอิงไม่ใช่บริการ",
-	boundaryBody: "Paritsea รักษาฉบับต้นทางและประวัติการเปลี่ยนแปลง การนำงานไปใช้กับองค์กรอยู่ในบริบทของผู้ประยุกต์ และไม่แก้ canonical record โดยอัตโนมัติ",
+	boundaryTitle: "งานที่อ่านได้ที่นี่ไม่ใช่บริการที่ปรึกษา",
+	boundaryBody: "Paritsea เผยแพร่แนวคิดและเอกสารต้นทาง ส่วนการนำไปใช้ในองค์กรต้องปรับให้เหมาะกับบริบท และไม่สามารถเปลี่ยนความหมายของต้นฉบับได้เอง",
 	useLink: "ตรวจวิธีใช้และอ้างอิง",
 } : {
 	title: "Reference work — Paritsea",
@@ -54,9 +54,9 @@ const copy = locale === "th" ? {
 
 const fieldQuestions = locale === "th"
 	? [
-		{ title: "แนวคิดนี้กำลังช่วยให้มองเห็นอะไร", meta: "คำถามก่อนเลือกประเภทเอกสาร" },
-		{ title: "เมื่อใดที่ข้อเสนอควรกลายเป็นภาระหน้าที่", meta: "Framework → Protocol" },
-		{ title: "อะไรควรถูกตรวจจริง และอะไรควรปล่อยให้ต่างกัน", meta: "Protocol → Standard" },
+		{ title: "ต้องการเข้าใจปัญหาจากมุมไหน", meta: "เริ่มจาก Framework" },
+		{ title: "ต้องทำหรือรับผิดชอบอะไรบ้าง", meta: "ดู Protocol" },
+		{ title: "จะรู้ได้อย่างไรว่าทำจริงแล้ว", meta: "ตรวจด้วย Standard" },
 	]
 	: [
 		{ title: "What is this idea helping us see?", meta: "Before choosing a document type" },

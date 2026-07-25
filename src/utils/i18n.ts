@@ -127,7 +127,7 @@ export const ui = {
     themeDark: "มืด",
     themeSystem: "ตามระบบ",
     admin: "จัดการเว็บ",
-	footerTagline: "ข้อสังเกตของปาริศ ฤทธิ์ชัย ที่เก็บที่มา การเปลี่ยนแปลง และขอบเขตไว้ให้ตรวจสอบได้",
+	footerTagline: "แนวคิดและงานอ้างอิงของ ปาริศ ฤทธิ์ชัย สำหรับอ่าน ตรวจสอบ และนำไปใช้ภายใต้เงื่อนไขที่ระบุ",
     frameworkLayers: "งานอ้างอิง",
     thoughtPath: "สำรวจ",
     legalContact: "เกี่ยวกับและการใช้",
@@ -141,13 +141,13 @@ export const ui = {
     socialThreads: "Threads",
     socialYouTube: "YouTube",
 	    authorName: "ปาริศ ฤทธิ์ชัย",
-	    authorRole: "ผู้เขียนและผู้ดูแลความหมายของงานต้นทาง",
-	    authorBio: "ฉันเขียนข้อสังเกต ตั้งชื่อสิ่งที่มองเห็น และตัดสินใจเมื่อความหมายของงานต้นทางเปลี่ยน ส่วน Paritsea เก็บที่มา การแก้ไข และขอบเขตของงานเหล่านั้นไว้ให้ตรวจสอบได้",
+	    authorRole: "ผู้เขียนและผู้รับผิดชอบเมื่อเนื้อหาเปลี่ยน",
+	    authorBio: "ฉันเขียนและตั้งชื่อแนวคิดที่เผยแพร่ที่นี่ ส่วน Paritsea เก็บที่มา ฉบับแก้ไข และเงื่อนไขการใช้ไว้ให้ตรวจสอบได้",
     readDoctrine: "อ่าน Framework",
     exploreMethod: "สำรวจ Journal",
     viewImplementations: "ดูขอบเขต Official Use",
     startHere: "เริ่มตรงนี้",
-    startHereDesc: "ใหม่กับ Paritsea? เริ่มจาก Lens อ่าน Journal เข้าใจ System แล้วค่อยดู IP และขอบเขต Official Use",
+    startHereDesc: "เพิ่งรู้จัก Paritsea? เริ่มจากหน้าเกี่ยวกับ อ่านข้อสังเกตใน Journal หรือเลือกงานที่จัดเป็นระบบแล้วตามสิ่งที่ต้องการใช้",
     followOn: "ติดตาม",
     navLabels: {
       Lens: "วิธีมอง",
@@ -180,10 +180,10 @@ export const ui = {
       minRead: "นาที",
       reads: "ครั้ง",
       onThisPage: "ในหน้านี้",
-      continueReading: "ระเบียนที่สัมพันธ์กัน",
-      constitutionalDocument: "Framework ที่กำกับด้วยเวอร์ชัน",
+      continueReading: "งานที่เกี่ยวข้อง",
+      constitutionalDocument: "Framework ที่มีฉบับอ้างอิงชัดเจน",
       doctrineNotice:
-        "เอกสารนี้คือต้นทาง canonical ของ Protocol และ Standard ที่สัมพันธ์กัน การเปลี่ยนความหมายต้องทำผ่าน revision ที่เปิดเผย ระบุผู้เขียน และรักษาระเบียนเดิมไว้",
+        "เอกสารนี้เป็นต้นฉบับอ้างอิงของ Protocol และ Standard ที่เกี่ยวข้อง หากความหมายเปลี่ยน ต้องเผยแพร่เป็นฉบับใหม่ บอกผู้เขียนและเหตุผล พร้อมเก็บฉบับเดิมไว้",
       constitutionalDoctrine: "Paritsea Framework",
       protocol: "Protocol",
       standard: "มาตรฐาน",
@@ -203,14 +203,14 @@ const categoryLabels: Record<string, string> = {
 
 const postTranslations: Record<string, { title: string; excerpt?: string; content: Record<string, string> }> = {
 	doctrine: {
-		title: "Paritsea Framework ว่าด้วยความสอดคล้องเชิงโครงสร้างและความชอบธรรม",
-		excerpt: "Paritsea วางความสอดคล้องเชิงโครงสร้างไว้เป็นเงื่อนไขพื้นฐานของความชอบธรรมในทุกระบบที่จัดระเบียบ",
+		title: "Paritsea Framework: ระบบจะน่าเชื่อถือได้เมื่อโครงสร้างไม่ขัดกัน",
+		excerpt: "สิ่งที่องค์กรประกาศ อำนาจตัดสินใจ ความรับผิดชอบ และสิ่งที่ทำจริงควรสอดคล้องกัน มิฉะนั้นความน่าเชื่อถือจะอยู่แค่ในคำพูด",
 		content: {
-			"Canonical Foundation — Version-governed": "ฐาน canonical — กำกับด้วยเวอร์ชัน",
+			"Canonical Foundation — Version-governed": "เอกสารต้นฉบับ — ใช้เลขฉบับกำกับการเปลี่ยนแปลง",
 			"Constitutional Foundation — Immutable": "ฐาน Framework — ไม่เปลี่ยนรูป",
 			"Section I — Foundational Premise": "หมวด I — ข้อตั้งต้น",
 			"Paritsea establishes structural coherence as a prerequisite for legitimacy in any organised system.":
-				"Paritsea วางความสอดคล้องเชิงโครงสร้างไว้เป็นเงื่อนไขพื้นฐานของความชอบธรรมในทุกระบบที่จัดระเบียบ",
+				"ระบบจะน่าเชื่อถือได้เมื่อส่วนต่าง ๆ ของโครงสร้างไม่ขัดกัน ทั้งสิ่งที่ประกาศ อำนาจตัดสินใจ ความรับผิดชอบ และสิ่งที่เกิดขึ้นจริง",
 			"Legitimacy is not conferred by:": "ความชอบธรรมไม่ได้มาจาก:",
 			"— Consensus\n— Popularity\n— Longevity\n— Institutional endorsement\n— Market scale":
 				"— ฉันทามติ\n— ความนิยม\n— การอยู่มานาน\n— การรับรองจากสถาบัน\n— ขนาดของตลาด",
@@ -221,7 +221,7 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 			"— Market scale": "— ขนาดของตลาด",
 			"Legitimacy arises from structural coherence.": "ความชอบธรรมเกิดจากความสอดคล้องของโครงสร้าง",
 			"Legitimacy, within Paritsea, is a structural condition — not a moral endorsement.":
-				"ในกรอบ Paritsea ความชอบธรรมคือสภาวะที่โครงสร้างกำหนด ไม่ใช่การรับรองทางศีลธรรม",
+				"ใน Framework นี้ คำว่า “ความชอบธรรม” หมายถึงโครงสร้างที่สอดคล้องและตรวจสอบได้ ไม่ใช่คำตัดสินว่าองค์กรนั้นดีหรือถูกต้องทางศีลธรรม",
 			"Section II — Structural Coherence": "หมวด II — ความสอดคล้องเชิงโครงสร้าง",
 			"Structural coherence requires:": "ความสอดคล้องเชิงโครงสร้างต้องมี:",
 			"— Internal consistency\n— Defined authority\n— Defined accountability\n— Alignment between declared function and operational behaviour\n— Transparent allocation of responsibility\n— Logical integrity across decision layers":
@@ -259,15 +259,15 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 			"Paritsea is a constitutional reference framework. It does not function as a regulator, certifier, or enforcement body.":
 				"Paritsea คือกรอบอ้างอิงเชิงรัฐธรรมนูญ ไม่ใช่ผู้กำกับดูแล ผู้รับรอง หรือหน่วยงานบังคับใช้",
 			"Framework Version: 1.0 — Constitutional Text": "Framework เวอร์ชัน 1.0 — ข้อความรากฐาน",
-			"Section VI — Canonical change": "หมวด VI — การเปลี่ยน canonical source",
+			"Section VI — Canonical change": "หมวด VI — การเปลี่ยนความหมายของต้นฉบับ",
 			"The Paritsea Framework is a canonical, version-governed source. Its meaning may change only through an explicit revision authored by Parit Ritchai and published by Paritsea with the prior record preserved. Applied adaptations and commercial agreements cannot silently redefine it.":
 				"Paritsea Framework เป็นงานต้นทางที่กำกับด้วยเวอร์ชัน หากฉันเปลี่ยนความหมาย ต้องเผยแพร่เป็นฉบับแก้ไขใหม่พร้อมเหตุผล และ Paritsea ต้องรักษาระเบียนเดิมไว้ การดัดแปลงเพื่อนำไปใช้หรือข้อตกลงเชิงพาณิชย์ไม่อาจเปลี่ยนนิยามต้นทางอย่างเงียบ ๆ",
-			"Framework Version: 1.1 — Version-governed canonical text": "Framework เวอร์ชัน 1.1 — ข้อความ canonical ที่กำกับด้วยเวอร์ชัน",
+			"Framework Version: 1.1 — Version-governed canonical text": "Framework เวอร์ชัน 1.1 — ฉบับอ้างอิงปัจจุบัน",
 		},
 	},
 	stp: {
-		title: "โปรโตคอลความโปร่งใสเชิงโครงสร้าง (STP)",
-		excerpt: "STP กำหนดให้ความโปร่งใสเชิงโครงสร้างเป็นข้อกำหนดพื้นฐาน ไม่ใช่ทางเลือก",
+		title: "Structural Transparency Protocol (STP): สิ่งที่เอเจนซีควรเปิดเผยก่อนเรียกตัวเองว่าโปร่งใส",
+		excerpt: "องค์กรจะเรียกตัวเองว่าโปร่งใสได้ เมื่อเปิดเผยคนทำงาน กำลังของทีม อำนาจตัดสินใจ ผลประโยชน์ทับซ้อน และผู้ที่ต้องรับความเสี่ยง",
 		content: {
 			"v1.0 · Foundational · Authored by Parit Ritchai": "v1.0 · ฐานราก · เขียนโดย ปาริศ ฤทธิ์ชัย",
 			"This protocol establishes foundational principles of structural transparency as a constitutional requirement.":
@@ -275,13 +275,13 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 			"The observation that named this gap is in the Journal:":
 				"ข้อสังเกตที่ตั้งชื่อช่องว่างนี้ถูกเก็บไว้ใน Journal:",
 			"Transparency Is Often Aesthetic. Rarely Structural.":
-				"ความโปร่งใสที่มองเห็นได้ มักไม่ใช่ความโปร่งใสเชิงโครงสร้าง",
+				"ความโปร่งใสที่เห็น อาจไม่ใช่ความโปร่งใสที่แท้จริง",
 			"Protocol Position": "จุดยืนของ Protocol",
 			"An Industry Challenge to Agencies": "คำท้าถึงอุตสาหกรรมเอเจนซี",
 			"Most agencies speak about transparency. Very few structure themselves around it.":
-				"เอเจนซีพูดถึงความโปร่งใสกันมาก แต่น้อยมากที่จัดโครงสร้างตัวเองรอบมัน",
+				"หลายเอเจนซีบอกว่าตัวเองโปร่งใส แต่มีไม่กี่แห่งที่ยอมเปิดเผยโครงสร้างที่ทำให้งานเกิดขึ้นจริง",
 			"The modern agency industry has evolved into a performance-driven ecosystem where velocity is rewarded, visibility is curated, and responsibility is often diffused. Clients are sold clarity. What they receive is structure.":
-				"ธุรกิจเอเจนซีวันนี้ขับเคลื่อนด้วยผลลัพธ์ ความเร็วได้รับรางวัล ภาพลักษณ์ถูกจัดการ และความรับผิดกระจายจนหาต้นตอไม่ได้\n\nลูกค้าถูกขายความชัดเจน — สิ่งที่ได้รับจริงคือโครงสร้างของเอเจนซี",
+				"ธุรกิจเอเจนซีให้รางวัลกับความเร็วและผลงานที่มองเห็นได้ แต่ความรับผิดชอบมักกระจายจนตามหาคนตัดสินใจไม่ได้ ลูกค้าจึงอาจได้รับรายงานที่ดูชัดเจน โดยยังไม่รู้ว่าโครงสร้างเบื้องหลังงานทำงานอย่างไร",
 			"This document is not a guideline. It is a structural challenge.": "เอกสารนี้ไม่ใช่แนวทางปฏิบัติ — มันคือคำท้าเชิงโครงสร้าง",
 			"If an agency claims strategic capability, it must be willing to expose the structure that produces its work. If it cannot, the problem is not messaging. It is design.":
 				"ถ้าเอเจนซีอ้างว่ามีความสามารถเชิงกลยุทธ์ ต้องพร้อมเปิดเผยโครงสร้างที่ผลิตงานนั้น\n\nถ้าทำไม่ได้ — ปัญหาไม่ใช่การสื่อสาร มันคือการออกแบบ",
@@ -291,7 +291,7 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 			"What is rarely disclosed is: who is actually doing the work, how capacity is distributed, where incentives are misaligned, whether conflicts of interest exist, and who absorbs the risk when outcomes fail.":
 				"สิ่งที่แทบไม่ถูกพูดถึงคือ: ใครทำงานจริง กำลังการทำงานถูกกระจายอย่างไร แรงจูงใจตรงไหนไม่ตรงกัน มีผลประโยชน์ทับซ้อนหรือไม่ และเมื่องานล้มเหลว — ใครแบกรับ",
 			"Transparency is often aesthetic. Rarely structural. The Structural Transparency Protocol exists to change that.":
-				"ความโปร่งใสมักเป็นเรื่องภาพ แทบไม่ใช่เรื่องโครงสร้าง STP มีขึ้นเพื่อเปลี่ยนสิ่งนั้น",
+				"ความโปร่งใสที่เห็นจากภายนอกอาจเป็นเพียงภาพลักษณ์ STP จึงกำหนดสิ่งที่องค์กรต้องเปิดเผยให้ตรวจสอบได้จริง",
 			"The Five Structural Exposures": "5 เงื่อนไขที่ต้องเปิดเผย",
 			"This protocol is built on five non-negotiable exposures. If an agency cannot meet these conditions, it is not structurally transparent.":
 				"STP กำหนดเงื่อนไข 5 ข้อที่ต่อรองไม่ได้ เอเจนซีที่ผ่านไม่ครบทุกข้อ — ยังไม่โปร่งใสเชิงโครงสร้าง",
@@ -306,7 +306,7 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 			"Overbooking is an unspoken norm in agency economics. Clients are rarely told how many accounts a team is handling, whether the team assigned is already operating at capacity, or whether onboarding requires shifting attention from existing clients.":
 				"การรับงานเกินกำลังเป็นสิ่งที่รู้กันแต่ไม่พูดกันในธุรกิจเอเจนซี ลูกค้ามักไม่รู้ว่าทีมดูแลกี่บัญชีอยู่ ทีมนั้นเต็มกำลังแล้วหรือไม่ หรือการรับงานใหม่จะดึงความสนใจออกจากลูกค้าเดิมหรือเปล่า",
 			"Capacity must be disclosed as structure, not promise. If delivery quality depends on hidden overtime, burnout, or reactive staffing, it is not performance. It is deferred instability.":
-				"กำลังการทำงานต้องเปิดเผยเป็นโครงสร้าง ไม่ใช่คำสัญญา\n\nถ้าคุณภาพงานพึ่งโอทีที่ซ่อนอยู่ burnout หรือการจัดทีมแบบตั้งรับ — นั่นไม่ใช่ผลงาน มันคือความไม่มั่นคงที่ถูกเลื่อนออกไป",
+				"กำลังการทำงานต้องเปิดเผยด้วยข้อมูล ไม่ใช่คำสัญญา\n\nถ้าคุณภาพงานต้องพึ่งโอทีที่ไม่เคยบอก ความเหนื่อยล้าสะสม หรือการจัดทีมแบบแก้ปัญหาเฉพาะหน้า นั่นไม่ใช่ผลงานที่ยั่งยืน แต่เป็นปัญหาที่ถูกเลื่อนไปข้างหน้า",
 			"III. Choice & Representation Rights": "III. สิทธิในการเลือกตัวแทน",
 			"In most agencies, account managers and specialists are assigned. Clients are rarely given a say in who represents them, who interprets their data, or who shapes their strategy. This protocol rejects silent assignment.":
 				"ในเอเจนซีส่วนใหญ่ ทีมถูกมอบหมายให้โดยไม่ถามความเห็น ลูกค้าแทบไม่มีสิทธิในการเลือกว่าใครเป็นตัวแทน ใครตีความข้อมูล หรือใครกำหนดกลยุทธ์\n\nSTP ปฏิเสธการมอบหมายแบบเงียบ",
@@ -314,7 +314,7 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 				"การเลือกผู้นำเชิงกลยุทธ์ควรมีน้ำหนักเหมือนการเลือกผู้เชี่ยวชาญทางการแพทย์ การมอบหมายตามความสะดวกปกป้องเอเจนซี — การให้เลือกปกป้องลูกค้า",
 			"IV. Conflict & Competitive Boundaries": "IV. ผลประโยชน์ทับซ้อนและขอบเขตการแข่งขัน",
 			"Agencies frequently operate across competing brands, markets, and verticals. True structural transparency requires disclosure of brand positioning overlap, audience overlap analysis, geo-targeting conflict exposure, and strategic intent conflict declaration.":
-				"เอเจนซีมักดูแลแบรนด์คู่แข่งพร้อมกัน ทำงานในตลาดและ vertical ที่ทับซ้อนกัน ความโปร่งใสเชิงโครงสร้างต้องเปิดเผยสิ่งเหล่านี้: การทับซ้อนของตำแหน่งแบรนด์ กลุ่มเป้าหมายที่ซ้อนกัน ความขัดแย้งด้านพื้นที่ และเจตนาเชิงกลยุทธ์ที่อาจขัดกัน",
+				"เอเจนซีอาจดูแลแบรนด์คู่แข่งหรือทำงานในตลาดที่ทับซ้อนกัน ความโปร่งใสเชิงโครงสร้างจึงต้องบอกให้ชัดว่า ตำแหน่งของแบรนด์ กลุ่มเป้าหมาย พื้นที่ทำตลาด หรือเป้าหมายเชิงกลยุทธ์ขัดกันหรือไม่",
 			"Silence is not neutrality. It is leverage. Clients deserve to know whether their competitive edge is structurally diluted before it is measured.":
 				"ความเงียบไม่ใช่ความเป็นกลาง — มันคืออำนาจต่อรอง ลูกค้าควรรู้ก่อนว่าความได้เปรียบของตนถูกเจือจางอยู่หรือไม่ ก่อนที่จะเริ่มวัดผล",
 			"V. Power & Responsibility Mapping": "V. ใครมีอำนาจ ใครรับผิด",
@@ -341,14 +341,14 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 		},
 	},
 	"asls-01": {
-		title: "มาตรฐานความชอบธรรมเชิงโครงสร้างของเอเจนซี (ASLS-01)",
-		excerpt: "ASLS-01 แปลง STP ให้เป็นเกณฑ์ที่ตรวจสอบได้จริงในองค์กรเอเจนซีและธุรกิจบริการ",
+		title: "Agency Structural Legitimacy Standard (ASLS-01): เกณฑ์ตรวจโครงสร้างเอเจนซี",
+		excerpt: "เกณฑ์สำหรับตรวจว่าเอเจนซีเปิดเผยทีม กำลังการทำงาน อำนาจตัดสินใจ ผลประโยชน์ทับซ้อน และความรับผิดชอบชัดเจนเพียงใด",
 		content: {
 			"v1.0 · Active · Derived from: Structural Transparency Protocol (STP) v1.0 · Authored by Parit Ritchai":
 				"v1.0 · ใช้งานอยู่ · สืบเนื่องจาก STP v1.0 · เขียนโดย ปาริศ ฤทธิ์ชัย",
 			"I. Purpose": "I. จุดประสงค์",
 			"The Agency Structural Legitimacy Standard (ASLS-01) operationalises the Structural Transparency Protocol (STP) within agency and service-based organisations. It defines observable structural conditions under which an agency may be evaluated for legitimacy in relation to Human Visibility, Capacity Integrity, Choice & Representation Rights, Conflict & Competitive Boundaries, and Power & Responsibility Mapping.":
-				"ASLS-01 แปลง STP ให้ใช้งานได้จริงในเอเจนซีและองค์กรบริการ โดยกำหนดเงื่อนไขที่สังเกตและตรวจสอบได้ใน 5 ด้าน ได้แก่ การมองเห็นคนที่ทำงานจริง ความซื่อตรงของกำลังการทำงาน สิทธิในการเลือกตัวแทน ขอบเขตความขัดแย้งทางผลประโยชน์ และการแมปอำนาจกับความรับผิด",
+				"ASLS-01 นำข้อกำหนดของ STP มาจัดเป็นเกณฑ์ตรวจสอบสำหรับเอเจนซีและธุรกิจบริการ 5 ด้าน ได้แก่ คนที่ทำงานจริง กำลังของทีม สิทธิในการเลือกผู้ดูแลงาน ผลประโยชน์ทับซ้อน และความสัมพันธ์ระหว่างอำนาจกับความรับผิดชอบ",
 			"This standard does not regulate agencies. It establishes structural assessment conditions. Note: Legitimacy, within this framework, is a structural condition — not a marketing claim, performance outcome, or reputational status.":
 				"มาตรฐานนี้ไม่ได้กำกับดูแลเอเจนซี — แต่กำหนดเงื่อนไขที่ใช้ประเมินโครงสร้าง\n\nหมายเหตุ: ในกรอบนี้ ความชอบธรรมคือสภาวะที่โครงสร้างกำหนด ไม่ใช่การอ้างสิทธิทางการตลาด ผลงาน หรือชื่อเสียง",
 			"II. Constitutional Position": "II. ความสัมพันธ์กับ STP",
@@ -357,7 +357,7 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 			"III. Structural Assessment Domains": "III. 5 ด้านการประเมิน",
 			"1. Human Visibility": "1. มองเห็นคนที่ทำงานจริง",
 			"Agencies must disclose full named team assignment prior to contract execution, role classification (Strategist / Executor / Reviewer / Decision Authority), percentage of senior involvement, experience band declaration, and subcontractor disclosure where applicable.":
-				"ก่อนเซ็นสัญญา เอเจนซีต้องเปิดเผยว่าใครทำงานจริง — ไม่ใช่แค่ทีม pitch\n\nต้องระบุชื่อสมาชิกทีม บทบาทที่ชัดเจน (นักกลยุทธ์ / ผู้ปฏิบัติ / ผู้ตรวจทาน / ผู้มีอำนาจตัดสินใจ) สัดส่วนการมีส่วนร่วมของระดับอาวุโส และผู้รับเหมาช่วงหากมี",
+				"ก่อนเซ็นสัญญา เอเจนซีต้องเปิดเผยว่าใครทำงานจริง ไม่ใช่บอกเฉพาะรายชื่อทีมที่มานำเสนองาน\n\nต้องระบุชื่อสมาชิกทีม บทบาทที่ชัดเจน (นักกลยุทธ์ / ผู้ปฏิบัติ / ผู้ตรวจทาน / ผู้มีอำนาจตัดสินใจ) สัดส่วนการมีส่วนร่วมของระดับอาวุโส และผู้รับเหมาช่วงหากมี",
 			"Structural Condition: No strategic authority may be implied without structural presence.":
 				"เงื่อนไข: ห้ามอ้างอำนาจเชิงกลยุทธ์โดยที่คนนั้นไม่ได้มีส่วนร่วมจริงในโครงสร้าง",
 			"2. Capacity Integrity": "2. ความซื่อตรงของกำลังการทำงาน",
@@ -417,139 +417,139 @@ const postTranslations: Record<string, { title: string; excerpt?: string; conten
 		},
 	},
 	"record-when-everything-works": {
-		title: "เมื่อทุกอย่างทำงานได้ แต่ยังมีบางอย่างผิดอยู่",
-		excerpt: "ถ้าทุกอย่างทำงานได้ ทำไมจึงยังรู้สึกว่ามีบางอย่างผิดอยู่",
+		title: "ทุกอย่างดูเหมือนทำงานได้ แล้วทำไมคนยังรู้สึกว่ามีบางอย่างผิด?",
+		excerpt: "ระบบไม่จำเป็นต้องล่มก่อนจึงจะสร้างปัญหา บางครั้งสัญญาณแรกคือความเหนื่อย การตัดสินใจซ้ำ และภาระที่ไม่มีชื่อ",
 		content: {
 			"Seeing Clearly": "การมองให้ชัด",
 			"\"If everything is working, why does it feel like something is wrong?\"":
-				"\"ถ้าทุกอย่างทำงานได้ ทำไมจึงยังรู้สึกว่ามีบางอย่างผิดอยู่\"",
-			"This work did not begin with broken systems.": "งานนี้ไม่ได้เริ่มจากระบบที่พัง",
-			"It began with systems that worked.": "แต่มันเริ่มจากระบบที่ทำงานได้",
+				"“ถ้าทุกอย่างทำงานได้ แล้วทำไมคนยังรู้สึกว่ามีบางอย่างผิด?”",
+			"This work did not begin with broken systems.": "ข้อสังเกตนี้ไม่ได้เริ่มจากระบบที่พัง",
+			"It began with systems that worked.": "มันเริ่มจากระบบที่ภายนอกดูเหมือนทำงานได้ตามปกติ",
 			"Dashboards were live. Processes were defined. Roles were assigned. Automation was running. Nothing was \"on fire\".":
-				"แดชบอร์ดออนไลน์ กระบวนการถูกนิยาม บทบาทถูกมอบหมาย อัตโนมัติทำงานอยู่ ไม่มีอะไร \"ไฟไหม้\"",
+				"แดชบอร์ดยังทำงาน กระบวนการและบทบาทถูกกำหนดไว้ ระบบอัตโนมัติยังเดินต่อ และไม่มีเหตุฉุกเฉินที่เห็นชัด",
 			"And yet, people were tired in ways that could not be explained by workload alone. Meetings ended without resolution. Decisions were revisited repeatedly. High performers carried invisible weight. Silence filled the spaces where clarity should have been.":
-				"แต่ผู้คนเหนื่อยในแบบที่อธิบายด้วยปริมาณงานอย่างเดียวไม่ได้ การประชุมจบโดยไม่มีข้อยุติ การตัดสินใจถูกย้อนกลับมาซ้ำ คนทำงานเก่งแบกน้ำหนักที่มองไม่เห็น และความเงียบเข้าไปแทนที่ความชัดเจน",
+				"แต่คนกลับเหนื่อยเกินกว่าจะอธิบายด้วยปริมาณงาน การประชุมจบโดยไม่มีข้อยุติ เรื่องเดิมถูกนำมาตัดสินใจซ้ำ และคนบางคนต้องแบกภาระที่ไม่มีใครมองเห็น",
 			"When organisations say \"everything is working\", they often mean: nothing has failed loudly enough to demand attention.":
-				"เมื่อองค์กรพูดว่า \"ทุกอย่างทำงานได้\" มักหมายถึง ยังไม่มีอะไรล้มเหลวดังพอให้ต้องสนใจ",
+				"เมื่อองค์กรพูดว่า “ทุกอย่างยังทำงานได้” บางครั้งหมายเพียงว่า ยังไม่มีปัญหาใดรุนแรงพอให้ทุกคนต้องหยุดมอง",
 			"But systems do not have to collapse to cause harm. They only need to drift far enough from human capacity.":
-				"แต่ระบบไม่จำเป็นต้องล่มก่อนจึงจะก่อผลเสีย มันเพียงต้องลอยห่างจากขีดความสามารถของมนุษย์มากพอ",
+				"แต่ระบบไม่จำเป็นต้องล่มก่อนจึงจะสร้างผลเสีย แค่ความต้องการของระบบเกินกำลังของคนอยู่เรื่อย ๆ ปัญหาก็เริ่มขึ้นแล้ว",
 			"This is where Paritsea begins.": "Paritsea เริ่มต้นตรงนี้",
 			"Not at failure. At the quiet dissonance between structure and lived experience.":
-				"ไม่ใช่ที่ความล้มเหลว แต่ที่ความไม่ลงรอยเงียบๆ ระหว่างโครงสร้างกับประสบการณ์ที่ผู้คนใช้ชีวิตอยู่",
+				"ไม่ใช่ตอนที่ทุกอย่างพัง แต่ตอนที่สิ่งซึ่งระบบบอกว่าปกติ ไม่ตรงกับสิ่งที่คนในระบบกำลังเผชิญ",
 			"The question is not: \"What is broken?\"": "คำถามไม่ใช่ \"อะไรพัง\"",
 			"But: \"If everything is working, why does it feel like something is wrong?\"":
-				"แต่คือ \"ถ้าทุกอย่างทำงานได้ ทำไมจึงยังรู้สึกว่ามีบางอย่างผิดอยู่\"",
+				"แต่คือ “ถ้าทุกอย่างยังเดินต่อได้ แล้วอะไรทำให้คนรู้สึกว่ามันไม่ปกติ?”",
 		},
 	},
 	"record-automation-fear": {
-		title: "ว่าด้วยระบบอัตโนมัติที่ยังต้องใช้ความกลัว",
-		excerpt: "หากระบบพังทันทีเมื่อไม่มีมนุษย์เฝ้าอยู่ มันไม่ใช่ระบบ แต่คือความรับผิดที่ถูกเลื่อนออกไป",
+		title: "ระบบอัตโนมัติที่ยังต้องมีคนคอยระแวง ไม่ได้ลดงานจริง",
+		excerpt: "ถ้าปล่อยระบบไว้ไม่ได้โดยไม่มีคนเฝ้า งานไม่ได้หายไป แต่ถูกย้ายไปเป็นความกังวลของใครบางคน",
 		content: {
 			"Human Cost": "ต้นทุนมนุษย์",
 			"\"If a system collapses without human vigilance, it is not a system. It is deferred responsibility.\"":
-				"\"หากระบบพังทันทีเมื่อไม่มีมนุษย์เฝ้าอยู่ มันไม่ใช่ระบบ แต่คือความรับผิดที่ถูกเลื่อนออกไป\"",
+				"“ถ้าระบบพังทันทีเมื่อไม่มีคนเฝ้า งานไม่ได้หายไป แต่ถูกย้ายไปให้ใครบางคนคอยกังวล”",
 			"Automation is often introduced to reduce effort. To remove repetition. To free people from unnecessary labour.":
-				"ระบบอัตโนมัติมักถูกนำเข้ามาเพื่อลดแรง effort ตัดงานซ้ำ และปลดผู้คนจากแรงงานที่ไม่จำเป็น",
+				"ระบบอัตโนมัติมักถูกนำมาใช้เพื่อลดงานซ้ำและคืนเวลาให้คน",
 			"Yet many automated systems do the opposite. They require constant monitoring. They demand standby humans \"just in case\". They create anxiety rather than relief.":
-				"แต่ระบบอัตโนมัติจำนวนมากทำตรงกันข้าม มันต้องการการเฝ้าดูตลอดเวลา ต้องมีมนุษย์สแตนด์บาย \"เผื่อไว้\" และสร้างความกังวลแทนความโล่งใจ",
+				"แต่หลายระบบกลับต้องมีคนคอยดูตลอดเวลา ต้องมีคนพร้อมแก้เหตุฉุกเฉิน และทำให้ผู้ใช้กังวลมากกว่าเดิม",
 			"If a system collapses without human vigilance, it is not a system. It is deferred responsibility.":
-				"หากระบบพังทันทีเมื่อไม่มีมนุษย์เฝ้าอยู่ มันไม่ใช่ระบบ แต่คือความรับผิดที่ถูกเลื่อนออกไป",
+				"ถ้าระบบพังทันทีเมื่อไม่มีคนเฝ้า งานไม่ได้หายไป แต่ถูกย้ายไปให้ใครบางคนคอยกังวล",
 			"When people are afraid to leave an automated workflow unattended, the automation has not reduced labour — it has relocated it into emotional space.":
-				"เมื่อผู้คนกลัวที่จะปล่อย workflow อัตโนมัติไว้โดยไม่มีคนเฝ้า ระบบนั้นไม่ได้ลดแรงงาน แต่มันย้ายแรงงานเข้าไปอยู่ในพื้นที่ทางอารมณ์",
+				"เมื่อคนไม่กล้าปล่อยขั้นตอนอัตโนมัติให้ทำงานตามลำพัง ระบบนั้นไม่ได้ลดภาระ เพียงเปลี่ยนภาระจากการลงมือทำเป็นการเฝ้าระวัง",
 			"A correct system does not ask for fear. It creates trust through structure.":
-				"ระบบที่ถูกต้องไม่เรียกร้องความกลัว แต่สร้างความไว้วางใจผ่านโครงสร้าง",
+				"ระบบที่ดีควรทำให้คนรู้ว่าเมื่อเกิดข้อผิดพลาดจะรับมืออย่างไร ไม่ใช่ให้ทุกคนปลอดภัยด้วยการคอยกลัว",
 			"When automation increases vigilance instead of safety, the problem is not technical. It is architectural.":
-				"เมื่อระบบอัตโนมัติเพิ่มการเฝ้าระวังแทนที่จะเพิ่มความปลอดภัย ปัญหาไม่ใช่เทคนิค แต่คือสถาปัตยกรรม",
+				"ถ้าระบบอัตโนมัติทำให้ต้องเฝ้ามากขึ้นแทนที่จะรู้สึกปลอดภัยขึ้น ปัญหาไม่ได้อยู่ที่เครื่องมืออย่างเดียว แต่อยู่ที่วิธีออกแบบความรับผิดชอบ",
 		},
 	},
 	"record-emotional-labour": {
-		title: "เมื่อการเฝ้าระวังกลายเป็นแรงงานทางอารมณ์",
-		excerpt: "เมื่อระบบพึ่งพาการเฝ้าระวังทางอารมณ์ ระบบนั้นไม่ขยายตัว แต่มันดูดพลัง",
+		title: "เมื่อระบบทำให้ใครบางคนต้องคอยกังวลแทนทุกคน",
+		excerpt: "งานเฝ้าระวังไม่ได้อยู่แค่ในแดชบอร์ด แต่มันทำให้คนต้องตื่นตัวและรับความไม่แน่นอนตลอดเวลา",
 		content: {
 			"Human Cost": "ต้นทุนมนุษย์",
 			"\"When systems rely on emotional vigilance, they do not scale. They drain.\"":
-				"\"เมื่อระบบพึ่งพาการเฝ้าระวังทางอารมณ์ ระบบนั้นไม่ขยายตัว แต่มันดูดพลัง\"",
-			"Monitoring is often described as a technical task.": "การ monitoring มักถูกอธิบายว่าเป็นงานเทคนิค",
+				"“ระบบที่ต้องพึ่งความกังวลของคน จะยิ่งดูดพลังเมื่อขยายใหญ่ขึ้น”",
+			"Monitoring is often described as a technical task.": "การเฝ้าระวังระบบมักถูกอธิบายว่าเป็นงานเทคนิค",
 			"In reality, it becomes emotional labour when: someone must constantly worry about what might fail, someone must stay alert so others can feel safe, someone absorbs uncertainty so the system appears stable.":
-				"ในความจริง มันกลายเป็นแรงงานทางอารมณ์เมื่อมีใครบางคนต้องกังวลตลอดเวลาว่าอะไรอาจพัง ต้องตื่นตัวเพื่อให้คนอื่นรู้สึกปลอดภัย และต้องดูดซับความไม่แน่นอนเพื่อให้ระบบดูมั่นคง",
+				"แต่เมื่อใครบางคนต้องคอยคิดว่าอะไรจะพัง ต้องตื่นตัวเพื่อให้คนอื่นวางใจ และต้องรับความไม่แน่นอนไว้คนเดียว งานนั้นก็กลายเป็นภาระทางใจด้วย",
 			"This labour is rarely acknowledged. It does not appear in dashboards. It is not reflected in productivity metrics. But it accumulates.":
-				"แรงงานนี้แทบไม่ถูกยอมรับ มันไม่ปรากฏบนแดชบอร์ด ไม่สะท้อนในตัวชี้วัดผลิตภาพ แต่มันสะสม",
+				"ภาระนี้มักไม่อยู่ในรายงานหรือมาตรวัดผลงาน แต่สะสมอยู่กับคนที่ต้องเฝ้าระบบทุกวัน",
 			"People begin to feel responsible for outcomes they cannot control. Anxiety replaces clarity. Fatigue appears without visible cause.":
-				"ผู้คนเริ่มรู้สึกรับผิดชอบต่อผลลัพธ์ที่ควบคุมไม่ได้ ความกังวลเข้ามาแทนความชัดเจน และความเหนื่อยล้าปรากฏโดยไม่มีสาเหตุที่มองเห็น",
+				"คนเริ่มรู้สึกว่าต้องรับผิดชอบต่อผลลัพธ์ที่ตัวเองควบคุมไม่ได้ ความกังวลจึงเข้ามาแทนความชัดเจน และความเหนื่อยเกิดขึ้นโดยหาสาเหตุไม่เจอ",
 			"When systems rely on emotional vigilance, they do not scale. They drain.":
-				"เมื่อระบบพึ่งพาการเฝ้าระวังทางอารมณ์ ระบบนั้นไม่ขยายตัว แต่มันดูดพลัง",
-			"This is not a people problem. It is a structural one.": "นี่ไม่ใช่ปัญหาของคน แต่เป็นปัญหาเชิงโครงสร้าง",
+				"ระบบที่ต้องพึ่งความกังวลของคน จะยิ่งดูดพลังเมื่อขยายใหญ่ขึ้น",
+			"This is not a people problem. It is a structural one.": "ปัญหาไม่ได้อยู่ที่คนรับมือไม่เก่ง แต่อยู่ที่ระบบผลักภาระที่ควรจัดการร่วมกันไปให้คนคนเดียว",
 		},
 	},
 	"record-tool-not-problem": {
-		title: "เมื่อเครื่องมือไม่ใช่ปัญหา",
-		excerpt: "เครื่องมือแทบไม่ใช่ปัญหา มันเพียงเผยให้เห็นปัญหา",
+		title: "ก่อนเปลี่ยนเครื่องมือ ต้องรู้ก่อนว่าปัญหาอยู่ที่ไหน",
+		excerpt: "เครื่องมือใหม่ช่วยไม่ได้ หากยังไม่ชัดว่างานนี้มีไว้ทำอะไร ใครรับผิดชอบ และจะเกิดอะไรขึ้นเมื่อระบบล้มเหลว",
 		content: {
 			"Seeing Clearly": "การมองให้ชัด",
 			"\"Tools are rarely the problem. They only reveal it.\"":
-				"\"เครื่องมือแทบไม่ใช่ปัญหา มันเพียงเผยให้เห็นปัญหา\"",
+				"“เครื่องมือมักไม่ใช่ต้นเหตุ แต่มันทำให้ปัญหาที่มีอยู่แล้วเห็นชัดขึ้น”",
 			"The request was simple: \"Teach me how to build this automation workflow.\"":
-				"คำขอนั้นเรียบง่าย: \"สอนฉันสร้าง workflow อัตโนมัตินี้หน่อย\"",
+				"คำขอดูเหมือนง่าย: “ช่วยสอนให้สร้างขั้นตอนอัตโนมัตินี้หน่อย”",
 			"The workflow already existed. The tools were chosen. The logic was drafted.":
-				"workflow มีอยู่แล้ว เครื่องมือถูกเลือกแล้ว ตรรกะถูกวางร่างไว้แล้ว",
+				"มีขั้นตอนการทำงานและเครื่องมือที่ต้องการอยู่แล้ว รวมถึงร่างเงื่อนไขว่าจะให้ระบบทำอะไร",
 			"What was missing was not technical skill, but structural understanding.":
-				"สิ่งที่ขาดไม่ใช่ทักษะทางเทคนิค แต่คือความเข้าใจเชิงโครงสร้าง",
+				"สิ่งที่ยังขาดไม่ใช่ทักษะการใช้เครื่องมือ แต่คือความเข้าใจว่างานนี้มีไว้แก้ปัญหาอะไร",
 			"Why does this workflow exist? What responsibility is it replacing? What happens when it fails? Who carries the consequence?":
-				"workflow นี้มีไว้เพื่ออะไร มันกำลังแทนที่ความรับผิดใด เกิดอะไรขึ้นเมื่อมันล้มเหลว และใครแบกรับผลตามมา",
+				"ขั้นตอนนี้มีไว้เพื่ออะไร กำลังรับหน้าที่แทนใคร หากระบบล้มเหลวจะเกิดอะไรขึ้น และใครต้องรับผลที่ตามมา",
 			"Building without answering these questions does not create systems. It creates fragile arrangements.":
-				"การสร้างโดยไม่ตอบคำถามเหล่านี้ไม่ได้สร้างระบบ แต่สร้างการจัดวางที่เปราะบาง",
+				"ถ้ายังตอบคำถามเหล่านี้ไม่ได้ การลงมือสร้างทันทีจะได้เพียงชุดเครื่องมือที่เปราะบาง ไม่ใช่ระบบที่รับผิดชอบต่อผลลัพธ์",
 			"Paritsea did not refuse the work. It refused construction without architecture.":
-				"Paritsea ไม่ได้ปฏิเสธงาน แต่มันปฏิเสธการก่อสร้างที่ไม่มีสถาปัตยกรรม",
-			"Tools are rarely the problem. They only reveal it.": "เครื่องมือแทบไม่ใช่ปัญหา มันเพียงเผยให้เห็นปัญหา",
+				"ฉันไม่ได้ปฏิเสธการใช้เครื่องมือ แต่ปฏิเสธการรีบสร้างก่อนเข้าใจว่าโครงสร้างงานควรเป็นอย่างไร",
+			"Tools are rarely the problem. They only reveal it.": "เครื่องมือมักไม่ใช่ต้นเหตุ แต่มันทำให้ปัญหาที่มีอยู่แล้วเห็นชัดขึ้น",
 		},
 	},
 	"record-ownership-thinking": {
-		title: "เมื่อความคิดแบบเจ้าของปะทะกับความจริงของระบบ",
-		excerpt: "ตราบใดที่ยังแบกไหว ระบบจะดูเหมือนทำงานได้ ต้นทุนถูกจ่ายที่อื่น อย่างเงียบๆ โดยผู้คน",
+		title: "เมื่อเจ้าของต้องแบกทุกอย่าง ระบบยังไม่พร้อมเติบโต",
+		excerpt: "ตราบใดที่เจ้าของยังรับภาระเพิ่มได้ องค์กรอาจดูปกติ ทั้งที่ต้นทุนกำลังถูกผลักไปให้คนและทีม",
 		content: {
 			"Structural Tension": "แรงตึงเชิงโครงสร้าง",
 			"\"As long as carrying remains possible, the system appears functional. The cost is paid elsewhere. Quietly. By people.\"":
-				"\"ตราบใดที่ยังแบกไหว ระบบจะดูเหมือนทำงานได้ ต้นทุนถูกจ่ายที่อื่น อย่างเงียบๆ โดยผู้คน\"",
+				"“ตราบใดที่ยังมีคนแบกไหว ระบบจะดูเหมือนทำงานได้ แม้ต้นทุนกำลังถูกผลักไปให้คน”",
 			"Some leaders carry everything themselves. Not because they are incapable of delegation, but because they do not trust structures to hold without them.":
 				"ผู้นำบางคนแบกทุกอย่างไว้เอง ไม่ใช่เพราะมอบหมายงานไม่เป็น แต่เพราะไม่เชื่อว่าโครงสร้างจะรับน้ำหนักได้หากไม่มีตน",
 			"Growth becomes product expansion. Momentum becomes constant movement. Motivation becomes pressure disguised as inspiration.":
-				"การเติบโตกลายเป็นการขยายผลิตภัณฑ์ โมเมนตัมกลายเป็นการเคลื่อนไหวไม่หยุด และแรงจูงใจกลายเป็นแรงกดดันที่ปลอมตัวเป็นแรงบันดาลใจ",
+				"การเติบโตจึงถูกแปลว่าเพิ่มสินค้าและกิจกรรมตลอดเวลา ส่วนแรงจูงใจค่อย ๆ กลายเป็นแรงกดดันที่พูดในชื่อของแรงบันดาลใจ",
 			"From this perspective: more offerings mean more opportunity, more activity means progress.":
-				"จากมุมมองนี้ ข้อเสนอที่มากขึ้นหมายถึงโอกาสที่มากขึ้น กิจกรรมที่มากขึ้นหมายถึงความก้าวหน้า",
+				"เมื่อมองแบบเจ้าของ สิ่งที่เสนอได้มากขึ้นดูเหมือนโอกาส และกิจกรรมที่มากขึ้นดูเหมือนความก้าวหน้า",
 			"From a system perspective: more load without structure means collapse — slowly.":
-				"จากมุมมองระบบ ภาระที่มากขึ้นโดยไม่มีโครงสร้างหมายถึงการพังทลาย อย่างช้าๆ",
+				"แต่เมื่อมองทั้งระบบ ภาระที่เพิ่มขึ้นโดยไม่มีโครงสร้างรองรับ คือการสะสมความเสียหายทีละน้อย",
 			"This is not a conflict of intent. It is a collision of mental models. One is centred on ownership. The other on sustainability.":
-				"นี่ไม่ใช่ความขัดแย้งของเจตนา แต่เป็นการปะทะกันของแบบจำลองความคิด แบบหนึ่งมีเจ้าของเป็นศูนย์กลาง อีกแบบมีความยั่งยืนเป็นศูนย์กลาง",
+				"ความต่างจึงไม่ได้อยู่ที่ใครมีเจตนาดีกว่า แต่อยู่ที่วิธีคิดแบบหนึ่งให้เจ้าของเป็นศูนย์กลาง ขณะที่อีกแบบถามว่าระบบจะอยู่ต่อได้โดยไม่ทำให้คนหมดแรงหรือไม่",
 			"As long as carrying remains possible, the system appears functional. The cost is paid elsewhere. Quietly. By people.":
-				"ตราบใดที่ยังแบกไหว ระบบจะดูเหมือนทำงานได้ ต้นทุนถูกจ่ายที่อื่น อย่างเงียบๆ โดยผู้คน",
+				"ตราบใดที่ยังมีคนแบกไหว ระบบจะดูเหมือนทำงานได้ แม้ต้นทุนกำลังถูกผลักไปให้คน",
 		},
 	},
 	"aesthetic-transparency": {
-		title: "ความโปร่งใสมักเป็นเรื่องภาพ แทบไม่ใช่เรื่องโครงสร้าง",
+		title: "ความโปร่งใสที่เห็น อาจไม่ใช่ความโปร่งใสที่แท้จริง",
 		excerpt:
-			"ความโปร่งใสมักเป็นเรื่องภาพ แทบไม่ใช่เรื่องโครงสร้าง — และนี่คือสิ่งที่ความแตกต่างนั้นมีหน้าตาอย่างไร",
+			"การเปิดเผยข้อมูลมากขึ้นยังไม่พอ หากคนยังไม่รู้ว่าใครตัดสินใจ ใครรับผิดชอบ และใครต้องรับความเสี่ยง",
 		content: {
 			"Most agencies speak about transparency. Very few structure themselves around it.":
-				"เอเจนซีพูดถึงความโปร่งใสกันมาก แต่น้อยมากที่จัดโครงสร้างตัวเองรอบมัน",
+				"หลายเอเจนซีบอกว่าตัวเองโปร่งใส แต่มีไม่กี่แห่งที่ออกแบบการทำงานให้ตรวจสอบโครงสร้างได้จริง",
 			"Transparency is often aesthetic. Rarely structural.":
-				"ความโปร่งใสมักเป็นเรื่องภาพ แทบไม่ใช่เรื่องโครงสร้าง",
+				"ความโปร่งใสที่เห็นจากภายนอก อาจเป็นเพียงการสื่อสารที่ดูเปิดเผย ขณะที่โครงสร้างการทำงานยังคลุมเครือ",
 			"The modern agency industry has evolved into a performance-driven ecosystem where velocity is rewarded, visibility is curated, and responsibility is often diffused.":
-				"ธุรกิจเอเจนซีวันนี้ขับเคลื่อนด้วยผลลัพธ์ ความเร็วได้รับรางวัล ภาพลักษณ์ถูกจัดการ และความรับผิดกระจายจนหาต้นตอไม่ได้",
+				"ธุรกิจเอเจนซีให้รางวัลกับความเร็วและผลงานที่มองเห็นได้ จึงง่ายที่จะทำให้ภาพลักษณ์ดูชัด แต่ปล่อยให้ความรับผิดกระจายจนตามหาคนรับผิดชอบไม่ได้",
 			"Clients are sold clarity. What they receive is structure.":
-				"ลูกค้าถูกขายความชัดเจน — สิ่งที่ได้รับจริงคือโครงสร้างของเอเจนซี",
+				"ลูกค้าอาจได้รับรายงานที่ดูชัดเจน แต่ยังไม่รู้ว่าโครงสร้างเบื้องหลังงานทำงานอย่างไร",
 			"What is rarely disclosed is: who is actually doing the work, how capacity is distributed, where incentives are misaligned, whether conflicts of interest exist, and who absorbs the risk when outcomes fail.":
-				"สิ่งที่แทบไม่ถูกพูดถึงคือ: ใครทำงานจริง กำลังการทำงานถูกกระจายอย่างไร แรงจูงใจตรงไหนไม่ตรงกัน มีผลประโยชน์ทับซ้อนหรือไม่ และเมื่องานล้มเหลว — ใครแบกรับ",
+				"สิ่งที่ควรถามคือ ใครทำงานจริง ทีมรับงานไว้มากแค่ไหน มีผลประโยชน์ทับซ้อนหรือไม่ ใครตัดสินใจ และเมื่องานล้มเหลวใครต้องรับผล",
 			"The market does not reward moral positioning. It rewards risk reduction.":
-				"ตลาดไม่ได้ให้รางวัลกับจุดยืนทางศีลธรรม — มันให้รางวัลกับการลดความเสี่ยง",
+				"ตลาดไม่ได้สนใจว่าองค์กรดูมีคุณธรรมเพียงใดเท่ากับว่าโครงสร้างนั้นช่วยลดความเสี่ยงได้จริงหรือไม่",
 			"Structural transparency is not a virtue signal. It is an economic correction.":
-				"ความโปร่งใสเชิงโครงสร้างไม่ใช่เรื่องคุณธรรม มันคือการแก้ไขเชิงเศรษฐกิจ",
+				"ความโปร่งใสเชิงโครงสร้างจึงไม่ใช่คำชมเรื่องความดี แต่เป็นวิธีลดความเสี่ยงทางธุรกิจ",
 			"The question is not whether transparency is admirable. The question is whether opacity is sustainable.":
-				"คำถามไม่ใช่ว่าความโปร่งใสน่ายกย่องหรือไม่ — คำถามคือ การปิดบังนั้นยั่งยืนได้นานแค่ไหน",
+				"คำถามสำคัญไม่ใช่ว่าความโปร่งใสดูดีหรือไม่ แต่คือองค์กรจะทำงานต่อไปได้หรือไม่ หากข้อมูลสำคัญเหล่านี้ยังถูกปิดไว้",
 			"The industry will not reform through better language. It will reform through structural disclosure.":
-				"อุตสาหกรรมนี้จะไม่ปฏิรูปด้วยภาษาที่ดีขึ้น มันจะปฏิรูปด้วยการเปิดเผยเชิงโครงสร้าง",
+				"อุตสาหกรรมจะไม่เปลี่ยนเพราะใช้คำว่าความโปร่งใสเก่งขึ้น แต่เปลี่ยนเมื่อยอมเปิดเผยโครงสร้างที่มีผลต่องานจริง",
 			"This observation is the traceable precursor to the ":
-				"การสังเกตนี้คือจุดต้นทางที่สืบย้อนได้ของ ",
-			"Structural Transparency Protocol": "โปรโตคอลความโปร่งใสเชิงโครงสร้าง",
+				"ข้อสังเกตนี้นำไปสู่ ",
+			"Structural Transparency Protocol": "Structural Transparency Protocol (STP)",
 		},
 	},
 };
@@ -614,11 +614,11 @@ const pageTranslations: Record<string, { title: string; content: Record<string, 
 			Paritsea: "Paritsea",
 			"hello@paritsea.co": "hello@paritsea.co",
 			"All correspondence is reviewed. Response is discretionary.":
-				"ทุกข้อความจะได้รับการพิจารณา การตอบกลับขึ้นอยู่กับดุลยพินิจ",
+				"ทุกข้อความได้รับการอ่าน แต่ไม่สามารถรับประกันว่าจะตอบกลับทุกฉบับ",
 			"Paritsea is an independent framework reference authored by Parit Ritchai.":
-				"Paritsea เป็นกรอบอ้างอิงอิสระ เขียนโดย ปาริศ ฤทธิ์ชัย",
+				"Paritsea เผยแพร่แนวคิดและงานอ้างอิงที่เขียนโดย ปาริศ ฤทธิ์ชัย",
 			"Paritsea is an author-led intellectual practice and public record stewarded by Parit Ritchai.":
-				"Paritsea คือพื้นที่ปฏิบัติการทางความคิดที่มีผู้เขียนชัดเจน และเป็นบันทึกสาธารณะที่ฉันรับผิดชอบดูแล",
+				"Paritsea คือพื้นที่ที่ฉันใช้เผยแพร่แนวคิด เพื่อให้คนอื่นอ่าน ตรวจสอบ อ้างอิง และนำไปใช้ได้ตามเงื่อนไขของงาน",
 		},
 	},
 };

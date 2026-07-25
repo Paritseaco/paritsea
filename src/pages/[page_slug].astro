@@ -256,9 +256,9 @@ const licensingFaq = locale === "th" ? [
 ];
 
 const contactSummary = locale === "th" ? [
-	"ใช้อีเมลนี้สำหรับเรื่องสิทธิการใช้ การขออนุญาต คำถามเรื่อง implementation และ correspondence จริงจังเกี่ยวกับกรอบอ้างอิง",
-	"ข้อความจะได้รับการพิจารณาอย่างรอบคอบ แต่การตอบกลับไม่รับประกันและขึ้นอยู่กับดุลยพินิจ",
-	"โปรดอ้างหน้าที่เกี่ยวข้อง โปรโตคอล มาตรฐาน หรือ implementation เมื่อเขียนเข้ามา",
+	"ใช้อีเมลนี้เมื่อต้องการขออนุญาตใช้เชิงพาณิชย์ ถามเรื่องการให้เครดิต หรือแจ้งบริบทที่นำแนวคิดไปใช้",
+	"โปรดส่งลิงก์งานที่เกี่ยวข้อง พร้อมอธิบายว่าจะนำไปใช้อย่างไร",
+	"ทุกข้อความได้รับการอ่าน แต่ไม่สามารถรับประกันว่าจะตอบกลับทุกฉบับ",
 ] : [
 	"Use this address for licensing, permissions, implementation enquiries, and serious framework correspondence.",
 	"Messages are reviewed carefully, but response is discretionary and not guaranteed.",
@@ -266,10 +266,10 @@ const contactSummary = locale === "th" ? [
 ];
 
 const contactUseCases = locale === "th" ? [
-	"คำถามเรื่อง commercial licensing หรือ implementation",
-	"คำถามเรื่อง permission, attribution หรือ official use",
-	"correspondence เชิงบรรณาธิการ สถาบัน หรือ research อย่างจริงจัง",
-	"คำขอเกี่ยวกับ implementation ที่บันทึกไว้หรือการนำกรอบไปใช้",
+	"ขออนุญาตนำแนวคิดไปใช้กับสินค้า บริการ หรือโครงการที่สร้างรายได้",
+	"ถามวิธีให้เครดิต แปล สรุป หรือดัดแปลงงาน",
+	"แจ้งกรณีที่นำ Framework, Protocol หรือ Standard ไปใช้จริง",
+	"ติดต่อเรื่องบทความ งานวิจัย หรือความร่วมมือที่เกี่ยวข้องโดยตรงกับงานใน Paritsea",
 ] : [
 	"Commercial licensing or implementation enquiries",
 	"Questions about permissions, attribution, or official use",
@@ -278,9 +278,9 @@ const contactUseCases = locale === "th" ? [
 ];
 
 const contactNotFor = locale === "th" ? [
-	"การโปรโมตทั่วไปหรือ mass marketing",
-	"คำขอ endorsement, certification หรือ affiliation โดยไม่มีฐานมาก่อน",
-	"support request ที่ไม่เกี่ยวกับกรอบ Paritsea หรือ implementation ที่เผยแพร่",
+	"อีเมลประชาสัมพันธ์หรือการตลาดที่ส่งเป็นจำนวนมาก",
+	"คำขอให้รับรอง สนับสนุน หรือเป็นพันธมิตรโดยยังไม่มีบริบทที่ชัดเจน",
+	"คำขอความช่วยเหลือที่ไม่เกี่ยวกับงานซึ่งเผยแพร่ใน Paritsea",
 ] : [
 	"General promotional outreach or mass marketing",
 	"Requests for endorsement, certification, or affiliation without prior basis",
@@ -297,7 +297,7 @@ const pageDescription = isAboutPage
 			: "Paritsea policy for citation, adaptation, commercial use, and official implementation status."
 		: isContactPage
 			? locale === "th"
-				? "ช่องทางติดต่อ Paritsea สำหรับสิทธิการใช้ การอ้างอิง implementation และ correspondence จริงจังเกี่ยวกับกรอบอ้างอิง"
+				? "ช่องทางติดต่อ Paritsea สำหรับการขออนุญาตใช้เชิงพาณิชย์ การให้เครดิต และการนำงานไปใช้"
 				: "Contact Paritsea about licensing, reference use, implementation status, and serious framework correspondence."
 			: null;
 ---
@@ -420,7 +420,7 @@ const pageDescription = isAboutPage
 				<>
 					<section class="policy-callout">
 						<p class="policy-eyebrow">{locale === "th" ? "การติดต่อ" : "Correspondence"}</p>
-						<h2 class="policy-callout-title">{locale === "th" ? "Paritsea เปิดรับการติดต่ออย่างจริงจังเกี่ยวกับสิทธิการใช้ implementation และการใช้กรอบนี้ต่อสาธารณะ" : "Paritsea welcomes serious correspondence about licensing, implementation, and the public use of the framework."}</h2>
+						<h2 class="policy-callout-title">{locale === "th" ? "ติดต่อเรื่องการใช้ การอ้างอิง หรือขออนุญาตนำงานไปใช้เชิงพาณิชย์" : "Paritsea welcomes serious correspondence about licensing, implementation, and the public use of the framework."}</h2>
 						<ul class="policy-summary-list">
 							{contactSummary.map((item) => (
 								<li>{item}</li>
@@ -432,7 +432,7 @@ const pageDescription = isAboutPage
 						<section class="policy-section">
 							<h2>{locale === "th" ? "ช่องทางหลัก" : "Primary Contact"}</h2>
 							<p class="policy-quote"><a href="mailto:hello@paritsea.co">hello@paritsea.co</a></p>
-							<p>{locale === "th" ? "โปรดใส่บริบท ลิงก์ และชั้นของกรอบอ้างอิงที่เกี่ยวข้องเมื่อเป็นไปได้ เพื่อให้ประเมินคำถามได้แม่นยำ" : "Include context, links, and the relevant framework layer where possible so the enquiry can be assessed accurately."}</p>
+							<p>{locale === "th" ? "โปรดใส่ลิงก์งานที่เกี่ยวข้อง พร้อมอธิบายว่าจะนำไปใช้อย่างไร เพื่อให้ตอบคำถามได้ตรงกรณี" : "Include context, links, and the relevant framework layer where possible so the enquiry can be assessed accurately."}</p>
 						</section>
 
 						<section class="policy-section">
@@ -455,11 +455,11 @@ const pageDescription = isAboutPage
 
 						<section class="policy-section">
 							<h2>{locale === "th" ? "ก่อนเขียนถึงเรา" : "Before You Write"}</h2>
-							<p>{locale === "th" ? "หากคำถามของคุณเกี่ยวกับการอ้างอิง การดัดแปลง การให้เครดิต หรือสถานะ Official Use โปรดอ่าน " : "If your question is about reference, adaptation, attribution, or Official Use status, please review the "}<a href={localizedPath("/ip/licensing", locale)}>{locale === "th" ? "นโยบายสิทธิการใช้" : "licensing and use policy"}</a>{locale === "th" ? " ก่อน คำถามทั่วไปจำนวนมากมีคำตอบอยู่ที่นั่น" : " first. Many common questions are answered there."}</p>
+							<p>{locale === "th" ? "หากต้องการรู้ว่าใช้ได้แค่ไหน ต้องให้เครดิตอย่างไร หรือกรณีใดต้องขออนุญาต โปรดอ่าน " : "If your question is about reference, adaptation, attribution, or Official Use status, please review the "}<a href={localizedPath("/ip/licensing", locale)}>{locale === "th" ? "วิธีใช้และขออนุญาต" : "licensing and use policy"}</a>{locale === "th" ? " ก่อน คำถามทั่วไปส่วนใหญ่มีคำตอบอยู่ที่นั่น" : " first. Many common questions are answered there."}</p>
 						</section>
 
 						<section class="policy-section policy-section--full">
-							<h2>{locale === "th" ? "บันทึกการติดต่อที่เผยแพร่" : "Published Contact Note"}</h2>
+							<h2>{locale === "th" ? "ข้อมูลติดต่อจาก Paritsea" : "Published Contact Note"}</h2>
 							<PortableText value={page!.data.content} />
 						</section>
 					</div>

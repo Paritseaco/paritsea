@@ -19,7 +19,7 @@ const records = result.entries.map((entry) => ({
 		: entry.data.scope_note ?? "",
 }));
 const copy = locale === "th" ? {
-	title: "Official Use — Paritsea", role: "ระเบียนการใช้", headline: "การใช้ที่ถูกบันทึก ไม่ใช่ตรารับรอง", summary: "ระเบียนนี้แสดงว่าใครนำงานใดไปใช้ ภายใต้ version, scope และสถานะอะไร คำว่า provisional หมายถึงยังอยู่ระหว่างพัฒนา และการปรากฏในหน้านี้ไม่ได้สร้าง certification หรือ endorsement", count: "ระเบียนที่เผยแพร่", empty: "ยังไม่มีระเบียนที่เผยแพร่",
+	title: "การนำไปใช้อย่างเป็นทางการ — Paritsea", role: "รายการที่ Paritsea บันทึกไว้", headline: "รายการนี้บอกว่าใครนำงานใดไปใช้ ไม่ใช่ตรารับรอง", summary: "แต่ละรายการระบุงานที่เกี่ยวข้อง ฉบับที่ใช้ ขอบเขต และสถานะ หากระบุว่า “ชั่วคราว” แปลว่ายังอยู่ระหว่างพัฒนา การมีชื่ออยู่ที่นี่ไม่ได้หมายความว่า Paritsea รับรองคุณภาพหรือผลลัพธ์ทุกด้าน", count: "รายการที่เผยแพร่", empty: "ยังไม่มีรายการที่เผยแพร่",
 } : {
 	title: "Official Use — Paritsea", role: "Use registry", headline: "Recorded use, not a certification mark", summary: "This registry states who applied which work, under what version, scope, and status. Provisional means still developing. Appearance here does not create certification or endorsement.", count: "published records", empty: "No use records have been published.",
 };

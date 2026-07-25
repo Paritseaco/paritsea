@@ -32,12 +32,12 @@ const stages = locale === "th"
 <section class:list={["intellectual-field", { "intellectual-field--compact": compact }]} aria-labelledby="field-title">
 	<header class="field-header">
 		<div>
-			<p class="field-kicker">{locale === "th" ? "แผนที่ความคิด" : "Intellectual field"}</p>
-			<h2 id="field-title">{locale === "th" ? "ความคิดเปลี่ยนรูปได้ โดยไม่ต้องเดินเป็นเส้นตรง" : "Ideas can change form without following a straight line"}</h2>
+			<p class="field-kicker">{locale === "th" ? "ประเภทของงาน" : "Intellectual field"}</p>
+			<h2 id="field-title">{locale === "th" ? "ข้อสังเกตบางชิ้นอาจพัฒนาเป็นงานประเภทอื่น แต่ไม่จำเป็นต้องไปถึงขั้นสุดท้าย" : "Ideas can change form without following a straight line"}</h2>
 		</div>
 		<ul class="field-legend" aria-label={locale === "th" ? "คำอธิบายสถานะ" : "Status legend"}>
 			<li data-state="open">{locale === "th" ? "ยังเปิดอยู่" : "Open"}</li>
-			<li data-state="governed">{locale === "th" ? "ผ่านการกำกับแล้ว" : "Governed"}</li>
+			<li data-state="governed">{locale === "th" ? "จัดเป็นระบบแล้ว" : "Governed"}</li>
 			<li data-state="current">{locale === "th" ? "พร้อมใช้อ้างอิง" : "Reference-ready"}</li>
 		</ul>
 	</header>
@@ -72,7 +72,7 @@ const stages = locale === "th"
 
 	<footer class="field-return">
 		<span aria-hidden="true"></span>
-		<p>{locale === "th" ? "หลักฐานจากโลกจริงอาจพางานย้อนกลับไปตั้งคำถามใหม่" : "Evidence from practice may return the work to an earlier question."}</p>
+		<p>{locale === "th" ? "เมื่อมีข้อมูลใหม่ งานที่เคยจัดเป็นระบบแล้วอาจต้องกลับมาทบทวนอีกครั้ง" : "Evidence from practice may return the work to an earlier question."}</p>
 	</footer>
 </section>
 

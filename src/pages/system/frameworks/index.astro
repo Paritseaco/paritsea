@@ -8,9 +8,14 @@ import { localizeRecordValue } from "../../../utils/intellectual-localization";
 const locale = getAstroLocale(Astro);
 const { entries, cacheHint } = await getEmDashCollection("posts", { where: { framework_page: "the-doctrine" } });
 Astro.cache.set(cacheHint);
-const works = entries.map((entry) => localizeEntry(entry, "posts", locale));
+const works = entries
+	.filter((entry) =>
+		entry.data.content_type === "framework" ||
+		(entry.data.framework_page === "the-doctrine" && entry.id === "doctrine")
+	)
+	.map((entry) => localizeEntry(entry, "posts", locale));
 const copy = locale === "th" ? {
-	title: "Framework — Paritsea", role: "ศูนย์รวม Framework", headline: "โครงสร้างที่ทำให้แนวคิดหลายส่วนรับผิดชอบต่อกัน", summary: "Framework จัดความสัมพันธ์ระหว่างแนวคิด หลักการ และข้อจำกัดให้เป็นระบบที่อ้างอิงได้ แต่ไม่ใช่คำตอบสำเร็จรูป ทุกฉบับต้องระบุขอบเขต เวอร์ชัน ที่มา และสิ่งที่ยังไม่ยืนยัน", count: "Framework ที่เผยแพร่", open: "เปิดเอกสารฉบับเต็ม",
+	title: "Framework — Paritsea", role: "วิธีคิดที่จัดเป็นระบบแล้ว", headline: "Framework ช่วยให้เห็นว่าส่วนต่าง ๆ ของปัญหาเกี่ยวข้องกันอย่างไร", summary: "Framework จัดหลักคิด ความสัมพันธ์ และข้อจำกัดให้อยู่ในโครงเดียวกัน เพื่อให้คนอื่นนำไปอ้างอิงหรือใช้วิเคราะห์ปัญหาได้ แต่ไม่ใช่คำตอบสำเร็จรูปที่ใช้ได้เหมือนกันทุกสถานการณ์", count: "Framework ที่เผยแพร่", open: "เปิดเอกสารฉบับเต็ม",
 } : {
 	title: "Frameworks — Paritsea", role: "Framework hub", headline: "Structures that make related ideas accountable to one another", summary: "A Framework organises concepts, principles, and constraints into a citable system. It is not a universal answer. Every record must state its scope, version, provenance, and what it does not establish.", count: "published Frameworks", open: "Open full document",
 };

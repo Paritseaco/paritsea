@@ -6,14 +6,14 @@ import { getAstroLocale, localizedPath } from "../../utils/i18n";
 
 const locale = getAstroLocale(Astro);
 const copy = locale === "th" ? {
-	title: "สิทธิ์การใช้และการอ้างอิง",
-	intro: "เอกสารฉบับเต็มสำหรับตรวจขอบเขตการอ่าน อ้างอิง ดัดแปลง การใช้ภายใน การใช้เชิงพาณิชย์ และการกล่าวอ้างสถานะ Official Use",
+	title: "ใช้ อ้างอิง และขออนุญาตอย่างไร",
+	intro: "อ่าน อ้างอิง สอน หรือใช้ภายในได้เมื่อให้เครดิต แต่ถ้านำแนวคิดไปเป็นส่วนหนึ่งของสินค้า บริการ หรือระบบที่สร้างรายได้ ต้องขออนุญาตก่อน",
 	open: "ทำได้โดยไม่ต้องขออนุญาต",
 	permission: "ต้องได้รับอนุญาตแยก",
 	claims: "คำกล่าวอ้างที่ห้ามใช้",
-	openItems: ["อ่าน อ้าง สอน และอภิปรายโดยให้เครดิตและลิงก์กลับไปยังหน้าต้นทาง", "ดัดแปลงเพื่อการเรียนรู้ การวิเคราะห์ หรือการใช้ภายในที่ไม่สร้างรายได้จากการบังคับใช้", "แปลหรือสรุปโดยระบุว่าคือการตีความ ไม่ใช่ canonical text"],
-	permissionItems: ["ฝัง Paritsea logic ในผลิตภัณฑ์ ซอฟต์แวร์ audit หรือบริการที่สร้างรายได้", "ใช้ชื่อหรือเครื่องหมาย Paritsea เป็น trust mark, certification หรือ enforcement layer", "เผยแพร่ adaptation โดยใช้ชื่อและ version เดียวกับ canonical work"],
-	claimItems: ["อ้างว่าได้รับ endorsement, certification หรือ partnership โดยไม่มีเอกสาร", "เรียก adaptation ว่าเป็น official Paritsea Framework, Protocol หรือ Standard", "สื่อว่า SE Ocean หรือผู้ใช้อื่นมีสิทธิ์เปลี่ยน canonical source"],
+	openItems: ["อ่าน อ้างอิง สอน และอภิปราย โดยให้เครดิตและลิงก์กลับไปยังหน้าต้นทาง", "ปรับใช้เพื่อการเรียนรู้ การวิเคราะห์ หรือใช้ภายใน โดยไม่ได้ขายการประเมินหรือการบังคับใช้", "แปลหรือสรุปได้ แต่ต้องบอกว่าเป็นคำอธิบายของผู้แปล ไม่ใช่ข้อความต้นฉบับของ Paritsea"],
+	permissionItems: ["นำหลักคิดของ Paritsea ไปเป็นส่วนหนึ่งของสินค้า ซอฟต์แวร์ บริการตรวจประเมิน หรือบริการอื่นที่สร้างรายได้", "ใช้ชื่อหรือเครื่องหมาย Paritsea เป็นตรารับรอง เครื่องหมายความน่าเชื่อถือ หรือกลไกบังคับใช้", "เผยแพร่งานที่ดัดแปลงแล้วโดยใช้ชื่อและเลขฉบับเดียวกับงานต้นฉบับ"],
+	claimItems: ["อ้างว่า Paritsea รับรอง เป็นพันธมิตร หรือสนับสนุนงานนั้นโดยไม่มีเอกสาร", "เรียกงานที่ดัดแปลงว่าเป็น Framework, Protocol หรือ Standard ฉบับทางการของ Paritsea", "สื่อว่า SE Ocean หรือผู้ใช้งานรายอื่นมีสิทธิ์เปลี่ยนความหมายของงานต้นฉบับ"],
 } : {
 	title: "Licensing and use",
 	intro: "The full policy for reading, citing, adapting, internal use, commercial use, and claims of Official Use status.",
@@ -35,7 +35,7 @@ const copy = locale === "th" ? {
 			<section><span>02</span><h2>{copy.permission}</h2><ul>{copy.permissionItems.map((item) => <li>{item}</li>)}</ul></section>
 			<section><span>03</span><h2>{copy.claims}</h2><ul>{copy.claimItems.map((item) => <li>{item}</li>)}</ul></section>
 		</div>
-		<aside class="contact-note"><p>{locale === "th" ? "คำถามเรื่องสิทธิ์การใช้เขียนถึง hello@paritsea.co การติดต่อไม่ได้สร้างสถานะ Official Use จนกว่าจะมีการบันทึกอย่างชัดเจน" : "For use-rights questions, write to hello@paritsea.co. Correspondence does not create Official Use status until it is explicitly recorded."}</p></aside>
+		<aside class="contact-note"><p>{locale === "th" ? "หากไม่แน่ใจว่าต้องขออนุญาตหรือไม่ เขียนถึง hello@paritsea.co การส่งอีเมลเพียงอย่างเดียวยังไม่ถือว่าได้รับอนุญาตหรือมีสถานะเป็นการใช้อย่างเป็นทางการ" : "For use-rights questions, write to hello@paritsea.co. Correspondence does not create Official Use status until it is explicitly recorded."}</p></aside>
 	</div>
 </Base>
 

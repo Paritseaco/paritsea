@@ -24,12 +24,12 @@ const scope = locale === "th" && slug === "agensea"
 <Base title={`${title} — Official Use`} description={scope} locale={locale} type="article">
 	<article class="use-record">
 		<Breadcrumb crumbs={[{ label: "IP", href: localizedPath("/ip", locale) }, { label: locale === "th" ? "ระเบียนการใช้ (Official Use)" : "Official Use", href: localizedPath("/ip/official-use", locale) }, { label: title }]} />
-		<p class="role">{locale === "th" ? "ระเบียนการใช้ · ระเบียนฉบับเต็ม" : "Official Use · Full record"}</p>
+		<p class="role">{locale === "th" ? "รายการการนำไปใช้ · รายละเอียดฉบับเต็ม" : "Official Use · Full record"}</p>
 		<h1>{title}</h1>
 		<p class="lead">{scope}</p>
 		<DocumentRecordMeta locale={locale} contentType="Official Use" stage="application record" status={status} version={version} provenance={locale === "th" ? "Paritsea บันทึกจากต้นแบบที่ฉันพัฒนาขึ้น ข้อมูลนี้ไม่ใช่กรณีศึกษาของลูกค้า" : "Recorded by Paritsea from a prototype developed by Parit Ritchai. This is not a client case."} scope={scope} nonClaims={locale === "th" ? "ระเบียนนี้ไม่ใช่การรับรอง ไม่ได้แปลว่าสนับสนุน และไม่ให้สิทธิ์เปลี่ยนงานต้นทาง" : "Does not create endorsement, certification, or authority to alter the canonical source."} />
 		{locale === "th" && slug === "agensea"
-			? <div class="article-content"><h2>สถานะปัจจุบัน</h2><p>AgenSea ถูกบันทึกในฐานะการสำรวจชั่วคราว การอยู่ในระเบียนนี้มีไว้เพื่อบอกความสัมพันธ์และขอบเขต ไม่ได้ทำให้การนำไปใช้นี้เป็นฉบับสมบูรณ์หรือเป็นต้นทาง canonical</p></div>
+			? <div class="article-content"><h2>สถานะปัจจุบัน</h2><p>AgenSea ยังเป็นต้นแบบที่ใช้สำรวจแนวคิดบางส่วนของ Paritsea การมีชื่ออยู่ในรายการนี้มีไว้เพื่อบอกว่าเกี่ยวข้องกับงานใดและทดลองใช้ในขอบเขตไหน ไม่ได้หมายความว่าเป็นฉบับสมบูรณ์หรืองานต้นฉบับของ Paritsea</p></div>
 			: Array.isArray(data.public_note) ? <div class="article-content"><PortableText value={data.public_note} /></div> : <div class="article-content"><h2>{locale === "th" ? "สถานะปัจจุบัน" : "Current state"}</h2><p>{locale === "th" ? "ระเบียนนี้ยังเป็นสถานะชั่วคราว งานที่เผยแพร่มีไว้เพื่อแสดงขอบเขตและที่มาของการทดลอง ไม่ใช่เพื่อกล่าวอ้างผลลัพธ์หรือชักชวนให้ซื้อบริการ" : "This record remains provisional. It is published to show the scope and provenance of the experiment, not to claim outcomes or invite a service purchase."}</p></div>}
 	</article>
 </Base>

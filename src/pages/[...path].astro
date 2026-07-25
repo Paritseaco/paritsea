@@ -213,15 +213,15 @@ const fallbackRecord = (() => {
 	};
 	if (isProtocol) return {
 		type: "Protocol", stage: "formalized", status: "current", version: "1.0",
-		provenance: locale === "th" ? "สืบเนื่องจาก Paritsea Framework และ observation เรื่อง aesthetic transparency" : "Derived from the Paritsea Framework and the Journal observation on aesthetic transparency.",
-		scope: locale === "th" ? "กำหนด obligation ด้านความโปร่งใสเชิงโครงสร้าง โดยต้องอ่านร่วมกับ scope ในเอกสาร" : "Defines obligations for structural transparency and must be read with the scope stated in the document.",
-		nonClaims: locale === "th" ? "ไม่ใช่ certification, audit result หรือคำกล่าวอ้างว่าใช้ได้กับทุกองค์กร" : "It is not certification, an audit result, or a claim of universal applicability.",
+		provenance: locale === "th" ? "พัฒนาจาก Paritsea Framework และข้อสังเกตใน Journal เรื่องความโปร่งใสที่เห็นจากภายนอกกับโครงสร้างที่ตรวจสอบได้จริง" : "Derived from the Paritsea Framework and the Journal observation on aesthetic transparency.",
+		scope: locale === "th" ? "กำหนดสิ่งที่องค์กรควรเปิดเผยเพื่อให้ตรวจสอบความโปร่งใสของโครงสร้างได้ โดยต้องอ่านขอบเขตในเอกสารฉบับนี้ประกอบ" : "Defines obligations for structural transparency and must be read with the scope stated in the document.",
+		nonClaims: locale === "th" ? "เอกสารนี้ไม่ใช่ตรารับรอง ไม่ใช่ผลการตรวจประเมิน และไม่ได้หมายความว่าวิธีเดียวกันจะเหมาะกับทุกองค์กร" : "It is not certification, an audit result, or a claim of universal applicability.",
 	};
 	if (isStandard) return {
 		type: "Standard", stage: "formalized", status: "current", version: "1.0",
 		provenance: locale === "th" ? "สืบเนื่องจาก Structural Transparency Protocol (STP) v1.0" : "Derived from Structural Transparency Protocol (STP) v1.0.",
-		scope: locale === "th" ? "ระบุ threshold ที่ใช้ประเมิน obligation ของ Protocol ในขอบเขตที่เอกสารกำหนด" : "Defines thresholds for assessing Protocol obligations within the stated scope.",
-		nonClaims: locale === "th" ? "ไม่สร้าง certification หรือ endorsement โดยตัวมันเอง" : "It does not create certification or endorsement by itself.",
+		scope: locale === "th" ? "ระบุเกณฑ์ที่ใช้ตรวจว่าสิ่งซึ่ง Protocol กำหนดไว้เกิดขึ้นจริงหรือไม่ ภายในขอบเขตของเอกสาร" : "Defines thresholds for assessing Protocol obligations within the stated scope.",
+		nonClaims: locale === "th" ? "การใช้ Standard นี้ไม่ได้ทำให้ Paritsea รับรององค์กรหรือผลการประเมินโดยอัตโนมัติ" : "It does not create certification or endorsement by itself.",
 	};
 	return {
 		type: "Journal", stage: "observation", status: "exploring", version: "1.0",
@@ -459,7 +459,7 @@ const lateralPosts = otherPosts
 					<aside class="applied-context" aria-labelledby="applied-context-title">
 						<p class="applied-context-label">{locale === "th" ? "บริบทการประยุกต์ใช้ภายนอก" : "External applied context"}</p>
 						<h2 id="applied-context-title">{locale === "th" ? "แนวคิดนี้ปรากฏในงานองค์กรอย่างไร" : "Where this idea appears in organizational work"}</h2>
-						{appliedContexts.map((context) => <a href={context.url} target="_blank" rel="noreferrer"><strong>{context.title}</strong><span>{locale === "th" ? "ดูบริบทที่ SE Ocean ดูแล โดยไม่เปลี่ยน canonical source →" : "View the context maintained by SE Ocean without changing the canonical source →"}</span></a>)}
+						{appliedContexts.map((context) => <a href={context.url} target="_blank" rel="noreferrer"><strong>{context.title}</strong><span>{locale === "th" ? "ดูตัวอย่างการนำไปใช้ที่ SE Ocean โดยความหมายของต้นฉบับยังอยู่ที่ Paritsea →" : "View the context maintained by SE Ocean without changing the canonical source →"}</span></a>)}
 					</aside>
 				)}
 
