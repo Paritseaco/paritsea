@@ -1,5 +1,5 @@
 diff --git a/node_modules/@emdash-cms/admin/dist/index.js b/node_modules/@emdash-cms/admin/dist/index.js
-index 76fb1a2..e8693c6 100644
+index 76fb1a2..90add3b 100644
 --- a/node_modules/@emdash-cms/admin/dist/index.js
 +++ b/node_modules/@emdash-cms/admin/dist/index.js
 @@ -8226,7 +8226,7 @@ function SeoImageField({ seo, onChange }) {
@@ -23,7 +23,7 @@ index 76fb1a2..e8693c6 100644
  				collection,
  				entryId,
  				onChange: (termIds) => onChange?.(taxonomy.name, termIds)
-@@ -8691,8 +8694,65 @@ function formatScheduledDate(dateStr) {
+@@ -8691,8 +8694,68 @@ function formatScheduledDate(dateStr) {
  /**
  * Content editor with dynamic field rendering
  */
@@ -78,6 +78,9 @@ index 76fb1a2..e8693c6 100644
 +function paritseaCollectionLabel(collection, fallback) {
 +	return collection === "posts" ? "Journal / Framework / Protocol / Standard" : fallback;
 +}
++function paritseaSidebarCollectionLabel(collection, fallback) {
++	return collection === "posts" ? "Journal & Protocols" : fallback;
++}
 +function paritseaWorkType(item) {
 +	if (!item || typeof item !== "object") return "journal";
 +	const value = item.data?.content_type;
@@ -89,7 +92,7 @@ index 76fb1a2..e8693c6 100644
  	const [formData, setFormData] = React.useState(item?.data || {});
  	const [slug, setSlug] = React.useState(item?.slug || "");
  	const [slugTouched, setSlugTouched] = React.useState(!!item?.slug);
-@@ -8891,7 +8951,7 @@ function ContentEditor({ collection, collectionLabel, item, fields, isNew, isSav
+@@ -8891,7 +8954,7 @@ function ContentEditor({ collection, collectionLabel, item, fields, isNew, isSav
  						"aria-label": _t({
  							id: "a5SZoO",
  							message: "Back to {collectionLabel} list",
@@ -98,7 +101,7 @@ index 76fb1a2..e8693c6 100644
  						}),
  						className: buttonVariants({
  							variant: "ghost",
-@@ -8920,11 +8980,11 @@ function ContentEditor({ collection, collectionLabel, item, fields, isNew, isSav
+@@ -8920,11 +8983,11 @@ function ContentEditor({ collection, collectionLabel, item, fields, isNew, isSav
  						children: isNew ? _t({
  							id: "3AhVN+",
  							message: "New {collectionLabel}",
@@ -112,7 +115,7 @@ index 76fb1a2..e8693c6 100644
  						})
  					}),
  					i18n && item?.locale && /* @__PURE__ */ jsx(Badge, {
-@@ -9091,7 +9151,7 @@ function ContentEditor({ collection, collectionLabel, item, fields, isNew, isSav
+@@ -9091,7 +9154,7 @@ function ContentEditor({ collection, collectionLabel, item, fields, isNew, isSav
  					className: cn("rounded-lg border bg-kumo-base p-6", isDistractionFree && "border-0 bg-transparent p-0"),
  					children: /* @__PURE__ */ jsx("div", {
  						className: "space-y-4",
@@ -121,7 +124,7 @@ index 76fb1a2..e8693c6 100644
  							const fieldEl = /* @__PURE__ */ jsx(FieldRenderer, {
  								name,
  								field,
-@@ -9335,36 +9395,8 @@ function ContentEditor({ collection, collectionLabel, item, fields, isNew, isSav
+@@ -9335,36 +9398,8 @@ function ContentEditor({ collection, collectionLabel, item, fields, isNew, isSav
  								]
  							})]
  						}),
@@ -160,7 +163,7 @@ index 76fb1a2..e8693c6 100644
  						i18n && item && !isNew && /* @__PURE__ */ jsxs("div", {
  							className: "p-4 border-t",
  							children: [/* @__PURE__ */ jsx("h3", {
-@@ -9576,7 +9608,7 @@ function FieldRenderer({ name, field, value, onChange, onEditorReady, minimal, p
+@@ -9576,7 +9611,7 @@ function FieldRenderer({ name, field, value, onChange, onEditorReady, minimal, p
  		});
  		case "select": {
  			const selectItems = {};
@@ -169,7 +172,7 @@ index 76fb1a2..e8693c6 100644
  			return /* @__PURE__ */ jsx(Select, {
  				id,
  				label,
-@@ -9585,7 +9617,7 @@ function FieldRenderer({ name, field, value, onChange, onEditorReady, minimal, p
+@@ -9585,7 +9620,7 @@ function FieldRenderer({ name, field, value, onChange, onEditorReady, minimal, p
  				items: selectItems,
  				children: field.options?.map((opt) => /* @__PURE__ */ jsx(Select.Option, {
  					value: opt.value,
@@ -178,7 +181,7 @@ index 76fb1a2..e8693c6 100644
  				}, opt.value))
  			});
  		}
-@@ -9623,7 +9655,7 @@ function FieldRenderer({ name, field, value, onChange, onEditorReady, minimal, p
+@@ -9623,7 +9658,7 @@ function FieldRenderer({ name, field, value, onChange, onEditorReady, minimal, p
  				label,
  				description: name === "featured_image" ? _t2({
  					id: "wd2th9",
@@ -187,7 +190,7 @@ index 76fb1a2..e8693c6 100644
  				}) : void 0,
  				value: imageValue,
  				onChange: handleChange,
-@@ -10193,18 +10225,21 @@ function getItemTitle$1(item) {
+@@ -10193,18 +10228,21 @@ function getItemTitle$1(item) {
  */
  function ContentList({ collection, collectionLabel, items, trashedItems = [], isLoading, isTrashedLoading, onDelete, onDuplicate, onRestore, onPermanentDelete, onLoadMore, onLoadMoreTrashed, hasMore, hasMoreTrashed, trashedCount = 0, i18n: i18n$1, activeLocale, onLocaleChange, urlPattern }) {
  	const { _: _t } = useLingui();
@@ -212,7 +215,7 @@ index 76fb1a2..e8693c6 100644
  	const totalPages = Math.max(1, Math.ceil(filteredItems.length / PAGE_SIZE));
  	const paginatedItems = filteredItems.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
  	React.useEffect(() => {
-@@ -10225,7 +10260,7 @@ function ContentList({ collection, collectionLabel, items, trashedItems = [], is
+@@ -10225,7 +10263,7 @@ function ContentList({ collection, collectionLabel, items, trashedItems = [], is
  					className: "flex items-center gap-4",
  					children: [/* @__PURE__ */ jsx("h1", {
  						className: "text-2xl font-bold",
@@ -221,7 +224,7 @@ index 76fb1a2..e8693c6 100644
  					}), i18n$1 && activeLocale && onLocaleChange && /* @__PURE__ */ jsx(LocaleSwitcher, {
  						locales: i18n$1.locales,
  						defaultLocale: i18n$1.defaultLocale,
-@@ -10247,6 +10282,25 @@ function ContentList({ collection, collectionLabel, items, trashedItems = [], is
+@@ -10247,6 +10285,25 @@ function ContentList({ collection, collectionLabel, items, trashedItems = [], is
  					})]
  				})]
  			}),
@@ -247,7 +250,7 @@ index 76fb1a2..e8693c6 100644
  			items.length > 0 && /* @__PURE__ */ jsxs("div", {
  				className: "relative max-w-sm",
  				children: [/* @__PURE__ */ jsx(MagnifyingGlass, { className: "absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-kumo-subtle" }), /* @__PURE__ */ jsx(Input, {
-@@ -10254,12 +10308,12 @@ function ContentList({ collection, collectionLabel, items, trashedItems = [], is
+@@ -10254,12 +10311,12 @@ function ContentList({ collection, collectionLabel, items, trashedItems = [], is
  					placeholder: _t({
  						id: "FpEIAP",
  						message: "Search {0}...",
@@ -262,7 +265,7 @@ index 76fb1a2..e8693c6 100644
  					}),
  					value: searchQuery,
  					onChange: handleSearchChange,
-@@ -10355,7 +10409,7 @@ function ContentList({ collection, collectionLabel, items, trashedItems = [], is
+@@ -10355,7 +10412,7 @@ function ContentList({ collection, collectionLabel, items, trashedItems = [], is
  								_t({
  									id: "yHHMoK",
  									message: "No {0} yet.",
@@ -271,7 +274,7 @@ index 76fb1a2..e8693c6 100644
  								}),
  								" ",
  								/* @__PURE__ */ jsx(Link$1, {
-@@ -10382,6 +10436,7 @@ function ContentList({ collection, collectionLabel, items, trashedItems = [], is
+@@ -10382,6 +10439,7 @@ function ContentList({ collection, collectionLabel, items, trashedItems = [], is
  							collection,
  							onDelete,
  							onDuplicate,
@@ -279,7 +282,7 @@ index 76fb1a2..e8693c6 100644
  							showLocale: !!i18n$1,
  							urlPattern
  						}, item.id)) })]
-@@ -10527,7 +10582,7 @@ function ContentList({ collection, collectionLabel, items, trashedItems = [], is
+@@ -10527,7 +10585,7 @@ function ContentList({ collection, collectionLabel, items, trashedItems = [], is
  		]
  	});
  }
@@ -288,7 +291,7 @@ index 76fb1a2..e8693c6 100644
  	const { _: _t2 } = useLingui();
  	const title = getItemTitle$1(item);
  	const date = new Date(item.updatedAt || item.createdAt);
-@@ -10536,14 +10591,20 @@ function ContentListItem({ item, collection, onDelete, onDuplicate, showLocale,
+@@ -10536,14 +10594,20 @@ function ContentListItem({ item, collection, onDelete, onDuplicate, showLocale,
  		children: [
  			/* @__PURE__ */ jsx("td", {
  				className: "px-4 py-3",
@@ -317,16 +320,16 @@ index 76fb1a2..e8693c6 100644
  				})
  			}),
  			/* @__PURE__ */ jsx("td", {
-@@ -23863,7 +23924,7 @@ function SidebarNav({ manifest }) {
+@@ -23863,7 +23927,7 @@ function SidebarNav({ manifest }) {
  	}];
  	for (const [name, config] of Object.entries(manifest.collections)) contentItems.push({
  		to: "/content/$collection",
 -		label: config.label,
-+		label: paritseaCollectionLabel(name, config.label),
++		label: paritseaSidebarCollectionLabel(name, config.label),
  		icon: FileText,
  		params: { collection: name }
  	});
-@@ -31732,12 +31793,24 @@ function ContentEditPage() {
+@@ -31732,12 +31796,24 @@ function ContentEditPage() {
  		}
  	});
  	const translateMutation = useMutation({

@@ -268,8 +268,8 @@ No production D1 mutation or Worker deployment occurs before that approval.
 - The Journal archive uses an explicit number, reading summary, and action
   column. Thai titles receive a wider measure and independent responsive scale,
   while excerpts remain bounded for comfortable reading on large displays.
-- The admin navigation names the shared collection `Journal / Framework /
-  Protocol / Standard`. The list explains the boundary between Journal and
+- The admin navigation names the shared collection `Journal & Protocols`, while
+  the list heading names `Journal / Framework / Protocol / Standard`. The list explains the boundary between Journal and
   governed reference work, supports work-type filtering, and shows the work type
   directly under every title. The editor uses the same name and the main field
   is labelled `เผยแพร่เป็น / Publish as`.
