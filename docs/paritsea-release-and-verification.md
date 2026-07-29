@@ -349,3 +349,45 @@ No production D1 mutation or Worker deployment occurs before that approval.
 - This release did not mutate D1, CMS content, owner state, or authentication
   state. The local Miniflare KV sqlite file remains excluded from source
   control.
+
+## Journal video and reading-utility release — 2026-07-30
+
+- Journal detail pages now announce and embed an available YouTube video
+  immediately after the article introduction and before the full body. The
+  video uses the privacy-enhanced YouTube embed and includes a direct YouTube
+  link.
+- Share, save-for-later, and copy-link actions now sit in a 220px sticky
+  reading rail beside the centered article on wide screens. At narrower
+  breakpoints the same actions move above the headline; on 390px mobile they
+  form one full-width, three-action row with touch targets taller than 44px.
+  Save-for-later is stored in the reader's browser and exposes pressed state
+  and an accessible status message.
+- The article remains centered independently of the rail: the main canvas is
+  820px and the long-form measure is 680px at 1,470px and 4K. The utility rail
+  no longer compresses either width. The provenance and scope disclosure now
+  follows the complete article body and uses a content-specific label instead
+  of the former generic document-record heading.
+- Local verification passed EmDash seed validation, Astro typecheck with zero
+  errors, production build, smoke coverage for 41 canonical routes and five
+  redirects, and `git diff --check`. The existing unused-variable typecheck
+  hint and Vite large-chunk warning remain non-blocking.
+- Commit `73b38b1` was pushed to `main`. Worker version
+  `ffa5fe5d-c0ce-427d-8655-e8770aa93993` is deployed at 100% traffic; Worker
+  version `a19fcb03-caa4-4b84-8f1f-ddf9d03f16bd` is the immediately preceding
+  application rollback target.
+- Production QA passed 41 canonical routes, five one-hop redirects, all 50
+  sitemap URLs, the latest Journal and YouTube entry, article utility controls,
+  video-before-body and provenance-after-body order, admin View dispatch,
+  locale-aware sitemap and registry output, metadata, real 404 handling, and
+  admin authentication.
+- Live production browser QA at 1,470px measured a centered 820px article
+  canvas, 680px body measure, and 220px sticky utility rail. After scrolling
+  1,800px the rail remained visible at a 92px top offset. At 390px the utility
+  row moved above the article, the article and video measured 294px, all three
+  actions measured 59.7px high, and the page had no horizontal overflow.
+- Production screenshots are recorded as
+  `artifacts/design-audit/16-article-utility-production-desktop.png` and
+  `artifacts/design-audit/17-article-utility-production-mobile.png`.
+- This release did not mutate D1, CMS content, owner state, or authentication
+  state. The local Miniflare KV sqlite file remains excluded from source
+  control.

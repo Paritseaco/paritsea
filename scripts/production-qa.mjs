@@ -58,7 +58,7 @@ const detailRoutes = [
 
 await Promise.all(detailRoutes.map(async (path) => {
 	const { body } = await read(path);
-	check(/Document record|ระเบียนเอกสาร/.test(body), `${path} missing document record`);
+	check(body.includes('<details class="record-meta"'), `${path} missing document record`);
 	check(/Version|เวอร์ชัน/.test(body), `${path} missing version`);
 	check(/Provenance|ที่มา/.test(body), `${path} missing provenance`);
 	check(/Lifecycle|Status|วงจรสถานะ|สถานะ/.test(body), `${path} missing lifecycle status`);
@@ -154,7 +154,7 @@ check(
 );
 const videoPosition = latestJournal.body.indexOf("article-video-embed");
 const articlePosition = latestJournal.body.indexOf("article-content");
-const recordPosition = latestJournal.body.indexOf("record-meta");
+const recordPosition = latestJournal.body.indexOf('<details class="record-meta"');
 check(
 	videoPosition >= 0 && articlePosition >= 0 && videoPosition < articlePosition,
 	"latest Journal video must appear before the full article body",
