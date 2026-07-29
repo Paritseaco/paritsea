@@ -308,3 +308,44 @@ No production D1 mutation or Worker deployment occurs before that approval.
   `แปล EN / TH` translation entry.
 - The known Vite large-chunk warning remains. The local Miniflare KV sqlite file
   is runtime state and was intentionally left outside the release commit.
+
+## Centered Journal reading release — 2026-07-29
+
+- The Thai Journal archive now uses a centered 1,240px institutional frame
+  instead of stretching to the shared site edge. Each record gives its title
+  the remaining row width after a compact number column and a content-sized
+  action column, so the current lead headline renders on one line at 1,470px
+  without pushing the archive back toward the viewport edge.
+- Journal detail pages now use one centered 820px article canvas. The long-form
+  body, document metadata, video, applied contexts, references, author record,
+  and post-reading utilities share a centered 680px reading measure.
+- The persistent desktop right rail and table-of-contents column were removed.
+  Copy-link and update information now appear after the article instead of
+  competing with the headline and body from top to bottom.
+- Responsive browser checks covered 390px mobile, 1,470px desktop, and 3,840px
+  4K layouts without horizontal overflow. At 4K the archive remains 1,240px,
+  the article canvas remains 820px, and the reading measure remains 680px
+  rather than expanding line length.
+- Local verification passed EmDash seed validation, Astro typecheck with zero
+  errors, production build, smoke coverage for 41 canonical routes and five
+  redirects, and `git diff --check`. The existing unused-variable typecheck
+  hint and Vite large-chunk warning remain non-blocking.
+- Commit `9815a0f` was pushed to `main`. Worker version
+  `a19fcb03-caa4-4b84-8f1f-ddf9d03f16bd` is deployed at 100% traffic; Worker
+  version `b2058c1e-b1f2-4c57-b690-ebc55c45ee05` is the immediately preceding
+  application rollback target.
+- Production QA passed 41 canonical routes, five one-hop redirects, all 50
+  sitemap URLs, the latest Journal and YouTube entry, admin View dispatch,
+  locale-aware sitemap and registry output, metadata, real 404 handling, and
+  admin authentication.
+- Live production browser QA at 1,470px measured the Journal frame at 1,240px
+  with 115px side margins and zero horizontal overflow. The current lead title
+  receives 1,066.93px and renders on one line at 29.4px. The article canvas is
+  centered at 820px; its reading measure and post-reading utility block are
+  centered at 680px; the former right sidebar resolves to `display: none`.
+- Production-after screenshots are recorded as
+  `artifacts/design-audit/12-journal-production-after.png` and
+  `artifacts/design-audit/13-article-production-after.png`.
+- This release did not mutate D1, CMS content, owner state, or authentication
+  state. The local Miniflare KV sqlite file remains excluded from source
+  control.
