@@ -82,6 +82,16 @@ for (const fragment of ["A. Structurally Aligned", "B. Structurally Incomplete",
 	check(!thaiStandard.body.includes(fragment), `Thai ASLS-01 retains untranslated fragment: ${fragment}`);
 }
 
+const thaiJournal = await read("/th/journal");
+for (const [thaiTitle, englishTitle] of [
+	["ความโปร่งใสที่เห็น อาจไม่ใช่ความโปร่งใสที่แท้จริง", "Transparency Is Often Aesthetic. Rarely Structural."],
+	["ก่อนเปลี่ยนเครื่องมือ ต้องรู้ก่อนว่าปัญหาอยู่ที่ไหน", "When the Tool Was Not the Problem"],
+	["เมื่อระบบทำให้ใครบางคนต้องคอยกังวลแทนทุกคน", "When Monitoring Becomes Emotional Labour"],
+]) {
+	check(thaiJournal.body.includes(thaiTitle), `/th/journal missing Thai legacy title: ${thaiTitle}`);
+	check(!thaiJournal.body.includes(`>${englishTitle}<`), `/th/journal exposes English legacy title: ${englishTitle}`);
+}
+
 const agensea = await read("/ip/official-use/agensea");
 check(/provisional/i.test(agensea.body), "AgenSea must be identified as provisional");
 

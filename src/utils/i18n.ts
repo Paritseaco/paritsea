@@ -668,7 +668,6 @@ export function localizeEntry<T extends { id: string; data: { slug?: unknown } }
 	// preserves Thai fallbacks for legacy English-only records.
 	if (
 		data.locale === "th" ||
-		data.__resolvedLocale === "th" ||
 		entry.id.startsWith("th/")
 	) return entry;
 	const entrySlug = typeof entry.data.slug === "string" ? entry.data.slug : entry.id;
