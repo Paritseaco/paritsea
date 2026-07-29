@@ -197,13 +197,14 @@ const entryPath = (id: string) => kind === "journal"
 </Base>
 
 <style>
+	.archive-page { width: min(1240px, calc(100vw - var(--page-gutter))); }
 	.archive-header { display: grid; grid-template-columns: minmax(0, 1fr) minmax(110px, .2fr); gap: var(--spacing-10); align-items: end; padding: var(--spacing-8) 0 var(--spacing-10); border-bottom: 1px solid var(--color-border); }
 	.archive-count { min-width: 0; padding-left: var(--spacing-5); border-left: 1px solid var(--color-border); }
 	.archive-count dt { font-family: var(--font-mono); font-size: var(--font-size-xs); color: var(--color-muted); text-transform: uppercase; letter-spacing: var(--tracking-wide); }
 	.archive-count dd { margin-top: var(--spacing-2); font-family: var(--font-serif); font-size: clamp(2.2rem, 4vw, 3.75rem); line-height: 1; color: var(--color-accent); }
 	.archive-boundary { max-width: 70ch; padding: var(--spacing-5) 0; color: var(--color-text-secondary); border-bottom: 1px solid var(--color-border-subtle); }
-	.archive-page .experience-index-row { grid-template-columns: 3.5rem minmax(0, 52rem) minmax(8rem, 1fr); gap: var(--spacing-6); align-items: start; }
-	.archive-page .experience-index-copy h2 { max-width: 42ch; font-family: var(--font-serif); font-size: clamp(1.6rem, 2.25vw, 2.45rem); font-weight: 500; line-height: 1.2; letter-spacing: var(--tracking-snug); text-wrap: pretty; }
+	.archive-page .experience-index-row { grid-template-columns: 2.75rem minmax(0, 1fr) max-content; gap: var(--spacing-6); align-items: start; }
+	.archive-page .experience-index-copy h2 { max-width: 100%; font-family: var(--font-serif); font-size: clamp(1.6rem, 2vw, 2.2rem); font-weight: 500; line-height: 1.25; letter-spacing: var(--tracking-snug); text-wrap: pretty; }
 	.archive-page .experience-index-copy > p { max-width: 68ch; margin-top: var(--spacing-3); line-height: 1.7; color: var(--color-text-secondary); text-wrap: pretty; }
 	.archive-row-footer { display: flex; flex-wrap: wrap; gap: var(--spacing-3) var(--spacing-6); margin-top: var(--spacing-5); font-family: var(--font-mono); font-size: var(--font-size-xs); color: var(--color-muted); }
 	.archive-row-action { justify-self: end; margin-top: var(--spacing-6); color: var(--color-accent); font-family: var(--font-mono); font-size: var(--font-size-xs); font-weight: 500; white-space: nowrap; }
@@ -213,7 +214,7 @@ const entryPath = (id: string) => kind === "journal"
 	.archive-path a { text-decoration: underline; text-decoration-color: var(--color-border); text-underline-offset: .25em; }
 	:global(:lang(th)) .archive-count dt, :global(:lang(th)) .archive-row-footer, :global(:lang(th)) .archive-row-action { font-family: var(--font-sans); font-size: .9375rem; letter-spacing: 0; text-transform: none; }
 	:global(:lang(th)) .archive-count dd { font-family: var(--font-sans); font-weight: 300; }
-	:global(:lang(th)) .archive-page .experience-index-copy h2 { max-width: 36ch; font-family: var(--font-sans); font-size: clamp(1.75rem, 2.3vw, 2.5rem); font-weight: 300; font-style: normal; letter-spacing: 0; line-height: 1.45; word-break: keep-all; }
+	:global(:lang(th)) .archive-page .experience-index-copy h2 { max-width: 100%; font-family: var(--font-sans); font-size: clamp(1.7rem, 2vw, 2.15rem); font-weight: 300; font-style: normal; letter-spacing: 0; line-height: 1.5; word-break: keep-all; }
 	:global(:lang(th)) .archive-page .experience-index-copy > p { font-size: 1.0625rem; line-height: 1.9; letter-spacing: 0; word-break: keep-all; }
 	:global(:lang(th)) .archive-boundary, :global(:lang(th)) .archive-path p:last-child { font-size: 1.0625rem; line-height: 1.9; letter-spacing: 0; word-break: keep-all; }
 	@media (max-width: 900px) { .archive-page .experience-index-row { grid-template-columns: 3rem minmax(0, 1fr); } .archive-row-action { grid-column: 2; justify-self: start; margin-top: 0; } }

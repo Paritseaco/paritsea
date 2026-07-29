@@ -711,7 +711,7 @@ const lateralPosts = otherPosts
 
 <style>
 	.article-breadcrumb {
-		width: var(--wide-width);
+		width: min(1120px, calc(100vw - var(--page-gutter)));
 		margin: 0 auto;
 		padding-top: var(--spacing-8);
 	}
@@ -779,7 +779,8 @@ const lateralPosts = otherPosts
 
 	/* Hero image - full width within container */
 	.article-hero {
-		margin: var(--spacing-12) var(--spacing-8) 0;
+		max-width: 1120px;
+		margin: var(--spacing-12) auto 0;
 		overflow: hidden;
 		border: 1px solid color-mix(in srgb, var(--color-accent) 20%, var(--color-border-subtle));
 		border-radius: 0;
@@ -1863,32 +1864,41 @@ const lateralPosts = otherPosts
 	.article::before { display: none; }
 
 	.article-grid {
-		grid-template-columns: minmax(0, 820px) minmax(220px, 280px);
-		gap: clamp(var(--spacing-10), 5vw, var(--spacing-20));
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--spacing-12);
 		align-items: start;
-		padding: 0 clamp(var(--spacing-4), 4vw, var(--spacing-10));
-		margin: clamp(var(--spacing-10), 7vw, var(--spacing-16)) 0 var(--spacing-16);
+		width: min(820px, calc(100% - var(--page-gutter)));
+		padding: 0;
+		margin: clamp(var(--spacing-10), 7vw, var(--spacing-16)) auto var(--spacing-16);
 	}
 
 	.article-main {
 		grid-column: 1;
-		grid-row: 1 / span 2;
+		grid-row: 1;
+		width: 100%;
 		padding: var(--spacing-6) 0 0;
 	}
 
 	.article-meta-col {
-		grid-column: 2;
-		grid-row: 1;
-		padding-top: var(--spacing-6);
-		border-top: 1px solid var(--color-border);
-	}
-
-	.article-sidebar {
-		grid-column: 2;
+		grid-column: 1;
 		grid-row: 2;
+		width: 100%;
+		max-width: var(--content-width);
+		justify-self: center;
+		padding: var(--spacing-7) 0;
+		border-top: 1px solid var(--color-border);
+		border-bottom: 1px solid var(--color-border-subtle);
 	}
 
-	.article-header { margin-bottom: var(--spacing-8); }
+	.meta-sticky { position: static; }
+
+	.article-sidebar { display: none; }
+
+	.article-header {
+		width: 100%;
+		max-width: 820px;
+		margin: 0 auto var(--spacing-8);
+	}
 
 	.article-main > :global(.record-meta),
 	.article-content,
@@ -1897,7 +1907,20 @@ const lateralPosts = otherPosts
 	.article-video-embed,
 	.article-tail,
 	.article-author-card {
+		width: 100%;
 		max-width: var(--content-width);
+		margin-inline: auto;
+	}
+
+	.article-meta-col :global(.article-utility-rail) {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+		gap: var(--spacing-5);
+	}
+
+	.article-meta-col :global(.article-utility-actions) {
+		padding-bottom: 0;
+		border-bottom: 0;
 	}
 
 	.article-title {
@@ -1920,19 +1943,17 @@ const lateralPosts = otherPosts
 
 	@media (max-width: 1100px) {
 		.article-grid {
-			grid-template-columns: minmax(0, 760px);
+			grid-template-columns: minmax(0, 1fr);
 			gap: var(--spacing-6);
 		}
 
 		.article-meta-col,
 		.article-main {
 			grid-column: 1;
-			grid-row: auto;
 		}
 
 		.article-meta-col {
-			padding: var(--spacing-4) 0;
-			border-bottom: 1px solid var(--color-border);
+			grid-row: 2;
 		}
 
 		.article-main { padding-inline: 0; }
