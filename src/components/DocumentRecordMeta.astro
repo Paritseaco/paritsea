@@ -14,9 +14,10 @@ interface Props {
 }
 
 const { locale, contentType, stage, status, version, provenance, scope, nonClaims, lastReviewed } = Astro.props;
+const isJournal = contentType.toLowerCase() === "journal";
 const labels = locale === "th"
-	? { title: "ระเบียนเอกสาร — ดูที่มา สถานะ และขอบเขต", type: "ประเภท", stage: "ระดับการพัฒนา", status: "สถานะปัจจุบัน", version: "เวอร์ชัน", provenance: "ที่มาของงาน", scope: "ขอบเขตที่ใช้ได้", nonClaims: "สิ่งที่งานนี้ยังไม่ได้ยืนยัน", reviewed: "ทบทวนล่าสุด" }
-	: { title: "Document record — inspect provenance, status, and scope", type: "Type", stage: "Intellectual stage", status: "Lifecycle", version: "Version", provenance: "Provenance", scope: "Scope", nonClaims: "What this does not establish", reviewed: "Last reviewed" };
+	? { title: isJournal ? "ที่มาและขอบเขตของบทความ" : "ที่มา สถานะ และขอบเขตของเอกสาร", type: "ประเภท", stage: "ระดับการพัฒนา", status: "สถานะปัจจุบัน", version: "เวอร์ชัน", provenance: "ที่มาของงาน", scope: "ขอบเขตที่ใช้ได้", nonClaims: "สิ่งที่งานนี้ยังไม่ได้ยืนยัน", reviewed: "ทบทวนล่าสุด" }
+	: { title: isJournal ? "Article provenance and scope" : "Document provenance, status, and scope", type: "Type", stage: "Intellectual stage", status: "Lifecycle", version: "Version", provenance: "Provenance", scope: "Scope", nonClaims: "What this does not establish", reviewed: "Last reviewed" };
 const localizedContentType = localizeRecordValue(locale, contentType);
 const localizedStage = localizeRecordValue(locale, stage);
 const localizedStatus = localizeRecordValue(locale, status);

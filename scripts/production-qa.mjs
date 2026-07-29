@@ -146,6 +146,23 @@ check(
 	latestJournal.body.includes("youtube-nocookie.com/embed/q1vH9q-HwX8"),
 	"latest Journal entry missing its YouTube embed",
 );
+check(
+	latestJournal.body.includes("data-share-url") &&
+	latestJournal.body.includes("data-save-article") &&
+	latestJournal.body.includes("data-copy-url"),
+	"latest Journal entry missing share/save/copy reading utilities",
+);
+const videoPosition = latestJournal.body.indexOf("article-video-embed");
+const articlePosition = latestJournal.body.indexOf("article-content");
+const recordPosition = latestJournal.body.indexOf("record-meta");
+check(
+	videoPosition >= 0 && articlePosition >= 0 && videoPosition < articlePosition,
+	"latest Journal video must appear before the full article body",
+);
+check(
+	recordPosition >= 0 && articlePosition >= 0 && recordPosition > articlePosition,
+	"latest Journal provenance record must appear after the full article body",
+);
 
 const journalHub = await read("/journal");
 check(journalHub.body.includes(latestJournalPath), "Journal hub does not link to the latest published entry");

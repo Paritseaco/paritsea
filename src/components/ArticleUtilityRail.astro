@@ -18,6 +18,7 @@ interface Props {
 	postId: string;
 	initialViews: number;
 	pageUrl: string;
+	pageTitle: string;
 	locale?: SiteLocale;
 }
 
@@ -29,10 +30,28 @@ const {
 	postId,
 	initialViews,
 	pageUrl,
+	pageTitle,
 	locale = "th",
 } = Astro.props;
 
 const labels = ui[locale].labels;
+const actionLabels = locale === "th"
+	? {
+			group: "แชร์หรือบันทึกบทความ",
+			share: "แชร์",
+			shareFallback: "คัดลอกลิงก์สำหรับแชร์แล้ว",
+			save: "บันทึกไว้อ่าน",
+			saved: "บันทึกแล้ว",
+			saveFailed: "ไม่สามารถบันทึกบทความในเบราว์เซอร์นี้ได้",
+		}
+	: {
+			group: "Share or save this article",
+			share: "Share",
+			shareFallback: "Share link copied.",
+			save: "Save for later",
+			saved: "Saved",
+			saveFailed: "This browser could not save the article.",
+		};
 const localizeBylineName = (name: string) => locale === "th" && name === "Parit Ritchai" ? "ปาริศ ฤทธิ์ชัย" : name;
 ---
 
@@ -40,10 +59,41 @@ const localizeBylineName = (name: string) => locale === "th" && name === "Parit 
 	class="article-utility-rail"
 	data-article-utility-rail
 	data-page-url={pageUrl}
+	data-page-title={pageTitle}
 	data-copy-success={labels.copied}
 	data-copy-failed={labels.copyFailed}
+	data-share-fallback={actionLabels.shareFallback}
+	data-save-label={actionLabels.save}
+	data-saved-label={actionLabels.saved}
+	data-save-failed={actionLabels.saveFailed}
 >
-	<div class="article-utility-actions" role="group" aria-label="Page actions">
+	<div class="article-utility-actions" role="group" aria-label={actionLabels.group}>
+		<button type="button" class="article-utility-action" data-share-url>
+			<svg viewBox="0 0 24 24" aria-hidden="true">
+				<path
+					d="M12 16V3m0 0L7.5 7.5M12 3l4.5 4.5M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.75"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+			</svg>
+			<span>{actionLabels.share}</span>
+		</button>
+		<button type="button" class="article-utility-action" data-save-article aria-pressed="false">
+			<svg viewBox="0 0 24 24" aria-hidden="true">
+				<path
+					d="M6.5 4.5a2 2 0 012-2h7a2 2 0 012 2v17L12 18l-5.5 3.5v-17z"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.75"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+			</svg>
+			<span data-save-text>{actionLabels.save}</span>
+		</button>
 		<button type="button" class="article-utility-action" data-copy-url>
 			<svg viewBox="0 0 24 24" aria-hidden="true">
 				<path
@@ -130,10 +180,68 @@ const localizeBylineName = (name: string) => locale === "th" && name === "Parit 
 		rail.dataset.jsBound = "true";
 
 		const status = rail.querySelector("[data-utility-status]");
+		const shareButton = rail.querySelector("[data-share-url]");
+		const saveButton = rail.querySelector("[data-save-article]");
+		const saveText = rail.querySelector("[data-save-text]");
 		const copyUrlButton = rail.querySelector("[data-copy-url]");
 		const pageUrl = rail.dataset.pageUrl || window.location.href;
+		const pageTitle = rail.dataset.pageTitle || document.title;
 		const copySuccess = rail.dataset.copySuccess || "Page URL copied.";
 		const copyFailed = rail.dataset.copyFailed || "Could not copy the page URL automatically.";
+		const shareFallback = rail.dataset.shareFallback || copySuccess;
+		const saveLabel = rail.dataset.saveLabel || "Save for later";
+		const savedLabel = rail.dataset.savedLabel || "Saved";
+		const saveFailed = rail.dataset.saveFailed || "Could not save this article.";
+		const savedArticlesKey = "paritsea:saved-articles:v1";
+
+		const readSavedArticles = () => {
+			try {
+				const parsed = JSON.parse(localStorage.getItem(savedArticlesKey) || "[]");
+				return Array.isArray(parsed) ? parsed : [];
+			} catch {
+				return [];
+			}
+		};
+
+		const updateSavedState = (isSaved) => {
+			if (!(saveButton instanceof HTMLButtonElement)) return;
+			saveButton.setAttribute("aria-pressed", isSaved ? "true" : "false");
+			if (saveText) saveText.textContent = isSaved ? savedLabel : saveLabel;
+		};
+
+		updateSavedState(readSavedArticles().some((item) => item?.url === pageUrl));
+
+		shareButton?.addEventListener("click", async () => {
+			try {
+				if (navigator.share) {
+					await navigator.share({ title: pageTitle, url: pageUrl });
+					return;
+				}
+				await copyText(pageUrl);
+				if (status) status.textContent = shareFallback;
+			} catch (error) {
+				if (error instanceof DOMException && error.name === "AbortError") return;
+				if (status) status.textContent = copyFailed;
+			}
+		});
+
+		saveButton?.addEventListener("click", () => {
+			try {
+				const savedArticles = readSavedArticles();
+				const existingIndex = savedArticles.findIndex((item) => item?.url === pageUrl);
+				if (existingIndex >= 0) {
+					savedArticles.splice(existingIndex, 1);
+					localStorage.setItem(savedArticlesKey, JSON.stringify(savedArticles));
+					updateSavedState(false);
+				} else {
+					savedArticles.unshift({ url: pageUrl, title: pageTitle, savedAt: new Date().toISOString() });
+					localStorage.setItem(savedArticlesKey, JSON.stringify(savedArticles.slice(0, 100)));
+					updateSavedState(true);
+				}
+			} catch {
+				if (status) status.textContent = saveFailed;
+			}
+		});
 
 		copyUrlButton?.addEventListener("click", async () => {
 			try {
@@ -166,20 +274,21 @@ const localizeBylineName = (name: string) => locale === "th" && name === "Parit 
 	}
 
 	.article-utility-actions {
-		display: flex;
-		flex-direction: column;
-		gap: var(--spacing-3);
+		display: grid;
+		gap: 0;
 		padding-bottom: var(--spacing-6);
 		border-bottom: 1px solid var(--color-border-subtle);
 	}
 
 	.article-utility-action {
 		display: inline-flex;
-		align-items: flex-start;
+		align-items: center;
 		gap: var(--spacing-2);
 		width: 100%;
-		padding: 0;
+		min-height: 44px;
+		padding: var(--spacing-2) 0;
 		border: 0;
+		border-top: 1px solid var(--color-border-subtle);
 		background: transparent;
 		color: var(--color-text-secondary);
 		font: inherit;
@@ -187,20 +296,32 @@ const localizeBylineName = (name: string) => locale === "th" && name === "Parit 
 		line-height: 1.45;
 		text-align: left;
 		cursor: pointer;
-		transition: color var(--transition-fast);
+		transition: color var(--transition-fast), border-color var(--transition-fast);
+	}
+
+	.article-utility-action:last-child {
+		border-bottom: 1px solid var(--color-border-subtle);
 	}
 
 	.article-utility-action:hover,
 	.article-utility-action:focus-visible {
 		color: var(--color-text);
-		outline: none;
+		border-color: var(--color-accent);
+	}
+
+	.article-utility-action:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 3px;
+	}
+
+	.article-utility-action[aria-pressed="true"] {
+		color: var(--color-accent);
 	}
 
 	.article-utility-action svg {
 		width: 1rem;
 		height: 1rem;
 		flex-shrink: 0;
-		margin-top: 0.18rem;
 	}
 
 	.article-utility-block {
@@ -241,23 +362,53 @@ const localizeBylineName = (name: string) => locale === "th" && name === "Parit 
 	:global(:lang(th)) .article-utility-byline-name,
 	:global(:lang(th)) .article-utility-byline-role { font-size: .875rem; line-height: 1.7; }
 
-	@media (max-width: 1100px) {
+	@media (max-width: 1320px) {
 		.article-utility-rail {
 			display: grid;
-			grid-template-columns: repeat(4, minmax(0, 1fr));
-			gap: var(--spacing-4);
+			grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1fr));
+			gap: var(--spacing-5);
+			align-items: start;
+			padding-bottom: var(--spacing-5);
+			border-bottom: 1px solid var(--color-border-subtle);
 		}
 
 		.article-utility-actions {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: var(--spacing-2);
 			padding-bottom: 0;
 			border-bottom: 0;
+		}
+
+		.article-utility-action,
+		.article-utility-action:last-child {
+			justify-content: center;
+			padding-inline: var(--spacing-2);
+			border: 1px solid var(--color-border-subtle);
+			font-size: var(--font-size-sm);
 		}
 	}
 
 	@media (max-width: 640px) {
-		.article-utility-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-		.article-utility-block--byline { grid-column: 1 / -1; }
-		.article-utility-action { min-height: 44px; align-items: center; }
+		.article-utility-rail {
+			display: block;
+			padding-bottom: var(--spacing-4);
+			border-bottom: 1px solid var(--color-border-subtle);
+		}
+
+		.article-utility-actions {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+
+		.article-utility-block {
+			display: none;
+		}
+
+		.article-utility-action {
+			flex-direction: column;
+			gap: var(--spacing-1);
+			min-height: 56px;
+			text-align: center;
+		}
 	}
 
 	.article-utility-bylines {
@@ -306,28 +457,4 @@ const localizeBylineName = (name: string) => locale === "th" && name === "Parit 
 		text-transform: none;
 	}
 
-	@media (max-width: 1100px) {
-		.article-utility-rail {
-			display: grid;
-			grid-template-columns: repeat(4, minmax(0, 1fr));
-			gap: var(--spacing-4);
-			padding-bottom: var(--spacing-5);
-			border-bottom: 1px solid var(--color-border-subtle);
-		}
-
-		.article-utility-actions {
-			padding-bottom: 0;
-			border-bottom: 0;
-		}
-
-		.article-utility-action {
-			font-size: var(--font-size-sm);
-		}
-	}
-
-	@media (max-width: 720px) {
-		.article-utility-rail {
-			display: none;
-		}
-	}
 </style>

@@ -70,11 +70,21 @@ try {
 	for (const path of ["/journal/when-the-tool-was-not-the-problem", "/th/journal/when-the-tool-was-not-the-problem", "/system/protocols/stp", "/th/system/protocols/stp", "/system/standards/asls-01", "/th/system/standards/asls-01", "/system/frameworks/paritsea-framework", "/th/system/frameworks/paritsea-framework"]) {
 		const { response, body } = await read(path);
 		check(response.status === 200, `${path} detail expected 200`);
-		check(body.includes("Document record") || body.includes("ระเบียนเอกสาร"), `${path} missing document record`);
+		check(body.includes('class="record-meta"'), `${path} missing document record`);
 		check(body.includes("Breadcrumb"), `${path} missing breadcrumb`);
 		check(/(Version|เวอร์ชัน)/.test(body), `${path} missing version label`);
 		check(/(Provenance|ที่มา)/.test(body), `${path} missing provenance label`);
 		check(/(Lifecycle|Status|วงจรสถานะ|สถานะ)/.test(body), `${path} missing lifecycle status label`);
+		check(
+			body.indexOf('class="record-meta"') > body.indexOf('class="article-content'),
+			`${path} document record must follow the article body`,
+		);
+		check(
+			body.includes("data-share-url") &&
+			body.includes("data-save-article") &&
+			body.includes("data-copy-url"),
+			`${path} missing share/save/copy reading utilities`,
+		);
 	}
 
 	const framework = await read("/system/frameworks/paritsea-framework");
