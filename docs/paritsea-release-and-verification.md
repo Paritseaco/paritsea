@@ -283,3 +283,28 @@ No production D1 mutation or Worker deployment occurs before that approval.
 - Local browser QA confirmed the desktop Journal archive and detail page at
   1470px with no horizontal overflow. The article headline used an 820px canvas
   while long-form content remained 680px.
+
+### Final production outcome
+
+- Commits `b7c6511` and `fe59599` were pushed to `main`. Worker version
+  `b2058c1e-b1f2-4c57-b690-ebc55c45ee05` is deployed at 100% traffic; the
+  immediately preceding Worker version `76e2923c-3b79-412b-8161-c7daef2664c0`
+  is the application rollback target.
+- This release did not mutate D1, CMS content, owner state, or authentication
+  state. The existing production administrator and GitHub login flow remain in
+  place.
+- Production QA passed 41 canonical routes, five one-hop redirects, all 50
+  sitemap URLs, the latest Journal and YouTube entry, CMS View dispatch,
+  locale-aware sitemap and registry output, metadata, real 404 handling, and
+  admin authentication.
+- Live production browser QA at 1470px confirmed zero horizontal overflow on
+  the Thai Journal archive. Its first title has a 663px reading width with a
+  33.81px type size and 49.02px line height. The example article headline uses
+  a 701px rendered width and resolves to two lines at 51.45px rather than the
+  previous crowded three-line treatment.
+- Authenticated production browser QA confirmed the final `Journal & Protocols`
+  sidebar label, the full `Journal / Framework / Protocol / Standard` list
+  heading, work-type guidance, filtering, per-record type badges, and the
+  `แปล EN / TH` translation entry.
+- The known Vite large-chunk warning remains. The local Miniflare KV sqlite file
+  is runtime state and was intentionally left outside the release commit.
