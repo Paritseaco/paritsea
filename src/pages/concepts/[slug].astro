@@ -1,21 +1,33 @@
 ---
-import { getEmDashEntry } from "emdash";
+import { getEmDashEntry, getTranslations } from "emdash";
 import { PortableText } from "emdash/ui";
 import Base from "../../layouts/Base.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import DocumentRecordMeta from "../../components/DocumentRecordMeta.astro";
-import { getAstroLocale, localizeEntry, localizedPath } from "../../utils/i18n";
+import { getAstroLocale, hasLegacyTranslation, localizeEntry, localizedPath } from "../../utils/i18n";
 
 const locale = getAstroLocale(Astro);
 const slug = Astro.params.slug ?? "";
-const { entry, cacheHint } = await getEmDashEntry("posts", slug, { locale });
+const { entry, cacheHint, fallbackLocale } = await getEmDashEntry("posts", slug, { locale });
 const data = entry?.data as unknown as Record<string, unknown> | undefined;
-if (!entry || data?.content_type !== "concept") return new Response("Not found", { status: 404 });
+const hasLegacyThaiTranslation = hasLegacyTranslation("posts", slug);
+if (!entry || (fallbackLocale && !(locale === "th" && hasLegacyThaiTranslation)) || data?.content_type !== "concept") {
+	return new Response("Not found", { status: 404 });
+}
 Astro.cache.set(cacheHint);
 const concept = localizeEntry(entry, "posts", locale);
+const { translations } = await getTranslations("posts", concept.data.id);
+const publishedAlternate = translations.find(
+	(translation) => translation.locale !== locale && translation.status === "published",
+);
+const alternateLocalePath = publishedAlternate?.slug
+	? localizedPath(`/concepts/${publishedAlternate.slug}`, publishedAlternate.locale === "th" ? "th" : "en")
+	: hasLegacyThaiTranslation
+		? localizedPath(`/concepts/${slug}`, locale === "en" ? "th" : "en")
+	: null;
 ---
 
-<Base title={concept.data.title} description={concept.data.excerpt} locale={locale} type="article" content={{ collection: "posts", id: concept.data.id, slug }}>
+<Base title={concept.data.title} description={concept.data.excerpt} locale={locale} alternateLocalePath={alternateLocalePath} type="article" content={{ collection: "posts", id: concept.data.id, slug }}>
 	<article class="concept-document">
 		<Breadcrumb crumbs={[{ label: "Concepts", href: localizedPath("/concepts", locale) }, { label: concept.data.title }]} />
 		<p class="page-role">Concept · Full record</p>

@@ -44,7 +44,11 @@ function toDate(value: string | null): Date | null {
 	return value ? new Date(value) : null;
 }
 
-export async function getDirectPostBySlug(slug: string, categorySlug: string) {
+export async function getDirectPostBySlug(
+	slug: string,
+	categorySlug: string,
+	locale: "en" | "th" = "en",
+) {
 	const db = await getDb();
 
 	const postResult = await sql<DirectPostRow>`
@@ -57,6 +61,7 @@ export async function getDirectPostBySlug(slug: string, categorySlug: string) {
 			ON t.id = ct.taxonomy_id
 		WHERE p.deleted_at IS NULL
 			AND p.status = 'published'
+			AND COALESCE(p.locale, 'en') = ${locale}
 			AND (
 				p.framework_page = ${categorySlug}
 				OR (

@@ -218,3 +218,39 @@ No production D1 mutation or Worker deployment occurs before that approval.
 - Production dependency audit remains 0 critical, 19 high, 7 moderate, and 3
   low advisories. Remaining automatic fixes require broader EmDash/Astro
   compatibility work and remain a separately tested release gate.
+
+## CMS authoring-form and locale-state repair — 2026-07-29
+
+- The Intellectual Work editor now follows `content_type`. Journal exposes only
+  title, content type, featured image, content, excerpt, and optional YouTube
+  URL. Concept adds the smaller set of interpretive metadata it needs.
+  Framework, Protocol, and Standard expose the complete governed-record fields.
+- Legacy Route, Content Format, System Bridge URL, and Protocol URL remain in
+  storage for backward compatibility but are no longer shown in the authoring
+  form. Relationships and applied contexts remain separate collections.
+- Creating a native translation now copies only synchronized identity and
+  governance fields. Authored fields such as title, body, excerpt, provenance,
+  scope, non-claims, and evidence begin empty, so switching from EN to a newly
+  created TH draft no longer presents copied English as Thai content.
+- The existing TH draft for `when-employees-lack-ownership` was reset through
+  authenticated EmDash content CRUD: title, content, and excerpt are empty;
+  Journal type, observation stage, exploring status, slug, translation group,
+  and YouTube URL remain intact. It remains unpublished.
+- The obsolete Applied Context category was removed after its one assignment
+  on ASLS-01 was moved to Systems & Structure. The editor presents the remaining
+  thematic taxonomy as Themes; content type continues to determine public
+  architecture.
+- Detail pages advertise and link an alternate locale only when a published CMS
+  translation or a maintained legacy Thai localization exists. The English
+  latest Journal entry therefore omits Thai hreflang and shows a disabled
+  language control; its unpublished Thai URL returns a real 404 instead of an
+  error or misleading fallback.
+- Local verification passed seed validation, EmDash type generation, Astro
+  typecheck with zero errors, production build, smoke coverage for 41 canonical
+  routes and five redirects, and `git diff --check`.
+- Worker version `f22aab8a-4fc2-4611-9b4c-a347693df7be` is deployed at 100%
+  traffic. Production QA passed 41 canonical routes, five redirects, all 49
+  sitemap URLs, latest Journal/YouTube/admin View, locale-aware sitemap and
+  alternate behavior, metadata, real 404 handling, and the existing admin login
+  redirect. The previous stable rollback target is
+  `f7e2b83c-d842-44d5-9e80-06c2b45a8730`.

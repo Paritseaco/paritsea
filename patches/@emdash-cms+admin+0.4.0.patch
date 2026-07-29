@@ -1,5 +1,5 @@
 diff --git a/node_modules/@emdash-cms/admin/dist/index.js b/node_modules/@emdash-cms/admin/dist/index.js
-index 76fb1a2..5ef6ccd 100644
+index 76fb1a2..7e2b376 100644
 --- a/node_modules/@emdash-cms/admin/dist/index.js
 +++ b/node_modules/@emdash-cms/admin/dist/index.js
 @@ -8226,7 +8226,7 @@ function SeoImageField({ seo, onChange }) {
@@ -11,7 +11,69 @@ index 76fb1a2..5ef6ccd 100644
  			})
  		}),
  		/* @__PURE__ */ jsx(MediaPickerModal, {
-@@ -9335,36 +9335,8 @@ function ContentEditor({ collection, collectionLabel, item, fields, isNew, isSav
+@@ -8662,7 +8662,10 @@ function TaxonomySidebar({ collection, entryId, onChange }) {
+ 		}), /* @__PURE__ */ jsx("div", {
+ 			className: "space-y-4",
+ 			children: applicableTaxonomies.map((taxonomy) => /* @__PURE__ */ jsx(TaxonomySection, {
+-				taxonomy,
++				taxonomy: collection === "posts" && taxonomy.name === "category" ? {
++					...taxonomy,
++					label: "Themes"
++				} : taxonomy,
+ 				collection,
+ 				entryId,
+ 				onChange: (termIds) => onChange?.(taxonomy.name, termIds)
+@@ -8691,6 +8694,40 @@ function formatScheduledDate(dateStr) {
+ /**
+ * Content editor with dynamic field rendering
+ */
++function isParitseaWorkFieldVisible(collection, contentType, fieldName) {
++	if (collection !== "posts") return true;
++	const shared = [
++		"title",
++		"content_type",
++		"featured_image",
++		"content",
++		"excerpt",
++		"youtube_url"
++	];
++	if (shared.includes(fieldName)) return true;
++	if (["framework_page", "format", "system_bridge_url", "protocol_url"].includes(fieldName)) return false;
++	if (contentType === "journal") return false;
++	if (contentType === "concept") {
++		return [
++			"intellectual_stage",
++			"lifecycle_status",
++			"provenance_summary",
++			"scope_note",
++			"non_claims",
++			"last_reviewed_at"
++		].includes(fieldName);
++	}
++	return [
++		"intellectual_stage",
++		"lifecycle_status",
++		"document_version",
++		"provenance_summary",
++		"scope_note",
++		"non_claims",
++		"evidence_note",
++		"last_reviewed_at"
++	].includes(fieldName);
++}
+ function ContentEditor({ collection, collectionLabel, item, fields, isNew, isSaving, onSave, onAutosave, isAutosaving, lastAutosaveAt, onPublish, onUnpublish, onDiscardDraft, onSchedule, onUnschedule, isScheduling, supportsDrafts = false, supportsRevisions = false, supportsPreview = false, currentUser, users, onAuthorChange, availableBylines, selectedBylines, onBylinesChange, onQuickCreateByline, onQuickEditByline, onDelete, isDeleting, i18n, translations, onTranslate, pluginBlocks, hasSeo = false, onSeoChange, manifest }) {
+ 	const { _: _t } = useLingui();
+ 	const [formData, setFormData] = React.useState(item?.data || {});
+@@ -9091,7 +9128,7 @@ function ContentEditor({ collection, collectionLabel, item, fields, isNew, isSav
+ 					className: cn("rounded-lg border bg-kumo-base p-6", isDistractionFree && "border-0 bg-transparent p-0"),
+ 					children: /* @__PURE__ */ jsx("div", {
+ 						className: "space-y-4",
+-						children: Object.entries(fields).map(([name, field]) => {
++						children: Object.entries(fields).filter(([name]) => isParitseaWorkFieldVisible(collection, String(formData.content_type ?? "journal"), name)).map(([name, field]) => {
+ 							const fieldEl = /* @__PURE__ */ jsx(FieldRenderer, {
+ 								name,
+ 								field,
+@@ -9335,36 +9372,8 @@ function ContentEditor({ collection, collectionLabel, item, fields, isNew, isSav
  								]
  							})]
  						}),
@@ -50,7 +112,7 @@ index 76fb1a2..5ef6ccd 100644
  						i18n && item && !isNew && /* @__PURE__ */ jsxs("div", {
  							className: "p-4 border-t",
  							children: [/* @__PURE__ */ jsx("h3", {
-@@ -9623,7 +9595,7 @@ function FieldRenderer({ name, field, value, onChange, onEditorReady, minimal, p
+@@ -9623,7 +9632,7 @@ function FieldRenderer({ name, field, value, onChange, onEditorReady, minimal, p
  				label,
  				description: name === "featured_image" ? _t2({
  					id: "wd2th9",
@@ -59,3 +121,31 @@ index 76fb1a2..5ef6ccd 100644
  				}) : void 0,
  				value: imageValue,
  				onChange: handleChange,
+@@ -31732,12 +31741,24 @@ function ContentEditPage() {
+ 		}
+ 	});
+ 	const translateMutation = useMutation({
+-		mutationFn: (locale) => createContent(collection, {
+-			data: rawItem?.data ?? {},
++		mutationFn: (locale) => {
++			const sourceData = rawItem?.data ?? {};
++			const translationData = collection === "posts" ? Object.fromEntries([
++				"content_type",
++				"intellectual_stage",
++				"lifecycle_status",
++				"document_version",
++				"last_reviewed_at",
++				"featured_image",
++				"youtube_url"
++			].filter((field) => sourceData[field] !== void 0).map((field) => [field, sourceData[field]])) : sourceData;
++			return createContent(collection, {
++			data: translationData,
+ 			slug: rawItem?.slug ?? void 0,
+ 			locale,
+ 			translationOf: id
+-		}),
++			});
++		},
+ 		onSuccess: (result) => {
+ 			queryClient.invalidateQueries({ queryKey: [
+ 				"translations",

@@ -631,6 +631,17 @@ const postTranslationAliases: Record<string, string> = {
 	"when-ownership-thinking-collides-with-system-reality": "record-ownership-thinking",
 };
 
+export function hasLegacyTranslation(
+	collection: "posts" | "pages",
+	slugOrId: string,
+): boolean {
+	if (collection === "posts") {
+		const translationKey = postTranslationAliases[slugOrId] ?? slugOrId;
+		return Boolean(postTranslations[translationKey] ?? postTranslations[slugOrId]);
+	}
+	return Boolean(pageTranslations[slugOrId]);
+}
+
 function translateBlocks(value: unknown, translations: Record<string, string>) {
 	if (!Array.isArray(value)) return value;
 	return value.map((block: PortableTextBlock) => ({

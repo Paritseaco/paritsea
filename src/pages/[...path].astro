@@ -4,6 +4,7 @@ import {
 	getEmDashCollection,
 	getEntryTerms,
 	getSeoMeta,
+	getTranslations,
 	decodeSlug,
 	getSiteSettings,
 } from "emdash";
@@ -35,6 +36,7 @@ import {
 import {
 	formatDateForLocale,
 	getAstroLocale,
+	hasLegacyTranslation,
 	localizeEntry,
 	localizeTermLabel,
 	localizedPath,
@@ -61,7 +63,13 @@ const slug = taxonomySlug === "the-doctrine" && decodedSlug === "paritsea-framew
 	? "doctrine"
 	: decodedSlug;
 
-const { entry: emdashPost, cacheHint } = await getEmDashEntry("posts", slug, { locale });
+const { entry: emdashPost, cacheHint, fallbackLocale } = await getEmDashEntry("posts", slug, { locale });
+const hasLegacyThaiTranslation = hasLegacyTranslation("posts", slug);
+if (fallbackLocale && !(locale === "th" && hasLegacyThaiTranslation)) {
+	return new Response(locale === "th" ? "ยังไม่มีบทความฉบับภาษาไทย" : "This language version is not published yet", {
+		status: 404,
+	});
+}
 const matchingEntry =
 	emdashPost && resolveWorkFrameworkPage(
 		emdashPost.data.content_type,
@@ -72,7 +80,11 @@ const matchingEntry =
 let rawPost = matchingEntry;
 if (!rawPost) {
 	try {
-		rawPost = await getDirectPostBySlug(slug, taxonomySlug) as typeof rawPost;
+		rawPost = await getDirectPostBySlug(
+			slug,
+			taxonomySlug,
+			locale === "th" && hasLegacyThaiTranslation ? "en" : locale,
+		) as typeof rawPost;
 	} catch {
 		rawPost = null;
 	}
@@ -80,6 +92,31 @@ if (!rawPost) {
 if (!rawPost) return new Response(locale === "th" ? "ไม่พบหน้า" : "Not found", { status: 404 });
 const post = localizeEntry(rawPost, "posts", locale);
 const publicSlug = publicEntrySlug(post);
+const { translations } = await getTranslations("posts", post.data.id);
+const publishedAlternate = translations.find(
+	(translation) => translation.locale !== locale && translation.status === "published",
+);
+const alternateLocalePath = publishedAlternate?.slug
+	? localizedPath(
+			resolveIntellectualWorkPath(
+				publishedAlternate.slug,
+				post.data.content_type,
+				post.data.framework_page,
+				taxonomySlug,
+			) ?? `/${publicSegment}/${publishedAlternate.slug}`,
+			publishedAlternate.locale === "th" ? "th" : "en",
+		)
+	: hasLegacyThaiTranslation
+		? localizedPath(
+				resolveIntellectualWorkPath(
+					publicSlug,
+					post.data.content_type,
+					post.data.framework_page,
+					taxonomySlug,
+				) ?? `/${publicSegment}/${publicSlug}`,
+				locale === "en" ? "th" : "en",
+			)
+	: null;
 
 if (cacheHint) {
 	Astro.cache.set(cacheHint);
@@ -366,6 +403,7 @@ const lateralPosts = otherPosts
 	publishedTime={post.data.publishedAt?.toISOString() ?? null}
 	modifiedTime={post.data.updatedAt.toISOString()}
 	locale={locale}
+	alternateLocalePath={alternateLocalePath}
 	structuredData={documentStructuredData}
 	content={{ collection: "posts", id: post.data.id, slug }}
 >

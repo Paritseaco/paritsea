@@ -34,7 +34,7 @@
         },
         {
           "slug": "framework_page",
-          "label": "Legacy Route (existing records only)",
+          "label": "Legacy route",
           "type": "select",
           "required": false,
           "translatable": false,
@@ -50,7 +50,7 @@
         },
         {
           "slug": "content_type",
-          "label": "Content Type (where this appears)",
+          "label": "ประเภทงาน / Content type",
           "type": "select",
           "required": true,
           "translatable": false,
@@ -66,7 +66,7 @@
         },
         {
           "slug": "intellectual_stage",
-          "label": "Intellectual Stage",
+          "label": "ขั้นของแนวคิด / Development stage",
           "type": "select",
           "required": false,
           "translatable": false,
@@ -81,7 +81,7 @@
         },
         {
           "slug": "lifecycle_status",
-          "label": "Lifecycle Status",
+          "label": "สถานะงาน / Work status",
           "type": "select",
           "required": false,
           "translatable": false,
@@ -97,56 +97,56 @@
         },
         {
           "slug": "document_version",
-          "label": "Document Version",
+          "label": "เวอร์ชัน / Version",
           "type": "string",
           "required": false,
           "translatable": false
         },
         {
           "slug": "provenance_summary",
-          "label": "Provenance Summary",
+          "label": "ที่มาของงาน / Provenance",
           "type": "text",
           "required": false
         },
         {
           "slug": "scope_note",
-          "label": "Scope Note",
+          "label": "ขอบเขตการใช้ / Scope",
           "type": "text",
           "required": false
         },
         {
           "slug": "non_claims",
-          "label": "What This Does Not Establish",
+          "label": "สิ่งที่งานนี้ไม่ได้อ้าง / Non-claims",
           "type": "text",
           "required": false
         },
         {
           "slug": "evidence_note",
-          "label": "Evidence Note",
+          "label": "หลักฐานและบันทึกทบทวน / Evidence",
           "type": "text",
           "required": false
         },
         {
           "slug": "last_reviewed_at",
-          "label": "Last Reviewed At",
+          "label": "ทบทวนล่าสุด / Last reviewed",
           "type": "datetime",
           "required": false,
           "translatable": false
         },
         {
           "slug": "featured_image",
-          "label": "Featured Image",
+          "label": "ภาพหลัก / Featured image",
           "type": "image"
         },
         {
           "slug": "content",
-          "label": "Content",
+          "label": "เนื้อหา / Content",
           "type": "portableText",
           "searchable": true
         },
         {
           "slug": "excerpt",
-          "label": "Excerpt",
+          "label": "คำโปรย / Excerpt",
           "type": "text"
         },
         {
@@ -166,7 +166,7 @@
         },
         {
           "slug": "youtube_url",
-          "label": "YouTube URL (optional)",
+          "label": "ลิงก์ YouTube (ถ้ามี)",
           "type": "string",
           "required": false,
           "translatable": false
@@ -470,8 +470,8 @@
   "taxonomies": [
     {
       "name": "category",
-      "label": "Categories",
-      "labelSingular": "Category",
+      "label": "Themes",
+      "labelSingular": "Theme",
       "hierarchical": true,
       "collections": [
         "posts"
@@ -492,10 +492,6 @@
         {
           "slug": "foundational",
           "label": "Intellectual Foundations"
-        },
-        {
-          "slug": "active",
-          "label": "Applied Context"
         }
       ]
     }

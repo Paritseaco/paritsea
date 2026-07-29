@@ -31,6 +31,11 @@ interface Props {
 	modifiedTime?: string | null;
 	author?: string | null;
 	locale?: "th" | "en";
+	/**
+	 * Explicit path for the other locale. Leave undefined on pages that always
+	 * exist in both languages; pass null when no published translation exists.
+	 */
+	alternateLocalePath?: string | null;
 	structuredData?: Record<string, unknown> | null;
 	/** Pass content reference for plugin page contributions on content pages */
 	content?: { collection: string; id: string; slug?: string | null };
@@ -48,6 +53,7 @@ const {
 	modifiedTime,
 	author,
 	locale: localeProp,
+	alternateLocalePath,
 	structuredData: pageStructuredData,
 	content,
 } = Astro.props;
@@ -60,7 +66,6 @@ const resolvedFavicon = siteFavicon ?? brandFavicon;
 // If title already includes site title (from getSeoMeta), use as-is
 const fullTitle = title.includes(siteTitle) ? title : `${title} — ${siteTitle}`;
 const requestPath = Astro.url.searchParams.get("__path") ?? ((Astro.locals.originalPath as string | undefined) ?? Astro.url.pathname);
-const canonicalPath = stripLocalePrefix(requestPath);
 const resolvedCanonical =
 	canonical ??
 	new URL(
@@ -71,9 +76,16 @@ const resolvedCanonical =
 const siteOrigin = (typeof Astro.site === "string" ? Astro.site : Astro.site?.toString())?.replace(/\/$/, "") ?? Astro.url.origin;
 const resolvedOgImage = image ?? `${siteOrigin}/images/logo.jpg`;
 const resolvedDescription = description ?? siteTagline;
-const languageAlternatePath = alternatePath(requestPath, locale);
-const thAlternateUrl = new URL(localizedPath(canonicalPath, "th"), Astro.url.origin).toString();
-const enAlternateUrl = new URL(localizedPath(canonicalPath, "en"), Astro.url.origin).toString();
+const languageAlternatePath =
+	alternateLocalePath === undefined ? alternatePath(requestPath, locale) : alternateLocalePath;
+const hasLanguageAlternate = typeof languageAlternatePath === "string" && languageAlternatePath.length > 0;
+const currentLocaleUrl = resolvedCanonical;
+const otherLocaleUrl = hasLanguageAlternate
+	? new URL(languageAlternatePath, Astro.url.origin).toString()
+	: null;
+const enAlternateUrl = locale === "en" ? currentLocaleUrl : otherLocaleUrl;
+const thAlternateUrl = locale === "th" ? currentLocaleUrl : otherLocaleUrl;
+const xDefaultUrl = enAlternateUrl ?? currentLocaleUrl;
 
 type ResolvedMenuItem = {
 	label: string;
@@ -187,9 +199,9 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <title>{fullTitle}</title>
-  <link rel="alternate" hreflang="en" href={enAlternateUrl} />
-  <link rel="alternate" hreflang="th" href={thAlternateUrl} />
-  <link rel="alternate" hreflang="x-default" href={enAlternateUrl} />
+  {enAlternateUrl && <link rel="alternate" hreflang="en" href={enAlternateUrl} />}
+  {thAlternateUrl && <link rel="alternate" hreflang="th" href={thAlternateUrl} />}
+  <link rel="alternate" hreflang="x-default" href={xDefaultUrl} />
   <link rel="icon" href={resolvedFavicon} type="image/svg+xml" />
   <EmDashHead page={pageCtx} />
   <meta name="twitter:card" content="summary_large_image" />
@@ -317,9 +329,21 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 							</a>
 						)
 					}
-					<a href={languageAlternatePath} class="nav-language" aria-label={locale === "en" ? "Switch to Thai" : "Switch to English"}>
-						{copy.languageSwitch}
-					</a>
+					{
+						hasLanguageAlternate ? (
+							<a href={languageAlternatePath} class="nav-language" aria-label={locale === "en" ? "Switch to Thai" : "Switch to English"}>
+								{copy.languageSwitch}
+							</a>
+						) : (
+							<span
+								class="nav-language nav-language-unavailable"
+								aria-disabled="true"
+								title={locale === "en" ? "Thai version is not published yet" : "ยังไม่มีฉบับภาษาอังกฤษที่เผยแพร่"}
+							>
+								{copy.languageSwitch}
+							</span>
+						)
+					}
 				</div>
 			</nav>
 			<button
@@ -1087,6 +1111,15 @@ const structuredData = pageStructuredData ?? defaultStructuredData;
 			.nav-language:hover {
 				color: var(--color-text);
 				background: transparent;
+			}
+
+			.nav-language-unavailable {
+				cursor: not-allowed;
+				opacity: 0.42;
+			}
+
+			.nav-language-unavailable:hover {
+				color: var(--color-text-secondary);
 			}
 
 			.nav-backdrop {
