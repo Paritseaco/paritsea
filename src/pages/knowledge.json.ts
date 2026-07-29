@@ -1,6 +1,10 @@
 import type { APIRoute } from "astro";
 import { getEmDashCollection } from "emdash";
-import { resolveFrameworkPage, resolvePostPath } from "../utils/public-paths";
+import {
+	publicEntrySlug,
+	resolveIntellectualWorkPath,
+	resolveWorkFrameworkPage,
+} from "../utils/public-paths";
 
 export const GET: APIRoute = async ({ site }) => {
 	const origin = (site?.toString() ?? "https://paritsea.co").replace(/\/$/, "");
@@ -36,11 +40,13 @@ export const GET: APIRoute = async ({ site }) => {
 
 	const works = entries.map((entry) => {
 		const data = entry.data as unknown as Record<string, unknown>;
-		const family = resolveFrameworkPage(String(data.framework_page ?? ""));
-		const path = resolvePostPath(entry.id, family) ?? `/journal/${entry.id}`;
+		const contentType = typeof data.content_type === "string" ? data.content_type : null;
+		const family = resolveWorkFrameworkPage(contentType, String(data.framework_page ?? ""));
+		const slug = publicEntrySlug(entry);
+		const path = resolveIntellectualWorkPath(slug, contentType, family) ?? `/journal/${slug}`;
 		const fallbackType = family === "the-method" ? "journal" : family === "the-doctrine" ? "framework" : family === "protocols" ? "protocol" : family === "standards" ? "standard" : "unknown";
 		return {
-			id: entry.id,
+			id: slug,
 			title: data.title,
 			url: `${origin}${path}`,
 			contentType: data.content_type ?? fallbackType,

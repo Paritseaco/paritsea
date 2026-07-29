@@ -5,15 +5,30 @@ import {
 	formatDateForLocale,
 	getAstroLocale,
 	localizeEntry,
+	localizedEntryPath,
 	localizedPath,
+	mergeLocalizedEntries,
 } from "../utils/i18n";
 import { resolveBlogSiteIdentity } from "../utils/site-identity";
+import {
+	publicEntrySlug,
+	resolveIntellectualWorkPath,
+} from "../utils/public-paths";
 import "../styles/home.css";
 
 const locale = getAstroLocale(Astro);
-const { entries, cacheHint } = await getEmDashCollection("posts", {
+const englishResult = await getEmDashCollection("posts", {
+	locale: "en",
 	orderBy: { published_at: "desc" },
 });
+const localeResult = locale === "th"
+	? await getEmDashCollection("posts", {
+			locale: "th",
+			orderBy: { published_at: "desc" },
+		})
+	: englishResult;
+const entries = mergeLocalizedEntries(englishResult.entries, localeResult.entries, locale);
+const cacheHint = localeResult.cacheHint;
 const { siteTitle } = resolveBlogSiteIdentity(await getSiteSettings());
 Astro.cache.set(cacheHint);
 
@@ -29,19 +44,18 @@ function contentType(entry: (typeof entries)[number]) {
 }
 
 function workPath(entry: (typeof entries)[number]) {
-	const type = contentType(entry);
-	if (type === "concept") return `/concepts/${entry.id}`;
-	if (type === "framework") return `/system/frameworks/${entry.id === "doctrine" ? "paritsea-framework" : entry.id}`;
-	if (type === "protocol") return `/system/protocols/${entry.id}`;
-	if (type === "standard") return `/system/standards/${entry.id}`;
-	return `/journal/${entry.id}`;
+	return resolveIntellectualWorkPath(
+		publicEntrySlug(entry),
+		contentType(entry),
+		entry.data.framework_page,
+	) ?? `/journal/${publicEntrySlug(entry)}`;
 }
 
 const works = entries.map((entry) => ({
 	original: entry,
 	entry: localizeEntry(entry, "posts", locale),
 	type: contentType(entry),
-	href: localizedPath(workPath(entry), locale),
+	href: localizedEntryPath(workPath(entry), entry, locale),
 }));
 
 const featuredWorks = [

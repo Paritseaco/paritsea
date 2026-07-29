@@ -107,6 +107,14 @@ try {
 		check(new URL(response.headers.get("location"), base).pathname === target, `${path} must redirect directly to ${target}`);
 	}
 
+	const adminView = await read("/posts/when-the-tool-was-not-the-problem");
+	check(adminView.response.status === 302, `/posts/{slug} expected 302, received ${adminView.response.status}`);
+	check(
+		new URL(adminView.response.headers.get("location"), base).pathname ===
+			"/journal/when-the-tool-was-not-the-problem",
+		"/posts/{slug} must resolve through Content Type to the public Journal route",
+	);
+
 	const missing = await read("/definitely-not-a-paritsea-route");
 	check(missing.response.status === 404, `unknown route expected 404, received ${missing.response.status}`);
 

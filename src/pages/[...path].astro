@@ -20,8 +20,9 @@ import { getDirectPostBySlug } from "../utils/direct-post";
 import {
 	frameworkPageFromSegment,
 	isFrameworkPageSlug,
-	resolveFrameworkPage,
-	resolvePostPath,
+	publicEntrySlug,
+	resolveIntellectualWorkPath,
+	resolveWorkFrameworkPage,
 } from "../utils/public-paths";
 import { getReadingTime } from "../utils/reading-time";
 import { resolveBlogSiteIdentity } from "../utils/site-identity";
@@ -39,6 +40,7 @@ import {
 	localizedPath,
 	ui,
 } from "../utils/i18n";
+import { getYouTubeEmbedUrl } from "../utils/youtube";
 
 const locale = getAstroLocale(Astro);
 const copy = ui[locale];
@@ -59,9 +61,12 @@ const slug = taxonomySlug === "the-doctrine" && decodedSlug === "paritsea-framew
 	? "doctrine"
 	: decodedSlug;
 
-const { entry: emdashPost, cacheHint } = await getEmDashEntry("posts", slug);
+const { entry: emdashPost, cacheHint } = await getEmDashEntry("posts", slug, { locale });
 const matchingEntry =
-	emdashPost && resolveFrameworkPage(emdashPost.data.framework_page) === taxonomySlug
+	emdashPost && resolveWorkFrameworkPage(
+		emdashPost.data.content_type,
+		emdashPost.data.framework_page,
+	) === taxonomySlug
 		? emdashPost
 		: null;
 let rawPost = matchingEntry;
@@ -74,6 +79,7 @@ if (!rawPost) {
 }
 if (!rawPost) return new Response(locale === "th" ? "ไม่พบหน้า" : "Not found", { status: 404 });
 const post = localizeEntry(rawPost, "posts", locale);
+const publicSlug = publicEntrySlug(post);
 
 if (cacheHint) {
 	Astro.cache.set(cacheHint);
@@ -107,13 +113,25 @@ const { siteTitle } = resolveBlogSiteIdentity(await getSiteSettings());
 const seo = getSeoMeta(post, {
 	siteTitle,
 	siteUrl: Astro.site?.origin ?? Astro.url.origin,
-	path: localizedPath(resolvePostPath(slug, post.data.framework_page, taxonomySlug) ?? `/${publicSegment}/${slug}`, locale),
+	path: localizedPath(
+		resolveIntellectualWorkPath(
+			publicSlug,
+			post.data.content_type,
+			post.data.framework_page,
+			taxonomySlug,
+		) ?? `/${publicSegment}/${publicSlug}`,
+		locale,
+	),
 	defaultOgImage: featuredImageUrl,
 });
 
 // Content categories are the visible classification layer.
 const categories = await getEntryTerms("posts", post.data.id, "category");
-const frameworkPage = resolveFrameworkPage(post.data.framework_page, taxonomySlug);
+const frameworkPage = resolveWorkFrameworkPage(
+	post.data.content_type,
+	post.data.framework_page,
+	taxonomySlug,
+);
 const isProtocol = frameworkPage === "protocols";
 const isStandard = frameworkPage === "standards";
 const isDoctrine = frameworkPage === "the-doctrine";
@@ -122,6 +140,7 @@ const isImplementation = frameworkPage === "implementations";
 const recordCategoryLabel = categories[0]?.label ? localizeTermLabel(categories[0].label, locale) : null;
 const contentFormat = typeof post.data.format === "string" ? post.data.format : null;
 const youtubeUrl = typeof post.data.youtube_url === "string" ? post.data.youtube_url : null;
+const youtubeEmbedUrl = getYouTubeEmbedUrl(youtubeUrl);
 const formatLabel = contentFormat === "video-reflection"
 	? "Video Reflection"
 	: contentFormat === "pattern-brief"
@@ -164,6 +183,7 @@ const fallbackRelationshipSlugs: Record<string, string[]> = {
 	"aesthetic-transparency": ["stp"],
 };
 const { entries: recentPosts } = await getEmDashCollection("posts", {
+	locale,
 	orderBy: { published_at: "desc" },
 	limit: 24,
 });
@@ -178,15 +198,20 @@ const otherPostsWithTags = await Promise.all(
 	otherPosts.map(async (p) => {
 		const localizedPost = localizeEntry(p, "posts", locale);
 		const postCategories = await getEntryTerms("posts", p.data.id, "category");
-		const relatedFrameworkPage = resolveFrameworkPage(
+		const relatedFrameworkPage = resolveWorkFrameworkPage(
+			p.data.content_type,
 			p.data.framework_page,
 			postCategories.find((term) => isFrameworkPageSlug(term.slug))?.slug,
 		);
 		const visibleCategories = postCategories.filter((term) => !isFrameworkPageSlug(term.slug));
 		const postBylines = p.data.bylines ?? [];
 		const href =
-			resolvePostPath(p.id, relatedFrameworkPage, null) ??
-			`/journal/${p.id}`;
+			resolveIntellectualWorkPath(
+				publicEntrySlug(p),
+				p.data.content_type,
+				relatedFrameworkPage,
+				null,
+			) ?? `/journal/${publicEntrySlug(p)}`;
 		return {
 			post: localizedPost,
 			cats: (visibleCategories.length > 0 ? visibleCategories : postCategories).map((term) => ({
@@ -315,11 +340,18 @@ const documentStructuredData = {
 };
 
 const lateralPosts = otherPosts
-	.filter((p) => resolveFrameworkPage(p.data.framework_page) === "the-method")
+	.filter((p) => resolveWorkFrameworkPage(p.data.content_type, p.data.framework_page) === "the-method")
 	.slice(0, 2)
 	.map((p) => ({
 		post: localizeEntry(p, "posts", locale),
-		href: localizedPath(resolvePostPath(p.id, "the-method", null) ?? `/journal/${p.id}`, locale),
+		href: localizedPath(
+			resolveIntellectualWorkPath(
+				publicEntrySlug(p),
+				p.data.content_type,
+				p.data.framework_page,
+			) ?? `/journal/${publicEntrySlug(p)}`,
+			locale,
+		),
 	}));
 ---
 
@@ -464,11 +496,11 @@ const lateralPosts = otherPosts
 				)}
 
 				{/* ── VIDEO EMBED ── */}
-				{youtubeUrl && (
+				{youtubeUrl && youtubeEmbedUrl && (
 					<div class="article-video-embed">
 						<div class="article-video-embed-inner">
 							<iframe 
-								src={youtubeUrl.replace("watch?v=", "embed/").replace("youtu.be/", "youtube.com/embed/")} 
+								src={youtubeEmbedUrl}
 								title={post.data.title}
 								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 								allowfullscreen

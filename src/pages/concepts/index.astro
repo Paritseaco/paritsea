@@ -2,11 +2,23 @@
 import { getEmDashCollection } from "emdash";
 import Base from "../../layouts/Base.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
-import { getAstroLocale, localizeEntry, localizedPath } from "../../utils/i18n";
+import {
+	getAstroLocale,
+	localizeEntry,
+	localizedEntryPath,
+	localizedPath,
+	mergeLocalizedEntries,
+} from "../../utils/i18n";
 import { localizeRecordValue } from "../../utils/intellectual-localization";
+import { publicEntrySlug } from "../../utils/public-paths";
 
 const locale = getAstroLocale(Astro);
-const { entries, cacheHint } = await getEmDashCollection("posts");
+const englishResult = await getEmDashCollection("posts", { locale: "en" });
+const localeResult = locale === "th"
+	? await getEmDashCollection("posts", { locale: "th" })
+	: englishResult;
+const entries = mergeLocalizedEntries(englishResult.entries, localeResult.entries, locale);
+const cacheHint = localeResult.cacheHint;
 Astro.cache.set(cacheHint);
 const concepts = entries
 	.filter((entry) => entry.data.content_type === "concept")
@@ -46,7 +58,7 @@ const copy = locale === "th" ? {
 
 		<section class="experience-index concept-list">
 			{concepts.length ? concepts.map((concept, index) => (
-				<a class="experience-index-row" href={localizedPath(`/concepts/${concept.id}`, locale)}>
+				<a class="experience-index-row" href={localizedEntryPath(`/concepts/${publicEntrySlug(concept)}`, concept, locale)}>
 					<span class="experience-index-meta">{String(index + 1).padStart(2, "0")} · Concept</span>
 					<div class="experience-index-copy"><h3>{concept.data.title}</h3>{concept.data.excerpt && <p>{concept.data.excerpt}</p>}</div>
 					<span class="experience-index-state">{localizeRecordValue(locale, concept.data.lifecycle_status ?? "developing")} →</span>

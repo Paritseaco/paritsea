@@ -76,9 +76,11 @@ export function localizeRecordValue(locale: SiteLocale, value: string) {
 	return thaiValueLabels[value.trim().toLowerCase()] ?? value;
 }
 
-export function localizeWorkFamily(locale: SiteLocale, value: string) {
-	if (locale !== "th") return value;
-	return thaiWorkFamilyLabels[value.trim().toLowerCase()] ?? localizeRecordValue(locale, value);
+export function localizeWorkFamily(locale: SiteLocale, value: string | null | undefined) {
+	const normalized = value ?? "";
+	if (locale !== "th") return normalized;
+	return thaiWorkFamilyLabels[normalized.trim().toLowerCase()] ??
+		localizeRecordValue(locale, normalized);
 }
 
 export function localizeRecordMetadata(

@@ -17,7 +17,7 @@ Run sequentially because concurrent EmDash/Astro commands can contend for the lo
 The schema seed and intellectual-record migration are separate so existing CMS entries retain their IDs, bylines, revisions, media, and translation groups.
 
 1. Validate `seed/seed.json`.
-2. Run `npm run migrate:intellectual-schema -- --url=<target-url>` with `EMDASH_TOKEN` from an authenticated EmDash CLI session. This uses EmDash schema and menu HTTP interfaces, including validation, reference-target, and translation metadata that the current CLI flags do not expose.
+2. Authenticate with `npx emdash login --url <target-url>`, then run `npm run migrate:intellectual-schema -- --url=<target-url>`. The migration accepts the active CLI credential or `EMDASH_TOKEN` and uses EmDash schema, taxonomy, and menu HTTP interfaces, including validation, reference-target, and translation metadata that the current CLI flags do not expose.
 3. Run `npm run migrate:intellectual-registry -- --url=<target-url>` with the authenticated EmDash CLI session.
 4. The content migration reads each item and its `_rev` before writing. It adds stage, status, version, provenance, scope, non-claims, evidence notes, explicit relationships, reviewed applied contexts, and the provisional AgenSea Official Use record.
 5. Framework revision 1.1 replaces the absolute immutability claim with explicit, attributable, version-governed change. EmDash revisions preserve version 1.0 as prior evidence.
@@ -28,6 +28,7 @@ The migration uses EmDash content CRUD only. Application code and release script
 ## Smoke coverage
 
 - English and Thai canonical route matrix
+- admin View/Preview dispatcher from `/posts/{slug}` to the Content Type route
 - one-hop legacy redirects
 - canonical and hreflang output
 - breadcrumb, page role, status, version, provenance, and scope on full documents
@@ -39,6 +40,22 @@ The migration uses EmDash content CRUD only. Application code and release script
 - keyboard navigation, visible focus, and reduced motion
 - Thai computed typography
 - overflow and hierarchy at 390, 768, 1440, 1920, and 3840px
+
+## CMS locale release gate
+
+For a CMS/schema release, verify all of the following through supported EmDash
+interfaces:
+
+1. The manifest exposes `en` and `th`, the `preview` support flag, and
+   `/posts/{slug}` as the admin View URL pattern.
+2. A manually created translation retains its translation group and can be
+   edited independently in either locale.
+3. Translation Assistant can translate in either direction and creates only a
+   draft. Existing target locales are never overwritten.
+4. Content Type routes a new entry without requiring Legacy Route.
+5. Optional YouTube URLs render through the privacy-enhanced embed while
+   preserving the original URL in CMS data.
+6. Production admin redirects to the existing GitHub sign-in flow, never setup.
 
 ## Deployment gate
 
@@ -152,3 +169,52 @@ No production D1 mutation or Worker deployment occurs before that approval.
 - Production QA passed 41 canonical routes, five one-hop redirects, all 48 sitemap URLs, the content registry, metadata, real 404 behavior, and admin authentication.
 - Targeted live checks confirmed the revised About, Journal transparency entry, and IP headline. The Thai Framework hub returned one Framework record and did not leak Journal records.
 - This release did not mutate D1, CMS content, schema, owner state, or authentication state. The known Vite large-chunk warning remains.
+
+## Bilingual CMS and publishing repair — 2026-07-29
+
+- `content_type` is now the routing source of truth for new Intellectual Works.
+  The optional `framework_page` field remains only as a legacy compatibility
+  route. A newly published Journal entry no longer disappears when that legacy
+  field is empty.
+- EmDash now exposes English and Thai as linked, independently editable
+  locales. The native Translate action supports an author-written second
+  version. The optional Translation Assistant generates EN from TH or TH from
+  EN, refuses to overwrite an existing locale, and creates a draft that must be
+  reviewed and published manually.
+- The Translation Assistant translates only authored fields. Content type,
+  stage, lifecycle status, version, byline, topic terms, URLs, YouTube URL, and
+  canonical identity remain synchronized. Thai generation explicitly requires
+  natural Thai syntax rather than literal English sentence structure.
+- CMS View and Preview now enter through `/posts/{slug}` and dispatch to the
+  canonical public route derived from Content Type. The latest entry,
+  `when-employees-lack-ownership`, resolves to
+  `/journal/when-employees-lack-ownership`; its YouTube URL renders with the
+  privacy-enhanced `youtube-nocookie.com` embed.
+- Production schema migration completed through authenticated EmDash schema,
+  taxonomy, and menu interfaces: five collections and 44 fields were updated,
+  five topic labels were aligned to the current model, and the main menu was
+  regenerated. No raw SQL mutation was used, no owner was initialized, and the
+  existing GitHub-authenticated administrator remained the only user.
+- Locale-aware hubs and sitemap output no longer invent Thai detail URLs for
+  English-only records. Until a Thai translation is published, Thai indexes
+  link that record to its canonical English page. A real or maintained legacy
+  Thai version remains available under `/th`.
+- Local verification passed seed validation, Astro typecheck with zero errors,
+  production build, smoke coverage for 41 canonical routes and five redirects,
+  and `git diff --check`. The known Vite large-chunk warning remains.
+- Production QA passed 41 canonical routes, five one-hop redirects, all 49
+  sitemap URLs, the latest Journal entry, YouTube embed, CMS View dispatcher,
+  locale-aware sitemap behavior, canonical/hreflang, document metadata,
+  machine-readable endpoints, real 404 behavior, and admin authentication.
+- Authenticated browser QA confirmed the Translation Assistant in the existing
+  admin, EN/TH source and target controls, the manual Translate action, the
+  latest article's Journal Content Type, current topic labels, YouTube value,
+  Preview action, and Live View URL. A production translation request returned
+  successfully without persisting or publishing a target record.
+- Worker version `f7e2b83c-d842-44d5-9e80-06c2b45a8730` is deployed at 100%
+  traffic. Version `9a28b792-9126-4e68-bffc-526716b7f79f` is not a rollback
+  target because its sitemap still advertised a missing Thai URL. The stable
+  pre-repair rollback target is `9823748a-c04f-49bd-9c9d-62b6869a66e8`.
+- Production dependency audit remains 0 critical, 19 high, 7 moderate, and 3
+  low advisories. Remaining automatic fixes require broader EmDash/Astro
+  compatibility work and remain a separately tested release gate.

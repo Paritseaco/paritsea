@@ -3,14 +3,41 @@ import { getEmDashCollection } from "emdash";
 import Base from "../../layouts/Base.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import PageRoleHeader from "../../components/PageRoleHeader.astro";
-import { getAstroLocale, localizeEntry, localizedPath } from "../../utils/i18n";
-import { resolvePostPath } from "../../utils/public-paths";
+import {
+	getAstroLocale,
+	localizeEntry,
+	localizedEntryPath,
+	localizedPath,
+	mergeLocalizedEntries,
+} from "../../utils/i18n";
+import {
+	publicEntrySlug,
+	resolveIntellectualWorkPath,
+} from "../../utils/public-paths";
 import { localizeWorkFamily } from "../../utils/intellectual-localization";
 
 const locale = getAstroLocale(Astro);
-const { entries, cacheHint } = await getEmDashCollection("posts", { orderBy: { published_at: "desc" } });
-Astro.cache.set(cacheHint);
+const englishResult = await getEmDashCollection("posts", {
+	locale: "en",
+	orderBy: { published_at: "desc" },
+});
+const localeResult = locale === "th"
+	? await getEmDashCollection("posts", {
+			locale: "th",
+			orderBy: { published_at: "desc" },
+		})
+	: englishResult;
+const entries = mergeLocalizedEntries(englishResult.entries, localeResult.entries, locale);
+Astro.cache.set(localeResult.cacheHint);
 const works = entries.map((entry) => localizeEntry(entry, "posts", locale));
+const workPath = (work: (typeof works)[number]) =>
+	resolveIntellectualWorkPath(
+		publicEntrySlug(work),
+		work.data.content_type,
+		work.data.framework_page,
+	) ?? `/journal/${publicEntrySlug(work)}`;
+const workFamily = (work: (typeof works)[number]) =>
+	localizeWorkFamily(locale, work.data.content_type || work.data.framework_page);
 const intro = locale === "th"
 	? "ฉันเขียนและตั้งชื่อแนวคิดที่เผยแพร่ใน Paritsea หากความหมายของงานเปลี่ยน ฉันต้องบอกว่าเปลี่ยนอะไรและเพราะอะไร ส่วนเว็บไซต์นี้เก็บฉบับเดิมและที่มาไว้ให้ตรวจสอบ หน้านี้จึงบอกว่าใครรับผิดชอบเนื้อหา ไม่ใช่แฟ้มผลงานส่วนตัว"
 	: "Parit Ritchai is the author, namer, and decision authority for semantic change in the source work. Paritsea preserves that work as a versioned public record. This is an author record, not a portfolio.";
@@ -26,7 +53,7 @@ const intro = locale === "th"
 		</section>
 		<section class="bibliography" aria-labelledby="bibliography-title">
 			<h2 id="bibliography-title">{locale === "th" ? "งานที่เผยแพร่" : "Published record"}</h2>
-			{works.map((work) => <a href={localizedPath(resolvePostPath(work.id, work.data.framework_page) ?? `/journal/${work.id}`, locale)}><span>{localizeWorkFamily(locale, work.data.framework_page)}</span><strong>{work.data.title}</strong></a>)}
+			{works.map((work) => <a href={localizedEntryPath(workPath(work), work, locale)}><span>{workFamily(work)}</span><strong>{work.data.title}</strong></a>)}
 		</section>
 	</div>
 </Base>

@@ -652,8 +652,15 @@ export function localizeEntry<T extends { id: string; data: { slug?: unknown } }
 	locale: SiteLocale,
 ): T {
 	if (locale === "en") return entry;
-	const entrySlug = typeof entry.data.slug === "string" ? entry.data.slug : entry.id;
 	const data = entry.data as Record<string, unknown>;
+	// A real EmDash translation is the source of truth. The mapping below only
+	// preserves Thai fallbacks for legacy English-only records.
+	if (
+		data.locale === "th" ||
+		data.__resolvedLocale === "th" ||
+		entry.id.startsWith("th/")
+	) return entry;
+	const entrySlug = typeof entry.data.slug === "string" ? entry.data.slug : entry.id;
 	const postTranslationKey = postTranslationAliases[entrySlug] ?? entrySlug;
 	const translation =
 		collection === "posts"
@@ -670,6 +677,68 @@ export function localizeEntry<T extends { id: string; data: { slug?: unknown } }
 			content: translateBlocks(data.content, translation.content),
 		},
 	};
+}
+
+export function mergeLocalizedEntries<
+	T extends {
+		id: string;
+		data: { slug?: unknown; locale?: unknown; translationGroup?: unknown };
+	},
+>(englishEntries: T[], localeEntries: T[], locale: SiteLocale): T[] {
+	const withResolvedLocale = (entry: T, resolvedLocale: SiteLocale): T => ({
+		...entry,
+		data: {
+			...entry.data,
+			__resolvedLocale: resolvedLocale,
+		},
+	});
+	if (locale === "en") {
+		return englishEntries.map((entry) => withResolvedLocale(entry, "en"));
+	}
+
+	const keyFor = (entry: T) => {
+		if (typeof entry.data.translationGroup === "string" && entry.data.translationGroup) {
+			return entry.data.translationGroup;
+		}
+		if (typeof entry.data.slug === "string" && entry.data.slug) return entry.data.slug;
+		return entry.id.replace(/^[a-z]{2}\//, "");
+	};
+	const localizedByKey = new Map(localeEntries.map((entry) => [keyFor(entry), entry]));
+	const merged = englishEntries.map((entry) => {
+		const localized = localizedByKey.get(keyFor(entry));
+		if (localized) return withResolvedLocale(localized, "th");
+
+		const entrySlug = typeof entry.data.slug === "string"
+			? entry.data.slug
+			: entry.id.replace(/^[a-z]{2}\//, "");
+		const translationKey = postTranslationAliases[entrySlug] ?? entrySlug;
+		const hasLegacyThai = Boolean(
+			postTranslations[translationKey] ??
+			postTranslations[entrySlug] ??
+			postTranslations[entry.id],
+		);
+		return withResolvedLocale(entry, hasLegacyThai ? "th" : "en");
+	});
+	const englishKeys = new Set(englishEntries.map(keyFor));
+
+	return [
+		...merged,
+		...localeEntries
+			.filter((entry) => !englishKeys.has(keyFor(entry)))
+			.map((entry) => withResolvedLocale(entry, "th")),
+	];
+}
+
+export function localizedEntryPath(
+	path: string | null | undefined,
+	entry: { data: object },
+	requestedLocale: SiteLocale,
+): string {
+	const data = entry.data as Record<string, unknown>;
+	const resolvedLocale = requestedLocale === "th" && data.__resolvedLocale === "en"
+		? "en"
+		: requestedLocale;
+	return localizedPath(path, resolvedLocale);
 }
 
 export function localizeTermLabel(label: string, locale: SiteLocale) {

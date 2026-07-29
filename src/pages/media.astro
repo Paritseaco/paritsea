@@ -1,28 +1,46 @@
 ---
 import { getEmDashCollection, getEntryTerms } from "emdash";
 import Base from "../layouts/Base.astro";
-import { isFrameworkPageSlug, resolveFrameworkPage, resolvePostPath } from "../utils/public-paths";
+import {
+	isFrameworkPageSlug,
+	publicEntrySlug,
+	resolveIntellectualWorkPath,
+	resolveWorkFrameworkPage,
+} from "../utils/public-paths";
 import {
 	formatDateForLocale,
 	getAstroLocale,
 	localizeEntry,
 	localizeTermLabel,
+	localizedEntryPath,
 	localizedPath,
+	mergeLocalizedEntries,
 } from "../utils/i18n";
 
 const locale = getAstroLocale(Astro);
 
-const { entries: posts, cacheHint } = await getEmDashCollection("posts", {
+const englishResult = await getEmDashCollection("posts", {
+	locale: "en",
 	orderBy: { published_at: "desc" },
 	limit: 12,
 });
+const localeResult = locale === "th"
+	? await getEmDashCollection("posts", {
+			locale: "th",
+			orderBy: { published_at: "desc" },
+			limit: 12,
+		})
+	: englishResult;
+const posts = mergeLocalizedEntries(englishResult.entries, localeResult.entries, locale);
+const cacheHint = localeResult.cacheHint;
 Astro.cache.set(cacheHint);
 
 const journalEntries = (
 	await Promise.all(
 		posts.map(async (post) => {
 			const terms = await getEntryTerms("posts", post.data.id, "category");
-			const frameworkPage = resolveFrameworkPage(
+			const frameworkPage = resolveWorkFrameworkPage(
+				post.data.content_type,
 				post.data.framework_page,
 				terms.find((term) => isFrameworkPageSlug(term.slug))?.slug,
 			);
@@ -30,7 +48,15 @@ const journalEntries = (
 			const visibleTerms = terms.filter((term) => !isFrameworkPageSlug(term.slug));
 			return {
 				post: localizeEntry(post, "posts", locale),
-				href: localizedPath(resolvePostPath(post.id, frameworkPage, null) ?? `/journal/${post.id}`, locale),
+				href: localizedEntryPath(
+					resolveIntellectualWorkPath(
+						publicEntrySlug(post),
+						post.data.content_type,
+						frameworkPage,
+					) ?? `/journal/${publicEntrySlug(post)}`,
+					post,
+					locale,
+				),
 				category: visibleTerms[0]?.label ? localizeTermLabel(visibleTerms[0].label, locale) : null,
 				isVideo: post.data.format === "video-reflection" || typeof post.data.youtube_url === "string",
 			};

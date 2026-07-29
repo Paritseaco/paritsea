@@ -3,41 +3,61 @@ import { getEmDashCollection, getEntryTerms } from "emdash";
 import {
 	isFrameworkPageSlug,
 	normalizeSiteUrl,
-	resolveFrameworkPage,
-	resolvePostPath,
+	publicEntrySlug,
+	resolveIntellectualWorkPath,
+	resolveWorkFrameworkPage,
 	toAbsoluteUrl,
 } from "../utils/public-paths";
-import { localizedPath } from "../utils/i18n";
+import { localizedPath, mergeLocalizedEntries } from "../utils/i18n";
 
 export const GET: APIRoute = async ({ site }) => {
 	const siteUrl = normalizeSiteUrl(site?.toString() ?? "https://paritsea.co");
 
 	// Fetch all published posts
-	const { entries: posts } = await getEmDashCollection("posts", {
+	const englishResult = await getEmDashCollection("posts", {
+		locale: "en",
 		orderBy: { published_at: "desc" },
 		where: { status: "published" },
 	});
+	const thaiResult = await getEmDashCollection("posts", {
+		locale: "th",
+		orderBy: { published_at: "desc" },
+		where: { status: "published" },
+	});
+	const thaiPosts = mergeLocalizedEntries(englishResult.entries, thaiResult.entries, "th")
+		.filter((post) =>
+			(post.data as unknown as Record<string, unknown>).__resolvedLocale === "th"
+		);
+	const localizedPosts = [
+		...englishResult.entries.map((post) => ({ post, locale: "en" as const })),
+		...thaiPosts.map((post) => ({ post, locale: "th" as const })),
+	];
 
-	// Build post URLs from the explicit framework destination field.
+	// Build one URL per locale that has either a real translation or an
+	// explicitly maintained legacy Thai fallback. Never advertise a 404 locale.
 	const postUrls = await Promise.all(
-		posts.map(async (post) => {
+		localizedPosts.map(async ({ post, locale }) => {
 			if (!post.data.publishedAt) return null;
 
 			const legacyTerms = await getEntryTerms("posts", post.data.id, "category");
-			const frameworkPage = resolveFrameworkPage(
+			const frameworkPage = resolveWorkFrameworkPage(
+				post.data.content_type,
 				post.data.framework_page,
 				legacyTerms.find((term) => isFrameworkPageSlug(term.slug))?.slug,
 			);
-			const path = resolvePostPath(post.id, frameworkPage, null);
+			const path = resolveIntellectualWorkPath(
+				publicEntrySlug(post),
+				post.data.content_type,
+				frameworkPage,
+			);
 			if (!path) return null;
-			const url = toAbsoluteUrl(siteUrl, path);
-			const thUrl = toAbsoluteUrl(siteUrl, localizedPath(path, "th"));
+			const url = toAbsoluteUrl(siteUrl, localizedPath(path, locale));
 			const lastmod = post.data.updatedAt?.toISOString().split("T")[0] ??
 				post.data.publishedAt.toISOString().split("T")[0];
 
-			return [{ url, lastmod }, { url: thUrl, lastmod }];
+			return { url, lastmod };
 		})
-	).then((results) => results.flat().filter(Boolean) as Array<{ url: string; lastmod: string }>);
+	).then((results) => results.filter(Boolean) as Array<{ url: string; lastmod: string }>);
 
 	// Static pages and structural indexes (Phase 1 IA restructure — new URL vocabulary).
 	// Omit lastmod when we do not have a trustworthy modification timestamp.

@@ -1,0 +1,14 @@
+{
+  "name": "@paritsea/emdash-translation-assistant",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./admin": "./src/admin.tsx"
+  },
+  "peerDependencies": {
+    "emdash": "^0.4.0",
+    "react": "^19.0.0"
+  }
+}

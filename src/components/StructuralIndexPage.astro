@@ -2,13 +2,19 @@
 import { getEmDashCollection, getEntryTerms } from "emdash";
 import Base from "../layouts/Base.astro";
 import Breadcrumb from "./Breadcrumb.astro";
-import { isFrameworkPageSlug, resolveFrameworkPage } from "../utils/public-paths";
+import {
+	isFrameworkPageSlug,
+	publicEntrySlug,
+	resolveWorkFrameworkPage,
+} from "../utils/public-paths";
 import { getReadingTime } from "../utils/reading-time";
 import {
 	formatDateForLocale,
 	getAstroLocale,
 	localizeEntry,
+	localizedEntryPath,
 	localizedPath,
+	mergeLocalizedEntries,
 } from "../utils/i18n";
 import { localizeRecordValue } from "../utils/intellectual-localization";
 
@@ -18,25 +24,27 @@ interface Props {
 
 const { slug } = Astro.props;
 const locale = getAstroLocale(Astro);
-let result;
+const englishResult = await getEmDashCollection("posts", {
+	locale: "en",
+	orderBy: { published_at: "desc" },
+});
+const localeResult = locale === "th"
+	? await getEmDashCollection("posts", {
+			locale: "th",
+			orderBy: { published_at: "desc" },
+		})
+	: englishResult;
+const result = {
+	...englishResult,
+	entries: mergeLocalizedEntries(englishResult.entries, localeResult.entries, locale),
+};
 
-try {
-	result = await getEmDashCollection("posts", {
-		where: { framework_page: slug },
-		orderBy: { published_at: "desc" },
-	});
-} catch {
-	result = await getEmDashCollection("posts", {
-		where: { category: slug },
-		orderBy: { published_at: "desc" },
-	});
-}
-
-Astro.cache.set(result.cacheHint);
+Astro.cache.set(localeResult.cacheHint);
 
 const resolved = await Promise.all(result.entries.map(async (entry) => {
 	const terms = await getEntryTerms("posts", entry.data.id, "category");
-	const frameworkPage = resolveFrameworkPage(
+	const frameworkPage = resolveWorkFrameworkPage(
+		entry.data.content_type,
 		entry.data.framework_page,
 		terms.find((term) => isFrameworkPageSlug(term.slug))?.slug,
 	);
@@ -156,7 +164,7 @@ const entryPath = (id: string) => kind === "journal"
 
 		<section class="experience-index" aria-label={current.title}>
 			{entries.length ? entries.map(({ entry, version, status, readingTime }, index) => (
-					<a class="experience-index-row" href={localizedPath(entryPath(entry.id), locale)}>
+					<a class="experience-index-row" href={localizedEntryPath(entryPath(publicEntrySlug(entry)), entry, locale)}>
 						<span class="experience-index-number">{String(index + 1).padStart(2, "0")}</span>
 						<div class="experience-index-copy">
 							<p class="experience-index-meta">{locale === "th" && kind === "journal" ? "บันทึก" : localizeRecordValue(locale, kind)}{version ? ` · v${version}` : ""} · {localizeRecordValue(locale, status)}</p>

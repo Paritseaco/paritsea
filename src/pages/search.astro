@@ -6,16 +6,27 @@ import Base from "../layouts/Base.astro";
 import PostCard from "../components/PostCard.astro";
 import {
 	isFrameworkPageSlug,
-	resolveFrameworkPage,
-	resolvePostPath,
+	publicEntrySlug,
+	resolveIntellectualWorkPath,
+	resolveWorkFrameworkPage,
 } from "../utils/public-paths";
 import { getReadingTime, extractText } from "../utils/reading-time";
-import { getAstroLocale, localizeEntry, localizedPath } from "../utils/i18n";
+import {
+	getAstroLocale,
+	localizeEntry,
+	localizedEntryPath,
+	localizedPath,
+	mergeLocalizedEntries,
+} from "../utils/i18n";
 
 const query = Astro.url.searchParams.get("q")?.trim() || "";
 const locale = getAstroLocale(Astro);
 
-const { entries: allPosts } = await getEmDashCollection("posts");
+const englishResult = await getEmDashCollection("posts", { locale: "en" });
+const localeResult = locale === "th"
+	? await getEmDashCollection("posts", { locale: "th" })
+	: englishResult;
+const allPosts = mergeLocalizedEntries(englishResult.entries, localeResult.entries, locale);
 
 // Simple search: match query against title, excerpt, and content
 function matchesQuery(post: (typeof allPosts)[0], q: string): boolean {
@@ -35,15 +46,23 @@ const results = query ? localizedPosts.filter((p) => matchesQuery(p, query)) : [
 const resultsWithHref = await Promise.all(
 	results.map(async (post) => {
 		const legacyTerms = await getEntryTerms("posts", post.data.id, "category");
-		const frameworkPage = resolveFrameworkPage(
+		const frameworkPage = resolveWorkFrameworkPage(
+			post.data.content_type,
 			post.data.framework_page,
 			legacyTerms.find((term) => isFrameworkPageSlug(term.slug))?.slug,
 		);
 		return {
 			post,
 			href:
-				localizedPath(resolvePostPath(post.id, frameworkPage, null) ??
-				`/the-method/${post.id}`, locale),
+				localizedEntryPath(
+					resolveIntellectualWorkPath(
+						publicEntrySlug(post),
+						post.data.content_type,
+						frameworkPage,
+					) ?? `/journal/${publicEntrySlug(post)}`,
+					post,
+					locale,
+				),
 		};
 	}),
 );

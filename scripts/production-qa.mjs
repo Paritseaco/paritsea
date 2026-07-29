@@ -124,10 +124,43 @@ await Promise.all(sitemapUrls.map(async (sitemapUrl) => {
 	check(response.status === 200, `sitemap URL ${sitemapUrl} expected 200, received ${response.status}`);
 }));
 
+const latestJournalSlug = "when-employees-lack-ownership";
+const latestJournalPath = `/journal/${latestJournalSlug}`;
+const latestJournal = await read(latestJournalPath);
+check(latestJournal.response.status === 200, `${latestJournalPath} expected 200, received ${latestJournal.response.status}`);
+check(
+	latestJournal.body.includes("When “Employees Lack Ownership” Isn’t Actually a People Problem"),
+	"latest Journal entry missing its published title",
+);
+check(
+	latestJournal.body.includes("youtube-nocookie.com/embed/q1vH9q-HwX8"),
+	"latest Journal entry missing its YouTube embed",
+);
+
+const journalHub = await read("/journal");
+check(journalHub.body.includes(latestJournalPath), "Journal hub does not link to the latest published entry");
+
+const adminView = await read(`/posts/${latestJournalSlug}`);
+check(adminView.response.status === 302, `admin View route expected 302, received ${adminView.response.status}`);
+check(
+	new URL(adminView.response.headers.get("location"), base).pathname === latestJournalPath,
+	"admin View route does not resolve to the canonical Journal URL",
+);
+
+const thaiLatestPath = `/th/journal/${latestJournalSlug}`;
+const thaiLatest = await read(thaiLatestPath);
+const thaiLatestUrl = `${base}${thaiLatestPath}`;
+if (thaiLatest.response.status === 200) {
+	check(sitemapUrls.includes(thaiLatestUrl), "published Thai translation exists but is absent from the sitemap");
+} else {
+	check(!sitemapUrls.includes(thaiLatestUrl), "missing Thai translation must not be advertised in the sitemap");
+	check(!thaiLatest.response.headers.get("location"), "missing Thai translation must not silently redirect as if translated");
+}
+
 if (failures.length) {
 	throw new Error(`Production QA failures:\n- ${failures.join("\n- ")}`);
 }
 
 console.log(
-	`Production QA passed: ${canonicalRoutes.length} canonical routes, ${redirects.size} redirects, ${sitemapUrls.length} sitemap URLs, content registry, metadata, 404, and admin auth.`,
+	`Production QA passed: ${canonicalRoutes.length} canonical routes, ${redirects.size} redirects, ${sitemapUrls.length} sitemap URLs, latest Journal/YouTube/admin View, locale-aware sitemap, content registry, metadata, 404, and admin auth.`,
 );

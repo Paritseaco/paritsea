@@ -1,0 +1,39 @@
+---
+import { getEmDashEntry } from "emdash";
+import { getAstroLocale, localizedPath } from "../../utils/i18n";
+import {
+	publicEntrySlug,
+	resolveIntellectualWorkPath,
+} from "../../utils/public-paths";
+
+const requestedLocale = getAstroLocale(Astro);
+const reference = Astro.params.slug ?? "";
+if (!reference) return new Response("Not found", { status: 404 });
+
+let result = await getEmDashEntry("posts", reference, { locale: requestedLocale });
+if (!result.entry) {
+	const alternateLocale = requestedLocale === "en" ? "th" : "en";
+	result = await getEmDashEntry("posts", reference, { locale: alternateLocale });
+}
+
+if (!result.entry) return new Response("Not found", { status: 404 });
+Astro.cache.set(result.cacheHint);
+
+const entry = result.entry;
+const data = entry.data as unknown as Record<string, unknown>;
+const entryLocale = data.locale === "th" ? "th" : requestedLocale;
+const path = resolveIntellectualWorkPath(
+	publicEntrySlug(entry),
+	typeof data.content_type === "string" ? data.content_type : null,
+	typeof data.framework_page === "string" ? data.framework_page : null,
+);
+
+if (!path) return new Response("This work needs a Content Type before it can be viewed.", { status: 409 });
+
+const params = new URLSearchParams(Astro.url.searchParams);
+params.delete("__locale");
+params.delete("__path");
+const search = params.size ? `?${params.toString()}` : "";
+Astro.response.status = 302;
+Astro.response.headers.set("Location", `${localizedPath(path, entryLocale)}${search}`);
+---

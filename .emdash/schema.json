@@ -22,7 +22,10 @@
           "label": "Related Intellectual Work",
           "type": "reference",
           "required": true,
-          "unique": false
+          "unique": false,
+          "options": {
+            "collection": "posts"
+          }
         },
         {
           "slug": "context_type",
@@ -99,7 +102,10 @@
           "label": "Related Intellectual Work",
           "type": "reference",
           "required": false,
-          "unique": false
+          "unique": false,
+          "options": {
+            "collection": "posts"
+          }
         },
         {
           "slug": "implementer",
@@ -214,6 +220,7 @@
       "supports": [
         "drafts",
         "revisions",
+        "preview",
         "search",
         "seo"
       ],
@@ -248,9 +255,9 @@
         },
         {
           "slug": "framework_page",
-          "label": "Legacy Route Family",
+          "label": "Legacy Route (existing records only)",
           "type": "select",
-          "required": true,
+          "required": false,
           "unique": false,
           "validation": {
             "options": [
@@ -279,7 +286,7 @@
         },
         {
           "slug": "youtube_url",
-          "label": "YouTube URL",
+          "label": "YouTube URL (optional)",
           "type": "string",
           "required": false,
           "unique": false
@@ -300,9 +307,9 @@
         },
         {
           "slug": "content_type",
-          "label": "Content Type",
+          "label": "Content Type (where this appears)",
           "type": "select",
-          "required": false,
+          "required": true,
           "unique": false,
           "validation": {
             "options": [
@@ -410,14 +417,20 @@
           "label": "Source Work",
           "type": "reference",
           "required": true,
-          "unique": false
+          "unique": false,
+          "options": {
+            "collection": "posts"
+          }
         },
         {
           "slug": "target_work",
           "label": "Target Work",
           "type": "reference",
           "required": true,
-          "unique": false
+          "unique": false,
+          "options": {
+            "collection": "posts"
+          }
         },
         {
           "slug": "relationship_type",
@@ -454,5 +467,5 @@
       ]
     }
   ],
-  "version": "ba5bd9c090aabef8"
+  "version": "471c887d7ce882d8"
 }

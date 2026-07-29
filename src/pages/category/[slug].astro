@@ -3,8 +3,18 @@ import { getTerm, getEmDashCollection, getEntryTerms, decodeSlug } from "emdash"
 import Base from "../../layouts/Base.astro";
 import PostCard from "../../components/PostCard.astro";
 import { getReadingTime } from "../../utils/reading-time";
-import { resolvePostPath } from "../../utils/public-paths";
-import { getAstroLocale, localizeEntry, localizeTermLabel, localizedPath } from "../../utils/i18n";
+import {
+	publicEntrySlug,
+	resolveIntellectualWorkPath,
+} from "../../utils/public-paths";
+import {
+	getAstroLocale,
+	localizeEntry,
+	localizeTermLabel,
+	localizedEntryPath,
+	localizedPath,
+	mergeLocalizedEntries,
+} from "../../utils/i18n";
 
 const slug = decodeSlug(Astro.params.slug);
 const locale = getAstroLocale(Astro);
@@ -20,10 +30,19 @@ if (!term) {
 	return new Response(locale === "th" ? "ไม่พบหน้า" : "Not found", { status: 404 });
 }
 
-const { entries: posts } = await getEmDashCollection("posts", {
+const englishResult = await getEmDashCollection("posts", {
+	locale: "en",
 	where: { category: term.slug },
 	orderBy: { published_at: "desc" },
 });
+const localeResult = locale === "th"
+	? await getEmDashCollection("posts", {
+			locale: "th",
+			where: { category: term.slug },
+			orderBy: { published_at: "desc" },
+		})
+	: englishResult;
+const posts = mergeLocalizedEntries(englishResult.entries, localeResult.entries, locale);
 
 const filteredPosts = await Promise.all(
 	posts.map(async (post) => {
@@ -66,8 +85,15 @@ const termLabel = localizeTermLabel(term.label, locale);
 							excerpt={post.data.excerpt}
 							featuredImage={post.data.featured_image}
 							href={
-								localizedPath(resolvePostPath(post.id, post.data.framework_page, null) ??
-								`/the-method/${post.id}`, locale)
+								localizedEntryPath(
+									resolveIntellectualWorkPath(
+										publicEntrySlug(post),
+										post.data.content_type,
+										post.data.framework_page,
+									) ?? `/journal/${publicEntrySlug(post)}`,
+									post,
+									locale,
+								)
 							}
 							date={post.data.publishedAt ?? undefined}
 							readingTime={getReadingTime(post.data.content)}

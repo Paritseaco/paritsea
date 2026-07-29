@@ -8,7 +8,7 @@ import { getAstroLocale, localizeEntry, localizedPath } from "../../utils/i18n";
 
 const locale = getAstroLocale(Astro);
 const slug = Astro.params.slug ?? "";
-const { entry, cacheHint } = await getEmDashEntry("posts", slug);
+const { entry, cacheHint } = await getEmDashEntry("posts", slug, { locale });
 const data = entry?.data as unknown as Record<string, unknown> | undefined;
 if (!entry || data?.content_type !== "concept") return new Response("Not found", { status: 404 });
 Astro.cache.set(cacheHint);

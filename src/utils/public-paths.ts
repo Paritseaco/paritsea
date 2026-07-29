@@ -9,6 +9,17 @@ export const FRAMEWORK_PAGE_SEGMENTS = {
 } as const;
 
 export type FrameworkPageSlug = keyof typeof FRAMEWORK_PAGE_SEGMENTS;
+export type IntellectualContentType = "journal" | "concept" | "framework" | "protocol" | "standard";
+
+export const CONTENT_TYPE_FRAMEWORK_PAGE: Record<
+	Exclude<IntellectualContentType, "concept">,
+	FrameworkPageSlug
+> = {
+	journal: "the-method",
+	framework: "the-doctrine",
+	protocol: "protocols",
+	standard: "standards",
+};
 
 const FRAMEWORK_PAGES = new Set<FrameworkPageSlug>(Object.keys(FRAMEWORK_PAGE_SEGMENTS) as FrameworkPageSlug[]);
 const TRAILING_SLASH_RE = /\/$/;
@@ -48,22 +59,62 @@ export function resolveFrameworkPage(
 	return null;
 }
 
+export function isIntellectualContentType(
+	value: string | null | undefined,
+): value is IntellectualContentType {
+	return value === "journal" ||
+		value === "concept" ||
+		value === "framework" ||
+		value === "protocol" ||
+		value === "standard";
+}
+
+export function frameworkPageFromContentType(
+	contentType: string | null | undefined,
+): FrameworkPageSlug | null {
+	if (!isIntellectualContentType(contentType) || contentType === "concept") return null;
+	return CONTENT_TYPE_FRAMEWORK_PAGE[contentType];
+}
+
+export function resolveWorkFrameworkPage(
+	contentType: string | null | undefined,
+	frameworkPage: string | null | undefined,
+	legacyCategorySlug?: string | null | undefined,
+): FrameworkPageSlug | null {
+	return frameworkPageFromContentType(contentType) ??
+		resolveFrameworkPage(frameworkPage, legacyCategorySlug);
+}
+
+export function publicEntrySlug(entry: { id: string; data?: { slug?: unknown } }): string {
+	return typeof entry.data?.slug === "string" && entry.data.slug
+		? entry.data.slug
+		: entry.id.replace(/^[a-z]{2}\//, "");
+}
+
+export function resolveIntellectualWorkPath(
+	slug: string,
+	contentType: string | null | undefined,
+	frameworkPage?: string | null | undefined,
+	legacyCategorySlug?: string | null | undefined,
+): string | null {
+	if (!slug) return null;
+	if (contentType === "concept") return `/concepts/${slug}`;
+
+	const page = resolveWorkFrameworkPage(contentType, frameworkPage, legacyCategorySlug);
+	if (!page) return null;
+	if (page === "the-doctrine") {
+		return `/system/frameworks/${slug === "doctrine" ? "paritsea-framework" : slug}`;
+	}
+
+	return `/${FRAMEWORK_PAGE_SEGMENTS[page]}/${slug}`;
+}
+
 export function resolvePostPath(
 	slug: string,
 	frameworkPage: string | null | undefined,
 	legacyCategorySlug?: string | null | undefined,
 ): string | null {
-	if (!slug) return null;
-
-	const page = resolveFrameworkPage(frameworkPage, legacyCategorySlug);
-	if (!page) return null;
-
-	// The current Framework keeps its legacy database slug while its public title is stable.
-	if (page === "the-doctrine") {
-		return "/system/frameworks/paritsea-framework";
-	}
-
-	return `/${FRAMEWORK_PAGE_SEGMENTS[page]}/${slug}`;
+	return resolveIntellectualWorkPath(slug, null, frameworkPage, legacyCategorySlug);
 }
 
 export function resolveCategoryArchivePath(categorySlug: string): string {

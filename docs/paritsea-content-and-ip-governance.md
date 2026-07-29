@@ -16,6 +16,28 @@ Status: Canonical
 
 Each intellectual work records content type, intellectual stage, lifecycle status, version, author, provenance summary, scope, non-claims, evidence note, and last-reviewed date. Relationships are first-class records rather than prose-only links.
 
+## Locale and editorial workflow
+
+English and Thai are distinct EmDash entries linked by `translationOf` and a
+shared translation group. They use the same English slug; English is served at
+the root route and Thai under `/th`.
+
+The author may create and write either locale manually. The optional Translation
+Assistant may translate from EN to TH or TH to EN, but it creates a draft only.
+It never publishes, replaces an existing locale, or changes synchronized
+governance fields. The author must review phrasing, especially Thai reading
+rhythm and conceptual terms, before publication.
+
+Translatable fields are title, excerpt, body, provenance summary, scope note,
+non-claims, and evidence note. Content type, stage, lifecycle status, version,
+review date, byline, topics, URLs, YouTube URL, and canonical identity remain
+synchronized unless governance explicitly requires a locale-specific value.
+
+`content_type` is the routing and archive source of truth. `framework_page` is a
+legacy compatibility field for existing records and is not required for new
+work. Topic taxonomy describes subject matter; it must never double as document
+type, lifecycle status, or route selection.
+
 ## Lifecycle
 
 `exploring → developing → current → superseded → retired`

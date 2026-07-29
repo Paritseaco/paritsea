@@ -51,6 +51,25 @@ npm run test:smoke
 The admin UI is available at `http://localhost:4321/_emdash/admin` when the dev
 server is running.
 
+## Publishing in English and Thai
+
+`Intellectual Works` uses native EmDash locales. English and Thai are separate,
+linked records with the same English URL slug:
+
+- Write either language first, then use the entry's **Translate** action to
+  create the other locale and write or paste that version yourself.
+- Or open **Translation Assistant**, choose the source and target language, and
+  generate the missing locale as a draft. The draft must be reviewed and
+  published manually.
+- The assistant translates authored fields only. Content Type, lifecycle
+  metadata, version, byline, topics, links, YouTube URL, and canonical identity
+  remain synchronized.
+
+`Content Type` is the public routing source of truth. The optional `Legacy Route`
+field is retained only so old entries continue to resolve during migration.
+Topics describe what a work is about; they do not decide whether it belongs in
+Journal, Concepts, Frameworks, Protocols, or Standards.
+
 When testing with the Cloudflare/Astro dev runtime, content comes from the
 Miniflare D1 sqlite database under
 `.wrangler/state/v3/d1/miniflare-D1DatabaseObject/`, not necessarily `data.db`.

@@ -63,12 +63,12 @@ export interface IntellectualWork {
   featured_image?: { id: string; src?: string; alt?: string; width?: number; height?: number };
   content?: PortableTextBlock[];
   excerpt?: string;
-  framework_page: "the-doctrine" | "protocols" | "standards" | "the-method" | "implementations";
+  framework_page?: "the-doctrine" | "protocols" | "standards" | "the-method" | "implementations";
   format?: "essay" | "video-reflection" | "pattern-brief" | "decision-note";
   youtube_url?: string;
   system_bridge_url?: string;
   protocol_url?: string;
-  content_type?: "journal" | "concept" | "framework" | "protocol" | "standard";
+  content_type: "journal" | "concept" | "framework" | "protocol" | "standard";
   intellectual_stage?: "observation" | "interpretation" | "proposition" | "formalized";
   lifecycle_status?: "exploring" | "developing" | "current" | "superseded" | "retired";
   document_version?: string;

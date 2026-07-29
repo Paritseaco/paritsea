@@ -1,11 +1,34 @@
 import { readFileSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
 
 const urlArg = process.argv.find((arg) => arg.startsWith("--url="));
 const url = (urlArg?.slice("--url=".length) || "http://localhost:4321").replace(/\/$/, "");
-const token = process.env.EMDASH_TOKEN;
+function storedAccessToken(baseUrl) {
+	try {
+		const authPath = join(
+			process.env.XDG_CONFIG_HOME || join(homedir(), ".config"),
+			"emdash",
+			"auth.json",
+		);
+		const store = JSON.parse(readFileSync(authPath, "utf8"));
+		const credential = store[new URL(baseUrl).origin];
+		if (
+			!credential?.accessToken ||
+			!credential?.expiresAt ||
+			new Date(credential.expiresAt) <= new Date()
+		) return undefined;
+		return credential.accessToken;
+	} catch {
+		return undefined;
+	}
+}
+const token = process.env.EMDASH_TOKEN || storedAccessToken(url);
 
 if (!token) {
-	throw new Error("EMDASH_TOKEN is required for remote schema migration.");
+	throw new Error(
+		"Authenticated EmDash access is required. Run `npx emdash login --url <url>` or set EMDASH_TOKEN.",
+	);
 }
 
 const seed = JSON.parse(readFileSync(new URL("../seed/seed.json", import.meta.url), "utf8"));
@@ -48,6 +71,7 @@ for (const collection of seed.collections ?? []) {
 		labelSingular: collection.labelSingular,
 		description: collection.description,
 		supports,
+		urlPattern: collection.urlPattern,
 		hasSeo: (collection.supports ?? []).includes("seo"),
 	};
 
@@ -124,6 +148,61 @@ for (const collection of seed.collections ?? []) {
 	);
 }
 
+let taxonomyTermsCreated = 0;
+let taxonomyTermsUpdated = 0;
+const remoteTaxonomyResult = await request("GET", "/taxonomies");
+const remoteTaxonomies = new Map(
+	(remoteTaxonomyResult.taxonomies ?? remoteTaxonomyResult.items ?? remoteTaxonomyResult ?? [])
+		.map((taxonomy) => [taxonomy.name, taxonomy]),
+);
+
+for (const taxonomy of seed.taxonomies ?? []) {
+	if (!remoteTaxonomies.has(taxonomy.name)) {
+		await request("POST", "/taxonomies", {
+			name: taxonomy.name,
+			label: taxonomy.label,
+			hierarchical: taxonomy.hierarchical ?? false,
+			collections: taxonomy.collections ?? [],
+		});
+	}
+
+	const remoteTermsResult = await request(
+		"GET",
+		`/taxonomies/${encodeURIComponent(taxonomy.name)}/terms`,
+	);
+	const flattenTerms = (terms) => terms.flatMap((term) => [
+		term,
+		...flattenTerms(term.children ?? []),
+	]);
+	const remoteTerms = new Map(
+		flattenTerms(remoteTermsResult.terms ?? remoteTermsResult.items ?? remoteTermsResult ?? [])
+			.map((term) => [term.slug, term]),
+	);
+
+	for (const term of taxonomy.terms ?? []) {
+		const body = {
+			label: term.label,
+			description: term.description,
+			parentSlug: term.parent,
+		};
+		if (remoteTerms.has(term.slug)) {
+			await request(
+				"PUT",
+				`/taxonomies/${encodeURIComponent(taxonomy.name)}/terms/${encodeURIComponent(term.slug)}`,
+				body,
+			);
+			taxonomyTermsUpdated++;
+		} else {
+			await request(
+				"POST",
+				`/taxonomies/${encodeURIComponent(taxonomy.name)}/terms`,
+				{ slug: term.slug, ...body },
+			);
+			taxonomyTermsCreated++;
+		}
+	}
+}
+
 const remoteMenus = await request("GET", "/menus");
 const remoteMenusByName = new Map(remoteMenus.map((menu) => [menu.name, menu]));
 
@@ -169,5 +248,6 @@ for (const menu of seed.menus ?? []) {
 console.log(
 	`Migrated schema at ${url}: ${collectionsCreated} collections created, ${collectionsUpdated} updated, ` +
 		`${fieldsCreated} fields created, ${fieldsReconciled} orphan columns reconciled, ` +
-		`${fieldsUpdated} fields updated, ${menuItemsCreated} menu items created.`,
+		`${fieldsUpdated} fields updated, ${taxonomyTermsCreated} taxonomy terms created, ` +
+		`${taxonomyTermsUpdated} taxonomy terms updated, ${menuItemsCreated} menu items created.`,
 );

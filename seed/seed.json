@@ -18,9 +18,11 @@
       "supports": [
         "drafts",
         "revisions",
+        "preview",
         "search",
         "seo"
       ],
+      "urlPattern": "/posts/{slug}",
       "commentsEnabled": false,
       "fields": [
         {
@@ -32,9 +34,9 @@
         },
         {
           "slug": "framework_page",
-          "label": "Legacy Route Family",
+          "label": "Legacy Route (existing records only)",
           "type": "select",
-          "required": true,
+          "required": false,
           "translatable": false,
           "validation": {
             "options": [
@@ -48,9 +50,9 @@
         },
         {
           "slug": "content_type",
-          "label": "Content Type",
+          "label": "Content Type (where this appears)",
           "type": "select",
-          "required": false,
+          "required": true,
           "translatable": false,
           "validation": {
             "options": [
@@ -164,7 +166,7 @@
         },
         {
           "slug": "youtube_url",
-          "label": "YouTube URL",
+          "label": "YouTube URL (optional)",
           "type": "string",
           "required": false,
           "translatable": false
@@ -477,23 +479,23 @@
       "terms": [
         {
           "slug": "seeing-clearly",
-          "label": "Seeing Clearly"
+          "label": "Problem Framing"
         },
         {
           "slug": "human-cost",
-          "label": "Human Cost"
+          "label": "Human Impact"
         },
         {
           "slug": "structural-tension",
-          "label": "Structural Tension"
+          "label": "Systems & Structure"
         },
         {
           "slug": "foundational",
-          "label": "Foundational"
+          "label": "Intellectual Foundations"
         },
         {
           "slug": "active",
-          "label": "Active"
+          "label": "Applied Context"
         }
       ]
     }

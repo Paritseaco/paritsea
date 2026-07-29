@@ -20,6 +20,7 @@
 		"seed": "emdash seed"
 	},
 	"dependencies": {
+		"@paritsea/emdash-translation-assistant": "file:./packages/emdash-translation-assistant",
 		"@astrojs/cloudflare": "^13.1.7",
 		"@astrojs/react": "^5.0.0",
 		"@emdash-cms/cloudflare": "^0.4.0",
