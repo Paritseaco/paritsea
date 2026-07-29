@@ -1,5 +1,5 @@
 diff --git a/node_modules/@emdash-cms/admin/dist/index.js b/node_modules/@emdash-cms/admin/dist/index.js
-index 76fb1a2..7e2b376 100644
+index 76fb1a2..e8693c6 100644
 --- a/node_modules/@emdash-cms/admin/dist/index.js
 +++ b/node_modules/@emdash-cms/admin/dist/index.js
 @@ -8226,7 +8226,7 @@ function SeoImageField({ seo, onChange }) {
@@ -23,7 +23,7 @@ index 76fb1a2..7e2b376 100644
  				collection,
  				entryId,
  				onChange: (termIds) => onChange?.(taxonomy.name, termIds)
-@@ -8691,6 +8694,40 @@ function formatScheduledDate(dateStr) {
+@@ -8691,8 +8694,65 @@ function formatScheduledDate(dateStr) {
  /**
  * Content editor with dynamic field rendering
  */
@@ -61,10 +61,58 @@ index 76fb1a2..7e2b376 100644
 +		"last_reviewed_at"
 +	].includes(fieldName);
 +}
++const PARITSEA_WORK_LABELS = {
++	journal: "Journal",
++	concept: "Concept",
++	framework: "Framework",
++	protocol: "Protocol",
++	standard: "Standard"
++};
++const PARITSEA_WORK_OPTION_LABELS = {
++	journal: "Journal — บทความและข้อสังเกต",
++	concept: "Concept — แนวคิดที่ตั้งชื่อแล้ว",
++	framework: "Framework — กรอบอ้างอิง",
++	protocol: "Protocol — วิธีและข้อกำหนดการนำไปใช้",
++	standard: "Standard — เกณฑ์ตรวจสอบ"
++};
++function paritseaCollectionLabel(collection, fallback) {
++	return collection === "posts" ? "Journal / Framework / Protocol / Standard" : fallback;
++}
++function paritseaWorkType(item) {
++	if (!item || typeof item !== "object") return "journal";
++	const value = item.data?.content_type;
++	return typeof value === "string" && PARITSEA_WORK_LABELS[value] ? value : "journal";
++}
  function ContentEditor({ collection, collectionLabel, item, fields, isNew, isSaving, onSave, onAutosave, isAutosaving, lastAutosaveAt, onPublish, onUnpublish, onDiscardDraft, onSchedule, onUnschedule, isScheduling, supportsDrafts = false, supportsRevisions = false, supportsPreview = false, currentUser, users, onAuthorChange, availableBylines, selectedBylines, onBylinesChange, onQuickCreateByline, onQuickEditByline, onDelete, isDeleting, i18n, translations, onTranslate, pluginBlocks, hasSeo = false, onSeoChange, manifest }) {
  	const { _: _t } = useLingui();
++	const displayCollectionLabel = paritseaCollectionLabel(collection, collectionLabel);
  	const [formData, setFormData] = React.useState(item?.data || {});
-@@ -9091,7 +9128,7 @@ function ContentEditor({ collection, collectionLabel, item, fields, isNew, isSav
+ 	const [slug, setSlug] = React.useState(item?.slug || "");
+ 	const [slugTouched, setSlugTouched] = React.useState(!!item?.slug);
+@@ -8891,7 +8951,7 @@ function ContentEditor({ collection, collectionLabel, item, fields, isNew, isSav
+ 						"aria-label": _t({
+ 							id: "a5SZoO",
+ 							message: "Back to {collectionLabel} list",
+-							values: { collectionLabel }
++							values: { collectionLabel: displayCollectionLabel }
+ 						}),
+ 						className: buttonVariants({
+ 							variant: "ghost",
+@@ -8920,11 +8980,11 @@ function ContentEditor({ collection, collectionLabel, item, fields, isNew, isSav
+ 						children: isNew ? _t({
+ 							id: "3AhVN+",
+ 							message: "New {collectionLabel}",
+-							values: { collectionLabel }
++							values: { collectionLabel: displayCollectionLabel }
+ 						}) : _t({
+ 							id: "eavm1m",
+ 							message: "Edit {collectionLabel}",
+-							values: { collectionLabel }
++							values: { collectionLabel: displayCollectionLabel }
+ 						})
+ 					}),
+ 					i18n && item?.locale && /* @__PURE__ */ jsx(Badge, {
+@@ -9091,7 +9151,7 @@ function ContentEditor({ collection, collectionLabel, item, fields, isNew, isSav
  					className: cn("rounded-lg border bg-kumo-base p-6", isDistractionFree && "border-0 bg-transparent p-0"),
  					children: /* @__PURE__ */ jsx("div", {
  						className: "space-y-4",
@@ -73,7 +121,7 @@ index 76fb1a2..7e2b376 100644
  							const fieldEl = /* @__PURE__ */ jsx(FieldRenderer, {
  								name,
  								field,
-@@ -9335,36 +9372,8 @@ function ContentEditor({ collection, collectionLabel, item, fields, isNew, isSav
+@@ -9335,36 +9395,8 @@ function ContentEditor({ collection, collectionLabel, item, fields, isNew, isSav
  								]
  							})]
  						}),
@@ -112,7 +160,25 @@ index 76fb1a2..7e2b376 100644
  						i18n && item && !isNew && /* @__PURE__ */ jsxs("div", {
  							className: "p-4 border-t",
  							children: [/* @__PURE__ */ jsx("h3", {
-@@ -9623,7 +9632,7 @@ function FieldRenderer({ name, field, value, onChange, onEditorReady, minimal, p
+@@ -9576,7 +9608,7 @@ function FieldRenderer({ name, field, value, onChange, onEditorReady, minimal, p
+ 		});
+ 		case "select": {
+ 			const selectItems = {};
+-			for (const opt of field.options ?? []) selectItems[opt.value] = opt.label;
++			for (const opt of field.options ?? []) selectItems[opt.value] = name === "content_type" ? PARITSEA_WORK_OPTION_LABELS[opt.value] ?? opt.label : opt.label;
+ 			return /* @__PURE__ */ jsx(Select, {
+ 				id,
+ 				label,
+@@ -9585,7 +9617,7 @@ function FieldRenderer({ name, field, value, onChange, onEditorReady, minimal, p
+ 				items: selectItems,
+ 				children: field.options?.map((opt) => /* @__PURE__ */ jsx(Select.Option, {
+ 					value: opt.value,
+-					children: opt.label
++					children: name === "content_type" ? PARITSEA_WORK_OPTION_LABELS[opt.value] ?? opt.label : opt.label
+ 				}, opt.value))
+ 			});
+ 		}
+@@ -9623,7 +9655,7 @@ function FieldRenderer({ name, field, value, onChange, onEditorReady, minimal, p
  				label,
  				description: name === "featured_image" ? _t2({
  					id: "wd2th9",
@@ -121,7 +187,146 @@ index 76fb1a2..7e2b376 100644
  				}) : void 0,
  				value: imageValue,
  				onChange: handleChange,
-@@ -31732,12 +31741,24 @@ function ContentEditPage() {
+@@ -10193,18 +10225,21 @@ function getItemTitle$1(item) {
+ */
+ function ContentList({ collection, collectionLabel, items, trashedItems = [], isLoading, isTrashedLoading, onDelete, onDuplicate, onRestore, onPermanentDelete, onLoadMore, onLoadMoreTrashed, hasMore, hasMoreTrashed, trashedCount = 0, i18n: i18n$1, activeLocale, onLocaleChange, urlPattern }) {
+ 	const { _: _t } = useLingui();
++	const displayCollectionLabel = paritseaCollectionLabel(collection, collectionLabel);
+ 	const [activeTab, setActiveTab] = React.useState("all");
+ 	const [searchQuery, setSearchQuery] = React.useState("");
++	const [workTypeFilter, setWorkTypeFilter] = React.useState("all");
+ 	const [page, setPage] = React.useState(0);
+ 	const handleSearchChange = (e) => {
+ 		setSearchQuery(e.target.value);
+ 		setPage(0);
+ 	};
+ 	const filteredItems = React.useMemo(() => {
+-		if (!searchQuery) return items;
++		const typedItems = collection === "posts" && workTypeFilter !== "all" ? items.filter((item) => paritseaWorkType(item) === workTypeFilter) : items;
++		if (!searchQuery) return typedItems;
+ 		const query = searchQuery.toLowerCase();
+-		return items.filter((item) => getItemTitle$1(item).toLowerCase().includes(query));
+-	}, [items, searchQuery]);
++		return typedItems.filter((item) => getItemTitle$1(item).toLowerCase().includes(query));
++	}, [items, searchQuery, collection, workTypeFilter]);
+ 	const totalPages = Math.max(1, Math.ceil(filteredItems.length / PAGE_SIZE));
+ 	const paginatedItems = filteredItems.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+ 	React.useEffect(() => {
+@@ -10225,7 +10260,7 @@ function ContentList({ collection, collectionLabel, items, trashedItems = [], is
+ 					className: "flex items-center gap-4",
+ 					children: [/* @__PURE__ */ jsx("h1", {
+ 						className: "text-2xl font-bold",
+-						children: collectionLabel
++						children: displayCollectionLabel
+ 					}), i18n$1 && activeLocale && onLocaleChange && /* @__PURE__ */ jsx(LocaleSwitcher, {
+ 						locales: i18n$1.locales,
+ 						defaultLocale: i18n$1.defaultLocale,
+@@ -10247,6 +10282,25 @@ function ContentList({ collection, collectionLabel, items, trashedItems = [], is
+ 					})]
+ 				})]
+ 			}),
++			collection === "posts" && /* @__PURE__ */ jsxs("div", {
++				className: "rounded-lg border bg-kumo-tint/25 p-4",
++				children: [/* @__PURE__ */ jsx("p", {
++					className: "text-sm font-medium",
++					children: "เลือกประเภทงานก่อนเริ่มเขียน"
++				}), /* @__PURE__ */ jsx("p", {
++					className: "mt-1 text-sm text-kumo-subtle",
++					children: "Journal คือบทความและข้อสังเกต ส่วน Framework, Protocol และ Standard คือเอกสารอ้างอิงที่ต้องระบุสถานะและขอบเขต"
++				}), /* @__PURE__ */ jsx("select", {
++					value: workTypeFilter,
++					onChange: (event) => {
++						setWorkTypeFilter(event.target.value);
++						setPage(0);
++					},
++					className: "mt-3 min-h-10 rounded-md border bg-kumo-base px-3 text-sm",
++					"aria-label": "Filter by work type",
++					children: [/* @__PURE__ */ jsx("option", { value: "all", children: "งานทุกประเภท" }), ...Object.entries(PARITSEA_WORK_LABELS).map(([value, label]) => /* @__PURE__ */ jsx("option", { value, children: label }, value))]
++				})]
++			}),
+ 			items.length > 0 && /* @__PURE__ */ jsxs("div", {
+ 				className: "relative max-w-sm",
+ 				children: [/* @__PURE__ */ jsx(MagnifyingGlass, { className: "absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-kumo-subtle" }), /* @__PURE__ */ jsx(Input, {
+@@ -10254,12 +10308,12 @@ function ContentList({ collection, collectionLabel, items, trashedItems = [], is
+ 					placeholder: _t({
+ 						id: "FpEIAP",
+ 						message: "Search {0}...",
+-						values: { 0: collectionLabel.toLowerCase() }
++						values: { 0: displayCollectionLabel.toLowerCase() }
+ 					}),
+ 					"aria-label": _t({
+ 						id: "vvZIY6",
+ 						message: "Search {0}",
+-						values: { 0: collectionLabel.toLowerCase() }
++						values: { 0: displayCollectionLabel.toLowerCase() }
+ 					}),
+ 					value: searchQuery,
+ 					onChange: handleSearchChange,
+@@ -10355,7 +10409,7 @@ function ContentList({ collection, collectionLabel, items, trashedItems = [], is
+ 								_t({
+ 									id: "yHHMoK",
+ 									message: "No {0} yet.",
+-									values: { 0: collectionLabel.toLowerCase() }
++									values: { 0: displayCollectionLabel.toLowerCase() }
+ 								}),
+ 								" ",
+ 								/* @__PURE__ */ jsx(Link$1, {
+@@ -10382,6 +10436,7 @@ function ContentList({ collection, collectionLabel, items, trashedItems = [], is
+ 							collection,
+ 							onDelete,
+ 							onDuplicate,
++							showWorkType: collection === "posts",
+ 							showLocale: !!i18n$1,
+ 							urlPattern
+ 						}, item.id)) })]
+@@ -10527,7 +10582,7 @@ function ContentList({ collection, collectionLabel, items, trashedItems = [], is
+ 		]
+ 	});
+ }
+-function ContentListItem({ item, collection, onDelete, onDuplicate, showLocale, urlPattern }) {
++function ContentListItem({ item, collection, onDelete, onDuplicate, showWorkType, showLocale, urlPattern }) {
+ 	const { _: _t2 } = useLingui();
+ 	const title = getItemTitle$1(item);
+ 	const date = new Date(item.updatedAt || item.createdAt);
+@@ -10536,14 +10591,20 @@ function ContentListItem({ item, collection, onDelete, onDuplicate, showLocale,
+ 		children: [
+ 			/* @__PURE__ */ jsx("td", {
+ 				className: "px-4 py-3",
+-				children: /* @__PURE__ */ jsx(Link$1, {
+-					to: "/content/$collection/$id",
+-					params: {
+-						collection,
+-						id: item.id
+-					},
+-					className: "font-medium hover:text-kumo-brand",
+-					children: title
++				children: /* @__PURE__ */ jsxs("div", {
++					className: "space-y-1.5",
++					children: [/* @__PURE__ */ jsx(Link$1, {
++						to: "/content/$collection/$id",
++						params: {
++							collection,
++							id: item.id
++						},
++						className: "font-medium hover:text-kumo-brand",
++						children: title
++					}), showWorkType && /* @__PURE__ */ jsx("span", {
++						className: "inline-flex rounded-full bg-kumo-tint px-2 py-0.5 text-xs font-semibold text-kumo-subtle",
++						children: PARITSEA_WORK_LABELS[paritseaWorkType(item)]
++					})]
+ 				})
+ 			}),
+ 			/* @__PURE__ */ jsx("td", {
+@@ -23863,7 +23924,7 @@ function SidebarNav({ manifest }) {
+ 	}];
+ 	for (const [name, config] of Object.entries(manifest.collections)) contentItems.push({
+ 		to: "/content/$collection",
+-		label: config.label,
++		label: paritseaCollectionLabel(name, config.label),
+ 		icon: FileText,
+ 		params: { collection: name }
+ 	});
+@@ -31732,12 +31793,24 @@ function ContentEditPage() {
  		}
  	});
  	const translateMutation = useMutation({

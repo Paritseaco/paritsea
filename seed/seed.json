@@ -13,8 +13,8 @@
   "collections": [
     {
       "slug": "posts",
-      "label": "Intellectual Works",
-      "labelSingular": "Intellectual Work",
+      "label": "Journal & Reference Work",
+      "labelSingular": "Journal / Reference Work",
       "supports": [
         "drafts",
         "revisions",
@@ -50,7 +50,7 @@
         },
         {
           "slug": "content_type",
-          "label": "ประเภทงาน / Content type",
+          "label": "เผยแพร่เป็น / Publish as",
           "type": "select",
           "required": true,
           "translatable": false,

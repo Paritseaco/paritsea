@@ -191,7 +191,7 @@ export function translationAssistantPlugin(): PluginDescriptor {
 		adminEntry: "@paritsea/emdash-translation-assistant/admin",
 		capabilities: ["read:content", "network:fetch"],
 		allowedHosts: ["generativelanguage.googleapis.com"],
-		adminPages: [{ path: "/", label: "Translation Assistant", icon: "language" }],
+		adminPages: [{ path: "/", label: "แปล EN / TH", icon: "language" }],
 	};
 }
 
@@ -207,7 +207,7 @@ export function createPlugin(): ResolvedPlugin {
 			},
 		},
 		admin: {
-			pages: [{ path: "/", label: "Translation Assistant", icon: "language" }],
+			pages: [{ path: "/", label: "แปล EN / TH", icon: "language" }],
 		},
 	});
 }

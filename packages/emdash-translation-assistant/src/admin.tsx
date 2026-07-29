@@ -157,18 +157,18 @@ function TranslationAssistantPage() {
 	return (
 		<div className="mx-auto max-w-3xl space-y-6">
 			<div>
-				<h1 className="text-2xl font-semibold">Translation Assistant</h1>
+				<h1 className="text-2xl font-semibold">แปลบทความ EN / TH</h1>
 				<p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-					Create the missing language as a draft. The assistant translates only translatable
-					fields; content type, status metadata, links, YouTube URL, byline, and topics stay
-					synchronized. Nothing is published automatically.
+					สร้างฉบับภาษาที่ยังขาดเป็น Draft เพื่อให้ตรวจและแก้เองก่อนเผยแพร่ ระบบจะแปลเฉพาะ
+					เนื้อหาที่อ่านได้ ส่วนประเภทงาน สถานะ ลิงก์ YouTube ผู้เขียน และหัวข้อจะใช้ร่วมกัน
+					โดยไม่เผยแพร่อัตโนมัติ
 				</p>
 			</div>
 
 			<div className="rounded-lg border bg-card p-5 space-y-5">
 				<div>
 					<label className="mb-2 block text-sm font-medium" htmlFor="translation-source">
-						Source article
+						เลือกต้นฉบับ
 					</label>
 					<select
 						id="translation-source"
@@ -192,7 +192,7 @@ function TranslationAssistantPage() {
 
 				<div>
 					<label className="mb-2 block text-sm font-medium" htmlFor="translation-target">
-						Create draft in
+						สร้าง Draft ภาษา
 					</label>
 					<select
 						id="translation-target"
@@ -207,10 +207,10 @@ function TranslationAssistantPage() {
 				</div>
 
 				<div className="rounded-md bg-muted/40 p-4 text-sm text-muted-foreground">
-					<p className="font-medium text-foreground">Prefer to write both versions yourself?</p>
+					<p className="font-medium text-foreground">ต้องการเขียนทั้งสองภาษาเอง?</p>
 					<p className="mt-1">
-						Open the source article and use its Translate action. Create the missing locale,
-						then write or paste your own version. This assistant is optional.
+						เปิดต้นฉบับแล้วใช้เมนู Translations เพื่อสร้างภาษาที่ยังขาด จากนั้นเขียนหรือวาง
+						ฉบับของคุณเองได้เลย เครื่องมือแปลอัตโนมัตินี้เป็นเพียงทางเลือก
 					</p>
 				</div>
 
@@ -220,7 +220,7 @@ function TranslationAssistantPage() {
 					disabled={!selected || working || loading}
 					onClick={() => void generateDraft()}
 				>
-					{working ? "Translating and creating draft…" : "Generate translation draft"}
+					{working ? "กำลังแปลและสร้าง Draft…" : "แปลและสร้าง Draft"}
 				</button>
 			</div>
 

@@ -254,3 +254,32 @@ No production D1 mutation or Worker deployment occurs before that approval.
   alternate behavior, metadata, real 404 handling, and the existing admin login
   redirect. The previous stable rollback target is
   `f7e2b83c-d842-44d5-9e80-06c2b45a8730`.
+
+## Journal reading layout and CMS wayfinding — 2026-07-29
+
+- Journal detail pages now separate the headline canvas from the 680px reading
+  measure. Desktop headlines can use an 820px column while body copy, document
+  metadata, video, references, and author information retain the narrower
+  reading width. Thai headline scale is capped and keeps zero tracking.
+- At 720px and below the desktop utility rail is removed completely and the
+  compact date, author, and reading-time row is shown with the headline. This
+  removes the empty rules and dead space that previously appeared above the
+  mobile article title.
+- The Journal archive uses an explicit number, reading summary, and action
+  column. Thai titles receive a wider measure and independent responsive scale,
+  while excerpts remain bounded for comfortable reading on large displays.
+- The admin navigation names the shared collection `Journal / Framework /
+  Protocol / Standard`. The list explains the boundary between Journal and
+  governed reference work, supports work-type filtering, and shows the work type
+  directly under every title. The editor uses the same name and the main field
+  is labelled `เผยแพร่เป็น / Publish as`.
+- The optional translation tool is now discoverable as `แปล EN / TH`, with Thai
+  instructions that distinguish automatic draft generation from writing both
+  language versions manually.
+- Local verification passed seed validation, Astro typecheck with zero errors,
+  production build, smoke coverage for 41 canonical routes and five redirects,
+  JavaScript syntax validation for the patched EmDash admin bundle, and
+  `git diff --check`. The known Vite large-chunk warning remains.
+- Local browser QA confirmed the desktop Journal archive and detail page at
+  1470px with no horizontal overflow. The article headline used an 820px canvas
+  while long-form content remained 680px.

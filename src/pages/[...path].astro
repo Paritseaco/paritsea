@@ -1863,7 +1863,7 @@ const lateralPosts = otherPosts
 	.article::before { display: none; }
 
 	.article-grid {
-		grid-template-columns: minmax(0, var(--content-width)) minmax(220px, 280px);
+		grid-template-columns: minmax(0, 820px) minmax(220px, 280px);
 		gap: clamp(var(--spacing-10), 5vw, var(--spacing-20));
 		align-items: start;
 		padding: 0 clamp(var(--spacing-4), 4vw, var(--spacing-10));
@@ -1890,27 +1890,37 @@ const lateralPosts = otherPosts
 
 	.article-header { margin-bottom: var(--spacing-8); }
 
-	.article-title {
-		max-width: 18ch;
-		font-size: clamp(2.25rem, 4vw, 4.6rem);
-		font-weight: 500;
-		line-height: 1.05;
+	.article-main > :global(.record-meta),
+	.article-content,
+	.article-reference-note,
+	.applied-context,
+	.article-video-embed,
+	.article-tail,
+	.article-author-card {
+		max-width: var(--content-width);
 	}
 
-	.article-excerpt { max-width: 62ch; }
+	.article-title {
+		max-width: 20ch;
+		font-size: clamp(2.25rem, 3.6vw, 4.1rem);
+		font-weight: 500;
+		line-height: 1.08;
+	}
+
+	.article-excerpt { max-width: 66ch; }
 
 	:lang(th) .article-title {
-		max-width: 20ch;
+		max-width: 25ch;
 		font-family: var(--font-sans);
-		font-size: clamp(2.1rem, 4vw, 3.9rem);
+		font-size: clamp(2.1rem, 3.25vw, 3.35rem);
 		font-weight: 300;
-		line-height: 1.45;
+		line-height: 1.4;
 		word-break: keep-all;
 	}
 
 	@media (max-width: 1100px) {
 		.article-grid {
-			grid-template-columns: minmax(0, var(--content-width));
+			grid-template-columns: minmax(0, 760px);
 			gap: var(--spacing-6);
 		}
 
@@ -1928,10 +1938,14 @@ const lateralPosts = otherPosts
 		.article-main { padding-inline: 0; }
 	}
 
+	@media (max-width: 720px) {
+		.article-meta-col { display: none; }
+		.article-header .article-meta { display: flex; }
+	}
+
 	@media (max-width: 600px) {
-		.article-meta-col { display: block; margin-bottom: 0; }
 		.article-grid { margin-top: var(--spacing-6); }
 		.article-title { font-size: 2.15rem; }
-		:lang(th) .article-title { font-size: 2rem; line-height: 1.48; }
+		:lang(th) .article-title { max-width: 100%; font-size: 2rem; line-height: 1.46; }
 	}
 </style>
