@@ -50,6 +50,15 @@ check(thaiHome.body.includes("มาที่นี่เพื่อทำอ�
 check(thaiHome.body.includes("ใช้ได้แค่ไหน และเมื่อใดต้องขออนุญาต"), "Thai Home missing use and permission boundary");
 check(thaiHome.body.includes("ปาริศ ฤทธิ์ชัย"), "Thai Home missing localized author attribution");
 
+const thaiAbout = await read("/th/about");
+const sharedThaiAuthorBio = "ฉันคือ ปาริศ ฤทธิ์ชัย ผู้เขียน Paritsea ฉันสนใจปัญหาที่แก้ไม่จบเพราะเรามักมองเหตุผิดจุด และเขียนแนวคิดที่ช่วยให้เห็นต้นเหตุ เลือกสิ่งที่ควรเปลี่ยน และนำไปใช้ได้จริง";
+check(thaiAbout.body.includes("พื้นที่สำหรับคนที่อยากเข้าใจปัญหา ก่อนรีบเลือกวิธีแก้"), "Thai About missing reader-first proposition");
+check(thaiAbout.body.includes("ฉันชื่อ ปาริศ ฤทธิ์ชัย"), "Thai About missing personal author introduction");
+check(thaiAbout.body.includes("/images/home/parit-ritchai-portrait.jpg"), "Thai About missing author portrait");
+check(thaiAbout.body.includes("แนวคิดบางส่วนจาก Paritsea ถูกพัฒนาเป็นบริการที่ใช้ได้จริงบน SE Ocean"), "Thai About missing broad SE Ocean service relationship");
+check(!thaiAbout.body.includes("สิ่งที่เว็บไซต์นี้จะไม่ทำ") && !thaiAbout.body.includes("Paritsea ไม่ใช่แฟ้มผลงาน"), "Thai About still leads with the retired governance narrative");
+check(thaiHome.body.includes(sharedThaiAuthorBio), "Thai Home author introduction is not using the shared profile");
+
 const detailRoutes = [
 	"/system/frameworks/paritsea-framework", "/th/system/frameworks/paritsea-framework",
 	"/system/protocols/stp", "/th/system/protocols/stp",
@@ -178,6 +187,7 @@ const thaiLatestPath = `/th/journal/${latestJournalSlug}`;
 const thaiLatest = await read(thaiLatestPath);
 const thaiLatestUrl = `${base}${thaiLatestPath}`;
 if (thaiLatest.response.status === 200) {
+	check(thaiLatest.body.includes(sharedThaiAuthorBio), "Thai article author card is not using the shared profile");
 	check(sitemapUrls.includes(thaiLatestUrl), "published Thai translation exists but is absent from the sitemap");
 } else {
 	check(!sitemapUrls.includes(thaiLatestUrl), "missing Thai translation must not be advertised in the sitemap");

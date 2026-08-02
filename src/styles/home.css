@@ -380,12 +380,15 @@
 
 .library-author {
 	display: grid;
-	grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.28fr);
-	gap: clamp(2.5rem, 5vw, 6rem);
+	grid-template-columns: minmax(220px, 280px) minmax(0, 720px);
+	gap: clamp(2.5rem, 5vw, 5rem);
 	align-items: center;
+	justify-content: center;
 }
 
 .library-author-portrait {
+	width: 100%;
+	max-width: 280px;
 	margin: 0;
 	aspect-ratio: 4 / 5;
 	background: var(--color-bg-subtle);
@@ -570,7 +573,7 @@
 	}
 
 	.library-author-portrait {
-		max-width: 520px;
+		max-width: 260px;
 	}
 }
 
@@ -666,8 +669,8 @@
 	}
 
 	.library-author-portrait {
-		max-width: none;
-		aspect-ratio: 5 / 6;
+		max-width: 230px;
+		aspect-ratio: 4 / 5;
 	}
 
 	.library-channel {

@@ -114,6 +114,18 @@ try {
 		check(!thaiJournal.body.includes(`>${englishTitle}<`), `/th/journal exposes English legacy title: ${englishTitle}`);
 	}
 
+	const thaiAbout = await read("/th/about");
+	const sharedThaiAuthorBio = "ฉันคือ ปาริศ ฤทธิ์ชัย ผู้เขียน Paritsea ฉันสนใจปัญหาที่แก้ไม่จบเพราะเรามักมองเหตุผิดจุด และเขียนแนวคิดที่ช่วยให้เห็นต้นเหตุ เลือกสิ่งที่ควรเปลี่ยน และนำไปใช้ได้จริง";
+	check(thaiAbout.body.includes("พื้นที่สำหรับคนที่อยากเข้าใจปัญหา ก่อนรีบเลือกวิธีแก้"), "Thai About missing reader-first proposition");
+	check(thaiAbout.body.includes("ฉันชื่อ ปาริศ ฤทธิ์ชัย"), "Thai About missing personal author introduction");
+	check(thaiAbout.body.includes("/images/home/parit-ritchai-portrait.jpg"), "Thai About missing author portrait");
+	check(thaiAbout.body.includes("แนวคิดบางส่วนจาก Paritsea ถูกพัฒนาเป็นบริการที่ใช้ได้จริงบน SE Ocean"), "Thai About missing broad SE Ocean service relationship");
+	check(!thaiAbout.body.includes("สิ่งที่เว็บไซต์นี้จะไม่ทำ") && !thaiAbout.body.includes("Paritsea ไม่ใช่แฟ้มผลงาน"), "Thai About still leads with the retired governance narrative");
+	const thaiHome = await read("/th");
+	const thaiArticle = await read("/th/journal/when-the-tool-was-not-the-problem");
+	check(thaiHome.body.includes(sharedThaiAuthorBio), "Thai Home author introduction is not using the shared profile");
+	check(thaiArticle.body.includes(sharedThaiAuthorBio), "Thai article author card is not using the shared profile");
+
 	const redirects = new Map([
 		["/system/framework", "/system/frameworks/paritsea-framework"],
 		["/licensing", "/ip/licensing"],

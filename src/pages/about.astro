@@ -1,321 +1,525 @@
 ---
-import { getEmDashCollection } from "emdash";
 import Base from "../layouts/Base.astro";
+import { getAuthorProfile } from "../utils/author-profile";
 import { getAstroLocale, localizedPath } from "../utils/i18n";
 
 const locale = getAstroLocale(Astro);
-const { entries, cacheHint } = await getEmDashCollection("posts");
-Astro.cache.set(cacheHint);
+const author = getAuthorProfile(locale);
 
 const copy = locale === "th"
 	? {
-		title: "เกี่ยวกับ Paritsea",
-		description: "Paritsea คือพื้นที่ที่ฉันเผยแพร่แนวคิด เพื่อให้คนอื่นอ่าน ตรวจสอบ อ้างอิง และนำไปใช้ได้ตามเงื่อนไขของงานแต่ละชิ้น",
-		label: "Paritsea คืออะไร และใครรับผิดชอบงานที่นี่",
-		headline: "Paritsea คือพื้นที่ที่ฉันเผยแพร่แนวคิด เพื่อให้คนอื่นอ่านและนำไปใช้ได้",
-		intro: "ฉัน—ปาริศ ฤทธิ์ชัย—เป็นผู้เขียนงานที่เผยแพร่ที่นี่ ส่วน Paritsea ช่วยจัดเก็บผลงานแต่ละฉบับ พร้อมที่มา การแก้ไข และเงื่อนไขการใช้ เพื่อให้ผู้อ่านตรวจสอบได้ว่างานมาจากไหน เปลี่ยนอย่างไร และนำไปใช้ได้แค่ไหน",
-		sections: [
-			{
-				index: "01",
-				label: "งานที่มีอยู่ใน Paritsea",
-				title: "มีทั้งข้อสังเกตและงานที่จัดเป็นระบบแล้ว",
-				body: "Journal รวมมุมมองและคำถามที่ยังเปิดให้คิดต่อ ส่วน Framework, Protocol และ Standard เป็นงานที่จัดโครงสร้างแล้ว พร้อมฉบับอ้างอิงและขอบเขตการใช้ งานแต่ละชิ้นไม่จำเป็นต้องพัฒนาไปถึงขั้นเดียวกัน",
-			},
-			{
-				index: "02",
-				label: "ใครรับผิดชอบเนื้อหา",
-				title: "ชื่อผู้เขียนต้องอยู่กับข้อสังเกตและการตัดสินใจ",
-				body: "แนวคิดและชื่อเรียกใน Paritsea มาจากการมองและการตัดสินใจของฉัน ฉันจึงต้องระบุชื่อตัวเองในฐานะผู้เขียน และรับผิดชอบเมื่อมีการเปลี่ยนความหมายของงาน",
-			},
-			{
-				index: "03",
-				label: "เว็บไซต์นี้ช่วยอะไร",
-				title: "ทำให้ค้น อ่าน และตรวจสอบงานได้จากตัวเอกสาร",
-				body: "Paritsea ระบุว่างานแต่ละชิ้นเป็นงานประเภทใด อยู่ในสถานะไหน ใช้ฉบับใดอ้างอิง และยังมีข้อจำกัดอะไร ผู้อ่านจึงไม่จำเป็นต้องรู้จักฉันเป็นการส่วนตัวก่อนจึงจะเข้าใจงาน",
-			},
-			{
-				index: "04",
-				label: "ทำไมไม่ขายบริการที่นี่",
-				title: "แนวคิดไม่ควรถูกบังคับให้ตอบโจทย์ตลาด",
-				body: "Paritsea ไม่ขายบริการและไม่ปรับข้อสรุปเพื่อให้ขายง่าย ความคิดที่ยังไม่พร้อมสรุปสามารถอยู่ใน Journal ต่อไปได้ ส่วนงานที่เปลี่ยนความหมายต้องออกฉบับใหม่และบอกเหตุผล",
-			},
+		title: "เกี่ยวกับ Paritsea และ ปาริศ ฤทธิ์ชัย",
+		description: "ทำความรู้จัก Paritsea พื้นที่รวมแนวคิดของ ปาริศ ฤทธิ์ชัย ที่ช่วยให้มองปัญหาให้ลึกขึ้นก่อนเลือกวิธีแก้",
+		eyebrow: "รู้จัก Paritsea และคนที่เขียน",
+		headline: "พื้นที่สำหรับคนที่อยากเข้าใจปัญหา ก่อนรีบเลือกวิธีแก้",
+		intro: "Paritsea คือพื้นที่ที่ฉันใช้แบ่งปันบทความ วิธีมอง และงานที่จัดเป็นระบบแล้ว เพื่อให้คนอื่นอ่าน ศึกษา และนำไปปรับใช้กับบริบทของตัวเองได้",
+		primaryAction: "เริ่มอ่านแนวคิด",
+		secondaryAction: "รู้จักฉันให้มากขึ้น",
+		portraitCaption: "ปาริศ ฤทธิ์ชัย · ผู้เขียน Paritsea",
+		originEyebrow: "จุดเริ่มต้น",
+		originTitle: "Paritsea เริ่มจากคำถามว่า ทำไมบางปัญหาถึงแก้แล้วกลับมาอีก",
+		originBody: [
+			"ฉันมักพบว่าปัญหาที่ดูเหมือนเกิดจากคน เครื่องมือ หรือการสื่อสาร อาจมีสาเหตุอยู่ลึกกว่านั้น เช่น วิธีตั้งโจทย์ อำนาจตัดสินใจ แรงจูงใจ หรือโครงสร้างที่ทำให้พฤติกรรมเดิมเกิดซ้ำ",
+			"Paritsea จึงไม่ได้เริ่มจากความต้องการสร้างคำตอบให้ครบทุกเรื่อง แต่เริ่มจากการเก็บคำถามและข้อสังเกตที่มีประโยชน์ แล้วค่อยเรียบเรียงให้ชัดพอที่คนอื่นจะอ่าน ตรวจสอบ และลองนำไปใช้ได้",
 		],
-		refusesLabel: "สิ่งที่เว็บไซต์นี้จะไม่ทำ",
-		refusesTitle: "Paritsea ไม่ใช่แฟ้มผลงาน บริษัทที่ปรึกษา หรือพื้นที่สร้างภาพลึกลับ",
-		refuses: [
-			"ไม่เปลี่ยนงานความคิดเป็นประวัติผลงานส่วนตัว",
-			"ไม่ใช้ความลึกลับสร้างอำนาจให้ผู้เขียน",
-			"ไม่อ้างว่า Framework ใช้ได้กับทุกสถานการณ์",
-			"ไม่ลบประวัติเดิมเมื่อความเข้าใจเปลี่ยน",
-			"ไม่ทำให้การประยุกต์ใช้เชิงพาณิชย์กลายเป็นเจ้าของต้นทาง",
+		authorEyebrow: "คนที่อยู่เบื้องหลัง",
+		authorTitle: "ฉันชื่อ ปาริศ ฤทธิ์ชัย",
+		authorBody: [
+			author.bio,
+			"งานเขียนของฉันมักเชื่อมเรื่องคน งาน ธุรกิจ และระบบเข้าด้วยกัน เพราะหลายปัญหาไม่ได้อยู่ในหมวดใดหมวดหนึ่ง สิ่งที่ฉันพยายามทำคือแยกอาการออกจากต้นเหตุ แล้วหาวิธีอธิบายที่ช่วยให้ตัดสินใจได้ดีขึ้น",
+			"ฉันไม่ได้คิดว่าทุกแนวคิดต้องกลายเป็น Framework บางเรื่องเหมาะจะอยู่เป็นบทความหรือคำถามเปิด ส่วนงานที่มีรูปแบบชัดและถูกนำไปใช้ซ้ำได้จึงค่อยพัฒนาเป็น Framework, Protocol หรือ Standard",
 		],
-		governanceLabel: "เมื่อฉันเปลี่ยนความคิด",
-		governanceTitle: "ถ้าความหมายเปลี่ยน ต้องบอกว่าเปลี่ยนอะไรและเพราะอะไร",
-		governanceBody: "Journal สามารถแสดงความไม่แน่ใจได้ตรง ๆ ส่วนงานอ้างอิงต้องระบุฉบับและเหตุผลของการแก้ไข ฉันปรับถ้อยคำให้ชัดขึ้นได้ แต่จะไม่เปลี่ยนความหมายโดยลบประวัติเดิม",
-		authorLink: "ดูระเบียนผู้เขียน",
-		useLink: "ตรวจวิธีใช้และอ้างอิง",
-		applicationLabel: "ความสัมพันธ์กับ SE Ocean",
-		applicationTitle: "Paritsea เผยแพร่งานต้นทาง ส่วน SE Ocean นำบางแนวคิดไปช่วยแก้ปัญหาองค์กร",
-		applicationBody: "SE Ocean สามารถปรับวิธีใช้ให้เหมาะกับลูกค้าและสถานการณ์จริงได้ แต่การนำไปใช้ไม่ได้เปลี่ยนความหมายหรือความเป็นเจ้าของของงานที่เผยแพร่ใน Paritsea",
-		applicationLink: "ดูบริบทองค์กรที่ SE Ocean",
-		recordLabel: "บันทึกสาธารณะปัจจุบัน",
-		recordValue: `${entries.length} งานที่เผยแพร่`,
+		findEyebrow: "มีอะไรให้อ่าน",
+		findTitle: "เลือกเริ่มจากสิ่งที่คุณต้องการ",
+		formats: [
+			{ label: "Journal", title: "มุมมองและคำถามที่ช่วยให้เห็นปัญหาต่างออกไป", body: "เหมาะสำหรับเริ่มอ่าน ทำความเข้าใจที่มาของความคิด และนำคำถามกลับไปมองสถานการณ์ของตัวเอง", href: "/journal", action: "อ่าน Journal" },
+			{ label: "Framework · Protocol · Standard", title: "งานที่จัดโครงสร้างแล้วและนำไปใช้ได้ชัดขึ้น", body: "เหมาะเมื่อคุณต้องการกรอบคิด วิธีทำงาน หรือเกณฑ์ที่มีขอบเขตและฉบับอ้างอิงชัดเจน", href: "/system", action: "ดูงานที่จัดเป็นระบบ" },
+			{ label: "Use & permission", title: "วิธีอ้างอิง ดัดแปลง และใช้ในเชิงพาณิชย์", body: "อธิบายว่าอะไรอ่านและนำไปศึกษาได้ อะไรต้องให้เครดิต และเมื่อใดควรติดต่อเพื่อขออนุญาต", href: "/ip/licensing", action: "ดูวิธีใช้และสิทธิ์" },
+		],
+		channelsEyebrow: "แต่ละพื้นที่มีหน้าที่ต่างกัน",
+		channelsTitle: "ไม่จำเป็นต้องใส่ทุกอย่างไว้ในเว็บไซต์เดียว",
+		channels: [
+			{ label: "Paritsea", title: "อ่าน ศึกษา และกลับมาอ้างอิง", body: "เก็บบทความ แนวคิด และงานที่จัดเป็นระบบแล้วในรูปแบบที่อ่านซ้ำและตรวจสอบที่มาได้", href: localizedPath("/journal", locale), external: false },
+			{ label: "YouTube", title: "ฟังเบื้องหลังและกระบวนการคิด", body: "ใช้เล่าเรื่อง ตัวอย่าง และความคิดที่ยังเหมาะกับการพูดคุยมากกว่าการทำเป็นเอกสาร", href: "https://www.youtube.com/@paritsea", external: true },
+			{ label: "SE Ocean", title: "ดูแนวคิดที่ถูกแปลงเป็นบริการ", body: "แนวคิดบางส่วนจาก Paritsea ถูกพัฒนาเป็นบริการที่ใช้ได้จริงบน SE Ocean ซึ่งอาจครอบคลุมหลายเรื่องตามปัญหาและบริบท", href: "https://seocean.co.th", external: true },
+		],
+		useEyebrow: "เมื่อต้องการนำไปใช้ต่อ",
+		useTitle: "อ่านและศึกษาได้ก่อน ส่วนการใช้สร้างมูลค่าค่อยดูเงื่อนไข",
+		useBody: "Paritsea ตั้งใจให้งานเดินทางไปได้ไกลกว่าตัวผู้เขียน คุณสามารถอ่าน แบ่งปันลิงก์ และอ้างอิงโดยให้เครดิตได้ตามเงื่อนไขของงาน หากจะนำไปเป็นส่วนหนึ่งของสินค้า บริการ งานลูกค้า การอบรม หรือระบบที่สร้างรายได้ ควรตรวจเงื่อนไขและติดต่อขออนุญาตก่อน",
+		useAction: "อ่านวิธีใช้และขออนุญาต",
 	}
 	: {
-		title: "About Paritsea",
-		description: "Paritsea is where observations by Parit Ritchai are recorded, named, revised, and developed into traceable public work.",
-		label: "Author, source, and public record",
-		headline: "The author is explicit. The work does not end at the author.",
-		intro: "Parit Ritchai observes, names, and decides when the meaning of source work changes. Paritsea keeps the observations, revisions, relationships, and limits visible so the work can be read and inspected by others.",
-		sections: [
-			{ index: "01", label: "What Paritsea does", title: "Preserve the trace of thought, not only its conclusion", body: "Work begins with situations encountered in life, work, relationships, and systems. Journal holds observations first. Some patterns become Concepts. Selected work develops into versioned Frameworks, Protocols, or Standards with explicit scope." },
-			{ index: "02", label: "The author's role", title: "Observation and judgement must remain attributable", body: "Observations and names do not appear on their own. Parit Ritchai remains visible as the author responsible for judgement, not as a personality that needs to dominate every page." },
-			{ index: "03", label: "Paritsea's role", title: "Make the work readable without personal access to the author", body: "Paritsea records status, version, provenance, claims, and unresolved limits so a work can be cited, examined, or challenged on its own terms." },
-			{ index: "04", label: "Independence", title: "No obligation to manufacture answers for a market", body: "Paritsea sells no services, lists no prices, and does not optimize conclusions for conversion. Unsettled work can remain exploring. A semantic change requires a new version and a reason." },
+		title: "About Paritsea and Parit Ritchai",
+		description: "Meet Paritsea and Parit Ritchai, and understand how observations become ideas for seeing problems more clearly before choosing a solution.",
+		eyebrow: "Meet Paritsea and its author",
+		headline: "A place for understanding a problem before rushing to solve it",
+		intro: "Paritsea is where I share essays, ways of seeing, and structured work that other people can read, study, and adapt to their own context.",
+		primaryAction: "Start with the ideas",
+		secondaryAction: "Get to know me",
+		portraitCaption: "Parit Ritchai · Author of Paritsea",
+		originEyebrow: "Where it began",
+		originTitle: "Paritsea began with a question: why do some problems return after we solve them?",
+		originBody: [
+			"Problems that appear to come from people, tools, or communication often begin somewhere deeper: the way a question is framed, who can decide, what the system rewards, or which structure keeps producing the same behaviour.",
+			"Paritsea does not exist to manufacture an answer for every subject. It begins by preserving useful questions and observations, then develops them until other people can read, examine, and try them in practice.",
 		],
-		refusesLabel: "What Paritsea refuses",
-		refusesTitle: "Clarity does not require making everything falsely simple",
-		refuses: [
-			"Turning intellectual work into a personal portfolio",
-			"Using mystery to manufacture authority around the author",
-			"Claiming that a Framework applies to every situation",
-			"Erasing prior records when understanding changes",
-			"Allowing commercial application to take ownership of the source",
+		authorEyebrow: "Behind the work",
+		authorTitle: "I'm Parit Ritchai",
+		authorBody: [
+			author.bio,
+			"My writing often connects people, work, business, and systems because many problems do not stay inside one category. I try to separate symptoms from causes and find language that makes the next decision clearer.",
+			"Not every idea needs to become a Framework. Some are better kept as essays or open questions. Work becomes a Framework, Protocol, or Standard only when a more explicit and reusable structure is useful.",
 		],
-		governanceLabel: "When thought changes",
-		governanceTitle: "A change of mind should be visible",
-		governanceBody: "Journal can expose uncertainty directly. Reference work must name its revision, version, and reason for change. Language may be clarified, but meaning cannot be silently rewritten.",
-		authorLink: "Open the author record",
-		useLink: "Review use and citation",
-		applicationLabel: "Relationship with SE Ocean",
-		applicationTitle: "Source and application carry different responsibilities",
-		applicationBody: "Paritsea originates and keeps the source. SE Ocean may interpret selected work for real organizational problems. Application can change with a client and context, but it does not automatically alter the canonical Paritsea record.",
-		applicationLink: "See organizational contexts at SE Ocean",
-		recordLabel: "Current public record",
-		recordValue: `${entries.length} published works`,
+		findEyebrow: "What you can read",
+		findTitle: "Start with what you need",
+		formats: [
+			{ label: "Journal", title: "Perspectives and questions for seeing a problem differently", body: "A place to begin, understand where an idea came from, and take a useful question back to your own situation.", href: "/journal", action: "Read Journal" },
+			{ label: "Framework · Protocol · Standard", title: "Structured work with a clearer path to application", body: "Use these when you need a lens, working method, or threshold with an explicit scope and reference version.", href: "/system", action: "Browse structured work" },
+			{ label: "Use & permission", title: "How to cite, adapt, and use the work commercially", body: "See what can be read and studied, how attribution works, and when commercial use needs permission.", href: "/ip/licensing", action: "Review use and permission" },
+		],
+		channelsEyebrow: "Each space has a different job",
+		channelsTitle: "Not everything needs to live on one website",
+		channels: [
+			{ label: "Paritsea", title: "Read, study, and return to the source", body: "Essays, ideas, and structured work stay here in forms that can be revisited and traced.", href: localizedPath("/journal", locale), external: false },
+			{ label: "YouTube", title: "Hear the background and thinking process", body: "Stories, examples, and unfinished thinking that work better as a conversation than a formal document.", href: "https://www.youtube.com/@paritsea", external: true },
+			{ label: "SE Ocean", title: "See ideas translated into services", body: "Selected ideas from Paritsea are developed into usable services at SE Ocean across different kinds of problems and contexts.", href: "https://seocean.co.th", external: true },
+		],
+		useEyebrow: "When you want to use the work",
+		useTitle: "Read and study first; check the terms when the work creates value",
+		useBody: "Paritsea is designed to let the work travel beyond the author. You may read, share links, and cite the work with attribution under its terms. If it becomes part of a product, service, client engagement, training, or revenue-generating system, review the terms and ask for permission first.",
+		useAction: "Read use and permission",
 	};
 ---
 
 <Base title={copy.title} description={copy.description} locale={locale}>
-	<article class="experience-page about-page">
-		<header class="about-intro">
-			<div class="about-intro-copy">
-				<p class="experience-label" data-state="named">{copy.label}</p>
-				<h1 class="experience-title">{copy.headline}</h1>
-				<p class="experience-summary">{copy.intro}</p>
+	<article class="about-page">
+		<header class="about-hero">
+			<div class="about-hero-copy">
+				<p class="about-eyebrow">{copy.eyebrow}</p>
+				<h1>{copy.headline}</h1>
+				<p class="about-intro">{copy.intro}</p>
+				<div class="about-actions">
+					<a class="about-button" href={localizedPath("/journal", locale)}>{copy.primaryAction}</a>
+					<a class="about-text-link" href="#about-author">{copy.secondaryAction} <span aria-hidden="true">↓</span></a>
+				</div>
 			</div>
-			<aside class="about-author-stamp" aria-label={copy.recordLabel}>
-				<p>{locale === "th" ? "ผู้เขียน" : "Author"}</p>
-				<strong>{locale === "th" ? "ปาริศ ฤทธิ์ชัย" : "Parit Ritchai"}</strong>
-				<span>{locale === "th" ? "ผู้เขียนและผู้รับผิดชอบเมื่อความหมายของงานเปลี่ยน" : "Originator and change authority for source work"}</span>
-				<dl>
-					<dt>{copy.recordLabel}</dt>
-					<dd>{copy.recordValue}</dd>
-				</dl>
-			</aside>
+			<figure class="about-portrait">
+				<img src={author.image} alt={author.imageAlt} width="1440" height="1800" />
+				<figcaption>{copy.portraitCaption}</figcaption>
+			</figure>
 		</header>
 
-		<section class="about-roles" aria-label={locale === "th" ? "บทบาทของผู้เขียนและ Paritsea" : "Roles of the author and Paritsea"}>
-			{copy.sections.map((section) => (
-				<div class="about-role">
-					<p><span>{section.index}</span>{section.label}</p>
-					<h2>{section.title}</h2>
-					<p>{section.body}</p>
-				</div>
-			))}
-		</section>
-
-		<section class="experience-section about-refuses" aria-labelledby="refuses-title">
-			<div class="experience-section-heading">
-				<div>
-					<p class="experience-label" data-state="moving">{copy.refusesLabel}</p>
-					<h2 id="refuses-title">{copy.refusesTitle}</h2>
-				</div>
+		<section class="about-story about-section" aria-labelledby="about-origin-title">
+			<div class="about-section-heading">
+				<p class="about-eyebrow">{copy.originEyebrow}</p>
+				<h2 id="about-origin-title">{copy.originTitle}</h2>
 			</div>
-			<ul>
-				{copy.refuses.map((item, index) => <li><span>{String(index + 1).padStart(2, "0")}</span>{item}</li>)}
-			</ul>
-		</section>
-
-		<section class="experience-section" aria-labelledby="governance-title">
-			<div class="experience-note">
-				<div>
-					<p class="experience-label" data-state="governed">{copy.governanceLabel}</p>
-					<h2 id="governance-title">{copy.governanceTitle}</h2>
-				</div>
-				<div>
-					<p>{copy.governanceBody}</p>
-					<div class="about-links">
-						<a class="experience-link" href={localizedPath("/author/parit-ritchai", locale)}>{copy.authorLink} <span aria-hidden="true">→</span></a>
-						<a class="experience-link" href={localizedPath("/ip", locale)}>{copy.useLink} <span aria-hidden="true">→</span></a>
-					</div>
-				</div>
+			<div class="about-prose">
+				{copy.originBody.map((paragraph) => <p>{paragraph}</p>)}
 			</div>
 		</section>
 
-		<section class="experience-section" aria-labelledby="application-title">
-			<div class="experience-note" data-context="applied">
+		<section id="about-author" class="about-author about-section" aria-labelledby="about-author-title">
+			<div class="about-section-heading">
+				<p class="about-eyebrow">{copy.authorEyebrow}</p>
+				<h2 id="about-author-title">{copy.authorTitle}</h2>
+			</div>
+			<div class="about-prose about-author-prose">
+				{copy.authorBody.map((paragraph) => <p>{paragraph}</p>)}
+				<a class="about-text-link" href={localizedPath("/author/parit-ritchai", locale)}>
+					{locale === "th" ? "ดูงานทั้งหมดของฉัน" : "Browse my published work"} <span aria-hidden="true">→</span>
+				</a>
+			</div>
+		</section>
+
+		<section class="about-section" aria-labelledby="about-formats-title">
+			<div class="about-section-heading about-section-heading--stacked">
+				<p class="about-eyebrow">{copy.findEyebrow}</p>
+				<h2 id="about-formats-title">{copy.findTitle}</h2>
+			</div>
+			<div class="about-formats">
+				{copy.formats.map((format) => (
+					<a class="about-format" href={localizedPath(format.href, locale)}>
+						<span>{format.label}</span>
+						<h3>{format.title}</h3>
+						<p>{format.body}</p>
+						<strong>{format.action} <span aria-hidden="true">→</span></strong>
+					</a>
+				))}
+			</div>
+		</section>
+
+		<section class="about-section about-channel-section" aria-labelledby="about-channels-title">
+			<div class="about-section-heading">
 				<div>
-					<p class="experience-label" data-state="applied">{copy.applicationLabel}</p>
-					<h2 id="application-title">{copy.applicationTitle}</h2>
+					<p class="about-eyebrow">{copy.channelsEyebrow}</p>
+					<h2 id="about-channels-title">{copy.channelsTitle}</h2>
 				</div>
-				<div>
-					<p>{copy.applicationBody}</p>
-					<a class="experience-link" href="https://seocean.co.th" target="_blank" rel="noreferrer">{copy.applicationLink} <span aria-hidden="true">↗</span></a>
-				</div>
+				<p>{locale === "th" ? "Paritsea เป็นพื้นที่ของงานที่อ่านและอ้างอิงได้ ส่วนช่องทางอื่นช่วยเล่าเบื้องหลังหรือเปลี่ยนแนวคิดให้เป็นสิ่งที่นำไปใช้ได้" : "Paritsea keeps the work readable and referenceable. Other channels explain the thinking or translate selected ideas into something people can use."}</p>
+			</div>
+			<div class="about-channels">
+				{copy.channels.map((channel) => (
+					<a class="about-channel" href={channel.href} target={channel.external ? "_blank" : undefined} rel={channel.external ? "noreferrer" : undefined}>
+						<span>{channel.label}</span>
+						<strong>{channel.title}</strong>
+						<small>{channel.body}</small>
+						<i aria-hidden="true">{channel.external ? "↗" : "→"}</i>
+					</a>
+				))}
+			</div>
+		</section>
+
+		<section class="about-use" aria-labelledby="about-use-title">
+			<div>
+				<p class="about-eyebrow">{copy.useEyebrow}</p>
+				<h2 id="about-use-title">{copy.useTitle}</h2>
+			</div>
+			<div>
+				<p>{copy.useBody}</p>
+				<a class="about-text-link" href={localizedPath("/ip/licensing", locale)}>{copy.useAction} <span aria-hidden="true">→</span></a>
 			</div>
 		</section>
 	</article>
 </Base>
 
 <style>
-	.about-intro {
+	.about-page {
+		width: min(1240px, calc(100vw - var(--page-gutter)));
+		margin: 0 auto;
+		padding: clamp(var(--spacing-8), 4vw, var(--spacing-14)) 0 var(--spacing-20);
+	}
+
+	.about-hero {
 		display: grid;
-		grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.45fr);
-		gap: clamp(var(--spacing-10), 7vw, var(--spacing-24));
-		align-items: end;
-		padding: var(--spacing-10) 0 var(--spacing-16);
-		border-bottom: 1px solid var(--color-border);
+		grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+		gap: clamp(var(--spacing-10), 7vw, var(--spacing-20));
+		align-items: center;
+		min-height: min(680px, calc(100svh - var(--nav-height)));
+		padding-bottom: clamp(var(--spacing-14), 6vw, var(--spacing-20));
 	}
 
-	.about-author-stamp {
-		display: flex;
-		flex-direction: column;
-		gap: var(--spacing-2);
-		padding: var(--spacing-6) 0 var(--spacing-6) var(--spacing-6);
-		border-left: 1px solid var(--color-accent);
-	}
+	.about-hero-copy { max-width: 760px; }
 
-	.about-author-stamp > p {
-		font-family: var(--font-mono);
-		font-size: var(--font-size-xs);
-		letter-spacing: var(--tracking-wide);
-		text-transform: uppercase;
+	.about-eyebrow {
+		margin: 0 0 var(--spacing-4);
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		font-weight: 500;
+		line-height: 1.55;
 		color: var(--color-accent);
 	}
 
-	.about-author-stamp strong {
+	.about-hero h1,
+	.about-section-heading h2,
+	.about-use h2 {
+		margin: 0;
+		font-family: var(--font-serif);
+		font-weight: 500;
+		letter-spacing: var(--tracking-tight);
+		text-wrap: balance;
+	}
+
+	.about-hero h1 {
+		max-width: 15ch;
+		font-size: clamp(3rem, 5vw, 5.1rem);
+		line-height: 1.02;
+	}
+
+	.about-intro {
+		max-width: 660px;
+		margin: var(--spacing-6) 0 0;
+		font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+		line-height: 1.8;
+		color: var(--color-text-secondary);
+	}
+
+	.about-actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--spacing-4) var(--spacing-6);
+		margin-top: var(--spacing-7);
+	}
+
+	.about-button,
+	.about-text-link {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 48px;
 		font-family: var(--font-sans);
-		font-size: var(--font-size-2xl);
+		font-size: var(--font-size-sm);
 		font-weight: 500;
 	}
 
-	.about-author-stamp span,
-	.about-author-stamp dt,
-	.about-author-stamp dd {
+	.about-button {
+		padding: var(--spacing-3) var(--spacing-6);
+		background: var(--color-accent);
+		border: 1px solid var(--color-accent);
+		color: var(--color-on-accent);
+	}
+
+	.about-text-link {
+		gap: var(--spacing-2);
+		color: var(--color-text);
+		text-decoration-color: color-mix(in srgb, var(--color-accent) 70%, transparent);
+		text-underline-offset: .3em;
+	}
+
+	.about-button:hover,
+	.about-text-link:hover { color: var(--color-accent); opacity: 1; }
+	.about-button:hover { color: var(--color-on-accent); background: var(--color-accent-hover); }
+
+	.about-portrait {
+		width: 100%;
+		max-width: 360px;
+		margin: 0;
+		justify-self: end;
+	}
+
+	.about-portrait img {
+		display: block;
+		width: 100%;
+		aspect-ratio: 4 / 5;
+		object-fit: cover;
+		object-position: 50% 27%;
+		border: 1px solid var(--color-border-subtle);
+	}
+
+	.about-portrait figcaption {
+		margin-top: var(--spacing-3);
+		font-family: var(--font-sans);
 		font-size: var(--font-size-sm);
-		line-height: 1.65;
+		line-height: 1.55;
 		color: var(--color-muted);
 	}
 
-	.about-author-stamp dl {
-		margin-top: var(--spacing-5);
-		padding-top: var(--spacing-5);
+	.about-section {
+		padding: clamp(var(--spacing-14), 7vw, var(--spacing-24)) 0;
 		border-top: 1px solid var(--color-border-subtle);
 	}
 
-	.about-author-stamp dd { color: var(--color-text-secondary); }
-
-	.about-roles {
-		margin-top: var(--spacing-12);
-		border-top: 1px solid var(--color-border);
+	.about-story,
+	.about-author,
+	.about-use {
+		display: grid;
+		grid-template-columns: minmax(260px, .75fr) minmax(0, 1.25fr);
+		gap: clamp(var(--spacing-8), 6vw, var(--spacing-20));
+		align-items: start;
 	}
 
-	.about-role {
+	.about-section-heading { display: block; }
+	.about-section-heading--stacked { margin-bottom: var(--spacing-10); }
+
+	.about-section-heading h2,
+	.about-use h2 {
+		max-width: 19ch;
+		font-size: clamp(2rem, 3.2vw, 3.5rem);
+		line-height: 1.08;
+	}
+
+	.about-prose {
+		max-width: 700px;
+		font-size: 1.0625rem;
+		line-height: 1.9;
+		color: var(--color-text-secondary);
+	}
+
+	.about-prose p + p { margin-top: var(--spacing-5); }
+	.about-prose .about-text-link { margin-top: var(--spacing-6); }
+
+	.about-author {
+		margin-inline: calc(-1 * clamp(var(--spacing-5), 4vw, var(--spacing-10)));
+		padding-inline: clamp(var(--spacing-5), 4vw, var(--spacing-10));
+		background: color-mix(in srgb, var(--color-bg-subtle) 62%, var(--color-bg));
+	}
+
+	.about-author-prose > p:first-child {
+		font-size: clamp(1.25rem, 1.8vw, 1.55rem);
+		line-height: 1.75;
+		color: var(--color-text);
+	}
+
+	.about-formats {
 		display: grid;
-		grid-template-columns: minmax(9rem, 0.35fr) minmax(16rem, 0.8fr) minmax(22rem, 1.2fr);
-		gap: clamp(var(--spacing-6), 4vw, var(--spacing-14));
-		align-items: start;
-		padding: var(--spacing-8) 0;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		border-top: 1px solid var(--color-border);
 		border-bottom: 1px solid var(--color-border);
 	}
 
-	.about-role > p:first-child {
+	.about-format {
 		display: flex;
-		gap: var(--spacing-4);
-		font-family: var(--font-mono);
-		font-size: var(--font-size-xs);
-		line-height: 1.6;
-		letter-spacing: var(--tracking-wide);
-		text-transform: uppercase;
-		color: var(--color-muted);
+		flex-direction: column;
+		min-height: 390px;
+		padding: var(--spacing-7);
+		border-right: 1px solid var(--color-border-subtle);
+		color: inherit;
 	}
 
-	.about-role > p:first-child span,
-	.about-refuses li span { color: var(--color-accent); }
+	.about-format:last-child { border-right: 0; }
+	.about-format:hover { background: color-mix(in srgb, var(--color-bg-subtle) 56%, transparent); opacity: 1; }
 
-	.about-role h2 {
-		max-width: 22ch;
+	.about-format > span,
+	.about-channel > span {
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		line-height: 1.55;
+		color: var(--color-accent);
+	}
+
+	.about-format h3 {
+		margin: var(--spacing-8) 0 0;
 		font-family: var(--font-serif);
-		font-size: clamp(1.5rem, 2.2vw, 2.4rem);
+		font-size: clamp(1.55rem, 2vw, 2rem);
 		font-weight: 500;
-		line-height: 1.15;
-		letter-spacing: var(--tracking-tight);
-		text-wrap: pretty;
+		line-height: 1.25;
 	}
 
-	.about-role > p:last-child {
-		max-width: 58ch;
+	.about-format p {
+		margin: var(--spacing-4) 0 var(--spacing-8);
 		font-size: var(--font-size-base);
 		line-height: 1.75;
 		color: var(--color-text-secondary);
 	}
 
-	.about-refuses ul { list-style: none; border-top: 1px solid var(--color-border); }
-
-	.about-refuses li {
-		display: grid;
-		grid-template-columns: 4rem 1fr;
-		gap: var(--spacing-5);
-		padding-block: var(--spacing-5);
-		border-bottom: 1px solid var(--color-border-subtle);
-		font-family: var(--font-serif);
-		font-size: clamp(1.3rem, 2vw, 2rem);
-		line-height: 1.3;
+	.about-format strong {
+		margin-top: auto;
+		font-family: var(--font-sans);
+		font-size: var(--font-size-sm);
+		font-weight: 500;
 	}
 
-	.about-refuses li span { font-family: var(--font-mono); font-size: var(--font-size-xs); }
-	.about-links { display: flex; flex-wrap: wrap; gap: var(--spacing-4) var(--spacing-7); margin-top: var(--spacing-5); }
+	.about-channel-section > .about-section-heading {
+		display: grid;
+		grid-template-columns: minmax(0, .75fr) minmax(280px, .45fr);
+		gap: clamp(var(--spacing-8), 6vw, var(--spacing-20));
+		align-items: end;
+		margin-bottom: var(--spacing-8);
+	}
 
-	:global(:lang(th)) .about-author-stamp > p,
-	:global(:lang(th)) .about-author-stamp strong,
-	:global(:lang(th)) .about-author-stamp span,
-	:global(:lang(th)) .about-author-stamp dt,
-	:global(:lang(th)) .about-author-stamp dd,
-	:global(:lang(th)) .about-role > p:first-child,
-	:global(:lang(th)) .about-role h2,
-	:global(:lang(th)) .about-role > p:last-child,
-	:global(:lang(th)) .about-refuses li,
-	:global(:lang(th)) .about-refuses li span {
+	.about-channel-section > .about-section-heading > p {
+		max-width: 54ch;
+		margin: 0;
+		line-height: 1.8;
+		color: var(--color-text-secondary);
+	}
+
+	.about-channels { border-top: 1px solid var(--color-border); }
+
+	.about-channel {
+		display: grid;
+		grid-template-columns: 130px minmax(220px, .75fr) minmax(0, 1fr) 32px;
+		gap: var(--spacing-6);
+		align-items: center;
+		min-height: 124px;
+		padding: var(--spacing-5) 0;
+		border-bottom: 1px solid var(--color-border-subtle);
+		color: inherit;
+	}
+
+	.about-channel:hover { opacity: 1; }
+	.about-channel strong { font-family: var(--font-serif); font-size: clamp(1.3rem, 1.8vw, 1.7rem); font-weight: 500; line-height: 1.3; }
+	.about-channel small { max-width: 64ch; font-size: var(--font-size-sm); line-height: 1.75; color: var(--color-muted); }
+	.about-channel i { justify-self: end; font-style: normal; color: var(--color-accent); }
+
+	.about-use {
+		margin-top: clamp(var(--spacing-14), 7vw, var(--spacing-24));
+		padding: clamp(var(--spacing-8), 4vw, var(--spacing-12));
+		border: 1px solid var(--color-border-subtle);
+		background: color-mix(in srgb, var(--color-bg-subtle) 56%, var(--color-bg));
+	}
+
+	.about-use > div:last-child { max-width: 700px; }
+	.about-use > div:last-child p { font-size: 1.0625rem; line-height: 1.9; color: var(--color-text-secondary); }
+	.about-use .about-text-link { margin-top: var(--spacing-6); }
+
+	:global(:lang(th)) .about-page,
+	:global(:lang(th)) .about-eyebrow,
+	:global(:lang(th)) .about-button,
+	:global(:lang(th)) .about-text-link,
+	:global(:lang(th)) .about-portrait figcaption,
+	:global(:lang(th)) .about-format > span,
+	:global(:lang(th)) .about-format strong,
+	:global(:lang(th)) .about-channel > span,
+	:global(:lang(th)) .about-channel small {
 		font-family: var(--font-sans);
 		font-style: normal;
 		letter-spacing: 0;
 		word-break: keep-all;
 	}
 
-	:global(:lang(th)) .about-author-stamp > p,
-	:global(:lang(th)) .about-author-stamp span,
-	:global(:lang(th)) .about-author-stamp dt,
-	:global(:lang(th)) .about-author-stamp dd,
-	:global(:lang(th)) .about-role > p:first-child,
-	:global(:lang(th)) .about-refuses li span { font-size: var(--font-size-sm); line-height: 1.6; text-transform: none; }
+	:global(:lang(th)) .about-hero h1,
+	:global(:lang(th)) .about-section-heading h2,
+	:global(:lang(th)) .about-use h2,
+	:global(:lang(th)) .about-format h3,
+	:global(:lang(th)) .about-channel strong {
+		font-family: var(--font-sans);
+		font-weight: 300;
+		font-style: normal;
+		letter-spacing: 0;
+		line-height: 1.45;
+		word-break: keep-all;
+	}
 
-	:global(:lang(th)) .about-author-stamp strong,
-	:global(:lang(th)) .about-role h2,
-	:global(:lang(th)) .about-refuses li { font-weight: 300; line-height: 1.5; }
+	:global(:lang(th)) .about-section-heading h2,
+	:global(:lang(th)) .about-use h2 { max-width: none; }
 
-	:global(:lang(th)) .about-role > p:last-child { font-size: 1.0625rem; line-height: 1.9; }
+	:global(:lang(th)) .about-hero h1 { max-width: 17ch; font-size: clamp(2.65rem, 4.2vw, 4rem); }
+	:global(:lang(th)) .about-intro,
+	:global(:lang(th)) .about-prose,
+	:global(:lang(th)) .about-format p,
+	:global(:lang(th)) .about-section > .about-section-heading > p,
+	:global(:lang(th)) .about-channel small,
+	:global(:lang(th)) .about-use > div:last-child p {
+		font-family: var(--font-sans);
+		font-size: 1.0625rem;
+		font-style: normal;
+		letter-spacing: 0;
+		line-height: 1.9;
+		word-break: keep-all;
+	}
 
-	@media (max-width: 960px) {
-		.about-intro { grid-template-columns: 1fr; }
-		.about-author-stamp { max-width: 520px; }
-		.about-role { grid-template-columns: minmax(8rem, 0.35fr) minmax(0, 1fr); }
-		.about-role > p:last-child { grid-column: 2; }
+	@media (max-width: 920px) {
+		.about-hero { grid-template-columns: minmax(0, 1fr) minmax(220px, 300px); min-height: 0; }
+		.about-formats { grid-template-columns: 1fr; }
+		.about-format { min-height: 0; border-right: 0; border-bottom: 1px solid var(--color-border-subtle); }
+		.about-format:last-child { border-bottom: 0; }
+		.about-channel { grid-template-columns: 100px minmax(0, 1fr) 28px; }
+		.about-channel small { grid-column: 2; }
+		.about-channel i { grid-column: 3; grid-row: 1 / span 2; }
+	}
+
+	@media (min-width: 1920px) {
+		.about-page { width: min(1760px, calc(100vw - 2 * var(--spacing-16))); }
+		.about-hero { grid-template-columns: minmax(0, 1fr) minmax(380px, 420px); gap: clamp(8rem, 10vw, 12rem); }
+		.about-portrait { max-width: 420px; }
+		.about-story,
+		.about-author,
+		.about-use { grid-template-columns: minmax(420px, .8fr) minmax(0, 1.2fr); }
 	}
 
 	@media (max-width: 700px) {
-		.about-role { grid-template-columns: 1fr; gap: var(--spacing-4); padding: var(--spacing-6) 0; }
-		.about-role > p:last-child { grid-column: auto; }
-		.about-refuses li { grid-template-columns: 2.5rem 1fr; font-size: var(--font-size-xl); }
+		.about-page { width: min(100% - 2 * var(--spacing-6), 620px); padding-top: var(--spacing-8); }
+		.about-hero { grid-template-columns: 1fr; gap: var(--spacing-10); padding-bottom: var(--spacing-14); }
+		.about-hero h1,
+		:global(:lang(th)) .about-hero h1 { max-width: none; font-size: clamp(2.2rem, 10vw, 3rem); }
+		.about-actions { align-items: stretch; }
+		.about-button { width: 100%; }
+		.about-portrait { max-width: 260px; justify-self: start; }
+		.about-story,
+		.about-author,
+		.about-use,
+		.about-channel-section > .about-section-heading { grid-template-columns: 1fr; gap: var(--spacing-6); }
+		.about-section { padding: var(--spacing-14) 0; }
+		.about-author { margin-inline: calc(-1 * var(--spacing-6)); padding-inline: var(--spacing-6); }
+		.about-section-heading--stacked { margin-bottom: var(--spacing-7); }
+		.about-format { padding: var(--spacing-6) 0; }
+		.about-format h3 { margin-top: var(--spacing-5); }
+		.about-channel { grid-template-columns: 1fr 28px; gap: var(--spacing-2) var(--spacing-4); padding: var(--spacing-6) 0; }
+		.about-channel > span,
+		.about-channel strong,
+		.about-channel small { grid-column: 1; }
+		.about-channel i { grid-column: 2; grid-row: 1 / span 3; }
+		.about-use { margin-top: var(--spacing-14); padding: var(--spacing-6); }
 	}
 </style>

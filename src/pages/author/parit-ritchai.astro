@@ -15,8 +15,10 @@ import {
 	resolveIntellectualWorkPath,
 } from "../../utils/public-paths";
 import { localizeWorkFamily } from "../../utils/intellectual-localization";
+import { getAuthorProfile } from "../../utils/author-profile";
 
 const locale = getAstroLocale(Astro);
+const author = getAuthorProfile(locale);
 const englishResult = await getEmDashCollection("posts", {
 	locale: "en",
 	orderBy: { published_at: "desc" },
@@ -39,17 +41,17 @@ const workPath = (work: (typeof works)[number]) =>
 const workFamily = (work: (typeof works)[number]) =>
 	localizeWorkFamily(locale, work.data.content_type || work.data.framework_page);
 const intro = locale === "th"
-	? "ฉันเขียนและตั้งชื่อแนวคิดที่เผยแพร่ใน Paritsea หากความหมายของงานเปลี่ยน ฉันต้องบอกว่าเปลี่ยนอะไรและเพราะอะไร ส่วนเว็บไซต์นี้เก็บฉบับเดิมและที่มาไว้ให้ตรวจสอบ หน้านี้จึงบอกว่าใครรับผิดชอบเนื้อหา ไม่ใช่แฟ้มผลงานส่วนตัว"
-	: "Parit Ritchai is the author, namer, and decision authority for semantic change in the source work. Paritsea preserves that work as a versioned public record. This is an author record, not a portfolio.";
+	? `${author.bio} หน้านี้รวมงานที่เผยแพร่ภายใต้ชื่อของฉัน เพื่อให้เลือกอ่านต่อได้จากที่เดียว`
+	: `${author.bio} This page brings together the work published under my name so readers can continue from one place.`;
 ---
 
 <Base title={locale === "th" ? "ปาริศ ฤทธิ์ชัย — ระเบียนผู้เขียน" : "Parit Ritchai — Author record"} description={intro} locale={locale}>
 	<div class="author-shell">
 		<Breadcrumb crumbs={[{ label: locale === "th" ? "วิธีมอง" : "Lens", href: localizedPath("/about", locale) }, { label: locale === "th" ? "ปาริศ ฤทธิ์ชัย" : "Parit Ritchai" }]} />
-		<PageRoleHeader role={locale === "th" ? "ข้อมูลผู้เขียน" : "Author record"} eyebrow={locale === "th" ? "ผู้เขียนและผู้รับผิดชอบเนื้อหา" : "Authorship and change authority"} title={locale === "th" ? "ปาริศ ฤทธิ์ชัย" : "Parit Ritchai"} intro={intro} count={works.length} statusLabel={locale === "th" ? "ผู้เขียน" : "Source author"} />
+		<PageRoleHeader role={locale === "th" ? "เกี่ยวกับผู้เขียน" : "About the author"} eyebrow={author.role} title={author.name} intro={intro} count={works.length} statusLabel={locale === "th" ? "งานที่เผยแพร่" : "Published work"} />
 		<section class="author-boundary">
-			<h2>{locale === "th" ? "ฉันรับผิดชอบอะไร" : "What remains attached to the author"}</h2>
-			<p>{locale === "th" ? "ฉันรับผิดชอบต่อข้อสังเกต ชื่อเรียก และเหตุผลที่ทำให้งานเปลี่ยนความหมาย ขณะเดียวกัน Framework, Protocol และ Standard ต้องเปิดให้อ่านและอ้างอิงได้ โดยไม่บังคับให้ผู้อ่านซื้อบริการจากฉัน" : "Observation, judgement, naming, and the rationale for changing canonical work remain attributable. Frameworks, Protocols, and Standards must still be readable and citable without purchasing a service from the author."}</p>
+			<h2>{locale === "th" ? "ฉันเขียนเรื่องอะไร" : "What I write about"}</h2>
+			<p>{locale === "th" ? "งานของฉันเชื่อมเรื่องคน งาน ธุรกิจ และระบบเข้าด้วยกัน โดยเริ่มจากคำถามว่าต้นเหตุจริงอยู่ตรงไหน ใครมีอำนาจเปลี่ยนมัน และวิธีคิดแบบใดช่วยให้ตัดสินใจได้ดีขึ้น" : "My work connects people, work, business, and systems. It begins by asking where the cause really sits, who can change it, and which way of seeing makes the next decision clearer."}</p>
 		</section>
 		<section class="bibliography" aria-labelledby="bibliography-title">
 			<h2 id="bibliography-title">{locale === "th" ? "งานที่เผยแพร่" : "Published record"}</h2>

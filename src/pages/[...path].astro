@@ -43,9 +43,10 @@ import {
 	ui,
 } from "../utils/i18n";
 import { getYouTubeEmbedUrl } from "../utils/youtube";
+import { getAuthorProfile } from "../utils/author-profile";
 
 const locale = getAstroLocale(Astro);
-const copy = ui[locale];
+const author = getAuthorProfile(locale);
 const labels = ui[locale].labels;
 
 // Catch-all: last path segment is the post slug; the leading segment(s) are the
@@ -600,13 +601,13 @@ const lateralPosts = otherPosts
 
 				{/* ── AUTHOR RECORD ── */}
 				<div class="article-author-card">
-					<img src="/images/parit-profile.jpg" alt={locale === "th" ? "ปาริศ ฤทธิ์ชัย" : "Parit Ritchai"} class="article-author-card-img" />
+					<img src={author.image} alt={author.imageAlt} class="article-author-card-img" />
 					<div class="article-author-card-body">
-						<p class="article-author-card-name">{copy.authorName}</p>
-						<p class="article-author-card-role">{copy.authorRole}</p>
-						<p class="article-author-card-bio">{copy.authorBio}</p>
+						<p class="article-author-card-name">{author.name}</p>
+						<p class="article-author-card-role">{author.role}</p>
+						<p class="article-author-card-bio">{author.bio}</p>
 						<div class="article-author-card-links">
-							<a href={localizedPath("/author/parit-ritchai", locale)}>{locale === "th" ? "ดูระเบียนผู้เขียน" : "Open author record"} →</a>
+							<a href={localizedPath("/about", locale)}>{locale === "th" ? "รู้จักฉันและ Paritsea" : "Meet me and learn about Paritsea"} →</a>
 						</div>
 					</div>
 				</div>

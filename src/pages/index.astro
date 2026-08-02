@@ -10,6 +10,7 @@ import {
 	mergeLocalizedEntries,
 } from "../utils/i18n";
 import { resolveBlogSiteIdentity } from "../utils/site-identity";
+import { getAuthorProfile } from "../utils/author-profile";
 import {
 	publicEntrySlug,
 	resolveIntellectualWorkPath,
@@ -17,6 +18,7 @@ import {
 import "../styles/home.css";
 
 const locale = getAstroLocale(Astro);
+const author = getAuthorProfile(locale);
 const englishResult = await getEmDashCollection("posts", {
 	locale: "en",
 	orderBy: { published_at: "desc" },
@@ -110,13 +112,13 @@ const copy = locale === "th"
 		useAction: "อ่านเงื่อนไขและขออนุญาตใช้",
 		useNote: "ค่าอนุญาตไม่ได้เกิดจากการอ่านแนวคิด แต่เกิดเมื่อมีการนำงานไปสร้างมูลค่าเชิงพาณิชย์ ขอบเขตและค่าอนุญาตพิจารณาจากวิธีใช้จริง",
 		authorEyebrow: "ผู้เขียน",
-		authorTitle: "ปาริศ ฤทธิ์ชัย",
-		authorBody: "ฉันเป็นผู้เขียนงานใน Paritsea และรับผิดชอบเมื่อความหมายของงานเปลี่ยน เว็บไซต์นี้ช่วยให้คนอื่นค้น อ่าน และอ้างอิงงานได้ โดยไม่ต้องซื้อบริการหรือรู้จักฉันเป็นการส่วนตัว",
-		authorAction: "รู้จักผู้เขียนและขอบเขตของ Paritsea",
+		authorTitle: author.name,
+		authorBody: author.bio,
+		authorAction: "รู้จักฉันและที่มาของ Paritsea",
 		channelsEyebrow: "แต่ละช่องทางมีหน้าที่ต่างกัน",
 		channels: [
 			{ label: "YouTube", title: "ดูว่าฉันคิดอย่างไร", body: "มุมมอง เบื้องหลัง และกระบวนการที่เหมาะกับการเล่ามากกว่าการบันทึกเป็นเอกสาร", href: "https://www.youtube.com/@paritsea" },
-			{ label: "SE Ocean", title: "ดูการนำไปแก้ปัญหาองค์กรจริง", body: "บริบทการประยุกต์ใช้บางส่วน ซึ่งเปลี่ยนตามสถานการณ์โดยไม่เปลี่ยนความหมายของงานต้นทาง", href: "https://seocean.co.th" },
+			{ label: "SE Ocean", title: "ดูแนวคิดที่ถูกแปลงเป็นบริการ", body: "แนวคิดบางส่วนจาก Paritsea ถูกพัฒนาเป็นบริการที่ใช้ได้จริงบน SE Ocean ครอบคลุมได้หลายเรื่องตามปัญหาและบริบท", href: "https://seocean.co.th" },
 		],
 		workType: { journal: "Journal", concept: "Concept", framework: "Framework", protocol: "Protocol", standard: "Standard" } as Record<string, string>,
 		status: { exploring: "กำลังสำรวจ", developing: "กำลังพัฒนา", current: "ฉบับปัจจุบัน", superseded: "มีฉบับใหม่กว่า", retired: "ยุติการใช้" } as Record<string, string>,
@@ -155,13 +157,13 @@ const copy = locale === "th"
 		useAction: "Read terms and request permission",
 		useNote: "A fee is not triggered by reading an idea. It becomes relevant when the work is used to create commercial value. Scope and permission are considered against the actual use.",
 		authorEyebrow: "Author",
-		authorTitle: "Parit Ritchai",
-		authorBody: "I write the work in Paritsea and remain responsible for changes to the source. The site makes that work findable, readable, and citable without becoming a service catalogue or personal portfolio.",
-		authorAction: "Meet the author and understand Paritsea's boundary",
+		authorTitle: author.name,
+		authorBody: author.bio,
+		authorAction: "Meet me and learn why Paritsea exists",
 		channelsEyebrow: "Each channel has a different job",
 		channels: [
 			{ label: "YouTube", title: "See how I think", body: "Perspectives, background, and unfinished thinking that benefit from being spoken rather than documented here.", href: "https://www.youtube.com/@paritsea" },
-			{ label: "SE Ocean", title: "See selected ideas applied to organizational problems", body: "Application contexts may change with the situation without redefining the Paritsea source.", href: "https://seocean.co.th" },
+			{ label: "SE Ocean", title: "See ideas translated into services", body: "Selected ideas from Paritsea are developed into usable services at SE Ocean across different kinds of problems and contexts.", href: "https://seocean.co.th" },
 		],
 		workType: { journal: "Journal", concept: "Concept", framework: "Framework", protocol: "Protocol", standard: "Standard" } as Record<string, string>,
 		status: { exploring: "Exploring", developing: "Developing", current: "Current", superseded: "Superseded", retired: "Retired" } as Record<string, string>,
@@ -281,8 +283,8 @@ const copy = locale === "th"
 		<section class="library-section library-author" aria-labelledby="author-title">
 			<figure class="library-author-portrait">
 				<img
-					src="/images/home/parit-ritchai-portrait.jpg"
-					alt={locale === "th" ? "ปาริศ ฤทธิ์ชัย ผู้เขียน Paritsea" : "Parit Ritchai, author of Paritsea"}
+					src={author.image}
+					alt={author.imageAlt}
 					width="1440"
 					height="1800"
 					loading="lazy"
