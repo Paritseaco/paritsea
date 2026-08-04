@@ -41,17 +41,17 @@ const workPath = (work: (typeof works)[number]) =>
 const workFamily = (work: (typeof works)[number]) =>
 	localizeWorkFamily(locale, work.data.content_type || work.data.framework_page);
 const intro = locale === "th"
-	? `${author.bio} หน้านี้รวมงานที่เผยแพร่ภายใต้ชื่อของฉัน เพื่อให้เลือกอ่านต่อได้จากที่เดียว`
-	: `${author.bio} This page brings together the work published under my name so readers can continue from one place.`;
+	? `${author.bio} หน้านี้รวมบทความ แนวคิด และงานอ้างอิงที่เผยแพร่ภายใต้ชื่อของฉัน เพื่อให้เลือกอ่านต่อได้จากที่เดียว`
+	: `${author.bio} This page brings together the essays, ideas, and reference work published under my name so readers can continue from one place.`;
 ---
 
-<Base title={locale === "th" ? "ปาริศ ฤทธิ์ชัย — ระเบียนผู้เขียน" : "Parit Ritchai — Author record"} description={intro} locale={locale}>
+<Base title={locale === "th" ? "ปาริศ ฤทธิ์ชัย — ผู้ก่อตั้ง Paritsea" : "Parit Ritchai — Founder of Paritsea"} description={intro} locale={locale}>
 	<div class="author-shell">
 		<Breadcrumb crumbs={[{ label: locale === "th" ? "วิธีมอง" : "Lens", href: localizedPath("/about", locale) }, { label: locale === "th" ? "ปาริศ ฤทธิ์ชัย" : "Parit Ritchai" }]} />
-		<PageRoleHeader role={locale === "th" ? "เกี่ยวกับผู้เขียน" : "About the author"} eyebrow={author.role} title={author.name} intro={intro} count={works.length} statusLabel={locale === "th" ? "งานที่เผยแพร่" : "Published work"} />
+		<PageRoleHeader role={locale === "th" ? "เกี่ยวกับผู้ก่อตั้ง" : "About the founder"} eyebrow={author.role} title={author.name} intro={intro} count={works.length} statusLabel={locale === "th" ? "งานที่เผยแพร่" : "Published work"} />
 		<section class="author-boundary">
-			<h2>{locale === "th" ? "ฉันเขียนเรื่องอะไร" : "What I write about"}</h2>
-			<p>{locale === "th" ? "งานของฉันเชื่อมเรื่องคน งาน ธุรกิจ และระบบเข้าด้วยกัน โดยเริ่มจากคำถามว่าต้นเหตุจริงอยู่ตรงไหน ใครมีอำนาจเปลี่ยนมัน และวิธีคิดแบบใดช่วยให้ตัดสินใจได้ดีขึ้น" : "My work connects people, work, business, and systems. It begins by asking where the cause really sits, who can change it, and which way of seeing makes the next decision clearer."}</p>
+			<h2>{locale === "th" ? "ฉันสร้างและเผยแพร่อะไร" : "What I create and publish"}</h2>
+			<p>{locale === "th" ? "ฉันพัฒนาแนวคิดผ่านบทความ วิดีโอ Framework, Protocol และ Standard โดยเชื่อมเรื่องคน งาน ธุรกิจ และระบบเข้าด้วยกัน งานแต่ละชิ้นเริ่มจากคำถามว่าต้นเหตุจริงอยู่ตรงไหน ใครมีอำนาจเปลี่ยนมัน และวิธีมองแบบใดช่วยให้ตัดสินใจได้ดีขึ้น" : "I develop ideas through essays, videos, Frameworks, Protocols, and Standards that connect people, work, business, and systems. Each work begins by asking where the cause really sits, who can change it, and which way of seeing makes the next decision clearer."}</p>
 		</section>
 		<section class="bibliography" aria-labelledby="bibliography-title">
 			<h2 id="bibliography-title">{locale === "th" ? "งานที่เผยแพร่" : "Published record"}</h2>

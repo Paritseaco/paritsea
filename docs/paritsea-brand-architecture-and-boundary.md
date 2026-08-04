@@ -5,19 +5,19 @@ Effective: 2026-07-15
 
 ## Core model
 
-Paritsea is an author-led intellectual practice with an independent public record.
+Paritsea is an independent intellectual practice with a public record, founded by Parit Ritchai.
 
-- Parit Ritchai is the author, originator, and decision authority for naming, judgement, and canonical semantic change.
+- Parit Ritchai is the founder, originator, author of record, and decision authority for naming, judgement, and canonical semantic change. Public work may take the form of essays, videos, Frameworks, Protocols, or Standards.
 - Paritsea publishes and preserves the work: its provenance, versions, relationships, scope, and public-use boundaries.
 - SE Ocean is a distinct commercial practice. It may interpret and apply selected work in accountable organizational contexts, but application does not transfer ownership of the source or the right to silently change it.
 
-This is an author-led source with an endorsed application relationship. Paritsea is not a support brand for SE Ocean, and SE Ocean is not the owner of Paritsea's source material.
+This is a founder-led source with an endorsed application relationship. Paritsea is not a support brand for SE Ocean, and SE Ocean is not the owner of Paritsea's source material.
 
 ## Boundary model
 
 | Responsibility | Parit Ritchai | Paritsea | SE Ocean |
 | --- | --- | --- | --- |
-| Author and originator | Primary | Records attribution | Cites the source |
+| Founder, originator, and author of record | Primary | Records attribution | Cites the source |
 | Canonical source | Supplies observation and judgement | Preserves the public record | Not canonical source |
 | Stewardship | Approves semantic change | Governs status, version, and history | Governs applied adaptations only |
 | Interpretation | Signs observations and change rationale | Makes interpretation inspectable | Adapts to client context |
@@ -37,11 +37,11 @@ Authorship, public stewardship, publishing, and legal ownership are separate cla
 
 English:
 
-> Paritsea is an author-led intellectual practice and public record for observations, lenses, and ideas as they develop into frameworks, protocols, standards, and governed intellectual work.
+> Paritsea is an independent intellectual practice founded by Parit Ritchai and a public record for observations, lenses, and ideas as they develop through essays, videos, Frameworks, Protocols, Standards, and governed intellectual work.
 
 Thai:
 
-> Paritsea คือพื้นที่ปฏิบัติการทางความคิดที่มีผู้เขียนชัดเจน และเป็นบันทึกสาธารณะของข้อสังเกต วิธีมอง และแนวคิดที่ค่อย ๆ พัฒนาไปสู่ Framework, Protocol, Standard และงานทางปัญญาที่มีการกำกับดูแล
+> Paritsea คือพื้นที่ทางความคิดที่ ปาริศ ฤทธิ์ชัย ก่อตั้งขึ้น เพื่อเผยแพร่ข้อสังเกต วิธีมอง และแนวคิดผ่านบทความ วิดีโอ Framework, Protocol, Standard และงานทางปัญญาที่มีการกำกับดูแล
 
 Relationship statement:
 
@@ -53,6 +53,6 @@ Relationship statement:
 
 - Paritsea has no service catalogue, pricing, Apply form, or conversion journey.
 - SE Ocean does not become the protagonist of Paritsea Home or About.
-- Paritsea keeps a visible authorial signature without becoming a portfolio, influencer site, or personal mythology.
+- Paritsea keeps the founder's perspective and authorship of individual works visible without becoming a portfolio, influencer site, or personal mythology.
 - Full content is not duplicated between domains. Each item has one canonical owner and contextual cross-links.
 - Historical provenance and attribution cannot be silently rewritten.

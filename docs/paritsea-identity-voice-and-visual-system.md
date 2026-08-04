@@ -5,7 +5,7 @@ Direction: Trace / Margin / Revision
 
 ## Identity
 
-Paritsea should feel like a living intellectual record made by a recognisable author and governed well enough to outlast an individual publishing moment. Its memorable quality is not decoration; it is the visibility of how a thought moved, changed, and became more formal.
+Paritsea should feel like a living intellectual record shaped by a recognisable founder who develops ideas across writing, video, and governed reference work. It must be governed well enough to outlast an individual publishing moment. Its memorable quality is not decoration; it is the visibility of how a thought moved, changed, and became more formal.
 
 ## Voice modes
 

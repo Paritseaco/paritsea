@@ -29,8 +29,8 @@ Search, locale, and theme are utilities. Media and Contact are footer destinatio
 | Route | Role |
 | --- | --- |
 | `/` | Orientation and entry point |
-| `/about` | Lens, authorship, and boundary |
-| `/author/parit-ritchai` | Bibliographic author record |
+| `/about` | Lens, founder context, and boundary |
+| `/author/parit-ritchai` | Founder profile and published-work record; the legacy route remains canonical for citation continuity |
 | `/journal` | Observation archive |
 | `/journal/[slug]` | Journal full entry |
 | `/concepts` | Concept-record archive; relationship discovery only |

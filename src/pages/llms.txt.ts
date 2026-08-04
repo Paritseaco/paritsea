@@ -8,9 +8,9 @@ export const GET: APIRoute = async ({ site, url }) => {
 
 	const content = `# Paritsea
 
-> An author-led intellectual practice and public record for observations, named concepts, and governed reference work.
+> An independent intellectual practice and public record founded by Parit Ritchai for observations, named concepts, and governed reference work.
 
-Paritsea is not a monetized service website. It publishes the original lens, journal observations, governed Framework / Protocols / Standards, and public guidance for citation, adaptation, licensing, and official use. Implementation records exist as secondary examples of application, not as the site's commercial service layer.
+Parit Ritchai founded Paritsea and develops its ideas through essays, videos, Frameworks, Protocols, and Standards. Paritsea is not a monetized service website. It preserves this work and public guidance for citation, adaptation, licensing, and official use. Implementation records exist as secondary examples of application, not as the site's commercial service layer.
 
 Ideas usually begin as observations from real situations. They are recorded in Journal first. Patterns that repeat and become structurally mature may later crystallize into System documents and future IP.
 

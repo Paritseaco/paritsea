@@ -3,12 +3,12 @@
   "version": "1",
   "meta": {
     "name": "Paritsea",
-    "description": "An author-led intellectual practice with an independent public record",
+    "description": "An independent intellectual practice and public record founded by Parit Ritchai",
     "author": "Parit Ritchai"
   },
   "settings": {
     "title": "Paritsea",
-    "tagline": "An author-led intellectual practice and public record"
+    "tagline": "An independent intellectual practice and public record founded by Parit Ritchai"
   },
   "collections": [
     {
@@ -564,7 +564,7 @@
               "children": [
                 {
                   "_type": "span",
-                  "text": "An author-led intellectual practice and public record."
+                  "text": "An independent intellectual practice and public record founded by Parit Ritchai."
                 }
               ]
             }
@@ -601,7 +601,7 @@
               "children": [
                 {
                   "_type": "span",
-                  "text": "Paritsea is an author-led intellectual practice. Parit Ritchai is the author and change authority; Paritsea is the publisher and public steward of the canonical record."
+                  "text": "Paritsea is an independent intellectual practice founded by Parit Ritchai. Parit is the founder, originator, author of record, and change authority; Paritsea is the publisher and public steward of the canonical record."
                 }
               ]
             },
@@ -950,7 +950,7 @@
               "children": [
                 {
                   "_type": "span",
-                  "text": "Paritsea is an author-led intellectual practice and public record stewarded by Parit Ritchai."
+                  "text": "Paritsea is an independent intellectual practice and public record founded by Parit Ritchai."
                 }
               ]
             }

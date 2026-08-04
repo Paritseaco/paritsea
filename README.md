@@ -1,7 +1,8 @@
 # Paritsea
 
-Paritsea is an author-led intellectual practice with an independent public
-record. Parit Ritchai originates and signs the observation and judgement;
+Paritsea is an independent intellectual practice with a public record, founded
+by Parit Ritchai. Parit is the founder, originator, and author of record who
+develops ideas across essays, videos, Frameworks, Protocols, and Standards;
 Paritsea preserves provenance, versions, relationships, scope, and use
 boundaries.
 
@@ -20,7 +21,7 @@ documents covering boundary, identity, IA, content governance, and release.
 | Journal | `/journal` | Observations before they become governed instruments |
 | Concepts | `/concepts` | Named patterns not yet governed instruments |
 | Reference work | `/system` | Hub for Frameworks, Protocols, and Standards |
-| About | `/about` | Authorship, way of seeing, and project boundary |
+| About | `/about` | Founder, way of seeing, and project boundary |
 | Frameworks | `/system/frameworks` | Hub for versioned canonical frameworks |
 | Protocols | `/system/protocols` | Obligations derived from the Framework |
 | Standards | `/system/standards` | Verifiable conditions derived from Protocols |

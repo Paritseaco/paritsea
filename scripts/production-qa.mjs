@@ -51,13 +51,17 @@ check(thaiHome.body.includes("ใช้ได้แค่ไหน และเ�
 check(thaiHome.body.includes("ปาริศ ฤทธิ์ชัย"), "Thai Home missing localized author attribution");
 
 const thaiAbout = await read("/th/about");
-const sharedThaiAuthorBio = "ฉันคือ ปาริศ ฤทธิ์ชัย ผู้เขียน Paritsea ฉันสนใจปัญหาที่แก้ไม่จบเพราะเรามักมองเหตุผิดจุด และเขียนแนวคิดที่ช่วยให้เห็นต้นเหตุ เลือกสิ่งที่ควรเปลี่ยน และนำไปใช้ได้จริง";
+const sharedThaiFounderBio = "ฉันคือ ปาริศ ฤทธิ์ชัย ผู้ก่อตั้ง Paritsea ฉันพัฒนาและเผยแพร่แนวคิดผ่านบทความ วิดีโอ และ Framework เพื่อช่วยให้คนมองเห็นต้นเหตุของปัญหา เลือกสิ่งที่ควรเปลี่ยน และนำความเข้าใจนั้นไปใช้ได้จริง";
 check(thaiAbout.body.includes("พื้นที่สำหรับคนที่อยากเข้าใจปัญหา ก่อนรีบเลือกวิธีแก้"), "Thai About missing reader-first proposition");
-check(thaiAbout.body.includes("ฉันชื่อ ปาริศ ฤทธิ์ชัย"), "Thai About missing personal author introduction");
-check(thaiAbout.body.includes("/images/home/parit-ritchai-portrait.jpg"), "Thai About missing author portrait");
+check(thaiAbout.body.includes("ฉันชื่อ ปาริศ ฤทธิ์ชัย"), "Thai About missing founder introduction");
+check(thaiAbout.body.includes("ผู้ก่อตั้ง Paritsea · ผู้พัฒนาแนวคิดและ Framework"), "Thai About missing founder and idea-development roles");
+check(thaiAbout.body.includes("/images/home/parit-ritchai-portrait.jpg"), "Thai About missing founder portrait");
 check(thaiAbout.body.includes("แนวคิดบางส่วนจาก Paritsea ถูกพัฒนาเป็นบริการที่ใช้ได้จริงบน SE Ocean"), "Thai About missing broad SE Ocean service relationship");
 check(!thaiAbout.body.includes("สิ่งที่เว็บไซต์นี้จะไม่ทำ") && !thaiAbout.body.includes("Paritsea ไม่ใช่แฟ้มผลงาน"), "Thai About still leads with the retired governance narrative");
-check(thaiHome.body.includes(sharedThaiAuthorBio), "Thai Home author introduction is not using the shared profile");
+check(thaiHome.body.includes(sharedThaiFounderBio), "Thai Home founder introduction is not using the shared profile");
+for (const [path, body] of [["/th", thaiHome.body], ["/th/about", thaiAbout.body]]) {
+	check(!body.includes("ผู้เขียน Paritsea"), `${path} still presents the founder as only the author of Paritsea`);
+}
 
 const detailRoutes = [
 	"/system/frameworks/paritsea-framework", "/th/system/frameworks/paritsea-framework",
@@ -128,11 +132,16 @@ check(admin.response.headers.get("location")?.includes("/_emdash/admin/login"), 
 const knowledgeResponse = await read("/knowledge.json");
 check(knowledgeResponse.response.headers.get("content-type")?.includes("application/json"), "knowledge.json must use application/json");
 const knowledge = JSON.parse(knowledgeResponse.body);
+check(knowledge.founder === "Parit Ritchai", "knowledge.json missing founder identity");
 check(knowledge.author === "Parit Ritchai", "knowledge.json missing author authority");
 check(knowledge.works?.some((work) => work.id === "doctrine" && work.version === "1.1"), "knowledge.json missing Framework v1.1");
 check(knowledge.relationships?.length >= 3, "knowledge.json missing governed relationships");
 check(knowledge.appliedContexts?.length >= 3, "knowledge.json missing reviewed applied contexts");
 check(knowledge.officialUses?.some((use) => /agensea/i.test(JSON.stringify(use))), "knowledge.json missing AgenSea Official Use");
+const aiText = await read("/ai.txt");
+check(aiText.body.includes("Founder, originator, and author of record: Parit Ritchai"), "ai.txt missing founder role");
+const llmsText = await read("/llms.txt");
+check(llmsText.body.includes("founded by Parit Ritchai"), "llms.txt missing founder identity");
 
 const sitemap = await read("/sitemap.xml");
 check(!sitemap.body.includes(`<loc>${base}/licensing</loc>`), "sitemap contains legacy licensing route");
@@ -187,7 +196,7 @@ const thaiLatestPath = `/th/journal/${latestJournalSlug}`;
 const thaiLatest = await read(thaiLatestPath);
 const thaiLatestUrl = `${base}${thaiLatestPath}`;
 if (thaiLatest.response.status === 200) {
-	check(thaiLatest.body.includes(sharedThaiAuthorBio), "Thai article author card is not using the shared profile");
+	check(thaiLatest.body.includes(sharedThaiFounderBio), "Thai article founder card is not using the shared profile");
 	check(sitemapUrls.includes(thaiLatestUrl), "published Thai translation exists but is absent from the sitemap");
 } else {
 	check(!sitemapUrls.includes(thaiLatestUrl), "missing Thai translation must not be advertised in the sitemap");

@@ -4,14 +4,14 @@ export const GET: APIRoute = ({ site }) => {
 	const origin = (site?.toString() ?? "https://paritsea.co").replace(/\/$/, "");
 	const body = `# Paritsea AI use note
 
-Paritsea is an author-led intellectual practice and an independent public record.
+Paritsea is an independent intellectual practice and public record founded by Parit Ritchai.
 
-Author and originator: Parit Ritchai
+Founder, originator, and author of record: Parit Ritchai
 Public steward and publisher: Paritsea
 Commercial application practice: SE Ocean, a separate organization and not the canonical source
 
 Canonical indexes:
-- Lens and authorship: ${origin}/about
+- Lens and founder context: ${origin}/about
 - Journal observations: ${origin}/journal
 - Concept records: ${origin}/concepts
 - Reference work hub: ${origin}/system

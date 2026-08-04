@@ -3,17 +3,17 @@ import type { SiteLocale } from "./i18n";
 const profiles = {
 	th: {
 		name: "ปาริศ ฤทธิ์ชัย",
-		role: "ผู้เขียน Paritsea",
-		bio: "ฉันคือ ปาริศ ฤทธิ์ชัย ผู้เขียน Paritsea ฉันสนใจปัญหาที่แก้ไม่จบเพราะเรามักมองเหตุผิดจุด และเขียนแนวคิดที่ช่วยให้เห็นต้นเหตุ เลือกสิ่งที่ควรเปลี่ยน และนำไปใช้ได้จริง",
+		role: "ผู้ก่อตั้ง Paritsea · ผู้พัฒนาแนวคิดและ Framework",
+		bio: "ฉันคือ ปาริศ ฤทธิ์ชัย ผู้ก่อตั้ง Paritsea ฉันพัฒนาและเผยแพร่แนวคิดผ่านบทความ วิดีโอ และ Framework เพื่อช่วยให้คนมองเห็นต้นเหตุของปัญหา เลือกสิ่งที่ควรเปลี่ยน และนำความเข้าใจนั้นไปใช้ได้จริง",
 		image: "/images/home/parit-ritchai-portrait.jpg",
-		imageAlt: "ปาริศ ฤทธิ์ชัย ผู้เขียน Paritsea",
+		imageAlt: "ปาริศ ฤทธิ์ชัย ผู้ก่อตั้ง Paritsea",
 	},
 	en: {
 		name: "Parit Ritchai",
-		role: "Author of Paritsea",
-		bio: "I'm Parit Ritchai, the author of Paritsea. I study problems that keep returning because their causes are framed in the wrong place, then write ideas that help people see what drives them, choose what to change, and apply the insight in practice.",
+		role: "Founder of Paritsea · Creator of ideas and frameworks",
+		bio: "I'm Parit Ritchai, founder of Paritsea. I develop and share ideas through essays, videos, and frameworks to help people locate the real cause of a problem, decide what should change, and apply that understanding in practice.",
 		image: "/images/home/parit-ritchai-portrait.jpg",
-		imageAlt: "Parit Ritchai, author of Paritsea",
+		imageAlt: "Parit Ritchai, founder of Paritsea",
 	},
 } as const;
 

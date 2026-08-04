@@ -54,7 +54,7 @@ export const ui = {
     themeDark: "Dark mode",
     themeSystem: "System theme",
     admin: "Admin",
-    footerTagline: "Observations by Parit Ritchai, preserved as a traceable public body of work.",
+    footerTagline: "Ideas and reference work developed by Parit Ritchai, preserved as a traceable public record.",
     frameworkLayers: "Reference work",
     thoughtPath: "Explore",
     legalContact: "About and use",
@@ -68,8 +68,8 @@ export const ui = {
     socialThreads: "Threads",
     socialYouTube: "YouTube",
     authorName: "Parit Ritchai",
-    authorRole: "Author of Paritsea",
-    authorBio: "I'm Parit Ritchai, the author of Paritsea. I study problems that keep returning because their causes are framed in the wrong place, then write ideas that help people see what drives them, choose what to change, and apply the insight in practice.",
+    authorRole: "Founder of Paritsea · Creator of ideas and frameworks",
+    authorBio: "I'm Parit Ritchai, founder of Paritsea. I develop and share ideas through essays, videos, and frameworks to help people locate the real cause of a problem, decide what should change, and apply that understanding in practice.",
     readDoctrine: "Read Framework",
     exploreMethod: "Explore Journal",
     viewImplementations: "Review Official Use",
@@ -141,8 +141,8 @@ export const ui = {
     socialThreads: "Threads",
     socialYouTube: "YouTube",
 	    authorName: "ปาริศ ฤทธิ์ชัย",
-	    authorRole: "ผู้เขียน Paritsea",
-	    authorBio: "ฉันคือ ปาริศ ฤทธิ์ชัย ผู้เขียน Paritsea ฉันสนใจปัญหาที่แก้ไม่จบเพราะเรามักมองเหตุผิดจุด และเขียนแนวคิดที่ช่วยให้เห็นต้นเหตุ เลือกสิ่งที่ควรเปลี่ยน และนำไปใช้ได้จริง",
+	    authorRole: "ผู้ก่อตั้ง Paritsea · ผู้พัฒนาแนวคิดและ Framework",
+	    authorBio: "ฉันคือ ปาริศ ฤทธิ์ชัย ผู้ก่อตั้ง Paritsea ฉันพัฒนาและเผยแพร่แนวคิดผ่านบทความ วิดีโอ และ Framework เพื่อช่วยให้คนมองเห็นต้นเหตุของปัญหา เลือกสิ่งที่ควรเปลี่ยน และนำความเข้าใจนั้นไปใช้ได้จริง",
     readDoctrine: "อ่าน Framework",
     exploreMethod: "สำรวจ Journal",
     viewImplementations: "ดูขอบเขต Official Use",
@@ -618,7 +618,7 @@ const pageTranslations: Record<string, { title: string; content: Record<string, 
 			"Paritsea is an independent framework reference authored by Parit Ritchai.":
 				"Paritsea เผยแพร่แนวคิดและงานอ้างอิงที่เขียนโดย ปาริศ ฤทธิ์ชัย",
 			"Paritsea is an author-led intellectual practice and public record stewarded by Parit Ritchai.":
-				"Paritsea คือพื้นที่ที่ฉันใช้เผยแพร่แนวคิด เพื่อให้คนอื่นอ่าน ตรวจสอบ อ้างอิง และนำไปใช้ได้ตามเงื่อนไขของงาน",
+				"Paritsea คือพื้นที่ทางความคิดที่ฉันก่อตั้งขึ้น เพื่อเผยแพร่บทความ วิดีโอ แนวคิด และ Framework ให้คนอื่นอ่าน ศึกษา อ้างอิง และนำไปใช้ได้ตามเงื่อนไขของงาน",
 		},
 	},
 };
@@ -657,13 +657,30 @@ function translateBlocks(value: unknown, translations: Record<string, string>) {
 	}));
 }
 
+const legacyEnglishContentUpdates: Record<string, string> = {
+	"Paritsea is an author-led intellectual practice and public record stewarded by Parit Ritchai.":
+		"Paritsea is an independent intellectual practice and public record founded by Parit Ritchai.",
+};
+
+function updateLegacyEnglishBlocks(value: unknown) {
+	return translateBlocks(value, legacyEnglishContentUpdates);
+}
+
 export function localizeEntry<T extends { id: string; data: { slug?: unknown } }>(
 	entry: T,
 	collection: "posts" | "pages",
 	locale: SiteLocale,
 ): T {
-	if (locale === "en") return entry;
 	const data = entry.data as Record<string, unknown>;
+	if (locale === "en") {
+		return {
+			...entry,
+			data: {
+				...entry.data,
+				content: updateLegacyEnglishBlocks(data.content),
+			},
+		};
+	}
 	// A real EmDash translation is the source of truth. The mapping below only
 	// preserves Thai fallbacks for legacy English-only records.
 	if (

@@ -64,8 +64,9 @@ export const GET: APIRoute = async ({ site }) => {
 
 	return new Response(JSON.stringify({
 		name: "Paritsea",
-		description: "An author-led intellectual practice and public record.",
+		description: "An independent intellectual practice and public record founded by Parit Ritchai.",
 		canonicalOwner: "Paritsea",
+		founder: "Parit Ritchai",
 		author: "Parit Ritchai",
 		commercialApplication: { name: "SE Ocean", canonicalSource: false, url: "https://seocean.co.th" },
 		works,

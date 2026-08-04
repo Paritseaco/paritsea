@@ -391,3 +391,34 @@ No production D1 mutation or Worker deployment occurs before that approval.
 - This release did not mutate D1, CMS content, owner state, or authentication
   state. The local Miniflare KV sqlite file remains excluded from source
   control.
+
+## Founder-role identity release — 2026-08-04 (ready for production)
+
+- Parit Ritchai is now presented publicly as the founder of Paritsea rather
+  than being reduced to the author of the website. The shared role adds creator
+  responsibility for ideas and Frameworks; the shared biography explicitly
+  includes essays, videos, and Frameworks as public formats.
+- Home, About, the founder profile, article-end profile cards, legacy page
+  fallback, English/Thai interface copy, image alternatives, and footer copy
+  now use the shared founder model. The `/author/parit-ritchai` route remains
+  unchanged for citation continuity, while its visible title and page role are
+  now a founder profile and published-work record.
+- Work-level authorship remains intact where it is semantically required:
+  article bylines, document provenance, licensing attribution, and CreativeWork
+  creator metadata still identify who wrote or originated an individual work.
+- Structured data now links the Paritsea Organization to its founder and gives
+  the Person founder and idea-development roles. `knowledge.json`, `ai.txt`,
+  and `llms.txt` expose founder identity separately from work-level authorship.
+- Seed defaults and legacy CMS rendering normalize the previous author-led
+  descriptor without requiring a destructive content migration. Canonical
+  brand, identity, and IA documents use the same founder model.
+- Local verification passed seed validation, EmDash type generation,
+  typecheck with zero errors, production build, smoke coverage for 41
+  canonical routes and five redirects, and `git diff --check`.
+- Responsive browser QA covered Thai Home, About, founder profile, and article
+  profile card at 390px, 1,440px, and 3,840px. No horizontal overflow was
+  found; the longer Thai role remains legible and the 4K institutional frame
+  remains bounded at 1,760px.
+- The existing unused-import typecheck hint and Vite large-chunk warning remain
+  non-blocking. The local Miniflare KV sqlite file remains runtime state and is
+  excluded from this release.
